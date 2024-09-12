@@ -2,22 +2,28 @@ import { vpc } from './network';
 import { type local } from '@pulumi/command'; 
 
 export const distroBuildCommand: local.Command = new command.local.Command("distroBuild", {
-  create: "cd ../../packages/backend && ./scripts/build.sh",
-  delete: "cd ../../packages/backend && dzil clean",
-  archivePaths: [
-    "*.tar.gz",
-  ],
+  create: "cd ../../packages/backend && ./util/clean.sh && ./util/build.sh && shasum *.tar.gz",
+  delete: "cd ../../packages/backend && ./util/clean.sh",
 });
+
+const distroBuildOutput = distroBuildCommand.stdout.apply(value => `${value}`);
 
 export const dancerCluster = new sst.aws.Cluster("EvonyCluster", { 
   vpc,
- }, {dependsOn: distroBuildCommand });
+ }, {
+  replaceOnChanges: [
+    distroBuildOutput
+  ],
+  dependsOn: [
+    distroBuildCommand
+  ]
+});
 
  dancerCluster.addService("EvonyBackend", {
   dev: {
     autostart: true,
     directory: '../packages/backend/',
-    command: 'dzil run bin/app.psgi',
+    command: 'dzil run scripts/app.psgi',
     url: 'http://localhost:8080',
   },
   architecture: "arm64",
