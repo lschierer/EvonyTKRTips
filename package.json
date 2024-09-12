@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "description": "sst infrastructure for evonytkrtips",
   "scripts": {
-    "prepare": "husky"
+    "prepare": "husky",
+    "release": "release-it"
   },
   "author": "Luke Schierer",
   "license": "ISC",
@@ -15,7 +16,10 @@
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@commitlint/types": "^19.5.0",
+    "@release-it/conventional-changelog": "^8.0.2",
     "@types/aws-lambda": "8.10.145",
-    "husky": "^9.1.6"
+    "husky": "^9.1.6",
+    "release-it": "^17.6.0",
+    "release-it-pnpm": "^4.6.3"
   }
 }
