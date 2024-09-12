@@ -1,0 +1,8 @@
+[submodule "packages/backend"]
+	branch = main
+	path = packages/backend
+	url = git@github.com:lschierer/Game-EvonyTKR.git
+[submodule "packages/frontend"]
+	branch = main
+	path = packages/frontend
+	url = git@github.com:lschierer/evonytkrtips-frontend.git
