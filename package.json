@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "sst infrastructure for evonytkrtips",
   "scripts": {
+    "lint": "eslint",
     "prepare": "husky",
     "release": "release-it"
   },
@@ -32,5 +33,13 @@
     "release-it-pnpm": "^4.6.3",
     "typescript": "^5.6.2",
     "typescript-eslint": "^8.5.0"
+  },
+  "lint-staged": {
+    "*.json": [
+      "prettier --write"
+    ],
+    "*.ts": [
+      "prettier --write"
+    ]
   }
 }
