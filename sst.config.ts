@@ -26,7 +26,7 @@ export default $config({
     cluster.addService("EvonyBackend", {
       architecture: "arm64",
       cpu: "2 vCPU",
-      memory: "3 GB",
+      memory: "4 GB",
       image: {
         context: "./packages/backend"
       },
