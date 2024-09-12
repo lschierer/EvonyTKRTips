@@ -1,0 +1,24 @@
+{
+   "compilerOptions": {
+      "strictNullChecks": true,
+      "target": "ES2023",
+      "module": "es2022",
+      "moduleResolution": "bundler",
+      "lib": ["es2021", "dom"],
+      "declaration": true,
+      "declarationDir": "./types",
+      "declarationMap": true,
+      "experimentalDecorators": true,
+      "useDefineForClassFields": false,
+      "noEmit": false,
+      "emitDeclarationOnly": true,
+      "baseUrl": ".",
+    },
+    "include": [
+      "**/*.ts"
+    ],
+    "exclude": [
+      "node_modules",
+      ".sst"
+    ]
+}
