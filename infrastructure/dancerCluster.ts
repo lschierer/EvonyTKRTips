@@ -1,6 +1,7 @@
 import { vpc } from './network';
 import { type local } from '@pulumi/command'; 
 
+// eslint-disable-next-line no-undef
 export const distroBuildCommand: local.Command = new command.local.Command("distroBuild", {
   create: "cd ../../packages/backend && ./util/clean.sh && ./util/build.sh && shasum *.tar.gz",
   delete: "cd ../../packages/backend && ./util/clean.sh",
@@ -8,11 +9,13 @@ export const distroBuildCommand: local.Command = new command.local.Command("dist
 
 const distroBuildOutput = distroBuildCommand.stdout.apply(value => `${value}`);
 
+// eslint-disable-next-line no-undef
 export const dancerCluster = new sst.aws.Cluster("EvonyCluster", { 
   vpc,
  }, {
   replaceOnChanges: [
-    distroBuildOutput
+    // @ts-expect-error bad types
+    distroBuildOutput 
   ],
   dependsOn: [
     distroBuildCommand
