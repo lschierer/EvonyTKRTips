@@ -15,7 +15,7 @@ const distroBuildOutput = new sst.Linkable('archiveBuild', {
       dir: '../../packages/backend/',
     }),
     buildResult: await command.local.run({
-      command: "../../bin/build.sh ",
+      command: "../../bin/build.sh | tail -n 1",
       dir: '../../packages/backend/'
     }),
     sha: await command.local.run({
@@ -28,13 +28,15 @@ const distroBuildOutput = new sst.Linkable('archiveBuild', {
   },
 });
 
+console.log(`last line of build: ${distroBuildOutput.properties.buildResult.stdout}`);
+
 // eslint-disable-next-line no-undef
 export const dancerCluster = new sst.aws.Cluster("EvonyCluster", 
   {
     vpc,
   });
 
-console.log(`archive sha is ${distroBuildOutput.properties.sha}`);
+console.log(`archive sha is ${distroBuildOutput.properties.sha.stdout}`);
 
 dancerCluster.addService("EvonyBackend", {
   link: [

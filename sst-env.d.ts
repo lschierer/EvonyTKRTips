@@ -35,6 +35,11 @@ declare module "sst" {
         "addPreviousOutputInEnv": boolean
         "assetPaths": any
         "assets": {
+          "Game-EvonyTKR-0.008.tar.gz": {
+            "4dabf18193072939515e22adb298388d": string
+            "hash": string
+            "path": string
+          }
         }
         "command": string
         "dir": string

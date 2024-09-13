@@ -4,8 +4,8 @@ VERSION=4;
 
 echo "Executing Game::EvonyTKR build script ${VERSION}";
 
-if [ -d packages/backend/ ]; then
-  cd packages/backend/
+if [ -d ../../packages/backend/ ]; then
+  cd ../../packages/backend/
 
   MINICPAN=`which minicpan`
 
@@ -40,8 +40,17 @@ if [ -d packages/backend/ ]; then
   ${DZIL} build
   ${DZIL} release
 
+  TARBALL=`ls -1 -lctr --color=none ../../var/mirrors/minicpan/authors/id/L/LS/LSCHIERER/Game-EvonyTKR-*.tar.gz | tail -n 1`
+
+  if [ -f ${TARBALL} ]; then 
+    mv ${TARBALL} .
+  else
+    echo "release tarball not found"
+    exit 4
+  fi
+
   echo '---- build complete ----';
 
 else
-  pwd
+  pwd && exit 1
 fi

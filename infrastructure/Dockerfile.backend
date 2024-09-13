@@ -1,6 +1,6 @@
 FROM arm64v8/perl:5.40.0 
 WORKDIR /src/
-COPY ../../var/mirrors/minicpan/authors/id/L/LS/LSCHIERER/Game-EvonyTKR-*.tar.gz .
+COPY Game-EvonyTKR-*.tar.gz .
 RUN tar zxvf *.tar.gz
 WORKDIR /src/Game-EvonyTKR
 RUN tar zxf ../*.tar.gz -C . --strip-components=1
