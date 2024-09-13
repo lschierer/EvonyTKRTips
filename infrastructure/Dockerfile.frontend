@@ -1,0 +1,22 @@
+FROM arm64v8/node:20-bookworm-slim AS nodebase
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+FROM nodebase AS prod-deps
+WORKDIR /src/astro
+COPY pnpm-lock.yaml .
+COPY packages/frontend . 
+RUN pnpm install --prod 
+FROM nodebase AS buildstage
+RUN pnpm install 
+RUN pnpm build
+
+FROM nodebase AS deploy
+WORKDIR /src/astro
+COPY --from=prod-deps /src/astro/node_modules ./node_modules
+COPY --from=buildstage /src/astro/dist .dist
+ENV HOST=0.0.0.0
+ENV PORT=4321
+EXPOSE 8080
+
+CMD [ "node", "./dist/server/entry.mjs" ]

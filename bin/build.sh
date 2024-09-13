@@ -40,10 +40,12 @@ if [ -d ../../packages/backend/ ]; then
   ${DZIL} build
   ${DZIL} release
 
-  TARBALL=`ls -1 -lctr --color=none ../../var/mirrors/minicpan/authors/id/L/LS/LSCHIERER/Game-EvonyTKR-*.tar.gz | tail -n 1`
+  cd ../..
+  TARBALL=`ls -1 -ctr --color=none ./var/mirrors/minicpan/authors/id/L/LS/LSCHIERER/Game-EvonyTKR-*.tar.gz | tail -n 1`
 
-  if [ -f ${TARBALL} ]; then 
-    mv ${TARBALL} .
+  if [ -f "${TARBALL}" ]; then 
+    rm ./var/*.tar.gz
+    cp ${TARBALL} ./var/
   else
     echo "release tarball not found"
     exit 4

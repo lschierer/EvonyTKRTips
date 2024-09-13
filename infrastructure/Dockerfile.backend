@@ -1,14 +1,18 @@
-FROM arm64v8/perl:5.40.0 
+FROM arm64v8/perl:5.40.0 AS base
+RUN cpanm install App::cpm
+FROM base AS build-backend
 WORKDIR /src/
-COPY Game-EvonyTKR-*.tar.gz .
-RUN tar zxvf *.tar.gz
+COPY ./var/*.tar.gz .
 WORKDIR /src/Game-EvonyTKR
-RUN tar zxf ../*.tar.gz -C . --strip-components=1
+RUN tar zxf ../Game-Evony*.tar.gz -C . --strip-components=1
 RUN cpm install -g --with-all
 RUN perl Build.PL
 RUN ./Build
 RUN ./Build install
 RUN ls ../*`game-evonytkr-version.pl`*
-WORKDIR /srv/
+FROM build-backend AS deploy
+WORKDIR /srv
+RUN rm -rf /src/Game-EvonyTKR
+
 EXPOSE 8080
 CMD [ "EvonyTKRBackend" ]

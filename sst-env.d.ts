@@ -5,48 +5,5 @@ import "sst"
 export {}
 declare module "sst" {
   export interface Resource {
-    "EvonyBackend": {
-      "type": "sst.aws.Service"
-      "url": string
-    }
-    "archiveBuild": {
-      "buildResult": {
-        "addPreviousOutputInEnv": boolean
-        "command": string
-        "dir": string
-        "stderr": string
-        "stdout": string
-      }
-      "commit": {
-        "addPreviousOutputInEnv": boolean
-        "command": string
-        "dir": string
-        "stderr": string
-        "stdout": string
-      }
-      "cpan": {
-        "addPreviousOutputInEnv": boolean
-        "command": string
-        "dir": string
-        "stderr": string
-        "stdout": string
-      }
-      "sha": {
-        "addPreviousOutputInEnv": boolean
-        "assetPaths": any
-        "assets": {
-          "Game-EvonyTKR-0.008.tar.gz": {
-            "4dabf18193072939515e22adb298388d": string
-            "hash": string
-            "path": string
-          }
-        }
-        "command": string
-        "dir": string
-        "stderr": string
-        "stdout": string
-      }
-      "type": "sst.sst.Linkable"
-    }
   }
 }

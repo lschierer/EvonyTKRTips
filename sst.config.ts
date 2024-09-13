@@ -20,10 +20,10 @@ export default $config({
   async run() {
     await import("./infrastructure/network");
 
-    const backend = await import("./infrastructure/dancerCluster");
+    const cluster = await import("./infrastructure/cluster");
     
     return {
-      backend: backend.dancerCluster.urn,
+      cluster: cluster.etkrtCluster.urn,
     };
 
   },
