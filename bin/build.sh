@@ -4,7 +4,7 @@ VERSION=4;
 
 echo "Executing Game::EvonyTKR build script ${VERSION}";
 
-if [ -d packages/backend/]; then
+if [ -d packages/backend/ ]; then
   cd packages/backend/
 
   if [ -f *.tar.gz ]; then

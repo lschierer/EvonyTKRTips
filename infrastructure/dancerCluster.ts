@@ -17,8 +17,6 @@ const distroLastCommit = await command.local.run({
   dir: '../../packages/backend/',
 });
 
-
-
 // eslint-disable-next-line no-undef
 export const distroBuildCommand: local.Command = new command.local.Command("distroBuild", {
   create: "../../bin/build.sh ",
@@ -31,6 +29,7 @@ export const distroBuildCommand: local.Command = new command.local.Command("dist
   ]
 });
 
+// eslint-disable-next-line no-undef
 const distroBuildOutput = new sst.Linkable('archiveBuild', {
   properties: {
     commit: distroLastCommit.stdout,
@@ -40,6 +39,7 @@ const distroBuildOutput = new sst.Linkable('archiveBuild', {
   },
 });
 
+// eslint-disable-next-line no-undef
 export const dancerCluster = new sst.aws.Cluster("EvonyCluster", 
   {
     vpc,
