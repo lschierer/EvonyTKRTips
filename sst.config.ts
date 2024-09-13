@@ -24,7 +24,6 @@ export default $config({
     
     return {
       backend: backend.dancerCluster.urn,
-      GameEvonyTKR: backend.distroBuildCommand.archive,
     };
 
   },

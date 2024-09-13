@@ -7,9 +7,13 @@ echo "Executing Game::EvonyTKR build script ${VERSION}";
 if [ -d packages/backend/ ]; then
   cd packages/backend/
 
-  if [ -f *.tar.gz ]; then
-    rm *.tar.gz;
+  MINICPAN=`which minicpan`
+
+  if [ -z MINICPAN ]; then
+    exit 1;
   fi
+
+  ${MINICPAN} &
 
   CPM=`which cpm`;
   echo ${CPM};
@@ -34,6 +38,7 @@ if [ -d packages/backend/ ]; then
   echo '---- standard deps complete ----';
 
   ${DZIL} build
+  ${DZIL} release
 
   echo '---- build complete ----';
 
