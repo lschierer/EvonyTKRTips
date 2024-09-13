@@ -2,6 +2,7 @@
   "name": "evonytkrtips-infrastructure",
   "type": "module",
   "version": "1.0.0",
+  "packageManager": "pnpm@9.10.0",
   "description": "sst infrastructure for evonytkrtips",
   "scripts": {
     "lint": "eslint --flag unstable_ts_config",
@@ -11,7 +12,7 @@
   "author": "Luke Schierer",
   "license": "ISC",
   "dependencies": {
-    "sst": "3.1.8"
+    "sst": "3.1.10"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
