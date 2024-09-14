@@ -1,15 +1,15 @@
 FROM arm64v8/node:20-bookworm-slim AS nodebase
+ENV HUSKY=0
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 FROM nodebase AS prod-deps
 WORKDIR /src/astro
-COPY pnpm-lock.yaml .
 COPY packages/frontend . 
-RUN pnpm install --prod 
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod
 FROM nodebase AS buildstage
-RUN pnpm install 
-RUN pnpm build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install 
+RUN pnpm run build
 
 FROM nodebase AS deploy
 WORKDIR /src/astro
