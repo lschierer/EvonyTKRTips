@@ -2,7 +2,9 @@
 	branch = main
 	path = packages/backend
 	url = git@github.com:lschierer/Game-EvonyTKR.git
+	update = rebase
 [submodule "packages/frontend"]
 	branch = main
+	update = rebase
 	path = packages/frontend
 	url = git@github.com:lschierer/evonytkrtips-frontend.git
