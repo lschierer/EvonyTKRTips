@@ -1,5 +1,4 @@
 /// <reference path="./.sst/platform/config.d.ts" />
-
 // eslint-disable-next-line no-undef
 export default $config({
   app(input) {
@@ -14,17 +13,15 @@ export default $config({
         },
         awsx: "2.14.0",
         command: "1.0.1",
+        "docker-build": "0.0.6",
       },
     };
   },
   async run() {
     await import("./infrastructure/network");
-
     const cluster = await import("./infrastructure/cluster");
-    
     return {
       cluster: cluster.etkrtCluster.urn,
     };
-
   },
 });

@@ -1,34 +1,8 @@
 import { Cluster } from '.sst/platform/src/components/aws';
 import { vpc } from './network';
-import { type local } from '@pulumi/command'; 
+import * as docker_build from "@pulumi/docker-build";
 
-
-// eslint-disable-next-line no-undef
-const distroBuildOutput = new sst.Linkable('archiveBuild', {
-  properties: {
-    cpan: await command.local.run({
-      command: './bin/minicpan',
-      dir: '../../'
-    }),
-    commit: await command.local.run({
-      command: 'git log --oneline -n 1',
-      dir: '../../packages/backend/',
-    }),
-    buildResult: await command.local.run({
-      command: "../../bin/build.sh | tail -n 1",
-      dir: '../../packages/backend/'
-    }),
-    sha: await command.local.run({
-      command: 'shasum',
-      assetPaths: [
-        'Game-EvonyTKR-*.tar.gz'
-      ],
-      dir: '../../packages/backend/',
-    }),
-  },
-});
-
-console.log(`last line of build: ${distroBuildOutput.properties.buildResult.stdout}`);
+export const baseDir = '../..';
 
 // eslint-disable-next-line no-undef
 export const etkrtCluster = new sst.aws.Cluster("EvonyCluster", 
@@ -36,49 +10,96 @@ export const etkrtCluster = new sst.aws.Cluster("EvonyCluster",
     vpc,
   });
 
-console.log(`archive sha is ${distroBuildOutput.properties.sha.stdout}`);
+const lb = new awsx.lb.ApplicationLoadBalancer("lb");
+const cluster = new aws.ecs.Cluster("cluster");
 
-etkrtCluster.addService("EvonyBackend", {
-  link: [
-    distroBuildOutput,
-  ],
-  architecture: "arm64",
-  cpu: "2 vCPU",
-  memory: "4 GB",
-  image: {
-    context: ".",
-    dockerfile: './infrastructure/Dockerfile.backend',
-  },
-  environment: {
-    COMMIT: distroBuildOutput.properties.commit.stdout,
-    ARCHIVESHA: distroBuildOutput.properties.sha.stdout
-  },
-  public: {
-    ports: [{ listen: "8080/http" }],
-  },
-});  
+const repo = new aws.ecr.Repository("ecr-repository", {});
 
-etkrtCluster.addService('EvonyFrontend', {
-  link: [
-    distroBuildOutput,
-  ],
-  architecture: "arm64",
-  cpu: "2 vCPU",
-  memory: "4 GB",
-  image: {
-    context: ".",
-    dockerfile: './infrastructure/Dockerfile.frontend',
+const authToken = await aws.ecr.getAuthorizationToken({
+  registryId: $interpolate`${repo.registryId}`
+});
+
+const frontendImage = new docker_build.Image('frontendImage', {
+  tags: [$interpolate`${repo.repositoryUrl}:latest`],
+  context: {
+    location: `${baseDir}`,
   },
-  environment: {
-    COMMIT: distroBuildOutput.properties.commit.stdout,
-    ARCHIVESHA: distroBuildOutput.properties.sha.stdout
+  dockerfile: {
+    location: `${baseDir}/infrastructure/Dockerfile.frontend`,
+  }, 
+  platforms: ['linux/arm64'],
+  push: true,
+  registries: [{
+    address: repo.repositoryUrl,
+    password: authToken.password,
+    username: authToken.userName,
+  }]
+});
+
+const backendImage = new docker_build.Image("backendImage", {
+  tags: [$interpolate`${repo.repositoryUrl}:latest`],
+  context: {
+    location: baseDir,
   },
-  public: {
-    domain: {
-      name: ($app.stage == 'prod' || $app.stage == 'production') ?
-        'www.evonytkrtips.net' :
-        `${$app.stage}.evonytkrtips.net`,
-    },
-    ports: [{ listen: "4321/http" }],
+  dockerfile: {
+    location: `${baseDir}/infrastructure/Dockerfile.backend`,
+  },
+  platforms: ['linux/arm64'],
+  push: true,
+  registries: [{
+    address: repo.repositoryUrl,
+    password: authToken.password,
+    username: authToken.userName,
+  }]
+});
+
+const service = new awsx.ecs.FargateService("service", {
+  cluster: cluster.arn,
+  assignPublicIp: true,
+  desiredCount: 1,
+  taskDefinitionArgs: {
+      containers: {
+        frontend: {
+          name: "frontend",
+          image: frontendImage.ref,
+          dependsOn: [
+            {
+              containerName: "backend",
+              condition: "HEALTHY",
+            },
+          ],
+          cpu: 2048,
+          memory: 4096,
+          essential: true,
+          environment: [
+            { name: "BACKEND_HOST", value: "localhost" },
+            { name: "BACKEND_PORT", value: "8080" },
+          ],
+          portMappings: [
+              {
+                  containerPort: 4321,
+                  targetGroup: lb.defaultTargetGroup,
+              },
+          ],
+        },
+        backend: {
+          image: backendImage.ref,
+          name: "backend",
+          cpu: 2048,
+          memory: 4096,
+          essential: true,
+          portMappings: [{ containerPort: 8080 }],
+          healthCheck: {
+            command: ["CMD-SHELL", "lsof -i -n -P | grep 8080"],
+            interval: 30,
+            timeout: 5,
+            retries: 3,
+            startPeriod: 10,
+          },
+        },
+      }
   },
 });
+
+
+export const url = $interpolate`http://${lb.loadBalancer.dnsName}`;

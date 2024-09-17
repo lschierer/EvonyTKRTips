@@ -5,5 +5,42 @@ import "sst"
 export {}
 declare module "sst" {
   export interface Resource {
+    "EvonyVpc": {
+      "type": "sst.aws.Vpc"
+    }
+    "archiveBuild": {
+      "buildResult": {
+        "addPreviousOutputInEnv": boolean
+        "command": string
+        "dir": string
+        "stderr": string
+        "stdout": string
+      }
+      "commit": {
+        "addPreviousOutputInEnv": boolean
+        "command": string
+        "dir": string
+        "stderr": string
+        "stdout": string
+      }
+      "cpan": {
+        "addPreviousOutputInEnv": boolean
+        "command": string
+        "dir": string
+        "stderr": string
+        "stdout": string
+      }
+      "sha": {
+        "addPreviousOutputInEnv": boolean
+        "assetPaths": any
+        "assets": {
+        }
+        "command": string
+        "dir": string
+        "stderr": string
+        "stdout": string
+      }
+      "type": "sst.sst.Linkable"
+    }
   }
 }

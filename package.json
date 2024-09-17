@@ -6,13 +6,17 @@
   "description": "sst infrastructure for evonytkrtips",
   "scripts": {
     "lint": "eslint --flag unstable_ts_config",
+    "build": "./bin/build.sh -b",
+    "dev": "./bin/build.sh -d",
     "prepare": "husky",
     "release": "release-it"
   },
   "author": "Luke Schierer",
   "license": "ISC",
   "dependencies": {
-    "sst": "3.1.10"
+    "@pulumi/awsx": "^2.15.0",
+    "@pulumi/docker-build": "^0.0.6",
+    "sst": "3.1.13"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
@@ -23,7 +27,7 @@
     "@release-it/conventional-changelog": "^8.0.2",
     "@types/aws-lambda": "8.10.145",
     "@types/eslint__js": "^8.42.3",
-    "@typescript-eslint/parser": "^8.5.0",
+    "@typescript-eslint/parser": "^8.6.0",
     "eslint": "^9.10.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
@@ -35,7 +39,7 @@
     "release-it": "^17.6.0",
     "release-it-pnpm": "^4.6.3",
     "typescript": "^5.6.2",
-    "typescript-eslint": "^8.5.0"
+    "typescript-eslint": "^8.6.0"
   },
   "lint-staged": {
     "*.json": [
