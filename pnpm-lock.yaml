@@ -82,17 +82,17 @@ importers:
         specifier: ^0.9.3
         version: 0.9.3(prettier@3.3.3)(typescript@5.6.2)
       '@astrojs/node':
-        specifier: ^8.3.4
-        version: 8.3.4(astro@4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))
+        specifier: ^8.3.3
+        version: 8.3.3(astro@4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))
       '@astrojs/starlight':
-        specifier: ^0.28.2
-        version: 0.28.2(astro@4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))
+        specifier: ^0.28.1
+        version: 0.28.1(astro@4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))
       '@astrojs/starlight-tailwind':
         specifier: ^2.0.3
-        version: 2.0.3(@astrojs/starlight@0.28.2(astro@4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2)))(@astrojs/tailwind@5.1.1(astro@4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))(tailwindcss@3.4.12))(tailwindcss@3.4.12)
+        version: 2.0.3(@astrojs/starlight@0.28.1(astro@4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2)))(@astrojs/tailwind@5.1.1(astro@4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))(tailwindcss@3.4.12))(tailwindcss@3.4.12)
       '@astrojs/tailwind':
         specifier: ^5.1.1
-        version: 5.1.1(astro@4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))(tailwindcss@3.4.12)
+        version: 5.1.1(astro@4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))(tailwindcss@3.4.12)
       '@lit-labs/ssr-client':
         specifier: ^1.1.7
         version: 1.1.7
@@ -124,8 +124,8 @@ importers:
         specifier: ^0.48.0
         version: 0.48.0
       astro:
-        specifier: ^4.15.8
-        version: 4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2)
+        specifier: ^4.15.7
+        version: 4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2)
       iconify-icon:
         specifier: ^2.1.0
         version: 2.1.0
@@ -204,8 +204,8 @@ packages:
     peerDependencies:
       astro: ^4.8.0
 
-  '@astrojs/node@8.3.4':
-    resolution: {integrity: sha512-xzQs39goN7xh9np9rypGmbgZj3AmmjNxEMj9ZWz5aBERlqqFF3n8A/w/uaJeZ/bkHS60l1BXVS0tgsQt9MFqBA==}
+  '@astrojs/node@8.3.3':
+    resolution: {integrity: sha512-idrKhnnPSi0ABV+PCQsRQqVNwpOvVDF/+fkwcIiE8sr9J8EMvW9g/oyAt8T4X2OBJ8FUzYPL8klfCdG7r0eB5g==}
     peerDependencies:
       astro: ^4.2.0
 
@@ -223,8 +223,8 @@ packages:
       '@astrojs/tailwind': ^5.0.0
       tailwindcss: ^3.3.3
 
-  '@astrojs/starlight@0.28.2':
-    resolution: {integrity: sha512-Q1/Ujl2EzWX71qwqdt/0KP3wOyX6Rvyzcep/zD3hRCtw/Vi2TReh4Q2wLwz7mnbuYU9H7YvBKYknbkmjC+K/0w==}
+  '@astrojs/starlight@0.28.1':
+    resolution: {integrity: sha512-aEBy6k1w8L25lP+jV1WYvujxfigFxh10NFPxHCW76J695Xgw1jC1TVALbhkctIuCdIAmzUElpXfuOuOiARJf0g==}
     peerDependencies:
       astro: ^4.14.0
 
@@ -1718,8 +1718,8 @@ packages:
     peerDependencies:
       astro: ^4.0.0-beta || ^3.3.0
 
-  astro@4.15.8:
-    resolution: {integrity: sha512-pdXjtRF6O1xChiPAUF32R7oVRTW7AK1/Oy/JqPNhLfbelO0l6C7cLdSEuSLektwOEnMhOVXqccetjBs7HPaoxA==}
+  astro@4.15.7:
+    resolution: {integrity: sha512-RGZjGpLcR3jcnXA1+g56i73O77krmqs7VjpoBOfk9UVP8Js5T2YSeUBAyComOUb6vj31wEw1vgRgOEN0MzYc8w==}
     engines: {node: ^18.17.1 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
@@ -4074,6 +4074,9 @@ packages:
     resolution: {integrity: sha512-Xa4Nw17FS9ApQFJ9umLiJS4orGjm7ZzwUrwamcGQuHSzDyth9boKDaycYdDcZDuqYATXw4HFXgaqWTctW/v1HA==}
     engines: {node: '>=16 || 14 >=14.18'}
 
+  path-to-regexp@6.2.2:
+    resolution: {integrity: sha512-GQX3SSMokngb36+whdpRXE+3f9V8UzyAorlYvOGx87ufGHehNTn5lCxrKtLyZ4Yl/wEKnNnr98ZzOwwDZV5ogw==}
+
   path-type@5.0.0:
     resolution: {integrity: sha512-5HviZNaZcfqP95rwpv+1HDgUamezbqdSYTyzjTvwtJSnIH+3vnbmWsItli8OFEndS984VT55M3jduxZbX351gg==}
     engines: {node: '>=12'}
@@ -4510,8 +4513,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  send@0.19.0:
-    resolution: {integrity: sha512-dW41u5VfLXu8SJh5bwRmyYUbAoSB3c9uQh6L8h/KtsFREPWpbX1lrljJo186Jc4nmci/sGUZ9a0a0J2zgfq2hw==}
+  send@0.18.0:
+    resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==}
     engines: {node: '>= 0.8.0'}
 
   server-destroy@1.0.1:
@@ -5400,12 +5403,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@3.1.6(astro@4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))':
+  '@astrojs/mdx@3.1.6(astro@4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))':
     dependencies:
       '@astrojs/markdown-remark': 5.2.0
       '@mdx-js/mdx': 3.0.1
       acorn: 8.12.1
-      astro: 4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2)
+      astro: 4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2)
       es-module-lexer: 1.5.4
       estree-util-visit: 2.0.0
       gray-matter: 4.0.3
@@ -5420,10 +5423,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/node@8.3.4(astro@4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))':
+  '@astrojs/node@8.3.3(astro@4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))':
     dependencies:
-      astro: 4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2)
-      send: 0.19.0
+      astro: 4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2)
+      send: 0.18.0
       server-destroy: 1.0.1
     transitivePeerDependencies:
       - supports-color
@@ -5438,21 +5441,21 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.23.8
 
-  '@astrojs/starlight-tailwind@2.0.3(@astrojs/starlight@0.28.2(astro@4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2)))(@astrojs/tailwind@5.1.1(astro@4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))(tailwindcss@3.4.12))(tailwindcss@3.4.12)':
+  '@astrojs/starlight-tailwind@2.0.3(@astrojs/starlight@0.28.1(astro@4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2)))(@astrojs/tailwind@5.1.1(astro@4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))(tailwindcss@3.4.12))(tailwindcss@3.4.12)':
     dependencies:
-      '@astrojs/starlight': 0.28.2(astro@4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))
-      '@astrojs/tailwind': 5.1.1(astro@4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))(tailwindcss@3.4.12)
+      '@astrojs/starlight': 0.28.1(astro@4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))
+      '@astrojs/tailwind': 5.1.1(astro@4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))(tailwindcss@3.4.12)
       tailwindcss: 3.4.12
 
-  '@astrojs/starlight@0.28.2(astro@4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))':
+  '@astrojs/starlight@0.28.1(astro@4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))':
     dependencies:
-      '@astrojs/mdx': 3.1.6(astro@4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))
+      '@astrojs/mdx': 3.1.6(astro@4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))
       '@astrojs/sitemap': 3.1.6
       '@pagefind/default-ui': 1.1.1
       '@types/hast': 3.0.4
       '@types/mdast': 4.0.4
-      astro: 4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2)
-      astro-expressive-code: 0.35.6(astro@4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))
+      astro: 4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2)
+      astro-expressive-code: 0.35.6(astro@4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))
       bcp-47: 2.1.0
       hast-util-from-html: 2.0.3
       hast-util-select: 6.0.2
@@ -5472,9 +5475,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/tailwind@5.1.1(astro@4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))(tailwindcss@3.4.12)':
+  '@astrojs/tailwind@5.1.1(astro@4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2))(tailwindcss@3.4.12)':
     dependencies:
-      astro: 4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2)
+      astro: 4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2)
       autoprefixer: 10.4.20(postcss@8.4.47)
       postcss: 8.4.47
       postcss-load-config: 4.0.2(postcss@8.4.47)
@@ -6845,7 +6848,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 22.5.5
+      '@types/node': 17.0.45
 
   '@types/semver@7.5.8': {}
 
@@ -7089,12 +7092,12 @@ snapshots:
 
   astring@1.9.0: {}
 
-  astro-expressive-code@0.35.6(astro@4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2)):
+  astro-expressive-code@0.35.6(astro@4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2)):
     dependencies:
-      astro: 4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2)
+      astro: 4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2)
       rehype-expressive-code: 0.35.6
 
-  astro@4.15.8(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2):
+  astro@4.15.7(@types/node@22.5.5)(rollup@4.22.0)(typescript@5.6.2):
     dependencies:
       '@astrojs/compiler': 2.10.3
       '@astrojs/internal-helpers': 0.4.1
@@ -7142,6 +7145,7 @@ snapshots:
       ora: 8.1.0
       p-limit: 6.1.0
       p-queue: 8.0.1
+      path-to-regexp: 6.2.2
       preferred-pm: 4.0.0
       prompts: 2.4.2
       rehype: 13.0.1
@@ -10055,6 +10059,8 @@ snapshots:
       lru-cache: 10.4.3
       minipass: 7.1.2
 
+  path-to-regexp@6.2.2: {}
+
   path-type@5.0.0: {}
 
   pathe@1.1.2: {}
@@ -10581,7 +10587,7 @@ snapshots:
 
   semver@7.6.3: {}
 
-  send@0.19.0:
+  send@0.18.0:
     dependencies:
       debug: 2.6.9
       depd: 2.0.0
