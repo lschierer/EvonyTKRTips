@@ -3,21 +3,17 @@
   "type": "module",
   "version": "1.0.0",
   "packageManager": "pnpm@9.10.0",
-  "description": "sst infrastructure for evonytkrtips",
+  "description": "monorepo wrapper for evonytkrtips",
   "scripts": {
     "lint": "eslint --flag unstable_ts_config",
     "build": "./bin/build.sh -b",
     "dev": "./bin/build.sh -d",
     "prepare": "husky",
-    "release": "release-it"
+    "release": "release-it",
+    "backendDev": "cd packages/backend && dzil run script/EvonyTKRBackend"
   },
   "author": "Luke Schierer",
   "license": "ISC",
-  "dependencies": {
-    "@pulumi/awsx": "^2.15.0",
-    "@pulumi/docker-build": "^0.0.6",
-    "sst": "3.1.13"
-  },
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
@@ -25,7 +21,6 @@
     "@eslint/js": "^9.10.0",
     "@pulumi/command": "^1.0.1",
     "@release-it/conventional-changelog": "^8.0.2",
-    "@types/aws-lambda": "8.10.145",
     "@types/eslint__js": "^8.42.3",
     "@typescript-eslint/parser": "^8.6.0",
     "eslint": "^9.10.0",
