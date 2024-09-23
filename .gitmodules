@@ -10,5 +10,6 @@
 	url = git@github.com:lschierer/evonytkrtips-frontend.git
 [submodule "packages/frontend2"]
 	path = packages/frontend2
+	update = rebase
 	url = git@github.com:lschierer/evonytkrtips-frontend2.git
 	branch = main
