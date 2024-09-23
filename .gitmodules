@@ -13,3 +13,8 @@
 	update = rebase
 	url = git@github.com:lschierer/evonytkrtips-frontend2.git
 	branch = main
+[submodule "packages/frontend3"]
+	path = packages/frontend3
+	url = https://github.com/lschierer/evonytkrtips-frontend3
+	update = rebase
+	branch = main
