@@ -6,3 +6,5 @@ node_modules
 
 var/*.tar.gz
 
+var/mirrors/minicpan/
+var/repository/authors/
