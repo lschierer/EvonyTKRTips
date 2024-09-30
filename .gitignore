@@ -2,5 +2,7 @@ node_modules
 # sst
 .sst
 
+.vscode
+
 var/*.tar.gz
 
