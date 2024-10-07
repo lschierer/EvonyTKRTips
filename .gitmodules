@@ -21,3 +21,10 @@
 [submodule "packages/apispecification"]
 	path = packages/apispecification
 	url = git@github.com:lschierer/EvonyTKR-APISpecification.git
+	update = rebase
+	branch = main
+[submodule "packages/backend3"]
+	path = packages/backend3
+	url = git@github.com:lschierer/EvonyTKRTips-backend.git
+	update = rebase
+	branch = main
