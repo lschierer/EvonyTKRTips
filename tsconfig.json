@@ -1,24 +1,16 @@
 {
-   "compilerOptions": {
-      "strictNullChecks": true,
-      "target": "ES2023",
-      "module": "es2022",
-      "moduleResolution": "bundler",
-      "lib": ["es2021", "dom"],
-      "declaration": true,
-      "declarationDir": "./types",
-      "declarationMap": true,
-      "experimentalDecorators": true,
-      "useDefineForClassFields": false,
-      "noEmit": false,
-      "emitDeclarationOnly": true,
-      "baseUrl": ".",
-    },
-    "include": [
-      "**/*.ts"
-    ],
-    "exclude": [
-      "node_modules",
-      ".sst"
-    ]
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "ES2022",
+    "target": "ES2023",
+    "baseUrl": ".",
+    "jsx": "preserve",
+    "declaration": true,
+    "declarationDir": "./types",
+    "declarationMap": true,
+    "noEmit": false,
+    "emitDeclarationOnly": true
+  },
+  "include": ["./server.ts", "./src/**/*.ts"]
 }

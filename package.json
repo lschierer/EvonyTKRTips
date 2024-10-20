@@ -1,40 +1,48 @@
 {
-  "name": "evonytkrtips-infrastructure",
+  "name": "evonytkrtips",
+  "author": "Luke Schierer",
   "type": "module",
-  "version": "1.0.0",
-  "packageManager": "pnpm@9.10.0",
-  "description": "monorepo wrapper for evonytkrtips",
+  "version": "3.0.0",
+  "packageManager": "bun@1.1.31",
+  "description": "Evony TKR Tips Website and Infrastructure as Code",
   "scripts": {
     "lint": "eslint --flag unstable_ts_config",
-    "build": "./bin/build.sh -b",
-    "dev": "./bin/build.sh -d",
+    "build": "./scripts/build.sh || echo \"exit code $\"?",
+    "dev": "bun run --bun vite",
     "prepare": "husky",
-    "release": "release-it",
-    "backendDev": "cd packages/backend && dzil run script/EvonyTKRBackend"
+    "check": "tsc",
+    "preview": "bun --bun --watch --conditions preview server.ts",
+    "start": "bun server.ts"
   },
-  "author": "Luke Schierer",
-  "license": "ISC",
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@commitlint/types": "^19.5.0",
     "@eslint/js": "^9.10.0",
-    "@pulumi/command": "^1.0.1",
     "@release-it/conventional-changelog": "^8.0.2",
     "@types/eslint__js": "^8.42.3",
     "@typescript-eslint/parser": "^8.6.0",
+    "@types/node": "^22.7.7",
     "eslint": "^9.10.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "globals": "^15.9.0",
     "husky": "^9.1.6",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@gracile/gracile": "^0.7.1",
+    "@hono/arktype-validator": "^2.0.0",
+    "@hono/node-server": "^1.13.2",
+    "arktype": "^2.0.0-rc.17",
+    "hono": "^4.6.5",
     "jiti": "^1.21.6",
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "release-it": "^17.6.0",
-    "release-it-pnpm": "^4.6.3",
-    "typescript": "^5.6.2",
-    "typescript-eslint": "^8.6.0"
+    "typescript-eslint": "^8.6.0",
+    "lit": "^3.2.1",
+    "tsx": "^4.19.1",
+    "vite": "^5.4.9"
   },
   "lint-staged": {
     "*.json": [
