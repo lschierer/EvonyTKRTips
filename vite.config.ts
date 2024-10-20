@@ -1,12 +1,14 @@
 import { gracile } from "@gracile/gracile/plugin";
 import { defineConfig } from "vite";
 import path from "path";
-import devServer from "@hono/vite-dev-server";
-import bunAdapter from "@hono/vite-dev-server/bun";
 
 export default defineConfig({
   server: {
     port: 3030,
+  },
+  preview: {
+    //Make sure I do not grab 3030 while in preview, because I will need it for the dev server.
+    port: 2020,
   },
   resolve: {
     alias: {
@@ -19,12 +21,6 @@ export default defineConfig({
     },
   },
   plugins: [
-    devServer({
-      entry: "./server.ts",
-      injectClientScript: false,
-      adapter: bunAdapter,
-      exclude: ["/api/*"],
-    }),
     gracile({
       output: "server",
 
