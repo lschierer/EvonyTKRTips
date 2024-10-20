@@ -10,7 +10,17 @@
     "declarationDir": "./types",
     "declarationMap": true,
     "noEmit": false,
-    "emitDeclarationOnly": true
+    "emitDeclarationOnly": true,
+    "plugins": [
+      {
+        "name": "ts-lit-plugin",
+        "strict": true,
+        "rules": {
+          "no-unknown-tag-name": "off",
+          "no-unknown-event": "warn"
+        }
+      }
+    ]
   },
   "include": ["./server.ts", "./src/**/*.ts"]
 }
