@@ -11,6 +11,13 @@
     "declarationMap": true,
     "noEmit": false,
     "emitDeclarationOnly": true,
+    "paths": {
+      "@src/*": ["src/*"],
+      "@data/*": ["data/*"],
+      "@components/*": ["src/components/*"],
+      "@styles/*": ["src/styles/*"],
+      "@schemas/*": ["src/schemas/*"]
+    },
     "plugins": [
       {
         "name": "ts-lit-plugin",
