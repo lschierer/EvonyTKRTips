@@ -16,7 +16,8 @@
       "@data/*": ["data/*"],
       "@components/*": ["src/components/*"],
       "@styles/*": ["src/styles/*"],
-      "@schemas/*": ["src/schemas/*"]
+      "@schemas/*": ["src/schemas/*"],
+      "@templates/*": ["src/templates/*"]
     },
     "plugins": [
       {
