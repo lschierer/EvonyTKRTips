@@ -1,8 +1,12 @@
-import { gracile } from "@gracile/gracile/plugin";
+import { gracile, GracileConfig } from "@gracile/gracile/plugin";
 import { viteSvgPlugin } from "@gracile/svg/vite";
-
 import { defineConfig } from "vite";
 import path from "path";
+
+import autoprefixer from "autoprefixer";
+import tailwindcss from "tailwindcss";
+import * as postcssimport from "postcss-import";
+import nesting from "tailwindcss/nesting";
 
 const aliases = {
   "@assets": path.resolve(__dirname, "./src"),
@@ -14,44 +18,36 @@ const aliases = {
   "@templates": path.resolve(__dirname, "./src/templates"),
 };
 
-export default defineConfig(({ command, mode }) => {
-  if (command === "serve") {
-    return {
-      base: "https://www.evonytkrtips.net/",
-      server: {
-        port: 3030,
-      },
-      resolve: {
-        alias: aliases,
-      },
-      plugins: [
-        gracile({
-          output: "server",
-        }),
-      ],
-    };
-  } else {
-    return {
-      server: {
-        port: 3030,
-      },
-      resolve: {
-        alias: aliases,
-      },
-      plugins: [
-        viteSvgPlugin({ plugins: ["preset-default"] }),
-        gracile({
-          output: "server",
-          dev: {
-            locals: (_context) => {
-              return {
-                requestId: crypto.randomUUID(),
-                userEmail: "admin@admin.home.arpa",
-              };
-            },
-          },
-        }),
-      ],
-    };
-  }
+const base = "./";
+
+const gracileConfig: GracileConfig = {
+  output: "server",
+  dev: {
+    locals: (_context) => {
+      return {
+        requestId: crypto.randomUUID(),
+        userEmail: "admin@admin.home.arpa",
+      };
+    },
+  },
+};
+
+export default defineConfig({
+  base: base,
+  server: {
+    port: 3030,
+  },
+  resolve: {
+    alias: aliases,
+  },
+  css: {
+    devSourcemap: true,
+    postcss: {
+      plugins: [nesting(), tailwindcss(), autoprefixer()],
+    },
+  },
+  plugins: [
+    viteSvgPlugin({ plugins: ["preset-default"] }),
+    gracile(gracileConfig),
+  ],
 });

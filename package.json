@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint --flag unstable_ts_config",
     "build": "./scripts/build.sh || echo \"exit code $\"?",
-    "dev": "bun run --bun vite",
+    "dev": "bunx --bun vite",
     "prepare": "husky",
     "check": "tsc",
     "preview": "bun --bun --watch --conditions preview server.ts",
@@ -24,6 +24,7 @@
     "@types/bun": "^1.1.11",
     "@types/eslint__js": "^8.42.3",
     "@types/node": "^22.7.7",
+    "@types/postcss-import": "^14.0.3",
     "@typescript-eslint/parser": "^8.6.0",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.10.0",
@@ -35,6 +36,7 @@
     "postcss-load-config": "^6.0.1",
     "postcss-nested": "^6.2.0",
     "postcss-plugin": "^1.0.0",
+    "rollup-plugin-postcss-lit": "^2.1.0",
     "tailwindcss": "^3.4.14",
     "ts-lit-plugin": "^2.0.2",
     "typescript": "^5.6.3"
@@ -53,6 +55,7 @@
     "jiti": "^1.21.6",
     "lint-staged": "^15.2.10",
     "lit": "^3.2.1",
+    "postcss-lit": "^1.1.1",
     "prettier": "^3.3.3",
     "release-it": "^17.6.0",
     "tsx": "^4.19.1",

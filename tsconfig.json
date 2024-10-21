@@ -24,6 +24,7 @@
         "name": "ts-lit-plugin",
         "strict": true,
         "rules": {
+          "no-missing-import": "off",
           "no-unknown-tag-name": "off",
           "no-unknown-event": "warn"
         }

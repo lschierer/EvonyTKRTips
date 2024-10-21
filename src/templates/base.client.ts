@@ -1,38 +1,31 @@
-import globalTailwind from "@styles/base.css?inline";
+import base from "./base.css?inline";
+
 console.log(`import.meta.env.DEV  is ${import.meta.env.DEV}`);
 import "@gracile/gracile/hydration";
 
-console.log("Global client scripts here!");
-enum Color {
-  light,
-  dark,
-  auto,
-}
+import { Color, Scale } from "@schemas/generics";
 
-enum Scale {
-  medium,
-  large,
-}
+console.log("Global client scripts here!");
+
+const light: Color = "light";
+const dark: Color = "dark";
 
 /* --- functions --- */
 const getPreferredColorScheme = (): Color => {
   return window.matchMedia("(prefers-color-scheme: light)").matches
-    ? Color.light
-    : Color.dark;
+    ? light
+    : dark;
 };
 
-export const updateTheme = async (
-  color: Color,
-  scale: Scale = Scale.medium
-) => {
+export const updateTheme = async (color: Color, scale: Scale = "medium") => {
   const base = window.document.querySelector("html.spectrum");
 
   console.log(`updateTheme running`);
 
-  if (color == Color.light) {
+  if (!color.localeCompare(light)) {
     // Whenever the user explicitly chooses light mode
-    localStorage.theme = "light";
-  } else if (color == Color.dark) {
+    localStorage.theme = light;
+  } else if (!color.localeCompare(dark)) {
     // Whenever the user explicitly chooses dark mode
     localStorage.theme = "dark";
   } else {
@@ -50,7 +43,7 @@ export const updateTheme = async (
   ) {
     document.documentElement.classList.add("dark");
     if (base) {
-      if (scale == Scale.medium) {
+      if (!scale.localeCompare("medium")) {
         base.className = ["spectrum", "spetrum--medium", "spectrum--dark"].join(
           " "
         );
@@ -61,7 +54,7 @@ export const updateTheme = async (
   } else {
     document.documentElement.classList.remove("dark");
     if (base) {
-      if (scale == Scale.medium) {
+      if (!scale.localeCompare("medium")) {
         base.className = [
           "spectrum",
           "spetrum--medium",
@@ -78,8 +71,8 @@ export const updateTheme = async (
 
 const baseAdoptedStyles = new CSSStyleSheet();
 
-baseAdoptedStyles.replaceSync(globalTailwind);
+baseAdoptedStyles.replaceSync(base);
 
 document.adoptedStyleSheets = [baseAdoptedStyles];
 
-updateTheme(Color.light, Scale.medium);
+updateTheme("light", "medium");

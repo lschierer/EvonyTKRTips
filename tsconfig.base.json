@@ -1,8 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@gracile/gracile/tsconfigs/strictest",
+  "extends": "@gracile/gracile/tsconfigs/strict",
   "compilerOptions": {
     "moduleDetection": "force",
+    "lib": ["DOM", "ES2023"],
     "moduleResolution": "Bundler",
     "strictNullChecks": true,
     "experimentalDecorators": true,
