@@ -1,5 +1,5 @@
 import globalTailwind from "@styles/base.css?inline";
-
+console.log(`import.meta.env.DEV  is ${import.meta.env.DEV}`);
 import "@gracile/gracile/hydration";
 
 console.log("Global client scripts here!");

@@ -1,5 +1,8 @@
 import { html } from "@gracile/gracile/server-html";
 
+//@ts-ignore imported for side effects;
+import { TopBar } from "@components/top-bar";
+
 export const document = (props: { url: URL; title?: string | null }) => html`
   <!doctype html>
   <html lang="en" class="spectrum spectrum--medium spectrum--light">
@@ -24,6 +27,10 @@ export const document = (props: { url: URL; title?: string | null }) => html`
     </head>
 
     <body class="h-full bg-spectrum">
+      <top-bar
+        siteURL=${new URL("/", props.url).toString()}
+        pageTitle="${props.title ?? ""}"
+      ></top-bar>
       <route-template-outlet></route-template-outlet>
     </body>
   </html>
