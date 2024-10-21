@@ -32,8 +32,7 @@ export const document = (props: Props) => html`
     </head>
 
     <body class="h-full ">
-      <div class="bg-blue-500 w-screen">
-        <p>test</p>
+      <div class=" w-screen">
         <top-nav> </top-nav>
       </div>
 
