@@ -1,9 +1,14 @@
 import { html } from "@gracile/gracile/server-html";
 
-//@ts-ignore imported for side effects;
-import { TopBar } from "@components/top-bar";
+import { TopNav } from "@src/components/top-nav";
 
-export const document = (props: { url: URL; title?: string | null }) => html`
+export interface Props {
+  url: URL;
+  title?: string | null;
+  siteTitle?: string | null;
+}
+
+export const document = (props: Props) => html`
   <!doctype html>
   <html lang="en" class="spectrum spectrum--medium spectrum--light">
     <head>
@@ -26,11 +31,12 @@ export const document = (props: { url: URL; title?: string | null }) => html`
       <link type="image/svg+xml" href="/favicon.svg" rel="icon" />
     </head>
 
-    <body class="h-full bg-spectrum">
-      <top-bar
-        siteURL=${new URL("/", props.url).toString()}
-        pageTitle="${props.title ?? ""}"
-      ></top-bar>
+    <body class="h-full ">
+      <div class="bg-blue-500 w-screen">
+        <p>test</p>
+        <top-nav> </top-nav>
+      </div>
+
       <route-template-outlet></route-template-outlet>
     </body>
   </html>
