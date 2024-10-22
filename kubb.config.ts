@@ -25,13 +25,13 @@ export default defineConfig(() => {
         contentType: "application/json",
         validate: true,
         output: {
-          path: "./src/schemas/api/oas",
+          path: "./oas",
         },
       }),
       pluginTs({}),
       pluginZod({
         output: {
-          path: "./src/schemas/api/zod",
+          path: "./zod",
         },
         typed: true,
         inferred: true,
