@@ -10,13 +10,13 @@ export default defineConfig(() => {
       path: "./share/evonytkrtips-backend.yaml",
     },
     output: {
-      path: "./src/api",
+      path: "./src/schemas/api",
       clean: true,
       write: true,
       mode: "split",
       barrelType: "named",
       extension: {
-        ".ts": ".ts",
+        ".ts": "",
         ".json": ".json",
       },
     },
@@ -25,13 +25,13 @@ export default defineConfig(() => {
         contentType: "application/json",
         validate: true,
         output: {
-          path: "./src/api/oas",
+          path: "./src/schemas/api/oas",
         },
       }),
       pluginTs({}),
       pluginZod({
         output: {
-          path: "./src/schemas/",
+          path: "./src/schemas/api/zod",
         },
         typed: true,
         inferred: true,
