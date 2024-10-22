@@ -1,0 +1,1 @@
+{"type":"object","properties":{"levels":{"type":"array","items":{"type":"string"}},"ascendingLevelNamesId":{"type":"string"}},"description":"A simplified representation of a Ascending, typically used in list views.\n","x-fiddle-dto-info":{"baseSchemaName":"Ascending"},"x-readme-ref-name":"AscendingSummary"}

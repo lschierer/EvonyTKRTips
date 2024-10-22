@@ -1,0 +1,1 @@
+{"enum":["None","1Purple","2Purple","3Purple","4Purple","5Purple"],"type":"string","default":"None","description":"Ascending Levels for Purple Generals","x-readme-ref-name":"PurpleGeneralAscendingLevels"}

@@ -1,0 +1,1 @@
+{"type":"object","required":["Base","Increment","Total"],"properties":{"Base":{"type":"number","format":"float","minimum":0},"Total":{"type":"number","format":"float","minimum":0},"Increment":{"type":"number","format":"float","minimum":0}},"description":"","x-readme-ref-name":"BasicAttributesObject"}

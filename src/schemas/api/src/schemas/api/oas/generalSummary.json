@@ -1,0 +1,1 @@
+{"type":"object","properties":{"name":{"type":"string"},"type":{"type":"string"}},"description":"The minimal information necessary to find a General","x-fiddle-dto-info":{"baseSchemaName":"General"},"x-readme-ref-name":"GeneralSummary"}

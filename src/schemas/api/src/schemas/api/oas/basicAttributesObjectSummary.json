@@ -1,0 +1,1 @@
+{"type":"object","properties":{"Base":{"type":"number"},"Total":{"type":"number"},"Increment":{"type":"number"}},"description":"A simplified representation of a BasicAttributesObject, typically used in list views.","x-fiddle-dto-info":{"baseSchemaName":"BasicAttributesObject"},"x-readme-ref-name":"BasicAttributesObjectSummary"}

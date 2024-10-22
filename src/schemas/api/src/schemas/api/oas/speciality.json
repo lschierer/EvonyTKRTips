@@ -1,0 +1,1 @@
+{"type":"object","required":["name","levels"],"properties":{"name":{"type":"string"},"levels":{"type":"array","items":{"enum":["None","Green","Blue","Purple","Orange","Gold"],"type":"string","default":"None","description":"","x-readme-ref-name":"SpecialityLevelNames"}}},"x-readme-ref-name":"Speciality"}
