@@ -3,7 +3,7 @@ import "../features/my-greetings.js";
 import { defineRoute } from "@gracile/gracile/route";
 import { html } from "@gracile/gracile/server-html";
 
-import { document } from "@templates/base";
+import { document, type Props } from "@templates/base";
 
 export default defineRoute({
   handler: {
@@ -15,7 +15,8 @@ export default defineRoute({
     },
   },
 
-  document: (context) => document({ ...context, title: "Gracile - Home" }),
+  document: (context) =>
+    document({ ...context, title: "Gracile - Home", section: "Home" }),
 
   template: (context) => html`
     <h1><img src="/favicon.svg" height="25" /> - Hello Gracile</h1>

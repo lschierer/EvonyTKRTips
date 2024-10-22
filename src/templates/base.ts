@@ -1,12 +1,20 @@
 import { html } from "@gracile/gracile/server-html";
+import {
+  type BodyTemplate,
+  type RouteContextGeneric,
+} from "@gracile/engine/routes/route";
 
 import { TopNav } from "@src/components/top-nav";
 
 export interface Props {
   url: URL;
+  section: string;
   title?: string | null;
   siteTitle?: string | null;
 }
+
+// I need a better way to handle this.
+const tkrSections = ["Generals", "Monsters", "SvS", "Reference"];
 
 export const document = (props: Props) => html`
   <!doctype html>
@@ -31,12 +39,17 @@ export const document = (props: Props) => html`
       <link type="image/svg+xml" href="/favicon.svg" rel="icon" />
     </head>
 
-    <body class="h-full ">
-      <div class=" w-screen">
-        <top-nav> </top-nav>
+    <body class="h-full">
+      <div class=" w-full">
+        <top-nav
+          section="${props.section}"
+          sitesectionsjson="${JSON.stringify(tkrSections)}"
+        >
+        </top-nav>
       </div>
-
-      <route-template-outlet></route-template-outlet>
+      <main class="w-9/12 ">
+        <route-template-outlet></route-template-outlet>
+      </main>
     </body>
   </html>
 `;
