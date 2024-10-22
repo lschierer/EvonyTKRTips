@@ -9,6 +9,7 @@ import * as postcssimport from "postcss-import";
 import nesting from "tailwindcss/nesting";
 
 const aliases = {
+  "@server": path.resolve(__dirname, "./server.ts"),
   "@assets": path.resolve(__dirname, "./src"),
   "@src": path.resolve(__dirname, "./src"),
   "@data": path.resolve(__dirname, "./data"),

@@ -12,7 +12,8 @@ import api from "./src/api/api";
 const app = new Hono<{ Variables: Gracile.Locals }>();
 
 app.get("/test", (c) => c.text("hello world"));
-app.route("/api", api);
+const APIRoute = app.route("/api", api);
+export type AppType = typeof APIRoute;
 
 app.get("*", serveStatic({ root: gracile.getClientDistPath(import.meta.url) }));
 
