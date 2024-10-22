@@ -1,29 +1,23 @@
 import { Hono } from "hono";
-import { type } from "arktype";
-import { arktypeValidator } from "@hono/arktype-validator";
+import { zValidator } from "@hono/zod-validator";
+import { z } from "zod";
 
-import * as evonyTypes from "@schemas/evony";
+import * as evonyTypes from "@schemas/api";
 
 const app = new Hono<{ Variables: Gracile.Locals }>();
 
-const error = c.json("Invalid", 400);
-
-app.post(
+app.get(
   "/:id",
-  arktypeValidator("json", evonyTypes.GeneralTypes.General), (c) => {
-    const data = c.req.valid('json');
-    if(data instanceof type.errors) {
-      return c.json({
-        success: false,
-        message: `${data.summary}`,
-        status: 400
-      });
-    }
-    else {
-
-    }
-
-  })
+  zValidator("query", z.object({ id: z.string().optional() })),
+  (c) => {
+    const { id } = c.req.valid("query");
+    return c.json(
+      {
+        name: id,
+      },
+      200
+    );
+  }
 );
 
 export default app;
