@@ -16,6 +16,7 @@ const aliases = {
   "@templates": path.resolve(__dirname, "./src/templates"),
   "@backend": path.resolve(__dirname, "../backend"),
   "@schemas": path.resolve(__dirname, "../backend/src/schemas"),
+  "@share": path.resolve(__dirname, "../share"),
 };
 
 const base = "./";

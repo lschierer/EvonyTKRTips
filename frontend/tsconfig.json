@@ -21,7 +21,8 @@
       "@styles/*": ["src/styles/*"],
       "@templates/*": ["src/templates/*"],
       "@backend/*": ["../backend/*"],
-      "@schemas/*": ["../backend/src/schemas/*"]
+      "@schemas/*": ["../backend/src/schemas/*"],
+      "@share/*": ["../share/*"]
     },
     "plugins": [
       {
