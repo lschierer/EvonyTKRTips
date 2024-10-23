@@ -1,8 +1,8 @@
 import type { General } from "../types/General";
 import { ascendingLevelSchema } from "./ascendingLevelSchema";
 import { ascendingSummarySchema } from "./ascendingSummarySchema";
-import { basicAttributesObjectSchema } from "./basicAttributesObjectSchema";
-import { basicAttributesObjectSummarySchema } from "./basicAttributesObjectSummarySchema";
+import { basicAttributesSchema } from "./basicAttributesSchema";
+import { basicAttributesSummarySchema } from "./basicAttributesSummarySchema";
 import { builtinBookSchema } from "./builtinBookSchema";
 import { generalEvaluationTypesSchema } from "./generalEvaluationTypesSchema";
 import { skinSchema } from "./skinSchema";
@@ -13,7 +13,7 @@ import { z } from "zod";
 
 export const generalSchema = z.object({
   name: z.string(),
-  skin: z.union([skinSchema, z.string()]),
+  skin: z.union([skinSchema, z.string()]).optional(),
   type: z.union([
     generalEvaluationTypesSchema,
     z.array(generalEvaluationTypesSchema),
@@ -24,7 +24,9 @@ export const generalSchema = z.object({
     ascendingLevelSchema,
     ascendingSummarySchema,
   ]),
-  otherBooks: z.union([z.array(z.string()), z.array(standardBookSchema)]),
+  otherBooks: z
+    .union([z.array(z.string()), z.array(standardBookSchema)])
+    .optional(),
   builtInBook: z.union([builtinBookSchema, z.string()]),
   specialities: z.union([
     z.array(z.string()),
@@ -32,8 +34,8 @@ export const generalSchema = z.object({
     z.array(specialityEffectSchema),
   ]),
   basicAttributes: z.union([
-    basicAttributesObjectSchema,
-    basicAttributesObjectSummarySchema,
+    basicAttributesSchema,
+    basicAttributesSummarySchema,
   ]),
 }) as z.ZodType<General>;
 

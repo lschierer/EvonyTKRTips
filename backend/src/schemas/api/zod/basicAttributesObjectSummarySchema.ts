@@ -7,7 +7,7 @@ import { z } from "zod";
 export const basicAttributesObjectSummarySchema = z
   .object({
     Base: z.number().optional(),
-    Total: z.number().optional(),
+    //Total: z.number().optional(),
     Increment: z.number().optional(),
   })
   .describe(
