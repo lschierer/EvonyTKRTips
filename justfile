@@ -5,7 +5,7 @@ backend-build:
   {{BUN}} --bun vite build || exit 1
 
 backend-dev:
-  cd backend && {{BUN}} run --hot src/index.ts &
+  cd backend && {{BUN}} run --hot src/index.ts
 
 frontend-dev:
   cd frontend && {{BUN}} vite
