@@ -16,7 +16,7 @@ export default defineConfig(() => {
       mode: "split",
       barrelType: "named",
       extension: {
-        ".ts": "",
+        ".ts": ".js",
         ".json": ".json",
       },
     },
