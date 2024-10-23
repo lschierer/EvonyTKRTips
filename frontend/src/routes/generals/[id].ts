@@ -30,12 +30,18 @@ export default defineRoute({
         }
         const client = hcWithType(api.toString());
 
-        const res = await client.generals[":id"].$get({
-          param: {
-            id: id,
-          },
-        });
-        console.log(`res is ${JSON.stringify(res)}`);
+        const result = await fetch(api);
+        if (!result.ok) {
+          return Response.redirect(context.url, result.status);
+        } else {
+          const generalObject = await result.json();
+          const valid = evonyTypes.generalSchema.safeParse(generalObject);
+          if (!valid.success) {
+            console.log(`invalid general`);
+            console.log(`error is ${valid.error}`);
+            return Response.redirect(context.url, 404);
+          }
+        }
       }
     },
   },
