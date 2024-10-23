@@ -3,7 +3,7 @@ import { defineRoute } from "@gracile/gracile/route";
 import { document } from "@templates/base";
 
 import * as gracile from "@gracile/gracile/hono";
-import { type AppType, type Client, hcWithType } from "@server";
+import { type AppType, type Client, hcWithType } from "@backend/src/index";
 import { hc } from "hono/client";
 
 export default defineRoute({

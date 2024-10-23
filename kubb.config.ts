@@ -10,7 +10,7 @@ export default defineConfig(() => {
       path: "./share/evonytkrtips-backend.yaml",
     },
     output: {
-      path: "./src/schemas/api",
+      path: "./backend/src/schemas/api",
       clean: true,
       write: true,
       mode: "split",

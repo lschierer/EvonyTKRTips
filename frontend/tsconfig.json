@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../tsconfig.base.json",
+  "references": [{ "path": "../backend" }],
+  "compilerOptions": {
+    "module": "ES2022",
+    "target": "ES2023",
+    "baseUrl": ".",
+    "jsx": "preserve",
+    "declaration": true,
+    "declarationDir": "./types",
+    "declarationMap": true,
+    "noEmit": false,
+    "composite": true,
+    "emitDeclarationOnly": true,
+    "paths": {
+      "@*": ["./*"],
+      "@assets/*": ["src/assets/*"],
+      "@src/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@styles/*": ["src/styles/*"],
+      "@templates/*": ["src/templates/*"],
+      "@backend/*": ["../backend/*"],
+      "@schemas/*": ["../backend/src/schemas/*"]
+    },
+    "plugins": [
+      {
+        "name": "ts-lit-plugin",
+        "strict": true,
+        "rules": {
+          "no-missing-import": "off",
+          "no-unknown-tag-name": "off",
+          "no-unknown-event": "warn"
+        }
+      }
+    ]
+  },
+  "include": ["./server.ts", "./src/**/*.ts"]
+}

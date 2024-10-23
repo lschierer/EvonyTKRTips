@@ -7,7 +7,7 @@
   "description": "Evony TKR Tips Website and Infrastructure as Code",
   "scripts": {
     "lint": "eslint --flag unstable_ts_config",
-    "build": "bun exec ./scripts/build.sh || echo \"exit code $\"?",
+    "build": "./scripts/build.sh || echo \"exit code $\"?",
     "dev": "bunx --bun vite",
     "prepare": "husky",
     "check": "tsc",
@@ -61,6 +61,7 @@
     "@gracile/svg": "^0.1.0",
     "@hono/arktype-validator": "^2.0.0",
     "@hono/node-server": "^1.13.2",
+    "@hono/zod-validator": "^0.4.1",
     "@spectrum-css/icon": "^7.1.4",
     "@spectrum-css/page": "^8.1.3",
     "@spectrum-css/tokens": "^14.5.0",

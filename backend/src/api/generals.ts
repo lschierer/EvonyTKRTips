@@ -4,7 +4,7 @@ import { z } from "zod";
 
 import * as evonyTypes from "@schemas/api";
 
-const app = new Hono<{ Variables: Gracile.Locals }>();
+const app = new Hono();
 
 app.get(
   "/:id",

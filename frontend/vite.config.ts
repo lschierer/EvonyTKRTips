@@ -1,22 +1,21 @@
-import { gracile, GracileConfig } from "@gracile/gracile/plugin";
+import { gracile, type GracileConfig } from "@gracile/gracile/plugin";
 import { viteSvgPlugin } from "@gracile/svg/vite";
 import { defineConfig } from "vite";
 import path from "path";
 
 import autoprefixer from "autoprefixer";
 import tailwindcss from "tailwindcss";
-import * as postcssimport from "postcss-import";
+
 import nesting from "tailwindcss/nesting";
 
 const aliases = {
-  "@server": path.resolve(__dirname, "./server.ts"),
-  "@assets": path.resolve(__dirname, "./src"),
+  "@assets": path.resolve(__dirname, "./src/assets"),
   "@src": path.resolve(__dirname, "./src"),
-  "@data": path.resolve(__dirname, "./data"),
   "@components": path.resolve(__dirname, "./src/components"),
   "@styles": path.resolve(__dirname, "./src/styles"),
-  "@schemas": path.resolve(__dirname, "./src/schemas"),
   "@templates": path.resolve(__dirname, "./src/templates"),
+  "@backend": path.resolve(__dirname, "../backend"),
+  "@schemas": path.resolve(__dirname, "../backend/src/schemas"),
 };
 
 const base = "./";
@@ -34,10 +33,6 @@ const gracileConfig: GracileConfig = {
 };
 
 export default defineConfig({
-  base: base,
-  server: {
-    port: 3030,
-  },
   resolve: {
     alias: aliases,
   },
