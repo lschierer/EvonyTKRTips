@@ -5,6 +5,14 @@ import { document } from "@templates/base";
 import * as gracile from "@gracile/gracile/hono";
 import { type AppType, type Client, hcWithType } from "@backend/src/index";
 import { hc } from "hono/client";
+import * as evonyTypes from "@schemas/api";
+
+const DEBUG = true;
+
+type Props = {
+  success: boolean;
+  general: evonyTypes.General;
+};
 
 export default defineRoute({
   handler: {
@@ -17,7 +25,9 @@ export default defineRoute({
         if (import.meta.env.DEV) {
           api.port = "3000";
         }
-
+        if (DEBUG) {
+          console.log(`api url is ${api.toString()}`);
+        }
         const client = hcWithType(api.toString());
 
         const res = await client.generals[":id"].$get({
@@ -25,6 +35,7 @@ export default defineRoute({
             id: id,
           },
         });
+        console.log(`res is ${JSON.stringify(res)}`);
       }
     },
   },
