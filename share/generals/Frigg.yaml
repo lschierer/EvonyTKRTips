@@ -1,20 +1,24 @@
 ---
 general:
   name: Frigg
-  display: summary
-  leadership: 125
-  leadership_increment: 9.06
-  attack: 118
-  attack_increment: 8.77
-  defense: 114
-  defense_increment: 8.62
-  politics: 122
-  politics_increment: 9.02
-  stars: '5Red'
-  level: '1'
-  score_as:
-   - Ground
-  book: Prophecy Key
+  basicAttributes:
+    Leadership:
+      Base: 125
+      Increment: 9.06
+    Attack:
+      Base: 118
+      Increment: 8.77
+    Defense:
+      Base: 114
+      Increment: 8.62
+    Politics:
+      Base: 122
+      Increment: 9.02
+  stars: "5Red"
+  level: 1
+  type:
+    - Ground_Specialist
+  builtInBook: Prophecy Key
   ascending: true
   specialities:
     - Ground Troop Assault
