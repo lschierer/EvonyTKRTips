@@ -11,7 +11,7 @@ app.get("/test", (c) => c.text("hello world"));
 const APIRoute = app.route("/api", api);
 export type AppType = typeof APIRoute;
 
-const client = hc<typeof app>("");
+const client = hc<AppType>("");
 export type Client = typeof client;
 
 export const hcWithType = (...args: Parameters<typeof hc>): Client =>
