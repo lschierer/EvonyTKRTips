@@ -41,7 +41,6 @@
     "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
-    "orval": "^7.2.0",
     "postcss": "^8.4.47",
     "postcss-import": "^16.1.0",
     "postcss-lit": "^1.1.1",
