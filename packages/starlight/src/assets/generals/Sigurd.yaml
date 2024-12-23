@@ -18,10 +18,10 @@ general:
   display: summary
   name: Sigurd
   specialities:
-  - Ranged Troop Defense
-  - Bash
-  - Ranged Troop Ares
-  - King of Denmark
-  stars: 5red
+    - Ranged Troop Defense
+    - Bash
+    - Ranged Troop Ares
+    - King of Denmark
+  stars: red5
   type:
-  - ranged_specialist
+    - ranged_specialist
