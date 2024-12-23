@@ -1,0 +1,103 @@
+---
+import type { Props } from "@astrojs/starlight/props";
+import type { ComponentProps } from "astro/types";
+import { Icon } from "@astrojs/starlight/components";
+type IconProps = ComponentProps<typeof Icon>;
+---
+
+{/* This is intentionally inlined to avoid FOUC. */}
+<script type="module" is:inline>
+  const DEBUG = true;
+  window.StarlightThemeProvider = (() => {
+    const storedTheme =
+      typeof localStorage !== "undefined" &&
+      localStorage.getItem("starlight-theme");
+    const theme =
+      storedTheme ||
+      (window.matchMedia("(prefers-color-scheme: light)").matches
+        ? "light"
+        : "dark");
+    document.documentElement.dataset.theme =
+      theme === "light" ? "light" : "dark";
+    if (DEBUG) {
+      console.log(
+        `StarlightThemeProvider thinks theme is ${theme}, storedTheme is ${storedTheme}`
+      );
+    }
+    return {
+      updatePickers(theme = theme || "auto") {
+        if (DEBUG) {
+          console.log(`updatePickers thinks theme is ${theme}`);
+        }
+        document
+          .querySelectorAll("starlight-theme-select")
+          .forEach((picker) => {
+            const select = picker.querySelector("select");
+            if (select) select.value = theme;
+            /** @type {HTMLTemplateElement | null} */
+            const tmpl = document.querySelector(`#theme-icons`);
+            const newIcon = tmpl && tmpl.content.querySelector("." + theme);
+            if (newIcon) {
+              const oldIcon = picker.querySelector("svg.label-icon");
+              if (oldIcon) {
+                oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+              }
+            }
+          });
+        if (!theme.localeCompare("light") | !theme.localeCompare("dark")) {
+          const scale = "medium";
+          document.querySelectorAll("sp-theme").forEach((sptheme) => {
+            if (sptheme != undefined) {
+              Promise.all([
+                import(
+                  `/node_modules/@spectrum-web-components/theme/theme-${theme}.js`
+                ),
+                import(
+                  `/node_modules/@spectrum-web-components/theme/scale-${scale}.js`
+                ),
+              ]).then(() => {
+                sptheme.color = theme;
+                sptheme.scale = scale;
+              });
+            }
+          });
+          document.querySelectorAll("html").forEach((html) => {
+            if (html != undefined) {
+              if (!html.classList.contains("spectrum")) {
+                html.classList.add("spectrum");
+              }
+              if (!html.classList.contains(theme)) {
+                if (!theme.localeCompare("light")) {
+                  html.classList.add("spectrum--light");
+                  html.classList.remove("spectrum--dark");
+                } else {
+                  html.classList.remove("spectrum--light");
+                  html.classList.add("spectrum--dark");
+                }
+              }
+              if (!html.classList.contains(scale)) {
+                html.classList.add(scale);
+              }
+            }
+          });
+        } else {
+          const newTheme = window.matchMedia("(prefers-color-scheme: light)")
+            .matches
+            ? "light"
+            : "dark";
+          document.documentElement.dataset.theme =
+            theme === "light" ? "light" : "dark";
+          typeof localStorage !== "undefined" &&
+            localStorage.setItem("starlight-theme", JSON.stringify(newTheme));
+          window.StarlightThemeProvider.updatePickers(newTheme);
+        }
+      },
+    };
+  })();
+</script>
+
+<template id="theme-icons">
+  <Icon name="sun" class="light" />
+  <Icon name="moon" class="dark" />
+  <Icon name="laptop" class="auto" />
+</template>

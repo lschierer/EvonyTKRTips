@@ -10,11 +10,23 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/mdx": "^4.0.3",
     "@astrojs/starlight": "^0.30.3",
+    "@astrojs/ts-plugin": "^1.10.4",
+    "@lit-labs/ssr-client": "^1.1.7",
+    "@spectrum-css/icon": "^7.2.0",
+    "@spectrum-css/link": "^5.2.0",
+    "@spectrum-css/page": "^8.2.0",
+    "@spectrum-css/tokens": "^14.6.0",
+    "@spectrum-css/typography": "^6.2.0",
+    "@spectrum-web-components/theme": "^1.0.3",
     "astro": "^5.0.2",
-    "sharp": "^0.32.5"
+    "iconify-icon": "^2.2.0",
+    "sharp": "^0.32.5",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.4",
     "@types/luxon": "^3.4.2",
     "@types/node": "^22.10.2",
     "@types/postcss-import": "^14.0.3",
@@ -39,6 +51,7 @@
     "stylelint-config-html": "^1.1.0",
     "stylelint-config-standard": "^36.0.1",
     "ts-lit-plugin": "^2.0.2",
-    "tsx": "^4.19.2"
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
   }
 }
