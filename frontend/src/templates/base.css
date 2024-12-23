@@ -1,8 +1,0 @@
-@import "@styles/global.css";
-
-html {
-  font-family: system-ui, serif;
-  color: light-dark(darkslategray, mintcream);
-  color-scheme: light dark;
-  background-color: light-dark(mintcream, darkslategray);
-}
