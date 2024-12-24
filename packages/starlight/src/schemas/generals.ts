@@ -40,7 +40,7 @@ export const General = z.object({
   basic_attributes: BasicAttributes,
   book: z.string(),
   display: Display.optional(),
-  name: z.string(),
+  id: z.string(),
   note: z.array(Note).optional(),
   specialities: z.array(z.string()),
   stars: constants.AscendingLevel,
@@ -49,8 +49,3 @@ export const General = z.object({
   warnings: z.array(z.string()).optional(),
 });
 export type General = z.infer<typeof General>;
-
-export const GeneralObject = z.object({
-  general: General,
-});
-export type GeneralObject = z.infer<typeof GeneralObject>;
