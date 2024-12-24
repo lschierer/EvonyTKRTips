@@ -23,3 +23,4 @@ export const Speciality = z.object({
   name: z.string(),
   levels: z.array(SpecialityLevel),
 });
+export type Speciality = z.infer<typeof Speciality>;

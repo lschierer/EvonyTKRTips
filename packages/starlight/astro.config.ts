@@ -5,11 +5,17 @@ import { TopLevelSections } from "./src/lib/topLevelSections";
 
 import mdx from "@astrojs/mdx";
 
+import node from "@astrojs/node";
+
 export default defineConfig({
   site: "https://www.evonytkrtips.net",
   trailingSlash: "always",
+  adapter: node({
+    mode: "standalone",
+  }),
   integrations: [
     starlight({
+      prerender: false,
       title: "Evony TKR Tips",
       logo: {
         src: "./src/assets/Logo.svg",

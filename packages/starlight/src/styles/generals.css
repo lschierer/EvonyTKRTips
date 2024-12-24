@@ -7,3 +7,7 @@ table.horizontal tr.spectrum-Table-row {
 table.horizontal td.spectrum-Table-cell {
   border-top: 0;
 }
+
+#generals-table {
+  height: 75vh;
+}

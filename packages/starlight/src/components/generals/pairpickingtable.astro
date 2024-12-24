@@ -1,0 +1,82 @@
+---
+import { getCollection } from "astro:content";
+import "tabulator-tables/dist/css/tabulator.css";
+
+const generals = (await getCollection("generals")).map((entry) => entry.data);
+import "@styles/generals.css";
+---
+
+<generals-table generals={JSON.stringify(generals)}></generals-table>
+<div id="generals-table" class="not-content"></div>
+
+<script>
+  import { Tabulator, FormatModule } from "tabulator-tables";
+  Tabulator.registerModule([FormatModule]);
+  import { General } from "@schemas/generals";
+  import { type StoreValue } from "nanostores";
+
+  import * as stores from "./store";
+  type StoredGeneral = StoreValue<typeof stores.generals>;
+
+  const DEBUG = true;
+
+  export default class GeneralsTable extends HTMLElement {
+    private table: Tabulator | null = null;
+    private generalStore = stores.generals;
+
+    constructor() {
+      super();
+      this.generalStore.subscribe((value, oldValue) => {
+        if (DEBUG) {
+          console.log(
+            `general store subscribe sees new value, now has ${value.length} generals, had ${oldValue ? oldValue.length : 0}`
+          );
+        }
+      });
+      this.populateAttributes();
+      if (DEBUG) {
+        console.log(
+          `constructor has ${this.generalStore.get().length} generals`
+        );
+      }
+    }
+
+    protected populateAttributes() {
+      const attributes = this.getAttributeNames();
+      if (attributes.includes("generals")) {
+        const g = this.getAttribute("generals");
+
+        if (g && g.length > 0) {
+          this.generalStore.set(JSON.parse(g));
+        }
+        if (DEBUG) {
+          console.log(
+            `populateAttributes has ${this.generalStore.get().length} generals`
+          );
+        }
+      }
+    }
+
+    async connectedCallback() {
+      if (this.generalStore.get().length == 0) {
+        this.populateAttributes();
+      }
+      this.table = new Tabulator("#generals-table", {
+        data: this.generals,
+        layout: "fitColumns",
+        columns: [
+          {
+            title: "Name",
+            field: "id",
+            width: "20vw",
+          },
+          {
+            title: "Attack",
+            field: "basic_attributes.attack.base",
+          },
+        ],
+      });
+    }
+  }
+  customElements.define("generals-table", GeneralsTable);
+</script>

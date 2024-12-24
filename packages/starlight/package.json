@@ -4,13 +4,14 @@
   "version": "0.6.0",
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev",
+    "start": "HOST=0.0.0.0 PORT=4321 node ./dist/server/entry.mjs",
     "build": "astro build",
-    "preview": "astro preview",
+    "preview": "pnpm build && pnpm start",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.3",
+    "@astrojs/node": "^9.0.0",
     "@astrojs/starlight": "^0.30.3",
     "@astrojs/ts-plugin": "^1.10.4",
     "@lit-labs/ssr-client": "^1.1.7",
@@ -23,7 +24,9 @@
     "@spectrum-web-components/theme": "^1.0.3",
     "astro": "^5.0.2",
     "iconify-icon": "^2.2.0",
+    "nanostores": "^0.11.3",
     "sharp": "^0.32.5",
+    "tabulator-tables": "^6.3.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {
@@ -31,6 +34,7 @@
     "@types/luxon": "^3.4.2",
     "@types/node": "^22.10.2",
     "@types/postcss-import": "^14.0.3",
+    "@types/tabulator-tables": "^6.2.3",
     "autoprefixer": "^10.4.20",
     "cssnano": "^7.0.6",
     "postcss-cli": "^11.0.0",
