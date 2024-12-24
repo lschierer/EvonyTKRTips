@@ -1,27 +1,25 @@
----
-general:
-  ascending: true
-  basic_attributes:
-    attack:
-      base: 121
-      increment: 8.94
-    defense:
-      base: 120
-      increment: 9.08
-    leadership:
-      base: 112
-      increment: 8.82
-    politics:
-      base: 104
-      increment: 8.57
-  book: Great Northern War
-  display: summary
-  name: Charles XII
-  specialities:
+ascending: true
+basic_attributes:
+  attack:
+    base: 121
+    increment: 8.94
+  defense:
+    base: 120
+    increment: 9.08
+  leadership:
+    base: 112
+    increment: 8.82
+  politics:
+    base: 104
+    increment: 8.57
+book: Great Northern War
+display: summary
+specialities:
   - Ranged Troop Formation
   - Bash
   - Ranged Troop Ares
   - Battle of Narva
-  stars: red5
-  type:
+stars: red5
+type:
   - ranged_specialist
+id: Charles XII
