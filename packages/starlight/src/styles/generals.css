@@ -1,0 +1,9 @@
+@import "@spectrum-css/table/dist/index.css";
+
+table.horizontal tr.spectrum-Table-row {
+  border-top: 0;
+}
+
+table.horizontal td.spectrum-Table-cell {
+  border-top: 0;
+}

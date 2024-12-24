@@ -17,6 +17,7 @@
     "@spectrum-css/icon": "^7.2.0",
     "@spectrum-css/link": "^5.2.0",
     "@spectrum-css/page": "^8.2.0",
+    "@spectrum-css/table": "^6.2.0",
     "@spectrum-css/tokens": "^14.6.0",
     "@spectrum-css/typography": "^6.2.0",
     "@spectrum-web-components/theme": "^1.0.3",

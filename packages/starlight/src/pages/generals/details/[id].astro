@@ -1,0 +1,62 @@
+---
+import { getCollection } from "astro:content";
+import GeneralsLayout from "@layouts/generals.astro";
+const DEBUG = true;
+
+// 1. Generate a new path for every collection entry
+export async function getStaticPaths() {
+  const generalEntries = await getCollection("generals");
+  return generalEntries.map((post) => ({
+    params: { id: post.id.toLowerCase() },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+if (DEBUG) {
+  console.log(`post is ${JSON.stringify(post)}`);
+}
+---
+
+<GeneralsLayout title=`${post.data.id}`>
+  {
+    post.data.basic_attributes && (
+      <div class="basicAttributes">
+        <h3>Basic Attributes</h3>
+        <div class="body">
+          <table class="horizontal spectrum-Table spectrum-table--sizeM spectrum-table--emphasized">
+            <tr class="spectrum-Table-row">
+              <th>Leadership</th>
+              <td class="spectrum-Table-cell">
+                {post.data.basic_attributes.leadership.base}
+                (+{post.data.basic_attributes.leadership.increment} per level)
+              </td>
+            </tr>
+            <tr class="spectrum-Table-row">
+              <th>Attack</th>
+              <td class="spectrum-Table-cell">
+                {post.data.basic_attributes.attack.base}
+                (+{post.data.basic_attributes.attack.increment} per level)
+              </td>
+            </tr>
+            <tr class="spectrum-Table-row">
+              <th>Defense</th>
+              <td class="spectrum-Table-cell">
+                {post.data.basic_attributes.defense.base}
+                (+{post.data.basic_attributes.defense.increment} per level)
+              </td>
+            </tr>
+            <tr class="spectrum-Table-row">
+              <th>Politics</th>
+              <td class="spectrum-Table-cell">
+                {post.data.basic_attributes.politics.base}
+                (+{post.data.basic_attributes.politics.increment} per level)
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    )
+  }
+</GeneralsLayout>
