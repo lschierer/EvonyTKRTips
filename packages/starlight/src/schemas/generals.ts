@@ -50,3 +50,6 @@ export const General = z.object({
   level: z.number().min(0).max(45).optional(),
 });
 export type General = z.infer<typeof General>;
+
+export const GeneralPair = z.tuple([General, General]);
+export type GeneralPair = z.infer<typeof GeneralPair>;

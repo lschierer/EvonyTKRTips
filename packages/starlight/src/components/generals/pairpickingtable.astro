@@ -15,20 +15,24 @@ import "@styles/generals.css";
     AccessorModule,
     ColumnCalcsModule,
     DataTreeModule,
+    EditModule,
     FilterModule,
     FormatModule,
     MutatorModule,
     ResponsiveLayoutModule,
+    ResizeColumnsModule,
     SortModule,
   } from "tabulator-tables";
   Tabulator.registerModule([
     AccessorModule,
     ColumnCalcsModule,
     DataTreeModule,
+    EditModule,
     FilterModule,
     FormatModule,
     MutatorModule,
     ResponsiveLayoutModule,
+    ResizeColumnsModule,
     SortModule,
   ]);
   import { General } from "@schemas/generals";
@@ -38,6 +42,7 @@ import "@styles/generals.css";
   type StoredGeneral = StoreValue<typeof stores.generals>;
 
   import * as generalTableFunctions from "./generalTable";
+  import type { TableData } from "./generalTable";
 
   const DEBUG = true;
 
@@ -45,6 +50,9 @@ import "@styles/generals.css";
     private table: Tabulator | null = null;
     private generalStore = stores.generals;
     private selectedValues = stores.selectedValues;
+
+    static overallToughness = "Overall Toughness";
+    static overallAttack = "Overall Attack";
 
     constructor() {
       super();
@@ -83,50 +91,62 @@ import "@styles/generals.css";
       if (this.generalStore.get().length == 0) {
         this.populateAttributes();
       }
-      const tableData: TableData[] = this.generalStore.get().map((general) => {
-        const td = {
-          general: general,
-          options: this.selectedValues.get(),
-        };
-        return td;
-      });
+      const tableData: TableData[] = generalTableFunctions.definePairs();
       this.table = new Tabulator("#generals-table", {
         debugEventsInternal: DEBUG ? ["data-loading", "data-loaded"] : false,
         debugEventsExternal: DEBUG ? ["dataLoading", "dataLoaded"] : false,
         data: tableData,
-        responsiveLayout: "collapse",
+        layout: "fitDataFill",
         columns: [
           {
-            title: "Name",
-            field: "general.id",
+            title: "Primary",
+            field: "primary.id",
             width: "20vw",
             sorter: "string",
+            resizable: true,
           },
           {
-            title: "Attack",
-            field: "general.basic_attributes.attack.base",
+            title: "Secondary",
+            field: "secondary.id",
+            width: "20vw",
+            sorter: "string",
+            resizable: true,
+          },
+          {
+            title: GeneralsTable.overallAttack,
+            field: "primary.basic_attributes.attack.base",
             sorter: "number",
             mutator: generalTableFunctions.attackMutator,
+            resizable: true,
           },
+
           {
-            title: "Toughness",
+            title: GeneralsTable.overallToughness,
             field: "toughness",
             mutator: generalTableFunctions.toughnessMutator,
             visible: true,
+            resizable: true,
           },
           {
-            title: "HP",
-            field: "general.basic_attributes.leadership.base",
+            title: "Details",
+            field: "details",
             visible: false,
-            mutator: generalTableFunctions.leadershipMutator,
-            mutateLink: "toughness",
-          },
-          {
-            title: "Defense",
-            field: "general.basic_attributes.defense.base",
-            visible: false,
-            mutator: generalTableFunctions.defenseMutator,
-            mutateLink: "toughness",
+            columns: [
+              {
+                title: "HP",
+                field: "primary.basic_attributes.leadership.base",
+                mutator: generalTableFunctions.leadershipMutator,
+                visible: false,
+                mutateLink: "toughness",
+              },
+              {
+                title: "Defense",
+                field: "primary.basic_attributes.defense.base",
+                mutator: generalTableFunctions.defenseMutator,
+                visible: false,
+                mutateLink: "toughness",
+              },
+            ],
           },
         ],
       });
