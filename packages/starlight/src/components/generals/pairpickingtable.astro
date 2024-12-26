@@ -10,19 +10,41 @@ import "@styles/generals.css";
 <div id="generals-table" class="not-content"></div>
 
 <script>
-  import { Tabulator, FormatModule } from "tabulator-tables";
-  Tabulator.registerModule([FormatModule]);
+  import {
+    Tabulator,
+    AccessorModule,
+    ColumnCalcsModule,
+    DataTreeModule,
+    FilterModule,
+    FormatModule,
+    MutatorModule,
+    ResponsiveLayoutModule,
+    SortModule,
+  } from "tabulator-tables";
+  Tabulator.registerModule([
+    AccessorModule,
+    ColumnCalcsModule,
+    DataTreeModule,
+    FilterModule,
+    FormatModule,
+    MutatorModule,
+    ResponsiveLayoutModule,
+    SortModule,
+  ]);
   import { General } from "@schemas/generals";
   import { type StoreValue } from "nanostores";
 
   import * as stores from "./store";
   type StoredGeneral = StoreValue<typeof stores.generals>;
 
+  import * as generalTableFunctions from "./generalTable";
+
   const DEBUG = true;
 
   export default class GeneralsTable extends HTMLElement {
     private table: Tabulator | null = null;
     private generalStore = stores.generals;
+    private selectedValues = stores.selectedValues;
 
     constructor() {
       super();
@@ -61,18 +83,50 @@ import "@styles/generals.css";
       if (this.generalStore.get().length == 0) {
         this.populateAttributes();
       }
+      const tableData: TableData[] = this.generalStore.get().map((general) => {
+        const td = {
+          general: general,
+          options: this.selectedValues.get(),
+        };
+        return td;
+      });
       this.table = new Tabulator("#generals-table", {
-        data: this.generals,
-        layout: "fitColumns",
+        debugEventsInternal: DEBUG ? ["data-loading", "data-loaded"] : false,
+        debugEventsExternal: DEBUG ? ["dataLoading", "dataLoaded"] : false,
+        data: tableData,
+        responsiveLayout: "collapse",
         columns: [
           {
             title: "Name",
-            field: "id",
+            field: "general.id",
             width: "20vw",
+            sorter: "string",
           },
           {
             title: "Attack",
-            field: "basic_attributes.attack.base",
+            field: "general.basic_attributes.attack.base",
+            sorter: "number",
+            mutator: generalTableFunctions.attackMutator,
+          },
+          {
+            title: "Toughness",
+            field: "toughness",
+            mutator: generalTableFunctions.toughnessMutator,
+            visible: true,
+          },
+          {
+            title: "HP",
+            field: "general.basic_attributes.leadership.base",
+            visible: false,
+            mutator: generalTableFunctions.leadershipMutator,
+            mutateLink: "toughness",
+          },
+          {
+            title: "Defense",
+            field: "general.basic_attributes.defense.base",
+            visible: false,
+            mutator: generalTableFunctions.defenseMutator,
+            mutateLink: "toughness",
           },
         ],
       });

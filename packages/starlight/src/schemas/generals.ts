@@ -47,5 +47,6 @@ export const General = z.object({
   type: z.array(GeneralType),
   extra: z.array(z.string()).optional(),
   warnings: z.array(z.string()).optional(),
+  level: z.number().min(0).max(45).optional(),
 });
 export type General = z.infer<typeof General>;
