@@ -9,5 +9,5 @@ table.horizontal td.spectrum-Table-cell {
 }
 
 #generals-table {
-  height: 75vh;
+  max-height: 60vh;
 }
