@@ -1,0 +1,7 @@
+div.primary {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: top;
+}

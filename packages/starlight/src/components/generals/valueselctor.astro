@@ -1,0 +1,137 @@
+---
+import "@styles/valueSelector.css";
+---
+
+<div class="not-content">
+  <value-selector></value-selector>
+</div>
+
+<script>
+  import { selectedValues, generals } from "./store";
+  import * as constants from "@schemas/constants";
+  import { General, GeneralPair, GeneralType } from "@schemas/generals";
+  import "@spectrum-web-components/field-group/sp-field-group.js";
+  import "@spectrum-web-components/field-label/sp-field-label.js";
+  import "@spectrum-web-components/menu/sp-menu-group.js";
+  import "@spectrum-web-components/menu/sp-menu-item.js";
+  import "@spectrum-web-components/menu/sp-menu-divider.js";
+  import "@spectrum-web-components/number-field/sp-number-field.js";
+  import "@spectrum-web-components/picker/sp-picker.js";
+  import { NumberField } from "@spectrum-web-components/number-field";
+  import { Picker } from "@spectrum-web-components/picker";
+  import { AscendingLevel } from "@schemas/constants";
+
+  const DEBUG = true;
+
+  export default class ValueSelector extends HTMLElement {
+    private level = 1;
+    private stars: AscendingLevel = AscendingLevel.Values.None;
+    private ascending = false;
+
+    constructor() {
+      super();
+      selectedValues.setKey("level", this.level);
+      selectedValues.setKey("ascending", this.ascending);
+      selectedValues.setKey("stars", this.stars);
+    }
+
+    protected getSetValues = async () => {
+      const ascendingSelector = this.querySelector("#primary-ascending");
+      if (ascendingSelector) {
+        if (DEBUG) {
+          console.log(`ascendingSelector found`);
+        }
+        ascendingSelector.addEventListener("change", (event) => {
+          const target = event.target as Picker;
+          const valid = AscendingLevel.safeParse(target.value);
+          if (valid.success) {
+            this.stars = valid.data;
+            if (this.stars == AscendingLevel.Values.None) {
+              this.ascending = false;
+              selectedValues.setKey("ascending", false);
+              selectedValues.setKey("stars", "None");
+            } else {
+              this.ascending = true;
+              selectedValues.setKey("ascending", true);
+              selectedValues.setKey("stars", this.stars);
+            }
+          }
+          if (DEBUG) {
+            console.log(`stars are ${this.stars}`);
+          }
+        });
+      } else {
+        if (DEBUG) {
+          console.log(`ascendingSelector not found`);
+        }
+      }
+
+      await customElements.whenDefined("sp-number-field").then(() => {
+        if (DEBUG) {
+          console.log(`ValueSelector getSetValues whenDefined sp-number-field`);
+        }
+        const levelSelector = this.querySelector("#level");
+        if (levelSelector) {
+          levelSelector.addEventListener("change", (event) => {
+            if (DEBUG) {
+              console.log(
+                `ValueSelector getSetValues whenDefined sp-number-field change cb`
+              );
+            }
+            const target = event.target as NumberField;
+            if (DEBUG) {
+              console.log(`target is ${target.value}`);
+            }
+            if (isNaN(target.value)) {
+              this.level = 1;
+            } else {
+              this.level = target.value;
+            }
+            if (DEBUG) {
+              console.log(`level is ${this.level}`);
+            }
+            selectedValues.setKey("level", this.level);
+          });
+        }
+      });
+    };
+    connectedCallback() {
+      this.innerHTML = `
+        <div class="primary">
+          <sp-field-group>
+            <sp-field-label for="level">General Level</sp-field-label>
+            <sp-number-field
+                id="level"
+                value="${this.level}"
+                min="1"
+                max="45"
+                step="1"
+                style="width: 5rem"
+            ></sp-number-field>
+          </sp-field-group>
+          <sp-field-group>
+            <div class="not-content">
+              <sp-field-label for="primary-ascending" size="m">Ascending Level:</sp-field-label>
+              <sp-picker
+                id="primary-ascending"
+                size="m"
+                label="Ascending Level"
+                value="${this.stars}"
+                style="width: 7rem;"
+                >
+                <span slot="label">Choose an Ascending Level:</span>
+                ${constants.AscendingLevel.options
+                  .map((al) => {
+                    return `<sp-menu-item value="${al}">${al}</sp-menu-item>`;
+                  })
+                  .join("")}
+              </sp-picker>
+            </div>
+          </sp-field-goup>
+        </div>
+      `;
+      this.getSetValues();
+    }
+  }
+  customElements.define("value-selector", ValueSelector);
+</script>

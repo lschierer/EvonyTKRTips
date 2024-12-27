@@ -98,3 +98,29 @@ export type CovenantCategory = z.infer<typeof CovenantCategory>;
 
 export const Unit = z.enum(["flat", "percentage"]);
 export type Unit = z.infer<typeof Unit>;
+
+const AESAdjustment = z.record(AscendingLevel, z.number());
+type AESAdjustment = z.infer<typeof AESAdjustment>;
+
+export const BasicAESAdjustment = {
+  [AscendingLevel.Values.None]: 0,
+  [AscendingLevel.Values.purple1]: 0,
+  [AscendingLevel.Values.purple2]: 0,
+  [AscendingLevel.Values.purple3]: 0,
+  [AscendingLevel.Values.purple4]: 0,
+  [AscendingLevel.Values.purple5]: 0,
+  [AscendingLevel.Values.red1]: 10,
+  [AscendingLevel.Values.red2]: 20,
+  [AscendingLevel.Values.red3]: 30,
+  [AscendingLevel.Values.red4]: 40,
+  [AscendingLevel.Values.red5]: 50,
+};
+
+export const BasicStarAdjustment = {
+  1: {
+    attack: 50,
+    defense: 48,
+    leadership: 47,
+    politics: 46,
+  },
+};

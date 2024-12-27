@@ -1,15 +1,15 @@
-import { atom } from "nanostores";
+import { atom, deepMap } from "nanostores";
 import { General, GeneralType } from "@schemas/generals";
 import { GeneralAscending } from "@schemas/ascending";
 import { Speciality } from "@schemas/specialities";
 import { SkillBook } from "@schemas/skillBooks";
 import * as constants from "@schemas/constants";
 
-const DEBUG = true;
+const DEBUG = false;
 
-export const selectedValues = atom<General>({
+export const selectedValues = deepMap<General>({
   id: "",
-  ascending: true,
+  ascending: false,
   basic_attributes: {
     attack: {
       base: 0,
@@ -31,7 +31,8 @@ export const selectedValues = atom<General>({
   book: "",
   specialities: [""],
   type: GeneralType.options,
-  stars: constants.AscendingLevel.Values.red5,
+  stars: constants.AscendingLevel.Values.None,
+  level: 0,
 });
 export const generals = atom<General[]>(new Array<General>());
 
