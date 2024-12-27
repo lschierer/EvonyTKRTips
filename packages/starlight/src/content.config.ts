@@ -4,7 +4,8 @@ import { docsLoader } from "@astrojs/starlight/loaders";
 import { docsSchema } from "@astrojs/starlight/schema";
 
 import { General } from "@schemas/generals";
-import { skillBooks } from "@components/generals/store";
+import { SkillBook } from "@schemas/skillBooks";
+import { ConfictGroup } from "@schemas/generalConflictGroups";
 
 export const collections = {
   docs: defineCollection({ loader: docsLoader(), schema: docsSchema() }),
@@ -15,10 +16,18 @@ export const collections = {
     }),
     schema: General,
   }),
+  conflictGroups: defineCollection({
+    loader: glob({
+      pattern: "*.json",
+      base: "./src/content/generalConflictGroups",
+    }),
+    schema: ConfictGroup,
+  }),
   skillBooks: defineCollection({
     loader: glob({
       pattern: "*.json",
       base: "./src/content/skillBooks",
     }),
+    schema: SkillBook,
   }),
 };

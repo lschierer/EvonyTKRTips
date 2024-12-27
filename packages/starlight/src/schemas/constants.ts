@@ -63,6 +63,9 @@ export const ClassEnum = z.enum([
 ]);
 export type ClassEnum = z.infer<typeof ClassEnum>;
 
+export const BookCondition = z.enum(["all the time", "when not mine"]);
+export type BookCondition = z.infer<typeof BookCondition>;
+
 export const BuffCondition = z.enum([
   "Against Monsters",
   "Attacking",
@@ -91,7 +94,11 @@ export const DebuffCondition = z.enum([
 ]);
 export type DebuffCondition = z.infer<typeof DebuffCondition>;
 
-export const Condition = z.union([BuffCondition, DebuffCondition]);
+export const Condition = z.union([
+  BookCondition,
+  BuffCondition,
+  DebuffCondition,
+]);
 export type Condition = z.infer<typeof Condition>;
 
 export const CovenantCategory = z.enum([

@@ -15,9 +15,9 @@ export const BookElement = z.object({
 export type BookElement = z.infer<typeof BookElement>;
 
 export const ConfictGroup = z.object({
-  name: z.string(),
+  name: z.string().uuid(),
   members: z.array(z.string()),
-  others: z.array(z.string()).optional(),
+  others: z.array(z.string().uuid()).optional(),
   books: z.array(BookElement).optional(),
 });
 export type ConfictGroup = z.infer<typeof ConfictGroup>;
