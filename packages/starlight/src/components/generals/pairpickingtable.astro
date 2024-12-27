@@ -47,11 +47,18 @@ import ValueSelector from "./valueselctor.astro";
           `constructor has ${this.generalStore.get().length} generals`
         );
       }
-      listenKeys(this.selectedValues, ["level"], (value, oldValue, changed) => {
-        if (this.table) {
-          const rowCount = this.table.getDataCount();
+      listenKeys(
+        this.selectedValues,
+        ["level", "type", "ascending", "stars"],
+        (value, oldValue, changed) => {
+          if (this.table) {
+            const rowCount = this.table.getDataCount();
+            if (DEBUG) {
+              console.log(`I now have ${rowCount} rows`);
+            }
+          }
         }
-      });
+      );
     }
 
     protected populateAttributes() {
