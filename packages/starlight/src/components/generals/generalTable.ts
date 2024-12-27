@@ -236,13 +236,15 @@ export const defineTable = () => {
             ],
           },
           {
-            title: "Attacking Attack Increase Details",
+            title: "Attacking Attack Details",
             field: "attackingattackincreasedetails",
+            headerVertical: false,
             visible: true,
             columns: [
               {
                 title: "Attributes",
                 field: "d.attackingattack.attributes",
+                headerVertical: false,
                 visible: true,
                 mutator: AttackAttributesMutator,
                 mutateLink: ["attackingattack"],
@@ -250,6 +252,7 @@ export const defineTable = () => {
               {
                 title: "Attribute Increment",
                 field: "d.attackingattack.attributeIncrement",
+                headerVertical: false,
                 visible: true,
                 mutator: AttackattributeIncrementMutator,
                 mutateLink: ["attackingattack"],
@@ -257,6 +260,7 @@ export const defineTable = () => {
               {
                 title: "Base Skill",
                 field: "attackingattackincrease.baseSkill",
+                headerVertical: false,
                 visible: true,
                 mutator: attackingAttackBaseSkillMutator,
                 mutateLink: ["attackingattack"],
@@ -450,6 +454,18 @@ const getIncreaseFromBook = (
   return increase;
 };
 
+const MountedPvMAttackAssistant = (value: number = 0, data: TableData) => {
+  /*
+  P332=0 ?
+    SUM($O332,$Q332:$U332,$W332)-0.25<0 ?
+      0
+      : SUM($O332,$Q332:$U332,$W332)-0.25)
+    : SUM($O332,$Q332:$U332,$W332))
+  */
+  value = 0;
+  return value;
+};
+
 const MountedPvMMutator = (value: number = 0, data: TableData) => {
   value = 0;
   value += MountedPvMAttackAttributeTotalMutator(0, data);
@@ -489,6 +505,7 @@ const MountedPvMBaseSkillMutator = (value: number = 0, data: TableData) => {
   }
   return value;
 };
+
 const MountedPvMAttackAttributeTotalMutator = (
   value: number = 0,
   data: TableData
@@ -543,9 +560,22 @@ const attackingAttackBaseSkillMutator = (
   value: number = 0,
   data: TableData
 ) => {
-  let increase = 0;
-
-  return increase;
+  value = 0;
+  if (data && data.primary && data.primary.book.length > 0) {
+    const book = stores.skillBooks.get().find((sb) => {
+      return !sb.name.localeCompare(data.primary.book);
+    });
+    if (book) {
+      value += getIncreaseFromBook(constants.Attribute.Enum.Attack, book, [
+        constants.BuffCondition.Enum.Attacking,
+        constants.BuffCondition.Enum.Marching,
+        constants.BuffCondition.Enum["brings a dragon"],
+        constants.BuffCondition.Enum["brings dragon or beast to attack"],
+        constants.BuffCondition.Enum["dragon to the attack"],
+      ]);
+    }
+  }
+  return value;
 };
 
 const AttackAttributesMutator = (value: number = 0, data: TableData) => {
