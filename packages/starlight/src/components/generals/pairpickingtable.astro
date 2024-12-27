@@ -7,10 +7,12 @@ import "@styles/generals.css";
 import ValueSelector from "./valueselctor.astro";
 ---
 
-<ValueSelector />
+<div class="not-content">
+  <ValueSelector />
 
-<generals-table generals={JSON.stringify(generals)}></generals-table>
-<div id="generals-table" class="not-content"></div>
+  <generals-table generals={JSON.stringify(generals)}></generals-table>
+  <div id="generals-table" class="not-content"></div>
+</div>
 
 <script>
   import { General } from "@schemas/generals";

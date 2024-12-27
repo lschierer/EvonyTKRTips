@@ -9,6 +9,7 @@ export type Display = z.infer<typeof Display>;
 export const GeneralType = z.enum([
   "ground_specialist",
   "mayor",
+  "wall",
   "mounted_specialist",
   "ranged_specialist",
   "siege_specialist",

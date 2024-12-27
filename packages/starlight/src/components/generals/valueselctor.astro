@@ -10,13 +10,15 @@ import "@styles/valueSelector.css";
   import { selectedValues, generals } from "./store";
   import * as constants from "@schemas/constants";
   import { General, GeneralPair, GeneralType } from "@schemas/generals";
+  import "@spectrum-web-components/combobox/sp-combobox.js";
   import "@spectrum-web-components/field-group/sp-field-group.js";
   import "@spectrum-web-components/field-label/sp-field-label.js";
-  import "@spectrum-web-components/menu/sp-menu-group.js";
+  import "@spectrum-web-components/menu/sp-menu.js";
   import "@spectrum-web-components/menu/sp-menu-item.js";
   import "@spectrum-web-components/menu/sp-menu-divider.js";
   import "@spectrum-web-components/number-field/sp-number-field.js";
   import "@spectrum-web-components/picker/sp-picker.js";
+  import { Combobox } from "@spectrum-web-components/combobox";
   import { NumberField } from "@spectrum-web-components/number-field";
   import { Picker } from "@spectrum-web-components/picker";
   import { AscendingLevel } from "@schemas/constants";
@@ -27,12 +29,14 @@ import "@styles/valueSelector.css";
     private level = 1;
     private stars: AscendingLevel = AscendingLevel.Values.None;
     private ascending = false;
+    private generalType: GeneralType = GeneralType.Enum.mounted_specialist;
 
     constructor() {
       super();
       selectedValues.setKey("level", this.level);
       selectedValues.setKey("ascending", this.ascending);
       selectedValues.setKey("stars", this.stars);
+      selectedValues.setKey("type", [this.generalType]);
     }
 
     protected getSetValues = async () => {
@@ -65,7 +69,24 @@ import "@styles/valueSelector.css";
           console.log(`ascendingSelector not found`);
         }
       }
-
+      const typeSelector = this.querySelector("#generalType");
+      if (typeSelector) {
+        if (DEBUG) {
+          console.log(`typeSelector found`);
+        }
+        typeSelector.addEventListener("change", (event) => {
+          const target = event.target as Picker;
+          const valid = GeneralType.safeParse(target.value);
+          if (valid.success) {
+            this.generalType = valid.data;
+            selectedValues.setKey("type", [valid.data]);
+          }
+        });
+      } else {
+        if (DEBUG) {
+          console.log(`typeSelector not found`);
+        }
+      }
       await customElements.whenDefined("sp-number-field").then(() => {
         if (DEBUG) {
           console.log(`ValueSelector getSetValues whenDefined sp-number-field`);
@@ -97,9 +118,25 @@ import "@styles/valueSelector.css";
     };
     connectedCallback() {
       this.innerHTML = `
-        <div class="primary">
+        <div class="primary not-content">
           <sp-field-group>
-            <sp-field-label for="level">General Level</sp-field-label>
+            <sp-field-label for="generalType" size="m">General Type:</sp-field-label>
+            <sp-picker
+              id="generalType"
+              size="m"
+              label="General Type"
+              value="${this.generalType}"
+            >
+              <span slot="label">Which type of General?</span>
+              ${GeneralType.options
+                .map((gt) => {
+                  return `<sp-menu-item value="${gt}">${gt[0].toUpperCase() + gt.slice(1).replaceAll("_", " ")}</sp-menu-item>`;
+                })
+                .join("")}
+            </sp-picker>
+          </sp-field-group>
+          <sp-field-group>
+            <sp-field-label for="level" size="m">General Level</sp-field-label>
             <sp-number-field
                 id="level"
                 value="${this.level}"
@@ -130,6 +167,7 @@ import "@styles/valueSelector.css";
           </sp-field-goup>
         </div>
       `;
+
       this.getSetValues();
     }
   }

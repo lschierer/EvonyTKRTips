@@ -48,7 +48,20 @@ export const definePairs = () => {
   if (generals.length == 0) {
     return new Array<TableData>();
   } else {
-    const permutations = d3.cross(generals, generals).filter((pair) => {
+    const filtered = generals.filter((g) => {
+      let match = false;
+      const types = stores.selectedValues.get().type;
+      g.type.forEach((t) => {
+        if (types.includes(t)) {
+          if (DEBUG) {
+            console.log(`matched ${t} to ${types.join(" ")}`);
+          }
+          match = true;
+        }
+      });
+      return match;
+    });
+    const permutations = d3.cross(filtered, filtered).filter((pair) => {
       return pair[0].id.localeCompare(pair[1].id);
     });
     if (DEBUG) {
@@ -69,9 +82,21 @@ export const definePairs = () => {
       pairs.push(td);
     });
   }
+  pairs.sort((a, b) => {
+    const ap = a.primary.id;
+    const as = a.secondary.id;
+    const bp = b.primary.id;
+    const bs = b.secondary.id;
+    if (!ap.localeCompare(bp)) {
+      return as.localeCompare(bs);
+    } else {
+      return ap.localeCompare(bp);
+    }
+  });
   if (DEBUG) {
+    const limiter = pairs[0].primary.id;
     return pairs.filter((predicate) => {
-      return !predicate.primary.id.localeCompare("Aethelflaed");
+      return !predicate.primary.id.localeCompare(limiter);
     });
   } else {
     return pairs;
@@ -188,10 +213,12 @@ export const defineTable = () => {
 
       subscribeKeys(
         stores.selectedValues,
-        ["level", "ascending", "stars"],
+        ["level", "ascending", "stars", "type"],
         (value, oldValue?, changed?: string[]) => {
           const rows: TableData[] = new Array<TableData>();
-          if (changed && changed.includes("level")) {
+          if (changed && changed.includes("type")) {
+            rows.push(...definePairs());
+          } else if (changed && changed.includes("level")) {
             if (DEBUG) {
               console.log(`level is ${value.level}`);
             }
