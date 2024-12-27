@@ -107,6 +107,9 @@ importers:
       '@spectrum-css/typography':
         specifier: ^6.2.0
         version: 6.2.0(@spectrum-css/tokens@14.6.0)
+      '@spectrum-web-components/combobox':
+        specifier: ^1.0.3
+        version: 1.0.3
       '@spectrum-web-components/field-group':
         specifier: ^1.0.3
         version: 1.0.3
@@ -1539,6 +1542,9 @@ packages:
   '@spectrum-web-components/close-button@1.0.3':
     resolution: {integrity: sha512-aNzD5lC2NNRGUS7wk2+jX0HZLbfnwkVY0/UtH6HOnBu7zNtNXsk+OdeFL858w54+GOG+Xott/GGklmUdIo+NlQ==}
 
+  '@spectrum-web-components/combobox@1.0.3':
+    resolution: {integrity: sha512-T4Gq3iI3V/82p/S0+RWgxAIwce4OzK/pM4cKv5q4zD5YDZvWU+qteBveU9eBAouUgcGQI7myeKF7pEev0ERSfQ==}
+
   '@spectrum-web-components/divider@1.0.3':
     resolution: {integrity: sha512-QdK+iLylKBIdDHtqMdi6TB1lzZGXCH8aQShjAq2zg4/w+6K3neFf/KChUISMvIpBnP9/mNvePCVqVE9WW9QoaQ==}
 
@@ -1577,6 +1583,9 @@ packages:
 
   '@spectrum-web-components/overlay@1.0.3':
     resolution: {integrity: sha512-lkr+0hLt2t5Bd0ghBrZjTr8dtFvGFcfwon6XGk18b6niGjUopBVZ9NylS5bBxCvyg9GoZqKoTZA/A9e03pXt+Q==}
+
+  '@spectrum-web-components/picker-button@1.0.3':
+    resolution: {integrity: sha512-dCkaj+6JfCuU5KWAWfKW8yktRoQtzRBVaqfQsm4WmHisfRwRcExvTsdOcvUOW4YaeMyX+CFAzWjxvmYIfkDXxw==}
 
   '@spectrum-web-components/picker@1.0.3':
     resolution: {integrity: sha512-aB3+XIM1aokC0Vew5uCLPPDsQZNfZKLo9nCEgFLcaxyYEPbVpW9x3RlB6PILZa/e4bVJC7b9K4fobp64eRzttA==}
@@ -7156,6 +7165,19 @@ snapshots:
     dependencies:
       '@spectrum-web-components/base': 1.0.3
 
+  '@spectrum-web-components/combobox@1.0.3':
+    dependencies:
+      '@spectrum-web-components/action-button': 1.0.3
+      '@spectrum-web-components/base': 1.0.3
+      '@spectrum-web-components/icon': 1.0.3
+      '@spectrum-web-components/icons-ui': 1.0.3
+      '@spectrum-web-components/menu': 1.0.3
+      '@spectrum-web-components/overlay': 1.0.3
+      '@spectrum-web-components/picker-button': 1.0.3
+      '@spectrum-web-components/popover': 1.0.3
+      '@spectrum-web-components/progress-circle': 1.0.3
+      '@spectrum-web-components/textfield': 1.0.3
+
   '@spectrum-web-components/divider@1.0.3':
     dependencies:
       '@spectrum-web-components/base': 1.0.3
@@ -7241,6 +7263,14 @@ snapshots:
       '@spectrum-web-components/reactive-controllers': 1.0.3
       '@spectrum-web-components/shared': 1.0.3
       '@spectrum-web-components/theme': 1.0.3
+
+  '@spectrum-web-components/picker-button@1.0.3':
+    dependencies:
+      '@spectrum-web-components/base': 1.0.3
+      '@spectrum-web-components/button': 1.0.3
+      '@spectrum-web-components/icon': 1.0.3
+      '@spectrum-web-components/icons-ui': 1.0.3
+      '@spectrum-web-components/shared': 1.0.3
 
   '@spectrum-web-components/picker@1.0.3':
     dependencies:
