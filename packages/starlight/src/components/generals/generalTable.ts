@@ -69,9 +69,13 @@ export const definePairs = () => {
       pairs.push(td);
     });
   }
-  return pairs.filter((predicate) => {
-    return !predicate.primary.id.localeCompare("Aethelflaed");
-  });
+  if (DEBUG) {
+    return pairs.filter((predicate) => {
+      return !predicate.primary.id.localeCompare("Aethelflaed");
+    });
+  } else {
+    return pairs;
+  }
 };
 
 const overallToughness = "Overall Toughness";
