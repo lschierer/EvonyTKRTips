@@ -63,27 +63,35 @@ export const ClassEnum = z.enum([
 ]);
 export type ClassEnum = z.infer<typeof ClassEnum>;
 
-export const Condition = z.enum([
+export const BuffCondition = z.enum([
   "Against Monsters",
   "Attacking",
   "brings a dragon",
   "brings dragon or beast to attack",
   "Defending",
   "dragon to the attack",
-  "Enemy",
-  "Enemy In City",
-  "In Main City",
   "leading the army to attack",
   "Marching",
-  "Reduces",
-  "Reduces Enemy",
-  "Reduces Enemy in Attack",
-  "Reduces Enemy with a Dragon",
   "Reinforcing",
   "When City Mayor for this SubCity",
   "When Defending Outside The Main City",
   "When Rallying",
+  "In Main City",
 ]);
+export type BuffCondition = z.infer<typeof BuffCondition>;
+
+export const DebuffCondition = z.enum([
+  "Enemy",
+  "Enemy In City",
+  "Reduces",
+  "Reduces Enemy",
+  "Reduces Enemy in Attack",
+  "Reduces Enemy with a Dragon",
+  "Reduces Monster",
+]);
+export type DebuffCondition = z.infer<typeof DebuffCondition>;
+
+export const Condition = z.union([BuffCondition, DebuffCondition]);
 export type Condition = z.infer<typeof Condition>;
 
 export const CovenantCategory = z.enum([

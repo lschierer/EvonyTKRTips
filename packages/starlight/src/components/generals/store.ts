@@ -34,6 +34,7 @@ export const selectedValues = deepMap<General>({
   stars: constants.AscendingLevel.Values.None,
   level: 0,
 });
+
 export const generals = atom<General[]>(new Array<General>());
 
 export const ascendingAttributes = atom<GeneralAscending[]>(

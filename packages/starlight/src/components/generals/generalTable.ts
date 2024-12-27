@@ -26,6 +26,7 @@ Tabulator.registerModule([
   SortModule,
 ]);
 import { General, GeneralType } from "@schemas/generals";
+import { Buff } from "@schemas/buff";
 import * as constants from "@schemas/constants";
 
 import { type StoreValue, subscribeKeys } from "nanostores";
@@ -33,6 +34,7 @@ import { type StoreValue, subscribeKeys } from "nanostores";
 import * as stores from "./store";
 
 import * as d3 from "d3";
+import type { SkillBook } from "@schemas/skillBooks";
 
 const DEBUG = true;
 
@@ -123,82 +125,150 @@ export const defineTable = () => {
     data: tableData,
     reactiveData: true,
     layout: "fitDataFill",
+    columnDefaults: {
+      headerWordWrap: true,
+      headerVertical: true,
+
+      sorter: "number",
+      resizable: true,
+    },
     columns: [
       {
         title: "Primary",
         field: "primary.id",
+        headerVertical: false,
         width: "20vw",
         sorter: "string",
-        resizable: true,
       },
       {
         title: "Secondary",
         field: "secondary.id",
+        headerVertical: false,
         width: "20vw",
         sorter: "string",
-        resizable: true,
       },
       {
-        title: overallAttack,
-        headerWordWrap: true,
-        field: "overallAttack",
-        sorter: "number",
-        mutator: overallAttackMutator,
-        resizable: true,
+        title: "March Size Increase",
+        field: "marchsizeincrease",
+        mutator: marchsizeMutator,
+      },
+      {
+        title: "Monster Mounted Attack",
+        field: "MountedPvM.attack",
+        visible: true,
+        mutator: MountedPvMMutator,
       },
 
       {
-        title: overallToughness,
-        headerWordWrap: true,
-        field: "overallToughness",
-        mutator: overallToughnessMutator,
-        visible: true,
-        resizable: true,
-      },
-      {
         title: "Details",
         field: "details",
+        headerVertical: false,
         visible: false,
         columns: [
           {
-            title: "basic attributes",
-            field: "primary.basic_attributes",
-            visible: false,
+            title: "level",
+            field: "primary.level",
+            visible: true,
+            mutateLink: ["overallAttack", "overallToughness"],
+          },
+          {
+            title: "March Size Details",
+            headerVertical: false,
+
+            field: "marchsizeincreasedetails",
+            visible: true,
             columns: [
               {
-                title: "attack",
-                field: "basic_attributes.attack",
-                visible: false,
-                mutator: attackMutator,
-                mutateLink: ["overallAttack"],
+                title: "Attributes",
+                field: "marchsize.attributes",
+                visible: true,
+                mutator: marchsizeattributesmutator,
+                mutateLink: ["marchsizeincrease"],
               },
               {
-                title: "defense",
-                field: "basic_attributes.defense",
-                visible: false,
-                mutator: defenseMutator,
-                mutateLink: ["overallToughness"],
-              },
-              {
-                title: "leadership",
-                field: "basic_attributes.leadership",
-                visible: false,
-                mutator: leadershipMutator,
-                mutateLink: ["overallToughness"],
-              },
-              {
-                title: "politics",
-                field: "basic_attributes.politics",
-                visible: false,
-                mutator: politicsMutator,
+                title: "Base Skill",
+                field: "marchsize.baseSkill",
+                visible: true,
+                mutator: marchSizeBaseSkillMutator,
+                mutateLink: ["marchsizeincrease"],
               },
             ],
           },
           {
-            title: "level",
-            field: "primary.level",
-            visible: false,
-            mutateLink: ["overallAttack", "overallToughness"],
+            title: "Mounted PvM Attack",
+            field: "MountedPvM.attackDetails",
+            headerVertical: false,
+            visible: true,
+            columns: [
+              {
+                title: "Mounted PVM Attack Base Attribute",
+                field: "MountedPvM.attackDetails.baseAttribute",
+                headerVertical: false,
+                visible: true,
+                mutator: AttackAttributesMutator,
+                mutateLink: ["MountedPvM.attack"],
+              },
+              {
+                title: "Mounted PVM Attack Attribute Increment",
+                field: "MountedPvM.attackDetails.attributeIncrement",
+                headerVertical: false,
+                visible: true,
+                mutator: AttackattributeIncrementMutator,
+                mutateLink: ["MountedPvM.attack"],
+              },
+              {
+                title: "Mounted PVM Attack Attribute Total",
+                field: "MountedPvM.attackDetails.attributeTotal",
+                headerVertical: false,
+
+                visible: true,
+                mutator: MountedPvMAttackAttributeTotalMutator,
+                mutateLink: ["MountedPvM.attack"],
+              },
+              {
+                title: "Mounted PvP Attack Base Skill",
+                field: "MountedPvM.attackDetails.baseSkill",
+                headerVertical: false,
+                visible: true,
+                mutator: MountedPvMBaseSkillMutator,
+                mutateLink: ["MountedPvM.attack"],
+              },
+            ],
+          },
+          {
+            title: "Attacking Attack Increase Details",
+            field: "attackingattackincreasedetails",
+            visible: true,
+            columns: [
+              {
+                title: "Attributes",
+                field: "d.attackingattack.attributes",
+                visible: true,
+                mutator: AttackAttributesMutator,
+                mutateLink: ["attackingattack"],
+              },
+              {
+                title: "Attribute Increment",
+                field: "d.attackingattack.attributeIncrement",
+                visible: true,
+                mutator: AttackattributeIncrementMutator,
+                mutateLink: ["attackingattack"],
+              },
+              {
+                title: "Base Skill",
+                field: "attackingattackincrease.baseSkill",
+                visible: true,
+                mutator: attackingAttackBaseSkillMutator,
+                mutateLink: ["attackingattack"],
+              },
+            ],
+          },
+
+          {
+            title: "built in book",
+            field: "primary.book",
+            visible: true,
+            mutateLink: ["marchsize.baseSkill"],
           },
         ],
       },
@@ -297,6 +367,273 @@ export const defineTable = () => {
     }
   });
   return table;
+};
+const getIncreaseFromBook = (
+  attribute: constants.Attrbute,
+  book: SkillBook,
+  buffConditions: constants.BuffCondition[] = new Array<constants.BuffCondition>(),
+  debuffConditions: constants.DebuffCondition[] = new Array<constants.DebuffCondition>()
+) => {
+  let increase = 0;
+  if (Array.isArray(book.buff)) {
+    if (DEBUG) {
+      console.log(`buff for ${book.name} is an array`);
+    }
+    book.buff.map((buff: Buff) => {
+      if (!buff.attribute.localeCompare(attribute)) {
+        if (!buff.value.unit.localeCompare(constants.Unit.Enum.percentage)) {
+          if (buffConditions.length > 0 || debuffConditions.length > 0) {
+            if (buff.condition) {
+              let assumeTrue = true;
+              buff.condition.map((bc) => {
+                const valid = constants.BuffCondition.safeParse(bc);
+                if (valid.success && !buffConditions.includes(valid.data)) {
+                  assumeTrue = false;
+                } else {
+                  const v2 = constants.DebuffCondition.safeParse(bc);
+                  if (
+                    v2.success &&
+                    debuffConditions.length > 0 &&
+                    !debuffConditions.includes(v2.data)
+                  ) {
+                    assumeTrue = false;
+                  }
+                }
+              });
+              if (assumeTrue) {
+                increase += buff.value.number;
+              }
+            } else {
+              increase += buff.value.number;
+            }
+          } else {
+            increase += buff.value.number;
+          }
+        }
+      }
+    });
+  } else if (!book.buff.attribute.localeCompare(attribute)) {
+    if (DEBUG) {
+      console.log(`book ${book.name} has non-array buff`);
+    }
+    const buff = book.buff;
+    if (!buff.value.unit.localeCompare(constants.Unit.Enum.percentage)) {
+      if (buffConditions.length > 0 || debuffConditions.length > 0) {
+        if (buff.condition) {
+          let assumeTrue = true;
+          buff.condition.map((bc) => {
+            const valid = constants.BuffCondition.safeParse(bc);
+            if (valid.success && !buffConditions.includes(valid.data)) {
+              assumeTrue = false;
+            } else {
+              const v2 = constants.DebuffCondition.safeParse(bc);
+              if (
+                v2.success &&
+                debuffConditions.length > 0 &&
+                !debuffConditions.includes(v2.data)
+              ) {
+                assumeTrue = false;
+              }
+            }
+          });
+          if (assumeTrue) {
+            increase += buff.value.number;
+          }
+        } else {
+          increase += buff.value.number;
+        }
+      } else {
+        increase += buff.value.number;
+      }
+    }
+  }
+  return increase;
+};
+
+const MountedPvMMutator = (value: number = 0, data: TableData) => {
+  value = 0;
+  value += MountedPvMAttackAttributeTotalMutator(0, data);
+  return value;
+};
+
+const attackingAttackIncreaseMutator = (value: number = 0, data: TableData) => {
+  if (DEBUG) {
+    console.log(`attackingAttackIncreaseMutator called`);
+  }
+  const attribute = AttackAttributesMutator(value, data);
+  const baseSkill = attackingAttackBaseSkillMutator(value, data);
+  return attribute + baseSkill;
+};
+
+const MountedPvMBaseSkillMutator = (value: number = 0, data: TableData) => {
+  value = 0;
+  if (data && data.primary && data.primary.book.length > 0) {
+    const book = stores.skillBooks.get().find((sb) => {
+      return !sb.name.localeCompare(data.primary.book);
+    });
+    if (book) {
+      value += getIncreaseFromBook(
+        constants.Attribute.Enum.Attack,
+        book,
+        [
+          constants.BuffCondition.Enum["Against Monsters"],
+          constants.BuffCondition.Enum.Attacking,
+          constants.BuffCondition.Enum.Marching,
+          constants.BuffCondition.Enum["brings a dragon"],
+          constants.BuffCondition.Enum["brings dragon or beast to attack"],
+          constants.BuffCondition.Enum["dragon to the attack"],
+        ],
+        [constants.DebuffCondition.Enum["Reduces Monster"]]
+      );
+    }
+  }
+  return value;
+};
+const MountedPvMAttackAttributeTotalMutator = (
+  value: number = 0,
+  data: TableData
+) => {
+  /* from Evony Answers "Army General Stats" tab
+   * the ROUND function rounds to the specified number of decimals.
+   * =ROUND(
+   *    (
+          (900*0.1) +(
+            (
+              (L332+
+                (M332*2.4867*44)
+              )*1.1+50+520
+            )-900
+          )*0.2
+        )/100,3
+   *  )
+   */
+  if (DEBUG) {
+    console.log(`attackingAttackIncreaseMutator called`);
+  }
+  let increase = 0;
+  if (data && data.primary) {
+    const increment = AttackattributeIncrementMutator(value, data);
+    const base = AttackAttributesMutator(value, data);
+    const level = data.primary.level ?? 1;
+
+    increase =
+      (900 * 0.1 +
+        ((base + increment * 2.4867 * 44) * 1.1 + 50 + 520 - 900) * 0.2) /
+      100;
+    increase = Math.round(increase * 1000) / 1000;
+  }
+  return increase;
+};
+
+const AttackattributeIncrementMutator = (
+  value: number = 0,
+  data: TableData
+) => {
+  if (DEBUG) {
+    console.log(`attackingAttackIncreaseMutator called`);
+  }
+  let increase = 0;
+  if (data && data.primary) {
+    increase += data.primary.basic_attributes.attack.increment;
+  }
+  return increase;
+};
+
+const attackingAttackBaseSkillMutator = (
+  value: number = 0,
+  data: TableData
+) => {
+  let increase = 0;
+
+  return increase;
+};
+
+const AttackAttributesMutator = (value: number = 0, data: TableData) => {
+  let increase = 0;
+  if (data && data.primary) {
+    increase += data.primary.basic_attributes.attack.base;
+  }
+  return increase;
+};
+
+const marchsizeattributesmutator = (value: number = 0, data: TableData) => {
+  return 0;
+};
+const marchSizeBaseSkillMutator = (value: number = 0, data: TableData) => {
+  let marchSizeIncrease = 0;
+  const skillbooks = stores.skillBooks.get();
+  if (DEBUG) {
+    console.log(`marchSizeBaseSkillMutator start`);
+  }
+  if (data) {
+    if (data.primary) {
+      if (data.primary.book.length > 0 && skillbooks.length > 0) {
+        const book = skillbooks.find((b) => {
+          return !b.name.localeCompare(data.primary.book);
+        });
+        if (book) {
+          marchSizeIncrease += getIncreaseFromBook(
+            constants.Attribute.Enum["March Size Capacity"],
+            book
+          );
+        } else {
+          if (DEBUG) {
+            console.warn(`book not found for ${data.primary.id}`);
+          }
+        }
+      } else {
+        if (DEBUG) {
+          if (skillbooks.length == 0) {
+            console.warn(`no skillbooks from collection`);
+          }
+          if (data.primary.book.length == 0) {
+            console.warn(`general ${data.primary.id} has no built in book`);
+          }
+        }
+      }
+    } else {
+      console.warn(`no primary general for marchSizeBaseSkillMutator`);
+    }
+    if (data.secondary) {
+      if (data.secondary.book.length > 0 && skillbooks.length > 0) {
+        const book = skillbooks.find((b) => {
+          return !b.name.localeCompare(data.secondary.book);
+        });
+        if (book) {
+          marchSizeIncrease += getIncreaseFromBook(
+            constants.Attribute.Enum["March Size Capacity"],
+            book
+          );
+        } else {
+          if (DEBUG) {
+            console.warn(`book not found for ${data.secondary.id}`);
+          }
+        }
+      } else {
+        if (DEBUG) {
+          if (skillbooks.length == 0) {
+            console.warn(`no skillbooks from collection`);
+          }
+          if (data.secondary.book.length == 0) {
+            console.warn(`general ${data.secondary.id} has no built in book`);
+          }
+        }
+      }
+    } else {
+      console.warn(`no secondary general for marchSizeBaseSkillMutator`);
+    }
+  } else {
+    if (DEBUG) {
+      console.warn(`no data for marchSizeBaseSkillMutator`);
+    }
+  }
+
+  return marchSizeIncrease;
+};
+const marchsizeMutator = (value: number = 0, data: TableData) => {
+  const attributes = marchsizeattributesmutator(value, data);
+  const baseSkill = marchSizeBaseSkillMutator(value, data);
+  return attributes + baseSkill;
 };
 
 //https://evonyguidewiki.com/en/general-cultivate-en/#Relationship_between_Stats_value_Buff_value

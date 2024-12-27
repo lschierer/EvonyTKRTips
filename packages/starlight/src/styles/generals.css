@@ -10,4 +10,22 @@ table.horizontal td.spectrum-Table-cell {
 
 #generals-table {
   max-height: 60vh;
+  max-width: 100%;
+}
+
+#generals-table > div.tabulator-header {
+  height: 10rem;
+}
+
+#generals-table
+  > div.tabulator-header
+  > div
+  > div
+  > div.tabulator-col.tabulator-col-vertical.tabulator-sortable.tabulator-col-sorter-element {
+  width: 4rem;
+
+  & .tabulator-col-title {
+    word-wrap: normal;
+    height: 9rem;
+  }
 }

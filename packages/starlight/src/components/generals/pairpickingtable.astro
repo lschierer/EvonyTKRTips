@@ -3,6 +3,9 @@ import { getCollection } from "astro:content";
 import "tabulator-tables/dist/css/tabulator.css";
 
 const generals = (await getCollection("generals")).map((entry) => entry.data);
+const skillbooks = (await getCollection("skillBooks")).map(
+  (entry) => entry.data
+);
 import "@styles/generals.css";
 import ValueSelector from "./valueselctor.astro";
 ---
@@ -10,7 +13,9 @@ import ValueSelector from "./valueselctor.astro";
 <div class="not-content">
   <ValueSelector />
 
-  <generals-table generals={JSON.stringify(generals)}></generals-table>
+  <generals-table
+    generals={JSON.stringify(generals)}
+    skill-books={JSON.stringify(skillbooks)}></generals-table>
   <div id="generals-table" class="not-content"></div>
 </div>
 
@@ -25,12 +30,13 @@ import ValueSelector from "./valueselctor.astro";
   import * as generalTableFunctions from "./generalTable";
   import type { TableData } from "./generalTable";
 
-  const DEBUG = false;
+  const DEBUG = true;
 
   export default class GeneralsTable extends HTMLElement {
     private table: Tabulator | null = null;
     private generalStore = stores.generals;
     private selectedValues = stores.selectedValues;
+    private skillbooks = stores.skillBooks;
 
     constructor() {
       super();
@@ -47,6 +53,11 @@ import ValueSelector from "./valueselctor.astro";
           `constructor has ${this.generalStore.get().length} generals`
         );
       }
+      this.skillbooks.subscribe((value, oldValue) => {
+        if (DEBUG) {
+          console.log(`skillbook store now has ${value.length} skillbooks`);
+        }
+      });
       listenKeys(
         this.selectedValues,
         ["level", "type", "ascending", "stars"],
@@ -73,6 +84,16 @@ import ValueSelector from "./valueselctor.astro";
           console.log(
             `populateAttributes has ${this.generalStore.get().length} generals`
           );
+        }
+      }
+      if (attributes.includes("skill-books")) {
+        const sb = this.getAttribute("skill-books");
+        if (sb) {
+          this.skillbooks.set(JSON.parse(sb));
+        }
+      } else {
+        if (DEBUG) {
+          console.log(`no skillbooks provided to GeneralsTable`);
         }
       }
     }

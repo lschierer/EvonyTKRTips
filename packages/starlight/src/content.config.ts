@@ -4,6 +4,7 @@ import { docsLoader } from "@astrojs/starlight/loaders";
 import { docsSchema } from "@astrojs/starlight/schema";
 
 import { General } from "@schemas/generals";
+import { skillBooks } from "@components/generals/store";
 
 export const collections = {
   docs: defineCollection({ loader: docsLoader(), schema: docsSchema() }),
@@ -13,5 +14,11 @@ export const collections = {
       base: "./src/content/generals",
     }),
     schema: General,
+  }),
+  skillBooks: defineCollection({
+    loader: glob({
+      pattern: "*.json",
+      base: "./src/content/skillBooks",
+    }),
   }),
 };
