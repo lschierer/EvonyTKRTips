@@ -1,4 +1,31 @@
 import {
+  type ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  type SortingFn,
+  type SortingState,
+  TableController,
+  type TableOptions,
+  createColumnHelper,
+  type Row,
+  type RowData,
+} from "@tanstack/lit-table";
+
+import {
+  LitElement,
+  html,
+  css,
+  type PropertyValues,
+  type TemplateResult,
+  render,
+} from "lit";
+import { repeat } from "lit/directives/repeat.js";
+import { customElement, property, state } from "lit/decorators.js";
+import { ref, createRef, type Ref } from "lit/directives/ref.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+
+import {
   Tabulator,
   AccessorModule,
   ColumnCalcsModule,
@@ -25,7 +52,7 @@ Tabulator.registerModule([
   ResizeColumnsModule,
   SortModule,
 ]);
-import { General, GeneralType } from "@schemas/generals";
+import { General, GeneralType, GeneralPair } from "@schemas/generals";
 import { Buff } from "@schemas/buff";
 import * as constants from "@schemas/constants";
 
@@ -36,19 +63,247 @@ import * as stores from "./store";
 import * as d3 from "d3";
 import type { SkillBook } from "@schemas/skillBooks";
 
-const DEBUG = false;
+import type { UUID } from "crypto";
+import { v5 as uuidv5 } from "uuid";
+import { uuid5_base } from "@lib/uuidBase";
+
+const DEBUG = true;
 
 export type TableData = {
   primary: General;
   secondary: General;
 };
 
+const columnHelper = createColumnHelper<GeneralPair>();
+const columns = [
+  columnHelper.accessor("primary.id", {
+    id: "primary",
+    enableSorting: true,
+    invertSorting: false,
+    sortDescFirst: false,
+    header: () => html`<span class="tableHeader">Primary</span>`,
+    cell: (props) => html`<span class="tableCell">${props.getValue()}</span>`,
+  }),
+  columnHelper.accessor("secondary.id", {
+    id: "secondary",
+    enableSorting: true,
+    invertSorting: false,
+    sortDescFirst: false,
+    header: () => html`<span class="tableHeader">Secondary</span>`,
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.group({
+    id: "marchsize",
+    header: () => html`<span class="tableHeader">March Size Increase</span>`,
+    columns: [
+      columnHelper.accessor("MarchSizeIncrease.attributeTotal", {
+        id: "marchsize.attributeTotal",
+        enableSorting: true,
+        invertSorting: false,
+        sortDescFirst: false,
+        header: () => html`<span class="tableHeader">Attribute Total</span>`,
+        cell: (info) => info.getValue() ?? 0,
+      }),
+      columnHelper.accessor("MarchSizeIncrease.baseSkill", {
+        id: "marchsize.baseSkill",
+        enableSorting: true,
+        invertSorting: false,
+        sortDescFirst: false,
+        header: () => html`<span class="tableHeader">Base Skill</span>`,
+        cell: (info) => info.getValue() ?? 0,
+      }),
+    ],
+  }),
+  columnHelper.group({
+    id: "mountedpvm",
+    header: () => html`<span class="tableHeader">Mounted PVM</span>`,
+    columns: [
+      columnHelper.group({
+        id: "mountedpvm.attack",
+        header: () => html`<span class="tableHeader">Attack</span>`,
+        columns: [
+          columnHelper.accessor("MountedPVM.attack.attributeTotal", {
+            id: "mountedpvm.attack.attributeTotal",
+            enableSorting: true,
+            invertSorting: false,
+            sortDescFirst: false,
+            header: () =>
+              html`<span class="tableHeader">Attribute Total</span>`,
+            cell: (info) => info.getValue() ?? 0,
+          }),
+          columnHelper.accessor("MountedPVM.attack.baseSkill", {
+            id: "mountedpvm.attack.baseSkill",
+            enableSorting: true,
+            invertSorting: false,
+            sortDescFirst: false,
+            header: () => html`<span class="tableHeader">Base Skill</span>`,
+            cell: (info) => info.getValue() ?? 0,
+          }),
+        ],
+      }),
+    ],
+  }),
+];
+
+@customElement("table-element")
+export class TableElement extends LitElement {
+  @property({ type: Array })
+  public data: TableData[] = new Array<TableData>();
+
+  @state()
+  private _sorting: SortingState = [];
+
+  private tableController = new TableController<GeneralPair>(this);
+  private sortKey: string = "primary";
+  private sortDirection: string = "asc";
+  private tableRef: Ref = createRef();
+
+  constructor() {
+    super();
+    stores.generals.subscribe((value, oldValue) => {
+      this.data = definePairs();
+      if (DEBUG) {
+        console.log(
+          `TableElement general stores listener oldValue: ${oldValue ? oldValue.length : 0}; value: ${value.length}`
+        );
+        console.log(
+          `TableElement general stores listener data has ${this.data.length} pairs`
+        );
+      }
+      this.requestUpdate("data");
+    });
+  }
+
+  protected override willUpdate(_changedProperties: PropertyValues): void {
+    super.willUpdate(_changedProperties);
+    if (_changedProperties.has("data")) {
+      if (DEBUG) {
+        console.log(`sort: ${this.sortKey}, ${this.sortDirection}`);
+      }
+
+      if (DEBUG) {
+        console.log(
+          `TableElement willUpdate detects data: ${this.data.length} pairs `
+        );
+      }
+    }
+  }
+
+  protected override firstUpdated(_changedProperties: PropertyValues): void {
+    const table = this.tableRef.value;
+    if (table) {
+      if (DEBUG) {
+        console.log(`TableElement firstUpdated has a table`);
+      }
+    }
+  }
+
+  private index = 0;
+  protected override render() {
+    if (DEBUG) {
+      console.log(`TableElement render start ${this.index++}`);
+    }
+    const table = this.tableController.table({
+      columns: columns,
+      data: this.data,
+      state: {
+        sorting: this._sorting,
+      },
+      onSortingChange: (updaterOrValue) => {
+        if (typeof updaterOrValue === "function") {
+          this._sorting = updaterOrValue(this._sorting);
+        } else {
+          this._sorting = updaterOrValue;
+        }
+      },
+      getSortedRowModel: getSortedRowModel<GeneralPair>(),
+      getCoreRowModel: getCoreRowModel<GeneralPair>(),
+    });
+    if (DEBUG) {
+      console.log(`table has ${table.getRowModel().rows.length} rows`);
+    }
+    return html`
+      <table
+        ${ref(this.tableRef)}
+        class="spectrum-Table spectrum-Table--sizeM spectrum-Table--emphasized"
+      >
+        <thead class="spectrum-Table-head">
+          ${repeat(
+            table.getHeaderGroups(),
+            (headerGroup) => headerGroup.id,
+            (headerGroup) => html`
+              <tr>
+                ${headerGroup.headers.map(
+                  (header) => html`
+                    <th
+                      colspan="${header.colSpan}"
+                      class="spectrum-Table-headCell is-sortable"
+                    >
+                      ${header.isPlaceholder
+                        ? null
+                        : html` <div
+                            title=${ifDefined(
+                              header.column.getCanSort()
+                                ? header.column.getNextSortingOrder() === "asc"
+                                  ? "Sort ascending"
+                                  : header.column.getNextSortingOrder() ===
+                                      "desc"
+                                    ? "Sort descending"
+                                    : "Clear sort"
+                                : undefined
+                            )}
+                            @click="${header.column.getToggleSortingHandler()}"
+                            style="cursor: ${header.column.getCanSort()
+                              ? "pointer"
+                              : "not-allowed"}"
+                          >
+                            ${flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                            ${{ asc: " 🔼", desc: " 🔽" }[
+                              header.column.getIsSorted() as string
+                            ] ?? null}
+                          </div>`}
+                    </th>
+                  `
+                )}
+              </tr>
+            `
+          )}
+        </thead>
+        <tbody class="spectrum-Table-body">
+          ${table.getRowModel().rows.map(
+            (row) => html`
+              <tr class="spectrum-Table-row">
+                ${row
+                  .getVisibleCells()
+                  .map(
+                    (cell) => html`
+                      <td class="spectrum-Table-cell">
+                        ${flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </td>
+                    `
+                  )}
+              </tr>
+            `
+          )}
+        </tbody>
+      </table>
+      ${DEBUG ? html`<pre>${JSON.stringify(this._sorting, null, 2)}</pre>` : ""}
+    `;
+  }
+}
+
 export const definePairs = () => {
   const generals = stores.generals.get();
-  const pairs = new Array<TableData>();
+  const pairs = new Array<GeneralPair>();
 
   if (generals.length == 0) {
-    return new Array<TableData>();
+    return new Array<GeneralPair>();
   } else {
     const filtered = generals.filter((g) => {
       let match = false;
@@ -72,7 +327,7 @@ export const definePairs = () => {
       );
     }
     permutations.map((pair) => {
-      const td: TableData = {
+      const td: GeneralPair = {
         primary: pair[0],
         secondary: pair[1],
       };
@@ -127,7 +382,9 @@ const overallAttack = "Overall Attack";
 
 let subscribed = false;
 
-export const defineTable = () => {
+export const defineTable = () => {};
+
+const tabulatorTable = () => {
   const tableData: TableData[] = definePairs();
   stores.generals.listen((value, oldvalue) => {
     if (DEBUG) {
@@ -389,6 +646,7 @@ export const defineTable = () => {
   });
   return table;
 };
+
 const getIncreaseFromBook = (
   attribute: constants.Attrbute,
   book: SkillBook,
