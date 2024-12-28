@@ -118,17 +118,17 @@ const AESAdjustment = z.record(AscendingLevel, z.number());
 type AESAdjustment = z.infer<typeof AESAdjustment>;
 
 export const BasicAESAdjustment = {
-  [AscendingLevel.Values.None]: 0,
-  [AscendingLevel.Values.purple1]: 0,
-  [AscendingLevel.Values.purple2]: 0,
-  [AscendingLevel.Values.purple3]: 0,
-  [AscendingLevel.Values.purple4]: 0,
-  [AscendingLevel.Values.purple5]: 0,
-  [AscendingLevel.Values.red1]: 10,
-  [AscendingLevel.Values.red2]: 20,
-  [AscendingLevel.Values.red3]: 30,
-  [AscendingLevel.Values.red4]: 40,
-  [AscendingLevel.Values.red5]: 50,
+  [AscendingLevel.Enum.None]: 0,
+  [AscendingLevel.Enum.purple1]: 0,
+  [AscendingLevel.Enum.purple2]: 0,
+  [AscendingLevel.Enum.purple3]: 0,
+  [AscendingLevel.Enum.purple4]: 0,
+  [AscendingLevel.Enum.purple5]: 0,
+  [AscendingLevel.Enum.red1]: 10,
+  [AscendingLevel.Enum.red2]: 20,
+  [AscendingLevel.Enum.red3]: 30,
+  [AscendingLevel.Enum.red4]: 40,
+  [AscendingLevel.Enum.red5]: 50,
 };
 
 export const BasicStarAdjustment = {

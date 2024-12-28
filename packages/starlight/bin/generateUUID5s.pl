@@ -33,7 +33,7 @@ foreach my $file (@files) {
   my $old = '';
   open my $fh, '<:encoding(UTF-8)', $file or die;
   while (my $line = <$fh>) {
-    if($line =~ /name: (\w+)/) {
+    if($line =~ /name: (\w+)$/) {
       $old = $1;
       if($old ne 'March' && $old ne 'Siege' && $old ne 'Ranged' && $old ne 'Mounted' && $old ne 'Ground' && $old ne 'Luck' && $old ne 'MonstersMounted') {
         say "$file: old is $old";
@@ -43,11 +43,13 @@ foreach my $file (@files) {
   }
   close $fh;
   say "generated $new to replace $old for $file";
-  foreach my $f2 (@files) {
-    my $fixing = path($f2);
-    my $data = $fixing->slurp_utf8();
+  if(length($old) > 25) {
+    foreach my $f2 (@files) {
+      my $fixing = path($f2);
+      my $data = $fixing->slurp_utf8();
 
-    $data =~ s/$old/$new/g;
-    $fixing->spew_utf8($data);
+      $data =~ s/$old/$new/g;
+      $fixing->spew_utf8($data);
+    }
   }
 }
