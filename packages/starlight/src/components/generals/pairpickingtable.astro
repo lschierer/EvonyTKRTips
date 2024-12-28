@@ -6,6 +6,9 @@ const generals = (await getCollection("generals")).map((entry) => entry.data);
 const skillbooks = (await getCollection("skillBooks")).map(
   (entry) => entry.data
 );
+const conflictGroups = (await getCollection("conflictGroups")).map(
+  (entry) => entry.data
+);
 import "@styles/generals.css";
 import ValueSelector from "./valueselctor.astro";
 ---
@@ -15,7 +18,8 @@ import ValueSelector from "./valueselctor.astro";
 
   <generals-table
     generals={JSON.stringify(generals)}
-    skill-books={JSON.stringify(skillbooks)}></generals-table>
+    skill-books={JSON.stringify(skillbooks)}
+    conflict-groups={JSON.stringify(conflictGroups)}></generals-table>
   <div id="generals-table" class="not-content"></div>
 </div>
 
@@ -37,6 +41,7 @@ import ValueSelector from "./valueselctor.astro";
     private generalStore = stores.generals;
     private selectedValues = stores.selectedValues;
     private skillbooks = stores.skillBooks;
+    private conflictgroups = stores.conflictGroups;
 
     constructor() {
       super();
@@ -56,6 +61,13 @@ import ValueSelector from "./valueselctor.astro";
       this.skillbooks.subscribe((value, oldValue) => {
         if (DEBUG) {
           console.log(`skillbook store now has ${value.length} skillbooks`);
+        }
+      });
+      this.conflictgroups.subscribe((value, oldvalue) => {
+        if (DEBUG) {
+          console.log(
+            `conflictgroup store now has ${value.length} conflictgroups.`
+          );
         }
       });
       listenKeys(
@@ -94,6 +106,12 @@ import ValueSelector from "./valueselctor.astro";
       } else {
         if (DEBUG) {
           console.log(`no skillbooks provided to GeneralsTable`);
+        }
+      }
+      if (attributes.includes("conflict-groups")) {
+        const cg = this.getAttribute("conflict-groups");
+        if (cg) {
+          this.conflictgroups.set(JSON.parse(cg));
         }
       }
     }

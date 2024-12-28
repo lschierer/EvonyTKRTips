@@ -3,6 +3,8 @@ import { General, GeneralType } from "@schemas/generals";
 import { GeneralAscending } from "@schemas/ascending";
 import { Speciality } from "@schemas/specialities";
 import { SkillBook } from "@schemas/skillBooks";
+import { ConfictGroup } from "@schemas/generalConflictGroups";
+
 import * as constants from "@schemas/constants";
 
 const DEBUG = false;
@@ -44,6 +46,8 @@ export const ascendingAttributes = atom<GeneralAscending[]>(
 export const specialities = atom<Speciality[]>(new Array<Speciality>());
 
 export const skillBooks = atom<SkillBook[]>(new Array<SkillBook>());
+
+export const conflictGroups = atom<ConfictGroup[]>(new Array<ConfictGroup>());
 
 generals.listen((value, oldValue) => {
   if (DEBUG) {

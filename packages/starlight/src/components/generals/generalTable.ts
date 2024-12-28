@@ -36,7 +36,7 @@ import * as stores from "./store";
 import * as d3 from "d3";
 import type { SkillBook } from "@schemas/skillBooks";
 
-const DEBUG = true;
+const DEBUG = false;
 
 export type TableData = {
   primary: General;
@@ -76,12 +76,28 @@ export const definePairs = () => {
         primary: pair[0],
         secondary: pair[1],
       };
-      /*if (DEBUG) {
+      const conflicts = new Set<string>();
+      stores.conflictGroups.get().map((cg) => {
+        if (cg.members.includes(td.primary.id)) {
+          cg.members.map((m) => conflicts.add(m));
+          cg.others &&
+            cg.others.map((o) => {
+              stores.conflictGroups.get().map((cg2) => {
+                if (!o.localeCompare(cg2.name)) {
+                  cg2.members.map((m) => conflicts.add(m));
+                }
+              });
+            });
+        }
+      });
+      if (DEBUG) {
         console.log(
-          `pusing pair ${td.primary.id}/${td.secondary.id}: ${JSON.stringify(td)}`
+          `${td.primary.id} conflicts with ${[...conflicts].join(" ")}`
         );
-        }*/
-      pairs.push(td);
+      }
+      if (!conflicts.has(td.secondary.id)) {
+        pairs.push(td);
+      }
     });
   }
   pairs.sort((a, b) => {
@@ -96,10 +112,11 @@ export const definePairs = () => {
     }
   });
   if (DEBUG) {
-    const limiter = pairs[0].primary.id;
+    /*const limiter = pairs[0].primary.id;
     return pairs.filter((predicate) => {
       return !predicate.primary.id.localeCompare(limiter);
-    });
+    });*/
+    return pairs.slice(0, 50);
   } else {
     return pairs;
   }
