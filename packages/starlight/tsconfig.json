@@ -9,7 +9,16 @@
     "allowJs": true,
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
-    "lib": ["ESNext", "DOM"],
+    "allowSyntheticDefaultImports": true,
+
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
       "@assets/*": ["src/assets/*"],
