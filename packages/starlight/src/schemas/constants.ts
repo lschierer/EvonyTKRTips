@@ -139,3 +139,9 @@ export const BasicStarAdjustment = {
     politics: 46,
   },
 };
+
+export const Value = z.object({
+  number: z.number(),
+  unit: Unit,
+});
+export type Value = z.infer<typeof Value>;
