@@ -106,4 +106,5 @@ ascending:
         value:
           number: 10
           unit: percentage
-id: Hestia
+general:  Hestia
+id:  Hestia

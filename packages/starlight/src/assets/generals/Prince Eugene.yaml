@@ -22,4 +22,5 @@ specialities:
 stars: red5
 type:
   - mounted_specialist
-id: Prince Eugene
+general:  Prince Eugene
+id:  Prince Eugene

@@ -70,4 +70,5 @@ ascending:
         value:
           number: 5
           unit: percentage
-id: Frigg
+general:  Frigg
+id:  Frigg

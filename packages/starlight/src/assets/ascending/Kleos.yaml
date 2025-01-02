@@ -106,4 +106,5 @@ ascending:
         value:
           number: 25
           unit: percentage
-id: Kleos
+general:  Kleos
+id:  Kleos

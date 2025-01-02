@@ -24,4 +24,5 @@ specialities:
 stars: red5
 type:
   - siege_specialist
-id: Pallas
+general:  Pallas
+id:  Pallas

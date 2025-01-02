@@ -22,4 +22,5 @@ specialities:
 stars: red5
 type:
   - mounted_specialist
-id: Barbarossa
+general:  Barbarossa
+id:  Barbarossa

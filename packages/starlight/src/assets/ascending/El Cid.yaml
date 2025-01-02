@@ -92,4 +92,5 @@ ascending:
         value:
           number: 15
           unit: percentage
-id: El Cid
+general:  El Cid
+id:  El Cid

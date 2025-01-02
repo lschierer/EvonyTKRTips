@@ -22,4 +22,5 @@ specialities:
 stars: red5
 type:
   - siege_specialist
-id: John Churchill
+general:  John Churchill
+id:  John Churchill

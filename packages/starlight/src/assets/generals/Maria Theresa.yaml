@@ -22,4 +22,5 @@ specialities:
 stars: red5
 type:
   - mounted_specialist
-id: Maria Theresa
+general:  Maria Theresa
+id:  Maria Theresa

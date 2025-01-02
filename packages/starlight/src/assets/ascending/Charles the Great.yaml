@@ -91,4 +91,5 @@ ascending:
         value:
           number: 15
           unit: percentage
-id: Charles the Great
+general:  Charles the Great
+id:  Charles the Great

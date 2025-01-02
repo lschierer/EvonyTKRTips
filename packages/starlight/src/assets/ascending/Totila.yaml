@@ -84,4 +84,5 @@ ascending:
         value:
           number: 8
           unit: percentage
-id: Totila
+general:  Totila
+id:  Totila

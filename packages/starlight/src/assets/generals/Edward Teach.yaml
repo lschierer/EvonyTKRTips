@@ -22,4 +22,5 @@ specialities:
 stars: red5
 type:
   - siege_specialist
-id: Edward Teach
+general:  Edward Teach
+id:  Edward Teach

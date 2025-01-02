@@ -22,4 +22,5 @@ specialities:
 stars: red5
 type:
   - ground_specialist
-id: Totila
+general:  Totila
+id:  Totila

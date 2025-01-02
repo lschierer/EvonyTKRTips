@@ -24,4 +24,5 @@ specialities:
 stars: red5
 type:
   - ground_specialist
-id: Elise
+general:  Elise
+id:  Elise

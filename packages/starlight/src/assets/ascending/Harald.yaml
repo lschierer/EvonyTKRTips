@@ -68,4 +68,5 @@ ascending:
         value:
           number: 10
           unit: percentage
-id: Harald
+general:  Harald
+id:  Harald

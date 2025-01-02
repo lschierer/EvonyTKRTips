@@ -106,4 +106,5 @@ ascending:
         value:
           number: 30
           unit: percentage
-id: Napoleon Prime
+general:  Napoleon Prime
+id:  Napoleon Prime

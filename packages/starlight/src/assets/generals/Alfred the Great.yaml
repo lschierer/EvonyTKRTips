@@ -22,4 +22,5 @@ specialities:
 stars: red5
 type:
   - ranged_specialist
-id: Alfred the Great
+general:  Alfred the Great
+id:  Alfred the Great

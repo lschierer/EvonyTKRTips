@@ -24,4 +24,5 @@ type:
   - mounted_specialist
 warnings:
   - Laudon is incompatible with the Mounted Troop Attack Level 4 Skillbook
-id: Laudon
+general:  Laudon
+id:  Laudon

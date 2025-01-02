@@ -22,4 +22,5 @@ specialities:
 stars: red5
 type:
   - siege_specialist
-id: Zucca
+general:  Zucca
+id:  Zucca

@@ -90,4 +90,5 @@ ascending:
         value:
           number: 10
           unit: percentage
-id: Bertrand du Guesclin
+general:  Bertrand du Guesclin
+id:  Bertrand du Guesclin

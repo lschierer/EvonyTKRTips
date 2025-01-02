@@ -83,4 +83,5 @@ ascending:
         value:
           number: 10
           unit: percentage
-id: Wallenstein
+general:  Wallenstein
+id:  Wallenstein

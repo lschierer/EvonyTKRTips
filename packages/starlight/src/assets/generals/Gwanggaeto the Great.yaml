@@ -22,4 +22,5 @@ specialities:
 stars: red5
 type:
   - ranged_specialist
-id: Gwanggaeto the Great
+general:  Gwanggaeto the Great
+id:  Gwanggaeto the Great

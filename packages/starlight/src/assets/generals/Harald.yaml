@@ -22,4 +22,5 @@ specialities:
 stars: red5
 type:
   - mayor
-id: Harald
+general:  Harald
+id:  Harald

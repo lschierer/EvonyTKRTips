@@ -22,4 +22,5 @@ specialities:
 stars: red5
 type:
   - mounted_specialist
-id: Hestia
+general:  Hestia
+id:  Hestia

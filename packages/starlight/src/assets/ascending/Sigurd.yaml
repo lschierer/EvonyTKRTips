@@ -64,4 +64,5 @@ ascending:
         value:
           number: 30
           unit: percentage
-id: Sigurd
+general:  Sigurd
+id:  Sigurd

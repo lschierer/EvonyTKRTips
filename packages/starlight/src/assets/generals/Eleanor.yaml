@@ -22,4 +22,5 @@ specialities:
 stars: red5
 type:
   - ranged_specialist
-id: Eleanor
+general:  Eleanor
+id:  Eleanor

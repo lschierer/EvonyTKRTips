@@ -85,4 +85,5 @@ ascending:
         value:
           number: 20
           unit: percentage
-id: Ragnar
+general:  Ragnar
+id:  Ragnar

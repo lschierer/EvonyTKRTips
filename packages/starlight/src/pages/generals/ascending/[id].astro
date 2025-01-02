@@ -1,0 +1,24 @@
+---
+import { getCollection } from "astro:content";
+import GeneralsLayout from "@layouts/generals.astro";
+const DEBUG = true;
+
+// 1. Generate a new path for every collection entry
+export async function getStaticPaths() {
+  const ascendingEntries = await getCollection("ascending");
+  return ascendingEntries.map((post) => ({
+    params: { id: post.id.toLowerCase() },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+if (DEBUG) {
+  console.log(`post is ${JSON.stringify(post)}`);
+}
+---
+
+<GeneralsLayout title=`${post.id}`>
+  {JSON.stringify(post.data)}
+</GeneralsLayout>

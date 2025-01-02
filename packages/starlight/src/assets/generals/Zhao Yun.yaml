@@ -22,4 +22,5 @@ specialities:
 stars: red5
 type:
   - mounted_specialist
-id: Zhao Yun
+general:  Zhao Yun
+id:  Zhao Yun

@@ -100,4 +100,5 @@ ascending:
         value:
           number: 35
           unit: percentage
-id: Freyja
+general:  Freyja
+id:  Freyja

@@ -22,4 +22,5 @@ specialities:
 stars: red5
 type:
   - mounted_specialist
-id: Gaius Octavius
+general:  Gaius Octavius
+id:  Gaius Octavius

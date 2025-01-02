@@ -21,4 +21,5 @@ specialities:
 stars: red5
 type:
   - mounted_specialist
-id: Marco Polo
+general:  Marco Polo
+id:  Marco Polo

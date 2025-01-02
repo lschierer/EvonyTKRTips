@@ -69,4 +69,5 @@ ascending:
         value:
           number: 15
           unit: percentage
-id: Gaius Octavius
+general:  Gaius Octavius
+id:  Gaius Octavius

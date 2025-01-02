@@ -112,4 +112,5 @@ ascending:
         value:
           number: 25
           unit: percentage
-id: Poligenus
+general:  Poligenus
+id:  Poligenus

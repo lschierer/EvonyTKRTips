@@ -22,4 +22,5 @@ specialities:
 stars: red5
 type:
   - ranged_specialist
-id: Vladimir the Great
+general:  Vladimir the Great
+id:  Vladimir the Great

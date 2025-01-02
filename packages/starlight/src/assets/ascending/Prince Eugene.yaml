@@ -65,4 +65,5 @@ ascending:
         value:
           number: 10
           unit: percentage
-id: Prince Eugene
+general:  Prince Eugene
+id:  Prince Eugene

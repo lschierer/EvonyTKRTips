@@ -22,4 +22,5 @@ specialities:
 stars: red5
 type:
   - mayor
-id: Charles the Great
+general:  Charles the Great
+id:  Charles the Great

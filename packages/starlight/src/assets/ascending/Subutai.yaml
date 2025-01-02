@@ -70,4 +70,5 @@ ascending:
         value:
           number: 20
           unit: percentage
-id: Subutai
+general:  Subutai
+id:  Subutai

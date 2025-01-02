@@ -113,4 +113,5 @@ ascending:
         value:
           number: 25
           unit: percentage
-id: Charles XII
+general:  Charles XII
+id:  Charles XII

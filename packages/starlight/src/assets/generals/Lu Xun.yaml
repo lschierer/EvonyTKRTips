@@ -22,4 +22,5 @@ specialities:
 stars: red5
 type:
   - ground_specialist
-id: Lu Xun
+general:  Lu Xun
+id:  Lu Xun

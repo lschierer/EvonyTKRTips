@@ -10,6 +10,8 @@ export const AscendingLevel = z.object({
 export type AscendingLevel = z.infer<typeof AscendingLevel>;
 
 export const GeneralAscending = z.object({
+  id: z.string(),
+  general: z.string(),
   ascending: z.array(AscendingLevel),
 });
 export type GeneralAscending = z.infer<typeof GeneralAscending>;

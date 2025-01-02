@@ -21,4 +21,5 @@ specialities:
 stars: None
 type:
   - ranged_specialist
-id: Antara
+general:  Antara
+id:  Antara

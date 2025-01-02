@@ -24,4 +24,5 @@ specialities:
 stars: red5
 type:
   - ranged_specialist
-id: Ragnar
+general:  Ragnar
+id:  Ragnar
