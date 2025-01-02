@@ -288,6 +288,7 @@ export default class TableElement extends LitElement {
         const table = this.tableController.table({
           columns,
           data: stores.pairs.value,
+          manualSorting: false,
           state: {
             sorting: this._sorting,
           },
@@ -308,6 +309,7 @@ export default class TableElement extends LitElement {
         const newOptions: TableOptions<GeneralPair> = {
           columns,
           data: stores.pairs.value,
+          manualSorting: false,
           onSortingChange: oldOptions.onSortingChange,
           state: oldOptions.state,
           onStateChange: oldOptions.onStateChange,

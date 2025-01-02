@@ -57,12 +57,22 @@ export type General = z.infer<typeof General>;
 export const GeneralPair = z.object({
   primary: General,
   secondary: General,
+  MarchSizeIncrease: z
+    .object({
+      MountedPvMCompatiblePair: z.number(),
+      baseAttribute: z.number(),
+      attributeIncrement: z.number(),
+      attributeTotal: z.number(),
+      baseSkill: z.number(),
+    })
+    .optional(),
 });
 export type GeneralPair = z.infer<typeof GeneralPair>;
 
 /*
 MarchSizeIncrease: z
   .object({
+
     baseAttribute: z.number(),
     attributeIncrement: z.number(),
     attributeTotal: z.number(),

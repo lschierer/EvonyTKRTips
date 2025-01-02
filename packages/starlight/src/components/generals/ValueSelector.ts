@@ -7,7 +7,8 @@ import {
   type CSSResultGroup,
 } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import { subscribeKeys } from "nanostores";
+import { subscribeKeys, listenKeys } from "nanostores";
+import { withStores } from "@nanostores/lit";
 
 import "@spectrum-web-components/combobox/sp-combobox.js";
 import "@spectrum-web-components/field-group/sp-field-group.js";
@@ -21,7 +22,7 @@ import { Combobox } from "@spectrum-web-components/combobox";
 import { NumberField } from "@spectrum-web-components/number-field";
 import { Picker } from "@spectrum-web-components/picker";
 
-import { selectedValues, generals } from "./store";
+import * as stores from "./store";
 
 import * as constants from "@schemas/constants";
 import { General, GeneralPair, GeneralType } from "@schemas/generals";
@@ -30,7 +31,9 @@ import { AscendingLevel } from "@schemas/constants";
 import ValueSelectorCSS from "../../styles/valueSelector.css?inline";
 const DEBUG = true;
 
-export default class ValueSelector extends LitElement {
+export default class ValueSelector extends withStores(LitElement, [
+  stores.selectedValues,
+]) {
   @state()
   private level = 1;
 
@@ -43,82 +46,8 @@ export default class ValueSelector extends LitElement {
   @state()
   private generalType: GeneralType = GeneralType.Enum.mounted_specialist;
 
-  @state()
-  private primarySpecialityLevels: constants.SpecialityLevelName[] =
-    new Array<constants.SpecialityLevelName>();
-
-  @state()
-  private secondarySpecialityLevels: constants.SpecialityLevelName[] =
-    new Array<constants.SpecialityLevelName>();
-
   constructor() {
     super();
-
-    subscribeKeys(
-      selectedValues,
-      [
-        "level",
-        "ascending",
-        "type",
-        "primarySpecialityLevels",
-
-        "secondarySpecialityLevels",
-      ],
-      (value, oldValue?, changed?) => {
-        if (DEBUG) {
-          console.log(
-            `changed includes ${changed ? JSON.stringify(changed) : '""'}`
-          );
-        }
-        if (!changed) {
-          this.level = value.level;
-          this.ascending = value.ascending;
-          this.stars = value.stars;
-          this.generalType = value.type;
-          this.primarySpecialityLevels[0] = value.primarySpecialityLevels[0];
-          this.primarySpecialityLevels[1] = value.primarySpecialityLevels[1];
-          this.primarySpecialityLevels[2] = value.primarySpecialityLevels[2];
-          this.primarySpecialityLevels[3] = value.primarySpecialityLevels[3];
-          this.secondarySpecialityLevels[0] =
-            value.secondarySpecialityLevels[0];
-          this.secondarySpecialityLevels[1] =
-            value.secondarySpecialityLevels[1];
-          this.secondarySpecialityLevels[2] =
-            value.secondarySpecialityLevels[2];
-          this.secondarySpecialityLevels[3] =
-            value.secondarySpecialityLevels[3];
-        } else {
-          if (changed.includes("level")) {
-            this.level = value.level;
-          }
-          if (changed.includes("ascending") || this.ascending) {
-            this.ascending = value.ascending;
-            this.stars = value.stars;
-          }
-          if (changed.includes("type")) {
-            if (Array.isArray(value.type)) {
-              this.generalType = value.type[0];
-            } else {
-              this.generalType = value.type;
-            }
-          }
-          if (changed.includes(`primarySpecialityLevels`)) {
-            Array.from(Array(4).keys()).map((n) => {
-              this.primarySpecialityLevels[n] =
-                value.primarySpecialityLevels[n];
-              this.requestUpdate("primarySpecialityLevels");
-            });
-          }
-          if (changed.includes(`secondarySpecialityLevels`)) {
-            Array.from(Array(4).keys()).map((n) => {
-              this.secondarySpecialityLevels[n] =
-                value.secondarySpecialityLevels[n];
-              this.requestUpdate("secondarySpecialityLevels");
-            });
-          }
-        }
-      }
-    );
   }
 
   override firstUpdated = async () => {
@@ -129,6 +58,140 @@ export default class ValueSelector extends LitElement {
       if (DEBUG) {
         console.log(`sp-picker is now defined`);
       }
+      Array.from(Array(4).keys()).map((n, index) => {
+        if (DEBUG) {
+          console.log(`getSetValues Array.from loop ${n}`);
+        }
+        /*#primary-speciality-0 */
+        let specialityPicker = this.renderRoot?.querySelector(
+          `#primary-speciality-${n}`
+        );
+        if (specialityPicker) {
+          if (DEBUG) {
+            console.log(`#primary-speciality-${n} found`);
+          }
+          specialityPicker.addEventListener("change", (event) => {
+            if (DEBUG) {
+              console.log(
+                `EventListener for change for #primary-speciality-${n}`
+              );
+            }
+            const target = event.target as Picker;
+            const valid = constants.SpecialityLevelName.safeParse(target.value);
+            if (valid.success) {
+              stores.selectedValues.setKey(
+                `primarySpecialityLevels[${index}]`,
+                valid.data
+              );
+              let enable4 = false;
+              Array.from(Array(4).keys()).map((n2) => {
+                enable4 = this.enableSpecialityPicker(n2, "primary");
+                if (!enable4) {
+                  stores.selectedValues.setKey(
+                    `primarySpecialityLevels[3]`,
+                    constants.SpecialityLevelName.Enum.None
+                  );
+                }
+              });
+
+              if (enable4) {
+                if (
+                  !stores.selectedValues
+                    .get()
+                    .primarySpecialityLevels[3].localeCompare(
+                      constants.SpecialityLevelName.Enum.None
+                    )
+                ) {
+                  stores.selectedValues.setKey(
+                    `primarySpecialityLevels[3]`,
+                    constants.SpecialityLevelName.Enum.Green
+                  );
+                }
+              }
+            } else {
+              if (DEBUG) {
+                console.warn(`invalid value: ${valid.error.message}`);
+              }
+            }
+
+            if (DEBUG) {
+              console.log(
+                `values are ${JSON.stringify(stores.selectedValues.value)}`
+              );
+            }
+
+            this.requestUpdate("primarySpecialityLevels");
+          });
+        } else {
+          console.warn(`#primary-speciality-${n} not found`);
+        }
+      });
+
+      Array.from(Array(4).keys()).map((n, index) => {
+        if (DEBUG) {
+          console.log(`getSetValues Array.from loop ${n}`);
+        }
+        /*secondary picker */
+        let specialityPicker = this.renderRoot?.querySelector(
+          `#secondary-speciality-${n}`
+        );
+        if (specialityPicker) {
+          if (DEBUG) {
+            console.log(`#secondary-speciality-${n} found`);
+          }
+          specialityPicker.addEventListener("change", (event) => {
+            if (DEBUG) {
+              console.log(
+                `EventListener for change for #secondary-speciality-${n}`
+              );
+            }
+            const target = event.target as Picker;
+            const valid = constants.SpecialityLevelName.safeParse(target.value);
+            if (valid.success) {
+              stores.selectedValues.setKey(
+                `secondarySpecialityLevels[${index}]`,
+                valid.data
+              );
+              let enable4 = false;
+              Array.from(Array(4).keys()).map((n2) => {
+                enable4 = this.enableSpecialityPicker(n2, "secondary");
+                if (!enable4) {
+                  stores.selectedValues.setKey(
+                    `secondarySpecialityLevels[3]`,
+                    constants.SpecialityLevelName.Enum.None
+                  );
+                }
+              });
+
+              if (enable4) {
+                if (
+                  !stores.selectedValues
+                    .get()
+                    .secondarySpecialityLevels[3].localeCompare(
+                      constants.SpecialityLevelName.Enum.None
+                    )
+                ) {
+                  stores.selectedValues.setKey(
+                    `secondarySpecialityLevels[3]`,
+                    constants.SpecialityLevelName.Enum.Green
+                  );
+                }
+              }
+            } else {
+              if (DEBUG) {
+                console.warn(`invalid value: ${valid.error.message}`);
+              }
+            }
+            if (DEBUG) {
+              console.log(
+                `selected values are ${stores.selectedValues.get().secondarySpecialityLevels.join(" ")}`
+              );
+            }
+
+            this.requestUpdate("secondarySpecialityLevels");
+          });
+        }
+      });
       const ascendingSelector =
         this.renderRoot?.querySelector("#primary-ascending");
       if (ascendingSelector) {
@@ -145,12 +208,12 @@ export default class ValueSelector extends LitElement {
             this.stars = valid.data;
             if (this.stars == AscendingLevel.Values.None) {
               this.ascending = false;
-              selectedValues.setKey("ascending", false);
-              selectedValues.setKey("stars", "None");
+              stores.selectedValues.setKey("ascending", false);
+              stores.selectedValues.setKey("stars", "None");
             } else {
               this.ascending = true;
-              selectedValues.setKey("ascending", true);
-              selectedValues.setKey("stars", this.stars);
+              stores.selectedValues.setKey("ascending", true);
+              stores.selectedValues.setKey("stars", this.stars);
             }
           }
           if (DEBUG) {
@@ -172,7 +235,7 @@ export default class ValueSelector extends LitElement {
           const valid = GeneralType.safeParse(target.value);
           if (valid.success) {
             this.generalType = valid.data;
-            selectedValues.setKey("type", valid.data);
+            stores.selectedValues.setKey("type", valid.data);
           }
         });
       } else {
@@ -204,212 +267,10 @@ export default class ValueSelector extends LitElement {
           if (DEBUG) {
             console.log(`level is ${this.level}`);
           }
-          selectedValues.setKey("level", this.level);
+          stores.selectedValues.setKey("level", this.level);
         });
       } else {
         console.warn(`#level not found`);
-      }
-    });
-    Array.from(Array(4).keys()).map((n) => {
-      if (DEBUG) {
-        console.log(`getSetValues Array.from loop ${n}`);
-      }
-      /*#primary-speciality-0 */
-      let specialityPicker = this.renderRoot?.querySelector(
-        `#primary-speciality-${n}`
-      );
-      if (specialityPicker) {
-        if (DEBUG) {
-          console.log(`#primary-speciality-${n} found`);
-        }
-        specialityPicker.addEventListener("change", (event) => {
-          if (DEBUG) {
-            console.log(
-              `EventListener for change for #primary-speciality-${n}`
-            );
-          }
-          const target = event.target as Picker;
-          const valid = constants.SpecialityLevelName.safeParse(target.value);
-          if (valid.success) {
-            if (n == 3) {
-              if (
-                !this.primarySpecialityLevels[0].localeCompare(
-                  constants.SpecialityLevelName.Enum.Gold
-                ) &&
-                !this.primarySpecialityLevels[1].localeCompare(
-                  constants.SpecialityLevelName.Enum.Gold
-                ) &&
-                !this.primarySpecialityLevels[2].localeCompare(
-                  constants.SpecialityLevelName.Enum.Gold
-                )
-              ) {
-                this.primarySpecialityLevels[3] = valid.data;
-              } else {
-                if (DEBUG) {
-                  console.log(`setting 3 to none`);
-                }
-                this.primarySpecialityLevels[3] =
-                  constants.SpecialityLevelName.Enum.None;
-              }
-            } else {
-              if (DEBUG) {
-                console.log(`n is ${n}, value is ${valid.data}`);
-              }
-              if (
-                valid.data.localeCompare(
-                  constants.SpecialityLevelName.Enum.Gold
-                )
-              ) {
-                if (DEBUG) {
-                  console.log(`${n} was not gold`);
-                }
-                this.primarySpecialityLevels[3] =
-                  constants.SpecialityLevelName.Enum.None;
-                this.primarySpecialityLevels[n] = valid.data;
-              } else {
-                if (DEBUG) {
-                  console.log(`setting gold for ${n}`);
-                }
-                this.primarySpecialityLevels[n] = valid.data;
-                if (
-                  !this.primarySpecialityLevels[0].localeCompare(
-                    constants.SpecialityLevelName.Enum.Gold
-                  ) &&
-                  !this.primarySpecialityLevels[1].localeCompare(
-                    constants.SpecialityLevelName.Enum.Gold
-                  ) &&
-                  !this.primarySpecialityLevels[2].localeCompare(
-                    constants.SpecialityLevelName.Enum.Gold
-                  )
-                ) {
-                  if (DEBUG) {
-                    console.log(`first 3 are gold`);
-                  }
-                  this.primarySpecialityLevels[3] =
-                    constants.SpecialityLevelName.Enum.Green;
-                } else {
-                  if (DEBUG) {
-                    console.log(`first 3 not all gold`);
-                    console.log(this.primarySpecialityLevels.join(" "));
-                  }
-                }
-              }
-            }
-          } else {
-            if (DEBUG) {
-              console.warn(`invalid value: ${valid.error.message}`);
-            }
-          }
-          if (DEBUG) {
-            console.log(
-              `selected values are ${this.primarySpecialityLevels.join(" ")}`
-            );
-          }
-          selectedValues.setKey(
-            "primarySpecialityLevels",
-            this.primarySpecialityLevels
-          );
-          this.requestUpdate("primarySpecialityLevels");
-        });
-      } else {
-        console.warn(`#primary-speciality-${n} not found`);
-      }
-      specialityPicker = this.renderRoot?.querySelector(
-        `#secondary-speciality-${n}`
-      );
-      if (specialityPicker) {
-        if (DEBUG) {
-          console.log(`#secondary-speciality-${n} found`);
-        }
-        specialityPicker.addEventListener("change", (event) => {
-          if (DEBUG) {
-            console.log(
-              `EventListener for change for #secondary-speciality-${n}`
-            );
-          }
-          const target = event.target as Picker;
-          const valid = constants.SpecialityLevelName.safeParse(target.value);
-          if (valid.success) {
-            if (n == 3) {
-              if (
-                !this.secondarySpecialityLevels[0].localeCompare(
-                  constants.SpecialityLevelName.Enum.Gold
-                ) &&
-                !this.secondarySpecialityLevels[1].localeCompare(
-                  constants.SpecialityLevelName.Enum.Gold
-                ) &&
-                !this.secondarySpecialityLevels[2].localeCompare(
-                  constants.SpecialityLevelName.Enum.Gold
-                )
-              ) {
-                this.secondarySpecialityLevels[3] = valid.data;
-              } else {
-                if (DEBUG) {
-                  console.log(`setting 3 to none`);
-                }
-                this.secondarySpecialityLevels[3] =
-                  constants.SpecialityLevelName.Enum.None;
-              }
-            } else {
-              if (DEBUG) {
-                console.log(`n is ${n}, value is ${valid.data}`);
-              }
-              if (
-                valid.data.localeCompare(
-                  constants.SpecialityLevelName.Enum.Gold
-                )
-              ) {
-                if (DEBUG) {
-                  console.log(`${n} was not gold`);
-                }
-                this.secondarySpecialityLevels[3] =
-                  constants.SpecialityLevelName.Enum.None;
-                this.secondarySpecialityLevels[n] = valid.data;
-              } else {
-                if (DEBUG) {
-                  console.log(`setting gold for ${n}`);
-                }
-                this.secondarySpecialityLevels[n] = valid.data;
-                if (
-                  !this.secondarySpecialityLevels[0].localeCompare(
-                    constants.SpecialityLevelName.Enum.Gold
-                  ) &&
-                  !this.secondarySpecialityLevels[1].localeCompare(
-                    constants.SpecialityLevelName.Enum.Gold
-                  ) &&
-                  !this.secondarySpecialityLevels[2].localeCompare(
-                    constants.SpecialityLevelName.Enum.Gold
-                  )
-                ) {
-                  if (DEBUG) {
-                    console.log(`first 3 are gold`);
-                  }
-                  this.secondarySpecialityLevels[3] =
-                    constants.SpecialityLevelName.Enum.Green;
-                } else {
-                  if (DEBUG) {
-                    console.log(`first 3 not all gold`);
-                    console.log(this.secondarySpecialityLevels.join(" "));
-                  }
-                }
-              }
-            }
-          } else {
-            if (DEBUG) {
-              console.warn(`invalid value: ${valid.error.message}`);
-            }
-          }
-          if (DEBUG) {
-            console.log(
-              `selected values are ${this.secondarySpecialityLevels.join(" ")}`
-            );
-          }
-          selectedValues.setKey(
-            "secondarySpecialityLevels",
-            this.secondarySpecialityLevels
-          );
-          this.requestUpdate("secondarySpecialityLevels");
-        });
       }
     });
   };
@@ -418,32 +279,63 @@ export default class ValueSelector extends LitElement {
     n: number,
     role: "primary" | "secondary" = "primary"
   ) => {
+    if (!role.localeCompare("primary")) {
+      if (stores.selectedValues.get().primarySpecialityLevels.length < 4) {
+        Array.from(Array(4).keys()).map((n, index) => {
+          stores.selectedValues.setKey(
+            `primarySpecialityLevels[${index}]`,
+            constants.SpecialityLevelName.Enum.None
+          );
+        });
+      }
+    } else {
+      if (stores.selectedValues.get().secondarySpecialityLevels.length < 4) {
+        Array.from(Array(4).keys()).map((n, index) => {
+          stores.selectedValues.setKey(
+            `secondarySpecialityLevels[${index}]`,
+            constants.SpecialityLevelName.Enum.None
+          );
+        });
+      }
+    }
     if (n != 3) {
       return true;
     } else if (
       !role.localeCompare("primary") &&
-      !this.primarySpecialityLevels[0].localeCompare(
-        constants.SpecialityLevelName.Enum.Gold
-      ) &&
-      !this.primarySpecialityLevels[1].localeCompare(
-        constants.SpecialityLevelName.Enum.Gold
-      ) &&
-      !this.primarySpecialityLevels[2].localeCompare(
-        constants.SpecialityLevelName.Enum.Gold
-      )
+      !stores.selectedValues
+        .get()
+        .primarySpecialityLevels[0].localeCompare(
+          constants.SpecialityLevelName.Enum.Gold
+        ) &&
+      !stores.selectedValues
+        .get()
+        .primarySpecialityLevels[1].localeCompare(
+          constants.SpecialityLevelName.Enum.Gold
+        ) &&
+      !stores.selectedValues
+        .get()
+        .primarySpecialityLevels[2].localeCompare(
+          constants.SpecialityLevelName.Enum.Gold
+        )
     ) {
       return true;
     } else if (
       !role.localeCompare("secondary") &&
-      !this.secondarySpecialityLevels[0].localeCompare(
-        constants.SpecialityLevelName.Enum.Gold
-      ) &&
-      !this.secondarySpecialityLevels[1].localeCompare(
-        constants.SpecialityLevelName.Enum.Gold
-      ) &&
-      !this.secondarySpecialityLevels[2].localeCompare(
-        constants.SpecialityLevelName.Enum.Gold
-      )
+      !stores.selectedValues
+        .get()
+        .secondarySpecialityLevels[0].localeCompare(
+          constants.SpecialityLevelName.Enum.Gold
+        ) &&
+      !stores.selectedValues
+        .get()
+        .secondarySpecialityLevels[1].localeCompare(
+          constants.SpecialityLevelName.Enum.Gold
+        ) &&
+      !stores.selectedValues
+        .get()
+        .secondarySpecialityLevels[2].localeCompare(
+          constants.SpecialityLevelName.Enum.Gold
+        )
     ) {
       return true;
     }
@@ -519,12 +411,18 @@ export default class ValueSelector extends LitElement {
                     : true}
                   id="primary-speciality-${n}"
                   size="m"
-                  value="${this.primarySpecialityLevels[n]}"
+                  value="${stores.selectedValues.get().primarySpecialityLevels[
+                    n
+                  ]}"
                   style="width: 7rem;"
                 >
                   <span slot="label">Choose a Speciality Level:</span>
                   ${constants.SpecialityLevelName.options.map((spn) => {
-                    if (!spn.localeCompare(this.primarySpecialityLevels[n])) {
+                    if (
+                      !spn.localeCompare(
+                        stores.selectedValues.get().primarySpecialityLevels[n]
+                      )
+                    ) {
                       return html`<sp-menu-item value="${spn}" selected
                         >${spn}</sp-menu-item
                       >`;
@@ -556,7 +454,8 @@ export default class ValueSelector extends LitElement {
                     : true}
                   size="m"
                   label="Speciality Level"
-                  value="${this.secondarySpecialityLevels[n] ??
+                  value="${stores.selectedValues.get()
+                    .secondarySpecialityLevels[n] ??
                   constants.SpecialityLevelName.Enum.None}"
                   style="width: 7rem;"
                 >

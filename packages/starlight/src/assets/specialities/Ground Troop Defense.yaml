@@ -1,5 +1,5 @@
 ---
-name: Ground Troop defense
+name: Ground Troop Defense
 levels:
   - level: Green
     buff:

@@ -72,7 +72,7 @@ export const selectedValues = deepMap<SelectedValues>({
     constants.SpecialityLevelName.Enum.None,
     constants.SpecialityLevelName.Enum.None,
   ],
-  type: GeneralType.Enum.ground_specialist,
+  type: GeneralType.Enum.mounted_specialist,
   stars: constants.AscendingLevel.Enum.None,
   level: 0,
 });
@@ -97,11 +97,16 @@ generals.listen((value, oldValue) => {
   }
 });
 
-export const pairs = batched(
+import * as MarchSize from "./MarchSize";
+
+export const pairs = computed(
   [generals, conflictGroups, selectedValues],
   (generals, conflictGroups, selectedValues) => {
     if (DEBUG) {
-      console.log(`I start with ${generals.length} generals`);
+      console.log(`pairs computed starts with ${generals.length} generals`);
+      console.log(
+        `pairs computed starts with ${JSON.stringify(selectedValues)} `
+      );
     }
     const p = generals
       .filter((g) => {
@@ -186,6 +191,7 @@ export const pairs = batched(
           primary: p[0],
           secondary: p[1],
         };
+
         return td;
       })
       .filter((p) => {
@@ -226,13 +232,26 @@ export const pairs = batched(
       });
 
     if (DEBUG) {
-      console.log(
-        `I have ${step2.length} pairs ${step2.map((s) => {
-          return JSON.stringify({ p: s.primary.id, s: s.secondary.id });
-        })}`
-      );
+      console.log(`step2 has ${step2.length} pairs `);
     }
-    return step2;
+    const step3 = step2.map((pair) => {
+      const td2: GeneralPair = {
+        ...pair,
+        MarchSizeIncrease: {
+          MountedPvMCompatiblePair:
+            MarchSize.MountedPvMCompatiblePairMarchSize(pair),
+          baseAttribute: 0,
+          attributeIncrement: 0,
+          attributeTotal: MarchSize.AttributeMarchSize(pair),
+          baseSkill: MarchSize.BaseSkillMarchSize(pair),
+        },
+      };
+      return td2;
+    });
+    if (DEBUG) {
+      console.log(`step3 has ${step3.length} pairs `);
+    }
+    return step3;
   }
 );
 
