@@ -4,6 +4,7 @@ import { docsLoader } from "@astrojs/starlight/loaders";
 import { docsSchema } from "@astrojs/starlight/schema";
 
 import { General } from "@schemas/generals";
+import { GeneralAscending } from "@schemas/ascending";
 import { SkillBook } from "@schemas/skillBooks";
 import { ConfictGroup } from "@schemas/generalConflictGroups";
 import { Speciality } from "@schemas/specialities";
@@ -18,6 +19,13 @@ export const collections = {
       base: "./src/content/generals",
     }),
     schema: General,
+  }),
+  ascending: defineCollection({
+    loader: glob({
+      pattern: "*.json",
+      base: "./src/content/ascending",
+    }),
+    schema: GeneralAscending,
   }),
   conflictGroups: defineCollection({
     loader: glob({

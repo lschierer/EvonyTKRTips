@@ -1,24 +1,26 @@
-BUN := `which bun`
-BUNX := `which bunx`
+tmpdir  := `mktemp`
+export PATH := "./node_modules/.bin:" + env_var('PATH')
+set dotenv-load
 
-backend-build:
-  {{BUN}} --bun vite build || exit 1
+export PNPM := `which pnpm`
+export NPM := `which npm`
+export NPX := `which npx`
 
-backend-dev:
-  cd backend && {{BUN}} run --hot src/index.ts
+install:
+  ${PNPM} install
 
-frontend-dev:
-  cd frontend && {{BUN}} vite
+dev: install parse
+  cd packages/starlight && ${PNPM} run dev
 
-frontend-preview:
-  cd frontend && {{BUN}} vite preview
+check: install
+  cd packages/starlight && ${NPX} tsc --noEmit -p .;
 
-frontend-build:
-  cd frontend && vite build
+build: install parse
+  cd packages/starlight && ${PNPM} run build
 
-check: checkFrontend
+parse: install
+  cd packages/starlight && ./bin/createCollections.sh
 
-checkFrontend:
-  cd frontend && tsc
 
-build: backend-build frontend-build
+deploy: build
+  cd infrastructure && pulumi up

@@ -1,6 +1,6 @@
 ---
 ascending:
-- level: '1Red'
+- level: 'red1'
   buff:
     - attribute: 'Double Items Drop Rate'
       condition:
@@ -14,7 +14,7 @@ ascending:
       value:
         number: 5
         unit: percentage
-- level: '2Red'
+- level: 'red2'
   buff:
     - attribute: Attack
       class: Monsters
@@ -29,7 +29,7 @@ ascending:
       value:
         number: 10
         unit: percentage
-- level: '3Red'
+- level: 'red3'
   buff:
     - attribute: March Size Capacity
       value:
@@ -41,7 +41,7 @@ ascending:
       value:
         number: 5
         unit: percentage
-- level: '4Red'
+- level: 'red4'
   buff:
     - attribute: Attack
       condition:
@@ -50,7 +50,7 @@ ascending:
       value:
         number: 30
         unit: percentage
-- level: '5Red'
+- level: 'red5'
   buff:
     - attribute: 'Double Items Drop Rate'
       condition:

@@ -1,6 +1,6 @@
 ---
 ascending:
-- level: '1Red'
+- level: 'red1'
   buff:
     - attribute: Attack
       class: Ground Troops
@@ -16,7 +16,7 @@ ascending:
       value:
         number: 155
         unit: percentage
-- level: '2Red'
+- level: 'red2'
   buff:
     - attribute: Death to Wounded
       condition:
@@ -24,7 +24,7 @@ ascending:
       value:
         number: 10
         unit: percentage
-- level: '3Red'
+- level: 'red3'
   buff:
     - attribute: Rally Capacity
       condition:
@@ -32,7 +32,7 @@ ascending:
       value:
         number: 8
         unit: percentage
-- level: '4Red'
+- level: 'red4'
   buff:
     - attribute: Attack
       condition:
@@ -62,7 +62,7 @@ ascending:
       value:
         number: 20
         unit: percentage
-- level: '5Red'
+- level: 'red5'
   buff:
     - attribute: Attack
       condition:
