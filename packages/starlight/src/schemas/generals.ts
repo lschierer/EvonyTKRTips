@@ -57,33 +57,36 @@ export type General = z.infer<typeof General>;
 export const GeneralPair = z.object({
   primary: General,
   secondary: General,
-  MarchSizeIncrease: z
-    .object({
+});
+export type GeneralPair = z.infer<typeof GeneralPair>;
+
+/*
+MarchSizeIncrease: z
+  .object({
+    baseAttribute: z.number(),
+    attributeIncrement: z.number(),
+    attributeTotal: z.number(),
+    baseSkill: z.number(),
+  })
+  .optional(),
+MountedPVM: z
+  .object({
+    attack: z.object({
       baseAttribute: z.number(),
       attributeIncrement: z.number(),
       attributeTotal: z.number(),
       baseSkill: z.number(),
-    })
-    .optional(),
-  MountedPVM: z
-    .object({
-      attack: z.object({
-        baseAttribute: z.number(),
-        attributeIncrement: z.number(),
-        attributeTotal: z.number(),
-        baseSkill: z.number(),
-      }),
-    })
-    .optional(),
-  AttackingAttack: z
-    .object({
-      attack: z.object({
-        baseAttribute: z.number(),
-        attributeIncrement: z.number(),
-        attributeTotal: z.number(),
-        baseSkill: z.number(),
-      }),
-    })
-    .optional(),
-});
-export type GeneralPair = z.infer<typeof GeneralPair>;
+    }),
+  })
+  .optional(),
+AttackingAttack: z
+  .object({
+    attack: z.object({
+      baseAttribute: z.number(),
+      attributeIncrement: z.number(),
+      attributeTotal: z.number(),
+      baseSkill: z.number(),
+    }),
+  })
+  .optional(),
+*/

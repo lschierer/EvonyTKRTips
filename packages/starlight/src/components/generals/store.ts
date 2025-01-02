@@ -1,4 +1,4 @@
-import { atom, batched, deepMap } from "nanostores";
+import { atom, batched, computed, deepMap } from "nanostores";
 import * as d3 from "d3";
 
 import { General, GeneralPair, GeneralType } from "@schemas/generals";
@@ -76,8 +76,6 @@ export const selectedValues = deepMap<SelectedValues>({
   stars: constants.AscendingLevel.Enum.None,
   level: 0,
 });
-
-export const table = atom<Table<GeneralPair> | null>(null);
 
 export const generals = atom<General[]>(new Array<General>());
 
@@ -237,3 +235,16 @@ export const pairs = batched(
     return step2;
   }
 );
+
+import {
+  createTable,
+  getCoreRowModel,
+  getSortedRowModel,
+  type SortingState,
+  type TableOptionsResolved,
+  type TableState,
+} from "@tanstack/table-core";
+
+import columns from "./columns";
+
+export const sorting = atom<SortingState>([]);

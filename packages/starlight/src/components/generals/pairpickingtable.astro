@@ -21,7 +21,9 @@ const specialities = (await getCollection("specialities")).map(
   <div id="generals-table" class="not-content">
     <table-element
       generals={JSON.stringify(generals)}
-      skillbooks={JSON.stringify(skillbooks)}></table-element>
+      skillbooks={JSON.stringify(skillbooks)}
+      conflictGroups={JSON.stringify(conflictGroups)}
+      specialities={JSON.stringify(specialities)}></table-element>
   </div>
 </div>
 

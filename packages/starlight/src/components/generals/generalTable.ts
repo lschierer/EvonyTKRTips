@@ -7,6 +7,8 @@ import {
   TableController,
   createColumnHelper,
   type Table,
+  type TableState,
+  type TableOptions,
 } from "@tanstack/lit-table";
 
 import {
@@ -16,6 +18,7 @@ import {
   type PropertyValues,
   type CSSResultGroup,
   unsafeCSS,
+  type TemplateResult,
 } from "lit";
 import { repeat } from "lit/directives/repeat.js";
 import { customElement, property, state } from "lit/decorators.js";
@@ -23,6 +26,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import { type Ref, createRef, ref } from "lit/directives/ref.js";
 
 import { StoreController } from "@nanostores/lit";
+import { subscribeKeys } from "nanostores";
 
 import {
   Tabulator,
@@ -56,53 +60,18 @@ Tabulator.registerModule([
 import SpectrumTableCSS from "@spectrum-css/table/dist/index.css?inline";
 import GeneralsCSS from "@styles/generals.css?inline";
 
+import { Speciality } from "@schemas/specialities";
+import { ConfictGroup } from "@schemas/generalConflictGroups";
 import { General, GeneralPair } from "@schemas/generals";
 import * as stores from "./store";
 
 import { MountedPvMCompatiblePairMarchSize } from "./MarchSize";
 import { SkillBook } from "@schemas/skillBooks";
 
-import tableHead from "./tableHead";
-import tableBody from "./tableBody";
+import columns from "./columns";
 
 const DEBUG = true;
 
-const columnHelper = createColumnHelper<GeneralPair>();
-const columns = [
-  columnHelper.accessor("primary.id", {
-    id: "primary",
-    enableSorting: true,
-    invertSorting: false,
-    sortDescFirst: false,
-    header: () => html`<span class="tableHeader">Primary</span>`,
-    cell: (row) => html`<span class="tableCell">${row.getValue()}</span>`,
-  }),
-  columnHelper.accessor("secondary.id", {
-    id: "secondary",
-    enableSorting: true,
-    invertSorting: false,
-    sortDescFirst: false,
-    header: () => html`<span class="tableHeader">Secondary</span>`,
-    cell: (row) => row.getValue(),
-  }),
-  columnHelper.accessor("primary.level", {
-    id: "level",
-    header: () => html`<span class="tableHeader">Level</span>`,
-    cell: (row) => html`<span class="tableCell">${row.getValue()}</span>`,
-  }),
-];
-/*
-columnHelper.accessor("primary.level", {
-  id: "level",
-  header: () => html`<span class="tableHeader">Level</span>`,
-  cell: (row) => html`<span class="tableCell">${row.getValue()}</span>`,
-}),
-{
-  id: "marchsize",
-  header: () => html`<span class="tableHeader">March Size Increase</span>`,
-  accessorFn: (row: GeneralPair) => MountedPvMCompatiblePairMarchSize(row),
-},
-*/
 @customElement("table-element")
 export default class TableElement extends LitElement {
   @property({ type: Array })
@@ -111,11 +80,30 @@ export default class TableElement extends LitElement {
   @property({ type: Array })
   public skillbooks = new Array<SkillBook>();
 
+  @property({ type: Array })
+  public conflictGroups = new Array<ConfictGroup>();
+
+  @property({ type: Array })
+  public specialities = new Array<Speciality>();
+
+  @state()
+  private _tableState: TableState | null = null;
+
   private pairsController = new StoreController(this, stores.pairs);
 
   private generalsController = new StoreController(this, stores.generals);
 
-  private tableStoreController = new StoreController(this, stores.table);
+  private skillbooksController = new StoreController(this, stores.skillBooks);
+
+  private confictGroupController = new StoreController(
+    this,
+    stores.conflictGroups
+  );
+
+  private specialitiesController = new StoreController(
+    this,
+    stores.specialities
+  );
 
   @state()
   private _sorting: SortingState = [];
@@ -129,6 +117,7 @@ export default class TableElement extends LitElement {
 
   constructor() {
     super();
+    stores.pairs.subscribe((pairs) => {});
   }
 
   protected override willUpdate(_changedProperties: PropertyValues): void {
@@ -152,10 +141,47 @@ export default class TableElement extends LitElement {
     if (_changedProperties.has("skillbooks")) {
       if (Array.isArray(this.skillbooks)) {
         stores.skillBooks.set(this.skillbooks);
+        if (DEBUG) {
+          console.log(
+            `I now have ${this.skillbooksController.value.length} skillbooks`
+          );
+        }
       } else {
         if (DEBUG) {
           console.warn(
-            `this.skillBooks was not an array, it is '${this.skillBooks}'`
+            `this.skillBooks was not an array, it is '${this.skillbooks}'`
+          );
+        }
+      }
+    }
+    if (_changedProperties.has("conflictGroups")) {
+      if (Array.isArray(this.conflictGroups)) {
+        stores.conflictGroups.set(this.conflictGroups);
+        if (DEBUG) {
+          console.log(
+            `I now have ${this.confictGroupController.value.length} conflictGroups`
+          );
+        }
+      } else {
+        if (DEBUG) {
+          console.warn(
+            `this.conflictGroups was not an array, it is '${this.conflictGroups}'`
+          );
+        }
+      }
+    }
+    if (_changedProperties.has("specialities")) {
+      if (Array.isArray(this.specialities)) {
+        stores.specialities.set(this.specialities);
+        if (DEBUG) {
+          console.log(
+            `I now have ${this.specialitiesController.value.length} specialities`
+          );
+        }
+      } else {
+        if (DEBUG) {
+          console.warn(
+            `this.specialities was not an array, it is '${this.specialities}'`
           );
         }
       }
@@ -166,6 +192,80 @@ export default class TableElement extends LitElement {
     unsafeCSS(SpectrumTableCSS),
     unsafeCSS(GeneralsCSS),
   ];
+
+  protected tableHead(table: Table<GeneralPair>): TemplateResult {
+    return html`
+      <thead class="spectrum-Table-head">
+        ${repeat(
+          table.getHeaderGroups(),
+          (headerGroup) => headerGroup.id,
+          (headerGroup) => html`
+            <tr>
+              ${headerGroup.headers.map(
+                (header) => html`
+                  <th
+                    colspan="${header.colSpan}"
+                    class="spectrum-Table-headCell is-sortable"
+                  >
+                    ${header.isPlaceholder
+                      ? null
+                      : html` <div
+                          title=${ifDefined(
+                            header.column.getCanSort()
+                              ? header.column.getNextSortingOrder() === "asc"
+                                ? "Sort ascending"
+                                : header.column.getNextSortingOrder() === "desc"
+                                  ? "Sort descending"
+                                  : "Clear sort"
+                              : undefined
+                          )}
+                          @click="${header.column.getToggleSortingHandler()}"
+                          style="cursor: ${header.column.getCanSort()
+                            ? "pointer"
+                            : "not-allowed"}"
+                        >
+                          ${flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                          ${{ asc: " 🔼", desc: " 🔽" }[
+                            header.column.getIsSorted() as string
+                          ] ?? null}
+                        </div>`}
+                  </th>
+                `
+              )}
+            </tr>
+          `
+        )}
+      </thead>
+    `;
+  }
+
+  protected tableBody(table: Table<GeneralPair>): TemplateResult {
+    return html`
+      <tbody class="spectrum-Table-body">
+        ${table.getSortedRowModel().rows.map(
+          (row) => html`
+            <tr class="spectrum-Table-row">
+              ${row
+                .getVisibleCells()
+                .map(
+                  (cell) => html`
+                    <td class="spectrum-Table-cell">
+                      ${flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </td>
+                  `
+                )}
+            </tr>
+          `
+        )}
+      </tbody>
+    `;
+  }
 
   private index = 0;
   protected override render() {
@@ -184,15 +284,14 @@ export default class TableElement extends LitElement {
         );
       }
 
-      stores.table.set(
-        this.tableController.table({
+      if (stores.pairs.value) {
+        const table = this.tableController.table({
           columns,
-          data: DEBUG
-            ? this.pairsController.value.slice(0, 50)
-            : this.pairsController.value,
+          data: stores.pairs.value,
           state: {
             sorting: this._sorting,
           },
+
           onSortingChange: (updaterOrValue) => {
             if (typeof updaterOrValue === "function") {
               this._sorting = updaterOrValue(this._sorting);
@@ -200,21 +299,34 @@ export default class TableElement extends LitElement {
               this._sorting = updaterOrValue;
             }
           },
-          getSortedRowModel: getSortedRowModel<GeneralPair>(),
-          getCoreRowModel: getCoreRowModel<GeneralPair>(),
-        })
-      );
-      if (DEBUG && this.tableStoreController.value) {
-        console.log(
-          `table has ${this.tableStoreController.value.getRowModel().rows.length} rows in render`
-        );
-      }
-      if (this.tableStoreController.value) {
+          getSortedRowModel: getSortedRowModel(),
+          getCoreRowModel: getCoreRowModel(),
+          renderFallbackValue: "pending data",
+        });
+        const state = { ...table.initialState, ...this._tableState };
+        const oldOptions = table.options;
+        const newOptions: TableOptions<GeneralPair> = {
+          columns,
+          data: stores.pairs.value,
+          onSortingChange: oldOptions.onSortingChange,
+          state: oldOptions.state,
+          onStateChange: oldOptions.onStateChange,
+          getSortedRowModel: oldOptions.getSortedRowModel,
+          getCoreRowModel: oldOptions.getCoreRowModel,
+        };
+        //@ts-expect-error
+        table.setOptions(newOptions);
+
+        if (DEBUG) {
+          console.log(
+            `table has ${table.getRowModel().rows.length} rows in render`
+          );
+        }
         return html`
           <table
             class="spectrum-Table spectrum-Table--sizeM spectrum-Table--emphasized"
           >
-            ${tableHead()} ${tableBody()}
+            ${this.tableHead(table)} ${this.tableBody(table)}
           </table>
           ${DEBUG
             ? html`<pre>${JSON.stringify(this._sorting, null, 2)}</pre>`
