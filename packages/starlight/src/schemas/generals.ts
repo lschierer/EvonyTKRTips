@@ -2,6 +2,7 @@ import * as z from "zod";
 
 import * as constants from "./constants";
 import { Buff } from "./buff";
+import { Speciality } from "./specialities";
 
 export const Display = z.enum(["summary"]);
 export type Display = z.infer<typeof Display>;
@@ -44,11 +45,12 @@ export const General = z.object({
   id: z.string(),
   note: z.array(Note).optional(),
   specialities: z.array(z.string()),
+  specialityLevels: z.array(constants.SpecialityLevelName).optional(),
   stars: constants.AscendingLevel,
   type: z.array(GeneralType),
   extra: z.array(z.string()).optional(),
   warnings: z.array(z.string()).optional(),
-  level: z.number().min(0).max(45).optional(),
+  level: z.number().min(1).max(45).optional(),
 });
 export type General = z.infer<typeof General>;
 

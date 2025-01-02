@@ -15,6 +15,16 @@ export const AscendingLevel = z.enum([
 ]);
 export type AscendingLevel = z.infer<typeof AscendingLevel>;
 
+export const SpecialityLevelName = z.enum([
+  "None",
+  "Green",
+  "Blue",
+  "Purple",
+  "Orange",
+  "Gold",
+]);
+export type SpecialityLevelName = z.infer<typeof SpecialityLevelName>;
+
 export const Attribute = z.enum([
   "Attack",
   "Death to Soul",
@@ -35,6 +45,7 @@ export const Attribute = z.enum([
   "SubCity Construction Speed",
   "SubCity Gold Production",
   "SubCity Training Speed",
+  "SubCity Troop Capacity",
   "Training Capacity",
   "Training Speed",
   "Wounded to Death",

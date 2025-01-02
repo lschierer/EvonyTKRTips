@@ -1,5 +1,9 @@
 @import "@spectrum-css/table/dist/index.css";
 
+table.spectrum-Table {
+  height: 60vh;
+}
+
 table.horizontal tr.spectrum-Table-row {
   border-top: 0;
 }

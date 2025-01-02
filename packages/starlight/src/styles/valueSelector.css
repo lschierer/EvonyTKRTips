@@ -1,7 +1,21 @@
-div.primary {
+div.primary,
+div.secondary {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-around;
   align-content: top;
+}
+
+div.firstRow,
+div.secondRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: top;
+}
+
+div.flexColumn {
+  display: flex;
+  flex-direction: column;
 }

@@ -6,7 +6,9 @@ import { docsSchema } from "@astrojs/starlight/schema";
 import { General } from "@schemas/generals";
 import { SkillBook } from "@schemas/skillBooks";
 import { ConfictGroup } from "@schemas/generalConflictGroups";
+import { Speciality } from "@schemas/specialities";
 import { z } from "astro:schema";
+import { specialities } from "@components/generals/store";
 
 export const collections = {
   docs: defineCollection({ loader: docsLoader(), schema: docsSchema() }),
@@ -30,5 +32,12 @@ export const collections = {
       base: "./src/content/skillBooks",
     }),
     schema: z.union([SkillBook, z.array(SkillBook)]),
+  }),
+  specialities: defineCollection({
+    loader: glob({
+      pattern: "*.json",
+      base: "./src/content/specialities",
+    }),
+    schema: Speciality,
   }),
 };

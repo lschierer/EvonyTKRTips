@@ -9,8 +9,9 @@ import * as stores from "./store";
 
 import * as d3 from "d3";
 import type { SkillBook } from "@schemas/skillBooks";
+import type { Speciality } from "@schemas/specialities";
 
-const DEBUG = true;
+const DEBUG = false;
 
 export const MountedPvMCompatiblePairMarchSize = (row: GeneralPair) => {
   if (DEBUG) {
@@ -64,9 +65,34 @@ export const SkillBookMarchSize = (row: GeneralPair) => {
                 )
               ) {
                 skillbookconflict = true;
+              } else {
+                let v = 0;
+                const b = MarchSizeBooks[book.book.level - 1].buff;
+                if (Array.isArray(b)) {
+                  b.map((buff) => {
+                    if (
+                      !buff.value.unit.localeCompare(
+                        constants.Unit.Enum.percentage
+                      )
+                    ) {
+                      if (buff.value.number > v) {
+                        v = buff.value.number;
+                      }
+                    }
+                  });
+                } else {
+                  if (
+                    !b.value.unit.localeCompare(constants.Unit.Enum.percentage)
+                  ) {
+                    if (b.value.number > v) {
+                      v = b.value.number;
+                    }
+                  }
+                }
+                if (v > maxBuff) {
+                  maxBuff = v;
+                }
               }
-              let b: constants.Value | undefined =
-                MarchSizeBooks[book.book.level - 1].buff.value;
             }
           });
         }
@@ -74,17 +100,68 @@ export const SkillBookMarchSize = (row: GeneralPair) => {
     });
   }
   if (!skillbookconflict) {
-    return;
+    return maxBuff;
   } else {
     return 0;
   }
 };
-
+const evalBaseSkill = (sb: SkillBook): number => {
+  let buffValue = 0;
+  if (Array.isArray(sb.buff)) {
+    sb.buff.map((b) => {
+      if (
+        !b.attribute.localeCompare(
+          constants.Attribute.Enum["March Size Capacity"]
+        )
+      ) {
+        if (!b.value.unit.localeCompare(constants.Unit.Enum.percentage)) {
+          buffValue += b.value.number;
+        }
+      }
+    });
+  } else {
+    const b = sb.buff;
+    if (
+      !b.attribute.localeCompare(
+        constants.Attribute.Enum["March Size Capacity"]
+      )
+    ) {
+      if (!b.value.unit.localeCompare(constants.Unit.Enum.percentage)) {
+        buffValue += b.value.number;
+      }
+    }
+  }
+  return buffValue;
+};
 export const BaseSkillMarchSize = (row: GeneralPair) => {
   if (DEBUG) {
     console.log(`SkillBookMarchSize for ${row.primary.id}/${row.secondary.id}`);
   }
-  return 0;
+  let buffValue = 0;
+  const skillBooks = stores.skillBooks.get();
+  if (skillBooks.length > 0 && row.primary.book.length > 0) {
+    const baseSkill = skillBooks.find((b) => {
+      return !b.name.localeCompare(row.primary.book);
+    });
+    if (baseSkill) {
+      if (DEBUG) {
+        console.log(`found baseSkill ${JSON.stringify(baseSkill)}`);
+      }
+      buffValue += evalBaseSkill(baseSkill);
+    }
+  }
+  if (skillBooks.length > 0 && row.secondary.book.length > 0) {
+    const baseSkill = skillBooks.find((b) => {
+      return !b.name.localeCompare(row.secondary.book);
+    });
+    if (baseSkill) {
+      if (DEBUG) {
+        console.log(`found baseSkill ${JSON.stringify(baseSkill)}`);
+      }
+      buffValue += evalBaseSkill(baseSkill);
+    }
+  }
+  return buffValue;
 };
 
 export const AttributeMarchSize = (row: GeneralPair) => {
@@ -136,13 +213,155 @@ export const Covenant6MarchSize = (row: GeneralPair) => {
   return 0;
 };
 
+const SpecialityMarchSize = (
+  sp: Speciality,
+  level: constants.SpecialityLevelName
+): number => {
+  let buffValue = 0;
+  sp.levels.map((l) => {
+    if (
+      !l.level.localeCompare(constants.SpecialityLevelName.Enum.Green) &&
+      level.localeCompare(constants.SpecialityLevelName.Enum.None)
+    ) {
+      l.buff.map((b) => {
+        if (
+          !b.attribute.localeCompare(
+            constants.Attribute.Enum["March Size Capacity"]
+          )
+        ) {
+          if (!b.value.unit.localeCompare(constants.Unit.Enum.percentage)) {
+            buffValue += b.value.number;
+          }
+        }
+      });
+    }
+    if (
+      !l.level.localeCompare(constants.SpecialityLevelName.Enum.Blue) &&
+      level.localeCompare(constants.SpecialityLevelName.Enum.None) &&
+      level.localeCompare(constants.SpecialityLevelName.Enum.Green)
+    ) {
+      l.buff.map((b) => {
+        if (
+          !b.attribute.localeCompare(
+            constants.Attribute.Enum["March Size Capacity"]
+          )
+        ) {
+          if (!b.value.unit.localeCompare(constants.Unit.Enum.percentage)) {
+            buffValue += b.value.number;
+          }
+        }
+      });
+    }
+    if (
+      !l.level.localeCompare(constants.SpecialityLevelName.Enum.Purple) &&
+      level.localeCompare(constants.SpecialityLevelName.Enum.None) &&
+      level.localeCompare(constants.SpecialityLevelName.Enum.Green) &&
+      level.localeCompare(constants.SpecialityLevelName.Enum.Blue)
+    ) {
+      l.buff.map((b) => {
+        if (
+          !b.attribute.localeCompare(
+            constants.Attribute.Enum["March Size Capacity"]
+          )
+        ) {
+          if (!b.value.unit.localeCompare(constants.Unit.Enum.percentage)) {
+            buffValue += b.value.number;
+          }
+        }
+      });
+    }
+    if (
+      !l.level.localeCompare(constants.SpecialityLevelName.Enum.Orange) &&
+      level.localeCompare(constants.SpecialityLevelName.Enum.None) &&
+      level.localeCompare(constants.SpecialityLevelName.Enum.Green) &&
+      level.localeCompare(constants.SpecialityLevelName.Enum.Blue) &&
+      level.localeCompare(constants.SpecialityLevelName.Enum.Purple)
+    ) {
+      l.buff.map((b) => {
+        if (
+          !b.attribute.localeCompare(
+            constants.Attribute.Enum["March Size Capacity"]
+          )
+        ) {
+          if (!b.value.unit.localeCompare(constants.Unit.Enum.percentage)) {
+            buffValue += b.value.number;
+          }
+        }
+      });
+    }
+  });
+  if (DEBUG) {
+    console.log(`returning ${buffValue} for speciality ${sp.name}`);
+  }
+  return buffValue;
+};
+
 export const Speciality1MarchSize = (row: GeneralPair) => {
   if (DEBUG) {
     console.log(
-      `Speciality1MarchSize for ${row.primary.id}/${row.secondary.id}`
+      `Speciality1MarchSize for ${row.primary.id}/${row.secondary.id} `
     );
   }
-  return 0;
+  let returnable = 0;
+  const specialities = stores.specialities.get();
+  if (specialities.length > 0 && row.primary.specialities.length >= 1) {
+    const sp1Name = row.primary.specialities[0];
+    const sp1 = specialities.find((sp) => {
+      return !sp.name.localeCompare(sp1Name);
+    });
+    if (sp1) {
+      const sp1Level = stores.selectedValues.get().primarySpecialityLevels[0];
+      if (DEBUG) {
+        console.log(`level is ${sp1Level}`);
+        console.log(`found Speciality ${JSON.stringify(sp1)}`);
+      }
+
+      returnable += SpecialityMarchSize(sp1, sp1Level);
+    } else {
+      if (DEBUG) {
+        console.warn(`Speciality ${sp1Name} not found`);
+      }
+    }
+  } else {
+    if (DEBUG) {
+      if (!row.primary.specialities.length) {
+        console.warn(`no specialities for primary general`);
+      }
+      if (!specialities || !specialities.length) {
+        console.warn(`no specialities to fetch from`);
+      }
+    }
+  }
+  if (specialities.length > 0 && row.secondary.specialities.length >= 1) {
+    const sp1Name = row.secondary.specialities[0];
+    const sp1 = specialities.find((sp) => {
+      return !sp.name.localeCompare(sp1Name);
+    });
+    if (sp1) {
+      const sp1Level = stores.selectedValues.get().secondarySpecialityLevels[0];
+      if (DEBUG) {
+        console.log(`level is ${sp1Level}`);
+        console.log(`found Speciality ${JSON.stringify(sp1)}`);
+      }
+
+      returnable += SpecialityMarchSize(sp1, sp1Level);
+    } else {
+      if (DEBUG) {
+        console.warn(`Speciality ${sp1Name} not found`);
+      }
+    }
+  } else {
+    if (DEBUG) {
+      if (!row.primary.specialities.length) {
+        console.warn(`no specialities for primary general`);
+      }
+      if (!specialities || !specialities.length) {
+        console.warn(`no specialities to fetch from`);
+      }
+    }
+  }
+
+  return returnable;
 };
 
 export const Speciality2MarchSize = (row: GeneralPair) => {

@@ -10,119 +10,22 @@ const conflictGroups = (await getCollection("conflictGroups")).map(
   (entry) => entry.data
 );
 
-import "@spectrum-css/table/dist/index.css";
-import "@styles/generals.css";
-import ValueSelector from "./valueselctor.astro";
+const specialities = (await getCollection("specialities")).map(
+  (entry) => entry.data
+);
 ---
 
 <div class="not-content">
-  <ValueSelector />
+  <value-selector></value-selector>
 
-  <generals-table
-    generals={JSON.stringify(generals)}
-    skill-books={JSON.stringify(skillbooks)}
-    conflict-groups={JSON.stringify(conflictGroups)}></generals-table>
-  <div id="generals-table" class="not-content"></div>
+  <div id="generals-table" class="not-content">
+    <table-element
+      generals={JSON.stringify(generals)}
+      skillbooks={JSON.stringify(skillbooks)}></table-element>
+  </div>
 </div>
 
 <script>
-  import { General } from "@schemas/generals";
-  import { type StoreValue, listenKeys } from "nanostores";
-  import { Tabulator } from "tabulator-tables";
-
-  import * as stores from "./store";
-  type StoredGeneral = StoreValue<typeof stores.generals>;
-
-  import * as generalTableFunctions from "./generalTable";
-
-  const DEBUG = true;
-
-  export default class GeneralsTable extends HTMLElement {
-    private table: any | null = null;
-    private generalStore = stores.generals;
-    private selectedValues = stores.selectedValues;
-    private skillbooks = stores.skillBooks;
-    private conflictgroups = stores.conflictGroups;
-
-    constructor() {
-      super();
-      this.generalStore.subscribe((value, oldValue) => {
-        if (DEBUG) {
-          console.log(
-            `general store subscribe sees new value, now has ${value.length} generals, had ${oldValue ? oldValue.length : 0}`
-          );
-        }
-      });
-      this.populateAttributes();
-      if (DEBUG) {
-        console.log(
-          `constructor has ${this.generalStore.get().length} generals`
-        );
-      }
-      this.skillbooks.subscribe((value, oldValue) => {
-        if (DEBUG) {
-          console.log(`skillbook store now has ${value.length} skillbooks`);
-        }
-      });
-      this.conflictgroups.subscribe((value, oldvalue) => {
-        if (DEBUG) {
-          console.log(
-            `conflictgroup store now has ${value.length} conflictgroups.`
-          );
-        }
-      });
-      listenKeys(
-        this.selectedValues,
-        ["level", "type", "ascending", "stars"],
-        (value, oldValue, changed) => {
-          if (this.table) {
-            const rowCount = this.table.getDataCount();
-            if (DEBUG) {
-              console.log(`I now have ${rowCount} rows`);
-            }
-          }
-        }
-      );
-    }
-
-    protected populateAttributes() {
-      const attributes = this.getAttributeNames();
-      if (attributes.includes("generals")) {
-        const g = this.getAttribute("generals");
-
-        if (g && g.length > 0) {
-          this.generalStore.set(JSON.parse(g));
-        }
-        if (DEBUG) {
-          console.log(
-            `populateAttributes has ${this.generalStore.get().length} generals`
-          );
-        }
-      }
-      if (attributes.includes("skill-books")) {
-        const sb = this.getAttribute("skill-books");
-        if (sb) {
-          this.skillbooks.set(JSON.parse(sb));
-        }
-      } else {
-        if (DEBUG) {
-          console.log(`no skillbooks provided to GeneralsTable`);
-        }
-      }
-      if (attributes.includes("conflict-groups")) {
-        const cg = this.getAttribute("conflict-groups");
-        if (cg) {
-          this.conflictgroups.set(JSON.parse(cg));
-        }
-      }
-    }
-
-    async connectedCallback() {
-      if (this.generalStore.get().length == 0) {
-        this.populateAttributes();
-      }
-      this.innerHTML = "<table-element></table-element>";
-    }
-  }
-  customElements.define("generals-table", GeneralsTable);
+  import ValueSelector from "./ValueSelector.ts";
+  import TableElement from "./generalTable.ts";
 </script>
