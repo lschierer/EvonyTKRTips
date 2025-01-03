@@ -39,6 +39,31 @@ const columns = [
     header: () => html`<span class="tableHeader">March Size Increase</span>`,
     cell: (row) => html`<span class="tableCell">${row.getValue()}</span>`,
   }),
+  columnHelper.group({
+    id: "MountedPvM",
+    header: () => html`<span class="tableHeader">Mounted PvM</span>`,
+    columns: [
+      columnHelper.group({
+        id: "MountedPvM.Attack",
+        header: () => html`<span class="tableHeader">Attack</span>`,
+        columns: [
+          columnHelper.accessor("MountedPVM.attack.totalAttribute", {
+            id: "MountedPvM.Attack.attributeTotal",
+            sortingFn: "basic",
+            sortUndefined: "last",
+            header: () =>
+              html`<span class="tableHeader">Basic Attribute Total</span>`,
+            cell: (row) =>
+              html`<span class="tableCell"
+                >${(row.getValue() * 100)
+                  .toFixed(3)
+                  .replace(/(\d)0+$/, "$1")}%</span
+              >`,
+          }),
+        ],
+      }),
+    ],
+  }),
 ];
 /*
 {
