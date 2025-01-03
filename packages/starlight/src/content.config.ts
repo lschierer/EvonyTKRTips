@@ -9,7 +9,6 @@ import { SkillBook } from "@schemas/skillBooks";
 import { ConfictGroup } from "@schemas/generalConflictGroups";
 import { Speciality } from "@schemas/specialities";
 import { z } from "astro:schema";
-import { specialities } from "@components/generals/store";
 
 export const collections = {
   docs: defineCollection({ loader: docsLoader(), schema: docsSchema() }),

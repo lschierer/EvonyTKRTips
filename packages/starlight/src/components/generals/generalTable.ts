@@ -23,7 +23,6 @@ import {
 import { repeat } from "lit/directives/repeat.js";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { type Ref, createRef, ref } from "lit/directives/ref.js";
 
 import { StoreController } from "@nanostores/lit";
 import { subscribeKeys } from "nanostores";

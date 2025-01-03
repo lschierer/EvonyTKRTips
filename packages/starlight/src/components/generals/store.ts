@@ -99,7 +99,7 @@ generals.listen((value, oldValue) => {
 
 import * as MarchSize from "./MarchSize";
 
-import { MountedPVM } from "./general";
+import { GeneralPairStats } from "./general";
 
 export const pairs = computed(
   [generals, conflictGroups, selectedValues],
@@ -267,7 +267,7 @@ export const pairs = computed(
       console.log(`step2 has ${step2.length} pairs `);
     }
     const step3 = step2.map((pair) => {
-      const mountedPvM = new MountedPVM(pair);
+      const generalPairStats = new GeneralPairStats(pair);
       const td2: GeneralPair = {
         ...pair,
         MarchSizeIncrease: {
@@ -280,9 +280,10 @@ export const pairs = computed(
         },
         MountedPVM: {
           attack: {
-            baseAttribute: mountedPvM.attack.baseAttribute.attack_base,
-            levelAttribute: mountedPvM.attack.baseAttribute.attack_increment,
-            totalAttribute: mountedPvM.attack.baseAttribute.attack_total,
+            baseAttribute: generalPairStats.baseAttribute.attack_base,
+            levelAttribute: generalPairStats.baseAttribute.attack_increment,
+            totalAttribute: generalPairStats.baseAttribute.attack_total,
+            BaseSkill: generalPairStats.baseSkill.monsterAttack,
           },
         },
       };

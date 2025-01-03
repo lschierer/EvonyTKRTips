@@ -66,6 +66,16 @@ export const GeneralPair = z.object({
       baseSkill: z.number(),
     })
     .optional(),
+  MountedPVM: z
+    .object({
+      attack: z.object({
+        baseAttribute: z.number(),
+        levelAttribute: z.number(),
+        totalAttribute: z.number(),
+        BaseSkill: z.number(),
+      }),
+    })
+    .optional(),
 });
 export type GeneralPair = z.infer<typeof GeneralPair>;
 
