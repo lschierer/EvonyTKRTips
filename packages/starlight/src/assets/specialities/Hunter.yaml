@@ -6,7 +6,7 @@ levels:
       - attribute: Attack
         class: Monsters
         condition:
-          - Reduces 
+          - Reduces
         value:
           number: 1
           unit: percentage
@@ -14,7 +14,7 @@ levels:
     buff:
       - attribute: Attack
         condition:
-          - Reduces 
+          - Reduces
         class: Monsters
         value:
           number: 2
@@ -24,7 +24,7 @@ levels:
       - attribute: Attack
         class: Monsters
         condition:
-          - Reduces 
+          - Reduces
         value:
           number: 3
           unit: percentage
@@ -33,7 +33,7 @@ levels:
       - attribute: Attack
         class: Monsters
         condition:
-          - Reduces 
+          - Reduces
         value:
           number: 3
           unit: percentage
@@ -42,7 +42,7 @@ levels:
       - attribute: Attack
         class: Monsters
         condition:
-          - Reduces 
+          - Reduces
         value:
           number: 6
           unit: percentage

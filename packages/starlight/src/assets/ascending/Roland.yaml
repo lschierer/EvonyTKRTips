@@ -1,6 +1,6 @@
 ---
 ascending:
-  - level: 'red1'
+  - level: "red1"
     buff:
       - attribute: Attack
         condition:
@@ -9,7 +9,7 @@ ascending:
         value:
           number: 15
           unit: percentage
-  - level: 'red2'
+  - level: "red2"
     buff:
       - attribute: Death to Wounded
         condition:
@@ -17,13 +17,13 @@ ascending:
         value:
           number: 8
           unit: percentage
-  - level: 'red3'
+  - level: "red3"
     buff:
       - attribute: March Size Capacity
         value:
           number: 10
           unit: percentage
-  - level: 'red4'
+  - level: "red4"
     buff:
       - attribute: HP
         class: Mounted Troops
@@ -39,7 +39,7 @@ ascending:
         value:
           number: 25
           unit: percentage
-  - level: 'red5'
+  - level: "red5"
     buff:
       - attribute: HP
         class: Mounted Troops
@@ -62,5 +62,5 @@ ascending:
         value:
           number: 15
           unit: percentage
-general:  Roland
-id:  Roland
+general: Roland
+id: Roland

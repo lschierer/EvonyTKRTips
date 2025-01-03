@@ -10,14 +10,14 @@ buff:
       unit: percentage
   - attribute: Attack
     class: Ground Troops
-    condition: 
+    condition:
       - brings a dragon
     value:
       number: 15
       unit: percentage
   - attribute: Attack
     class: Mounted Troops
-    condition: 
+    condition:
       - brings a dragon
     value:
       number: 15

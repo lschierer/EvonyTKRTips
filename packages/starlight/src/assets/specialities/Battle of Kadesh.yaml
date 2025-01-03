@@ -1,7 +1,7 @@
 ---
 name: Battle of Kadesh
 levels:
-  - level: 'Green'
+  - level: "Green"
     buff:
       - attribute: Attack
         condition:
@@ -17,7 +17,7 @@ levels:
         value:
           number: 3
           unit: percentage
-  - level: 'Blue'
+  - level: "Blue"
     buff:
       - attribute: Attack
         condition:
@@ -33,7 +33,7 @@ levels:
         value:
           number: 3
           unit: percentage
-  - level: 'Purple'
+  - level: "Purple"
     buff:
       - attribute: Attack
         condition:
@@ -49,7 +49,7 @@ levels:
         value:
           number: 6
           unit: percentage
-  - level: 'Orange'
+  - level: "Orange"
     buff:
       - attribute: Attack
         condition:
@@ -65,7 +65,7 @@ levels:
         value:
           number: 6
           unit: percentage
-  - level: 'Gold'
+  - level: "Gold"
     buff:
       - attribute: Attack
         condition:

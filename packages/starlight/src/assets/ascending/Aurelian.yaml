@@ -1,6 +1,6 @@
 ---
 ascending:
-  - level: 'red1'
+  - level: "red1"
     buff:
       - condition:
           - Marching
@@ -30,7 +30,7 @@ ascending:
         value:
           number: 10
           unit: percentage
-  - level: 'red2'
+  - level: "red2"
     buff:
       - condition:
           - Enemy In City
@@ -38,7 +38,7 @@ ascending:
         value:
           number: 10
           unit: percentage
-  - level: 'red3'
+  - level: "red3"
     buff:
       - condition:
           - Attacking
@@ -60,7 +60,7 @@ ascending:
         value:
           number: 8
           unit: percentage
-  - level: 'red4'
+  - level: "red4"
     buff:
       - condition:
           - Marching
@@ -83,7 +83,7 @@ ascending:
         value:
           number: 25
           unit: percentage
-  - level: 'red5'
+  - level: "red5"
     buff:
       - condition:
           - Marching
@@ -102,5 +102,5 @@ ascending:
         value:
           number: 20
           unit: percentage
-general:  Aurelian
-id:  Aurelian
+general: Aurelian
+id: Aurelian

@@ -1,7 +1,7 @@
 ---
 name: Battle of Guinegate
 levels:
-  - level: 'Green'
+  - level: "Green"
     buff:
       - attribute: Attack
         class: Mounted Troops
@@ -15,7 +15,7 @@ levels:
         value:
           number: 3
           unit: percentage
-  - level: 'Blue'
+  - level: "Blue"
     buff:
       - attribute: Attack
         class: Mounted Troops
@@ -29,7 +29,7 @@ levels:
         value:
           number: 3
           unit: percentage
-  - level: 'Purple'
+  - level: "Purple"
     buff:
       - attribute: Attack
         class: Mounted Troops
@@ -43,7 +43,7 @@ levels:
         value:
           number: 6
           unit: percentage
-  - level: 'Orange'
+  - level: "Orange"
     buff:
       - attribute: Attack
         class: Mounted Troops
@@ -57,7 +57,7 @@ levels:
         value:
           number: 6
           unit: percentage
-  - level: 'Gold'
+  - level: "Gold"
     buff:
       - attribute: Attack
         class: Mounted Troops

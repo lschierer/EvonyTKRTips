@@ -1,6 +1,6 @@
 ---
 ascending:
-  - level: 'red1'
+  - level: "red1"
     buff:
       - attribute: Attack
         class: Mounted Troops
@@ -12,7 +12,7 @@ ascending:
         value:
           number: 10
           unit: percentage
-  - level: 'red2'
+  - level: "red2"
     buff:
       - attribute: Wounded to Death
         condition:
@@ -20,7 +20,7 @@ ascending:
         value:
           number: 10
           unit: percentage
-  - level: 'red3'
+  - level: "red3"
     buff:
       - attribute: Attack
         class: Ground Troops
@@ -32,14 +32,14 @@ ascending:
         value:
           number: 15
           unit: percentage
-  - level: 'red4'
+  - level: "red4"
     buff:
       - attribute: Defense
         class: Mounted Troops
         value:
           number: 55
           unit: percentage
-  - level: 'red5'
+  - level: "red5"
     buff:
       - attribute: Attack
         class: Mounted Troops
@@ -56,5 +56,5 @@ ascending:
         value:
           number: 15
           unit: percentage
-general:  André Masséna
-id:  André Masséna
+general: André Masséna
+id: André Masséna

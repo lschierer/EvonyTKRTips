@@ -1,6 +1,6 @@
 ---
 ascending:
-  - level: 'red1'
+  - level: "red1"
     buff:
       - attribute: Attack
         class: Siege Machines
@@ -12,7 +12,7 @@ ascending:
         value:
           number: 15
           unit: percentage
-  - level: 'red2'
+  - level: "red2"
     buff:
       - attribute: Death to Wounded
         condition:
@@ -20,7 +20,7 @@ ascending:
         value:
           number: 8
           unit: percentage
-  - level: 'red3'
+  - level: "red3"
     buff:
       - attribute: Attack
         class: Siege Machines
@@ -33,7 +33,7 @@ ascending:
         value:
           number: 8
           unit: percentage
-  - level: 'red4'
+  - level: "red4"
     buff:
       - attribute: Attack
         class: Siege Machines
@@ -45,5 +45,5 @@ ascending:
         value:
           number: 25
           unit: percentage
-general:  Edward Teach
-id:  Edward Teach
+general: Edward Teach
+id: Edward Teach

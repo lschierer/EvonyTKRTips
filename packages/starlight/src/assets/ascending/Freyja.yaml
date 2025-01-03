@@ -1,6 +1,6 @@
 ---
 ascending:
-  - level: 'red1'
+  - level: "red1"
     buff:
       - attribute: HP
         condition:
@@ -16,7 +16,7 @@ ascending:
         value:
           number: 10
           unit: percentage
-  - level: 'red2'
+  - level: "red2"
     buff:
       - attribute: Death to Wounded
         condition:
@@ -38,7 +38,7 @@ ascending:
         value:
           number: 10
           unit: percentage
-  - level: 'red3'
+  - level: "red3"
     buff:
       - attribute: March Size Capacity
         value:
@@ -58,7 +58,7 @@ ascending:
         value:
           number: 10
           unit: percentage
-  - level: 'red4'
+  - level: "red4"
     buff:
       - attribute: HP
         class: Ground Troops
@@ -79,7 +79,7 @@ ascending:
         value:
           number: 15
           unit: percentage
-  - level: 'red5'
+  - level: "red5"
     buff:
       - attribute: Attack
         class: Ground Troops
@@ -100,5 +100,5 @@ ascending:
         value:
           number: 35
           unit: percentage
-general:  Freyja
-id:  Freyja
+general: Freyja
+id: Freyja

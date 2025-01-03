@@ -1,7 +1,7 @@
 ---
 name: Warm Shelter
 levels:
-  - level: 'Green'
+  - level: "Green"
     buff:
       - attribute: Attack
         class: Mounted Troops
@@ -28,7 +28,7 @@ levels:
         value:
           number: 2
           unit: percentage
-  - level: 'Blue'
+  - level: "Blue"
     buff:
       - attribute: Attack
         class: Mounted Troops
@@ -55,34 +55,7 @@ levels:
         value:
           number: 3
           unit: percentage
-  - level: 'Purple'
-    buff:
-      - attribute: Attack
-        class: Mounted Troops
-        value:
-          number: 10
-          unit: percentage
-      - attribute: Defense
-        class: Ground Troops
-        value:
-          number: 5
-          unit: percentage
-      - attribute: Defense
-        class: Mounted Troops
-        value:
-          number: 5
-          unit: percentage
-      - attribute: HP
-        class: Ground Troops
-        value:
-          number: 5
-          unit: percentage
-      - attribute: HP
-        class: Mounted Troops
-        value:
-          number: 5
-          unit: percentage
-  - level: 'Orange'
+  - level: "Purple"
     buff:
       - attribute: Attack
         class: Mounted Troops
@@ -109,7 +82,34 @@ levels:
         value:
           number: 5
           unit: percentage
-  - level: 'Gold'
+  - level: "Orange"
+    buff:
+      - attribute: Attack
+        class: Mounted Troops
+        value:
+          number: 10
+          unit: percentage
+      - attribute: Defense
+        class: Ground Troops
+        value:
+          number: 5
+          unit: percentage
+      - attribute: Defense
+        class: Mounted Troops
+        value:
+          number: 5
+          unit: percentage
+      - attribute: HP
+        class: Ground Troops
+        value:
+          number: 5
+          unit: percentage
+      - attribute: HP
+        class: Mounted Troops
+        value:
+          number: 5
+          unit: percentage
+  - level: "Gold"
     buff:
       - attribute: Attack
         class: Mounted Troops

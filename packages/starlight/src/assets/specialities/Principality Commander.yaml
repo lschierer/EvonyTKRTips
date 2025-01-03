@@ -1,7 +1,7 @@
 ---
 name: Principality Commander
 levels:
-  - level: 'Green'
+  - level: "Green"
     buff:
       - attribute: Attack
         condition:
@@ -24,7 +24,7 @@ levels:
         value:
           number: 2
           unit: percentage
-  - level: 'Blue'
+  - level: "Blue"
     buff:
       - attribute: Attack
         condition:
@@ -47,30 +47,7 @@ levels:
         value:
           number: 3
           unit: percentage
-  - level: 'Purple'
-    buff:
-      - attribute: Attack
-        condition:
-          - brings a dragon
-        class: Ground Troops
-        value:
-          number: 6
-          unit: percentage
-      - attribute: Defense
-        condition:
-          - brings a dragon
-        class: Ground Troops
-        value:
-          number: 5
-          unit: percentage
-      - attribute: HP
-        condition:
-          - brings a dragon
-        class: Ground Troops
-        value:
-          number: 5
-          unit: percentage
-  - level: 'Orange'
+  - level: "Purple"
     buff:
       - attribute: Attack
         condition:
@@ -93,7 +70,30 @@ levels:
         value:
           number: 5
           unit: percentage
-  - level: 'Gold'
+  - level: "Orange"
+    buff:
+      - attribute: Attack
+        condition:
+          - brings a dragon
+        class: Ground Troops
+        value:
+          number: 6
+          unit: percentage
+      - attribute: Defense
+        condition:
+          - brings a dragon
+        class: Ground Troops
+        value:
+          number: 5
+          unit: percentage
+      - attribute: HP
+        condition:
+          - brings a dragon
+        class: Ground Troops
+        value:
+          number: 5
+          unit: percentage
+  - level: "Gold"
     buff:
       - attribute: Attack
         condition:

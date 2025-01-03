@@ -1,7 +1,7 @@
 ---
 art:
   name: Excalibur
-  level: '1'
+  level: "1"
   buff:
     - attribute: Attack
       condition:

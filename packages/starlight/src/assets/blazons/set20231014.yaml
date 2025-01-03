@@ -8,7 +8,7 @@ set:
     blazon:
       type: Shadow
       set: Soul
-      level: '15'
+      level: "15"
       buff:
         - attribute: Attack
           condition:
@@ -40,7 +40,7 @@ set:
     blazon:
       type: Light
       set: Soul
-      level: '15'
+      level: "15"
       buff:
         - attribute: Attack
           condition:

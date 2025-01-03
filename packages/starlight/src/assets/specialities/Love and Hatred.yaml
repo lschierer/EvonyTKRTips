@@ -1,7 +1,7 @@
 ---
 name: Love and Hatred
 levels:
-  - level: 'Green'
+  - level: "Green"
     buff:
       - attribute: Attack
         condition:
@@ -24,7 +24,7 @@ levels:
         value:
           number: 5
           unit: percentage
-  - level: 'Blue'
+  - level: "Blue"
     buff:
       - attribute: Attack
         condition:
@@ -47,30 +47,7 @@ levels:
         value:
           number: 5
           unit: percentage
-  - level: 'Purple'
-    buff:
-      - attribute: Attack
-        condition:
-          - When Defending Outside The Main City
-        class: Ranged Troops
-        value:
-          number: 9
-          unit: percentage
-      - attribute: Defense
-        condition:
-          - When Defending Outside The Main City
-        class: Ranged Troops
-        value:
-          number: 9
-          unit: percentage
-      - attribute: HP
-        condition:
-          - When Defending Outside The Main City
-        class: Ranged Troops
-        value:
-          number: 10
-          unit: percentage
-  - level: 'Orange'
+  - level: "Purple"
     buff:
       - attribute: Attack
         condition:
@@ -93,7 +70,30 @@ levels:
         value:
           number: 10
           unit: percentage
-  - level: 'Gold'
+  - level: "Orange"
+    buff:
+      - attribute: Attack
+        condition:
+          - When Defending Outside The Main City
+        class: Ranged Troops
+        value:
+          number: 9
+          unit: percentage
+      - attribute: Defense
+        condition:
+          - When Defending Outside The Main City
+        class: Ranged Troops
+        value:
+          number: 9
+          unit: percentage
+      - attribute: HP
+        condition:
+          - When Defending Outside The Main City
+        class: Ranged Troops
+        value:
+          number: 10
+          unit: percentage
+  - level: "Gold"
     buff:
       - attribute: Attack
         condition:

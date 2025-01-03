@@ -1,6 +1,6 @@
 ---
 ascending:
-  - level: 'red1'
+  - level: "red1"
     buff:
       - attribute: Attack
         class: Ground Troops
@@ -16,7 +16,7 @@ ascending:
         value:
           number: 155
           unit: percentage
-  - level: 'red2'
+  - level: "red2"
     buff:
       - attribute: Death to Wounded
         condition:
@@ -24,7 +24,7 @@ ascending:
         value:
           number: 10
           unit: percentage
-  - level: 'red3'
+  - level: "red3"
     buff:
       - attribute: Rally Capacity
         condition:
@@ -32,7 +32,7 @@ ascending:
         value:
           number: 8
           unit: percentage
-  - level: 'red4'
+  - level: "red4"
     buff:
       - attribute: Attack
         condition:
@@ -62,7 +62,7 @@ ascending:
         value:
           number: 20
           unit: percentage
-  - level: 'red5'
+  - level: "red5"
     buff:
       - attribute: Attack
         condition:
@@ -85,5 +85,5 @@ ascending:
         value:
           number: 20
           unit: percentage
-general:  Maeda Toshiie
-id:  Maeda Toshiie
+general: Maeda Toshiie
+id: Maeda Toshiie

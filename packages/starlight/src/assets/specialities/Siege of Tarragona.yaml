@@ -1,7 +1,7 @@
 ---
 name: Siege of Tarragona
 levels:
-  - level: 'Green'
+  - level: "Green"
     buff:
       - attribute: Attack
         condition:
@@ -38,7 +38,7 @@ levels:
         value:
           number: 2
           unit: percentage
-  - level: 'Blue'
+  - level: "Blue"
     buff:
       - attribute: Attack
         condition:
@@ -75,44 +75,7 @@ levels:
         value:
           number: 2
           unit: percentage
-  - level: 'Purple'
-    buff:
-      - attribute: Attack
-        condition:
-          - Marching
-        class: Ground Troops
-        value:
-          number: 8
-          unit: percentage
-      - attribute: Defense
-        condition:
-          - Attacking
-        class: Ground Troops
-        value:
-          number: 6
-          unit: percentage
-      - attribute: Defense
-        condition:
-          - Attacking
-        class: Mounted Troops
-        value:
-          number: 6
-          unit: percentage
-      - attribute: HP
-        condition:
-          - Attacking
-        class: Mounted Troops
-        value:
-          number: 4
-          unit: percentage
-      - attribute: HP
-        condition:
-          - Attacking
-        class: Ground Troops
-        value:
-          number: 4
-          unit: percentage
-  - level: 'Orange'
+  - level: "Purple"
     buff:
       - attribute: Attack
         condition:
@@ -149,7 +112,44 @@ levels:
         value:
           number: 4
           unit: percentage
-  - level: 'Gold'
+  - level: "Orange"
+    buff:
+      - attribute: Attack
+        condition:
+          - Marching
+        class: Ground Troops
+        value:
+          number: 8
+          unit: percentage
+      - attribute: Defense
+        condition:
+          - Attacking
+        class: Ground Troops
+        value:
+          number: 6
+          unit: percentage
+      - attribute: Defense
+        condition:
+          - Attacking
+        class: Mounted Troops
+        value:
+          number: 6
+          unit: percentage
+      - attribute: HP
+        condition:
+          - Attacking
+        class: Mounted Troops
+        value:
+          number: 4
+          unit: percentage
+      - attribute: HP
+        condition:
+          - Attacking
+        class: Ground Troops
+        value:
+          number: 4
+          unit: percentage
+  - level: "Gold"
     buff:
       - attribute: Attack
         condition:

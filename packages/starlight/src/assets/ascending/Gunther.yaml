@@ -1,6 +1,6 @@
 ---
 ascending:
-  - level: 'red1'
+  - level: "red1"
     buff:
       - attribute: Attack
         condition:
@@ -16,7 +16,7 @@ ascending:
         value:
           number: 10
           unit: percentage
-  - level: 'red2'
+  - level: "red2"
     buff:
       - attribute: Death to Wounded
         condition:
@@ -24,7 +24,7 @@ ascending:
         value:
           number: 8
           unit: percentage
-  - level: 'red3'
+  - level: "red3"
     buff:
       - attribute: HP
         condition:
@@ -54,7 +54,7 @@ ascending:
         value:
           number: 15
           unit: percentage
-  - level: 'red4'
+  - level: "red4"
     buff:
       - attribute: Attack
         class: Siege Machines
@@ -66,7 +66,7 @@ ascending:
         value:
           number: 15
           unit: percentage
-  - level: 'red5'
+  - level: "red5"
     buff:
       - attribute: Attack
         condition:
@@ -103,5 +103,5 @@ ascending:
         value:
           number: 15
           unit: percentage
-general:  Gunther
-id:  Gunther
+general: Gunther
+id: Gunther

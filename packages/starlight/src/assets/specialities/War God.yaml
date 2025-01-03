@@ -1,31 +1,31 @@
 ---
 name: War God
 levels:
-  - level: 'Green'
+  - level: "Green"
     buff:
       - attribute: Attack
         value:
           number: 1
           unit: percentage
-  - level: 'Blue'
+  - level: "Blue"
     buff:
       - attribute: Attack
         value:
           number: 1
           unit: percentage
-  - level: 'Purple'
+  - level: "Purple"
     buff:
       - attribute: Attack
         value:
           number: 1
           unit: percentage
-  - level: 'Orange'
+  - level: "Orange"
     buff:
       - attribute: Attack
         value:
           number: 1
           unit: percentage
-  - level: 'Gold'
+  - level: "Gold"
     buff:
       - attribute: Attack
         value:

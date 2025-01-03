@@ -9,7 +9,7 @@ levels:
     buff:
       - attribute: Attack
         class: Ranged Troops
-        condition: 
+        condition:
           - Marching
         value:
           number: 5
