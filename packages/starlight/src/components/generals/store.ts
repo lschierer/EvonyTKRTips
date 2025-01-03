@@ -9,7 +9,7 @@ import { ConfictGroup } from "@schemas/generalConflictGroups";
 
 import * as constants from "@schemas/constants";
 
-const DEBUG = true;
+const DEBUG = false;
 
 import { type Table } from "@tanstack/lit-table";
 
@@ -134,8 +134,13 @@ export const pairs = computed(
           id: g.id,
           note: g.note,
           specialities: g.specialities,
-          specialityLevels: g.specialityLevels,
-          stars: g.stars,
+          specialityLevels: [
+            selectedValues.primarySpecialityLevels[0],
+            selectedValues.primarySpecialityLevels[1],
+            selectedValues.primarySpecialityLevels[2],
+            selectedValues.primarySpecialityLevels[3],
+          ],
+          stars: selectedValues.stars,
           type: g.type,
           extra: g.extra,
           warnings: g.warnings,
@@ -159,8 +164,33 @@ export const pairs = computed(
         return false;
       })
       .map((g) => {
-        g.level = selectedValues.level != undefined ? selectedValues.level : 1;
-        return g;
+        const l =
+          selectedValues.level != undefined
+            ? selectedValues.level > 0
+              ? selectedValues.level
+              : 1
+            : 1;
+        const ng: General = {
+          ascending: false,
+          basic_attributes: g.basic_attributes,
+          book: g.book,
+          display: g.display,
+          id: g.id,
+          note: g.note,
+          specialities: g.specialities,
+          specialityLevels: [
+            selectedValues.secondarySpecialityLevels[0],
+            selectedValues.secondarySpecialityLevels[1],
+            selectedValues.secondarySpecialityLevels[2],
+            selectedValues.secondarySpecialityLevels[3],
+          ],
+          stars: constants.AscendingLevel.Enum.None,
+          type: g.type,
+          extra: g.extra,
+          warnings: g.warnings,
+          level: l,
+        };
+        return ng;
       });
 
     const permutations = d3.cross(p, s).filter((p) => {

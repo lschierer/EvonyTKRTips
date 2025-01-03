@@ -38,12 +38,6 @@ export default class ValueSelector extends withStores(LitElement, [
   private level = 1;
 
   @state()
-  private stars: constants.AscendingLevel = constants.AscendingLevel.Enum.None;
-
-  @state()
-  private ascending = false;
-
-  @state()
   private generalType: GeneralType = GeneralType.Enum.mounted_specialist;
 
   constructor() {
@@ -205,19 +199,15 @@ export default class ValueSelector extends withStores(LitElement, [
           const target = event.target as Picker;
           const valid = AscendingLevel.safeParse(target.value);
           if (valid.success) {
-            this.stars = valid.data;
-            if (this.stars == AscendingLevel.Values.None) {
-              this.ascending = false;
+            stores.selectedValues.setKey("stars", valid.data);
+            if (valid.data == AscendingLevel.Values.None) {
               stores.selectedValues.setKey("ascending", false);
-              stores.selectedValues.setKey("stars", "None");
             } else {
-              this.ascending = true;
               stores.selectedValues.setKey("ascending", true);
-              stores.selectedValues.setKey("stars", this.stars);
             }
           }
           if (DEBUG) {
-            console.log(`stars are ${this.stars}`);
+            console.log(`stars are ${valid.data}`);
           }
         });
       } else {
@@ -388,7 +378,7 @@ export default class ValueSelector extends withStores(LitElement, [
               id="primary-ascending"
               size="m"
               label="Ascending Level"
-              value="${this.stars}"
+              value="${stores.selectedValues.get().stars}"
               style="width: 7rem;"
             >
               <span slot="label">Choose an Ascending Level:</span>

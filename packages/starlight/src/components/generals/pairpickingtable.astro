@@ -9,6 +9,7 @@ const skillbooks = (await getCollection("skillBooks")).map(
 const conflictGroups = (await getCollection("conflictGroups")).map(
   (entry) => entry.data
 );
+const ascending = (await getCollection("ascending")).map((entry) => entry.data);
 
 const specialities = (await getCollection("specialities")).map(
   (entry) => entry.data
@@ -23,7 +24,8 @@ const specialities = (await getCollection("specialities")).map(
       generals={JSON.stringify(generals)}
       skillbooks={JSON.stringify(skillbooks)}
       conflictGroups={JSON.stringify(conflictGroups)}
-      specialities={JSON.stringify(specialities)}></table-element>
+      specialities={JSON.stringify(specialities)}
+      ascending={JSON.stringify(ascending)}></table-element>
   </div>
 </div>
 

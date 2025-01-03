@@ -1,4 +1,5 @@
 import { General, GeneralType, GeneralPair } from "@schemas/generals";
+import { AscendingLevel, GeneralAscending } from "@schemas/ascending";
 import { Buff } from "@schemas/buff";
 import * as constants from "@schemas/constants";
 import { MarchSize as MarchSizeBooks } from "@schemas/standardSkillBooks";
@@ -10,8 +11,10 @@ import * as stores from "./store";
 import * as d3 from "d3";
 import type { SkillBook } from "@schemas/skillBooks";
 import type { Speciality } from "@schemas/specialities";
+import { Level } from "@schemas/covenants";
 
 const DEBUG = false;
+const DEBUG3 = false;
 
 export const MountedPvMCompatiblePairMarchSize = (row: GeneralPair) => {
   if (DEBUG) {
@@ -110,6 +113,7 @@ export const MountedPvMCompatiblePairMarchSize = (row: GeneralPair) => {
       `MountedPvMCompatiblePairMarchSize Covenant6MarchSize: ${returnable}`
     );
   }
+  */
 
   returnable += AscendingMarchSize(row);
   if (DEBUG) {
@@ -118,6 +122,7 @@ export const MountedPvMCompatiblePairMarchSize = (row: GeneralPair) => {
     );
   }
 
+  /*
   returnable += SkinMarchSize(row);
   if (DEBUG) {
     console.log(
@@ -534,11 +539,117 @@ export const Speciality4MarchSize = (row: GeneralPair) => {
   return returnable;
 };
 
+const evalAscendingLevels = (
+  row: GeneralPair,
+  als: AscendingLevel[],
+  stars: constants.AscendingLevel
+) => {
+  let returnable = 0;
+  returnable += als.reduce((a, c) => {
+    if (!c.level.localeCompare(constants.AscendingLevel.Enum.None)) {
+      a += 0;
+    } else if (!stars.localeCompare(c.level)) {
+      const r2 = c.buff.reduce((a2, c2) => {
+        if (
+          !c2.attribute.localeCompare(
+            constants.Attribute.Enum["March Size Capacity"]
+          )
+        ) {
+          a2 += c2.value.number;
+        }
+        return a2;
+      }, 0);
+      a += r2;
+      if (DEBUG3) {
+        console.log(`r2 is ${r2}`);
+      }
+    } else if (
+      (!stars.localeCompare(constants.AscendingLevel.Enum.red1) &&
+        !c.level.localeCompare(constants.AscendingLevel.Enum.red1)) ||
+      (!stars.localeCompare(constants.AscendingLevel.Enum.red2) &&
+        (!c.level.localeCompare(constants.AscendingLevel.Enum.red1) ||
+          !c.level.localeCompare(constants.AscendingLevel.Enum.red2))) ||
+      (!stars.localeCompare(constants.AscendingLevel.Enum.red3) &&
+        (!c.level.localeCompare(constants.AscendingLevel.Enum.red1) ||
+          !c.level.localeCompare(constants.AscendingLevel.Enum.red2) ||
+          !c.level.localeCompare(constants.AscendingLevel.Enum.red3))) ||
+      (!stars.localeCompare(constants.AscendingLevel.Enum.red4) &&
+        (!c.level.localeCompare(constants.AscendingLevel.Enum.red1) ||
+          !c.level.localeCompare(constants.AscendingLevel.Enum.red2) ||
+          !c.level.localeCompare(constants.AscendingLevel.Enum.red3) ||
+          !c.level.localeCompare(constants.AscendingLevel.Enum.red4))) ||
+      (!stars.localeCompare(constants.AscendingLevel.Enum.red5) &&
+        (!c.level.localeCompare(constants.AscendingLevel.Enum.red1) ||
+          !c.level.localeCompare(constants.AscendingLevel.Enum.red2) ||
+          !c.level.localeCompare(constants.AscendingLevel.Enum.red3) ||
+          !c.level.localeCompare(constants.AscendingLevel.Enum.red4) ||
+          !c.level.localeCompare(constants.AscendingLevel.Enum.red5)))
+    ) {
+      const r2 = c.buff.reduce((a2, c2) => {
+        if (
+          !c2.attribute.localeCompare(
+            constants.Attribute.Enum["March Size Capacity"]
+          )
+        ) {
+          a2 += c2.value.number;
+        }
+        return a2;
+      }, 0);
+      if (DEBUG3) {
+        console.log(`c.level is ${c.level}`);
+        console.log(`stars are ${stars}`);
+        console.log(`r2 is ${r2}`);
+      }
+      a += r2;
+    }
+    return a;
+  }, 0);
+  if (DEBUG3) {
+    console.log(`returning ${returnable} for ${row.primary.id}`);
+  }
+  return returnable;
+};
+
 export const AscendingMarchSize = (row: GeneralPair) => {
-  if (DEBUG) {
+  if (DEBUG3) {
     console.log(`AscendingMarchSize for ${row.primary.id}/${row.secondary.id}`);
   }
-  return 0;
+  let returnable = 0;
+  if (row.primary.stars.localeCompare(constants.AscendingLevel.Enum.None)) {
+    const stars = row.primary.stars;
+    if (stores.ascendingAttributes.get().length > 0) {
+      const allAttributes = stores.ascendingAttributes.get();
+      if (DEBUG3) {
+        console.log(JSON.stringify(allAttributes[0]));
+      }
+      if (allAttributes) {
+        if (DEBUG3) {
+          console.log(
+            `AscendingMarchSize has ${allAttributes.length} attributes`
+          );
+        }
+        const ascendingAttributes = allAttributes.find((aa) => {
+          return !row.primary.id.localeCompare(aa.id);
+        });
+        if (ascendingAttributes) {
+          returnable += evalAscendingLevels(
+            row,
+            ascendingAttributes.ascending,
+            stars
+          );
+        } else {
+          if (DEBUG3) {
+            console.warn(`cannot find attribute for ${row.primary.id}`);
+          }
+        }
+      }
+    } else {
+      if (DEBUG3) {
+        console.warn(`missing ascending attributes`);
+      }
+    }
+  }
+  return returnable;
 };
 
 export const SkinMarchSize = (row: GeneralPair) => {

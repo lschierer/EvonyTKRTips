@@ -69,6 +69,7 @@ import { MountedPvMCompatiblePairMarchSize } from "./MarchSize";
 import { SkillBook } from "@schemas/skillBooks";
 
 import columns from "./columns";
+import { GeneralAscending } from "@schemas/ascending";
 
 const DEBUG = true;
 
@@ -76,6 +77,9 @@ const DEBUG = true;
 export default class TableElement extends LitElement {
   @property({ type: Array })
   public generals = new Array<General>();
+
+  @property({ type: Array })
+  public ascending = new Array<GeneralAscending>();
 
   @property({ type: Array })
   public skillbooks = new Array<SkillBook>();
@@ -90,6 +94,11 @@ export default class TableElement extends LitElement {
   private _tableState: TableState | null = null;
 
   private pairsController = new StoreController(this, stores.pairs);
+
+  private ascendingController = new StoreController(
+    this,
+    stores.ascendingAttributes
+  );
 
   private generalsController = new StoreController(this, stores.generals);
 
@@ -134,6 +143,22 @@ export default class TableElement extends LitElement {
         if (DEBUG) {
           console.warn(
             `this.generals is not an array, it is '${this.generals}'`
+          );
+        }
+      }
+    }
+    if (_changedProperties.has("ascending")) {
+      if (Array.isArray(this.ascending)) {
+        stores.ascendingAttributes.set(this.ascending);
+        if (DEBUG) {
+          console.log(
+            `I now have ${this.ascendingController.value.length} ascending attributes`
+          );
+        }
+      } else {
+        if (DEBUG) {
+          console.log(
+            `this.ascending was not an array, it is '${this.ascending}'`
           );
         }
       }
