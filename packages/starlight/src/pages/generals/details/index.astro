@@ -4,15 +4,22 @@ import GeneralsLayout from "@layouts/generals.astro";
 const DEBUG = true;
 
 const generalEntries = await getCollection("generals");
-if(DEBUG) {
-  console.log(`generals/details/index.astro getCollection returned ${generalEntries.length} entries`)
+if (DEBUG) {
+  console.log(
+    `generals/details/index.astro getCollection returned ${generalEntries.length} entries`
+  );
 }
 ---
 
-<GeneralsLayout title=`Generals with Details Available` >
-<ol>
-  {generalEntries && generalEntries.map((general) => (
-    <li class="generalListEntry"><a href=`./${general.id}/`>{general.data.id}</a></li>
-  ))}
-</ol>
+<GeneralsLayout title=`Generals with Details Available`>
+  <ol>
+    {
+      generalEntries &&
+        generalEntries.map((general) => (
+          <li class="generalListEntry">
+            <a href={`./${general.id}/`}>{general.data.id}</a>
+          </li>
+        ))
+    }
+  </ol>
 </GeneralsLayout>

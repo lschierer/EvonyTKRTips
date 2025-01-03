@@ -4,18 +4,25 @@ import GeneralsLayout from "@layouts/generals.astro";
 const DEBUG = true;
 
 const ascendingEntries = await getCollection("ascending");
-if(DEBUG) {
-  console.log(`generals/ascending/index.astro getCollection returned ${ascendingEntries.length} entries`)
+if (DEBUG) {
+  console.log(
+    `generals/ascending/index.astro getCollection returned ${ascendingEntries.length} entries`
+  );
   ascendingEntries.map((general, index) => {
-    console.log(`index ${index} has id '${general.id}'`)
-  })
+    console.log(`index ${index} has id '${general.id}'`);
+  });
 }
 ---
 
-<GeneralsLayout title=`Generals with Ascending Attributes Available` >
-<ol>
-  {ascendingEntries && ascendingEntries.map((general) => (
-    <li class="generalListEntry"><a href=`./${general.id}/`>{general.id}</a></li>
-  ))}
-</ol>
+<GeneralsLayout title=`Generals with Ascending Attributes Available`>
+  <ol>
+    {
+      ascendingEntries &&
+        ascendingEntries.map((general) => (
+          <li class="generalListEntry">
+            <a href={`./${general.id}/`}>{general.id}</a>
+          </li>
+        ))
+    }
+  </ol>
 </GeneralsLayout>
