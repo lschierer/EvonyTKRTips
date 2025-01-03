@@ -20,15 +20,20 @@ const DEBUG3 = false;
 class BaseSkill {
   protected _primary: General;
   protected _secondary: General;
-  protected _skillBook: SkillBook | null = null;
+  protected _primary_skillBook: SkillBook | null = null;
+  protected _secondary_skillBook: SkillBook | null = null;
 
   constructor(row: GeneralPair) {
     this._primary = row.primary;
     this._secondary = row.secondary;
     if (stores.skillBooks.value.length > 0) {
-      this._skillBook =
+      this._primary_skillBook =
         stores.skillBooks.get().find((sb) => {
           return !sb.name.localeCompare(this._primary.book);
+        }) ?? null;
+      this._secondary_skillBook =
+        stores.skillBooks.get().find((sb) => {
+          return !sb.name.localeCompare(this._secondary.book);
         }) ?? null;
     } else {
       if (DEBUG) {
@@ -38,180 +43,230 @@ class BaseSkill {
   }
 
   public get monsterAttack() {
-    let rValue = 0;
-    if (this._skillBook) {
-      if (this._skillBook.buff) {
-        const buffs = this._skillBook.buff;
-        if (Array.isArray(buffs)) {
-          buffs.map((buff) => {
-            if (
-              !buff.attribute.localeCompare(constants.Attribute.Enum.Attack)
-            ) {
-              rValue += buff.value.number;
-            }
-          });
+    const bookEval = (book: SkillBook) => {
+      let rValue = 0;
+      if (book) {
+        if (book) {
+          const buffs = book.buff;
+          if (Array.isArray(buffs)) {
+            buffs.map((buff) => {
+              if (
+                !buff.attribute.localeCompare(constants.Attribute.Enum.Attack)
+              ) {
+                rValue += buff.value.number;
+              }
+            });
+          }
         }
       }
+      return rValue;
+    };
+    let rValue = 0;
+    if (this._primary_skillBook) {
+      rValue += bookEval(this._primary_skillBook);
+    }
+    if (this._secondary_skillBook) {
+      rValue += bookEval(this._secondary_skillBook);
     }
     return rValue;
   }
 
   public get reinforcingAttack() {
-    let rValue = 0;
-    if (this._skillBook) {
-      if (this._skillBook.buff) {
-        const buffs = this._skillBook.buff;
-        if (Array.isArray(buffs)) {
-          buffs.map((buff) => {
-            if (
-              !buff.attribute.localeCompare(constants.Attribute.Enum.Attack)
-            ) {
-              if (buff.condition) {
-                if (
-                  buff.condition.includes(
-                    constants.BuffCondition.Enum.Defending
-                  ) ||
-                  buff.condition.includes(
-                    constants.BuffCondition.Enum["brings a dragon"]
-                  ) ||
-                  buff.condition.includes(
-                    constants.BuffCondition.Enum["Reinforcing"]
-                  ) ||
-                  buff.condition.includes(
-                    constants.BuffCondition.Enum[
-                      "When Defending Outside The Main City"
-                    ]
-                  ) ||
-                  buff.condition.includes(
-                    constants.BuffCondition.Enum["In Main City"]
-                  )
-                ) {
+    const bookEval = (book: SkillBook) => {
+      let rValue = 0;
+      if (book) {
+        if (book.buff) {
+          const buffs = book.buff;
+          if (Array.isArray(buffs)) {
+            buffs.map((buff) => {
+              if (
+                !buff.attribute.localeCompare(constants.Attribute.Enum.Attack)
+              ) {
+                if (buff.condition) {
+                  if (
+                    buff.condition.includes(
+                      constants.BuffCondition.Enum.Defending
+                    ) ||
+                    buff.condition.includes(
+                      constants.BuffCondition.Enum["brings a dragon"]
+                    ) ||
+                    buff.condition.includes(
+                      constants.BuffCondition.Enum["Reinforcing"]
+                    ) ||
+                    buff.condition.includes(
+                      constants.BuffCondition.Enum[
+                        "When Defending Outside The Main City"
+                      ]
+                    ) ||
+                    buff.condition.includes(
+                      constants.BuffCondition.Enum["In Main City"]
+                    )
+                  ) {
+                    rValue += buff.value.number;
+                  }
+                } else {
                   rValue += buff.value.number;
                 }
-              } else {
-                rValue += buff.value.number;
               }
-            }
-          });
+            });
+          }
         }
       }
+      return rValue;
+    };
+    let rValue = 0;
+    if (this._primary_skillBook) {
+      rValue += bookEval(this._primary_skillBook);
+    }
+    if (this._secondary_skillBook) {
+      rValue += bookEval(this._secondary_skillBook);
     }
     return rValue;
   }
 
   public get wallAttack() {
-    let rValue = 0;
-    if (this._skillBook) {
-      if (this._skillBook.buff) {
-        const buffs = this._skillBook.buff;
-        if (Array.isArray(buffs)) {
-          buffs.map((buff) => {
-            if (
-              !buff.attribute.localeCompare(constants.Attribute.Enum.Attack)
-            ) {
-              if (buff.condition) {
-                if (
-                  buff.condition.includes(
-                    constants.BuffCondition.Enum.Defending
-                  ) ||
-                  buff.condition.includes(
-                    constants.BuffCondition.Enum["brings a dragon"]
-                  ) ||
-                  buff.condition.includes(
-                    constants.BuffCondition.Enum["In Main City"]
-                  )
-                ) {
+    const bookEval = (book: SkillBook) => {
+      let rValue = 0;
+      if (book) {
+        if (book.buff) {
+          const buffs = book.buff;
+          if (Array.isArray(buffs)) {
+            buffs.map((buff) => {
+              if (
+                !buff.attribute.localeCompare(constants.Attribute.Enum.Attack)
+              ) {
+                if (buff.condition) {
+                  if (
+                    buff.condition.includes(
+                      constants.BuffCondition.Enum.Defending
+                    ) ||
+                    buff.condition.includes(
+                      constants.BuffCondition.Enum["brings a dragon"]
+                    ) ||
+                    buff.condition.includes(
+                      constants.BuffCondition.Enum["In Main City"]
+                    )
+                  ) {
+                    rValue += buff.value.number;
+                  }
+                } else {
                   rValue += buff.value.number;
                 }
-              } else {
-                rValue += buff.value.number;
               }
-            }
-          });
+            });
+          }
         }
       }
+      return rValue;
+    };
+    let rValue = 0;
+    if (this._primary_skillBook) {
+      rValue += bookEval(this._primary_skillBook);
+    }
+    if (this._secondary_skillBook) {
+      rValue += bookEval(this._secondary_skillBook);
     }
     return rValue;
   }
 
   public get defendingAttack() {
-    let rValue = 0;
-    if (this._skillBook) {
-      if (this._skillBook.buff) {
-        const buffs = this._skillBook.buff;
-        if (Array.isArray(buffs)) {
-          buffs.map((buff) => {
-            if (
-              !buff.attribute.localeCompare(constants.Attribute.Enum.Attack)
-            ) {
-              if (buff.condition) {
-                if (
-                  buff.condition.includes(
-                    constants.BuffCondition.Enum.Defending
-                  ) ||
-                  buff.condition.includes(
-                    constants.BuffCondition.Enum["brings a dragon"]
-                  )
-                ) {
+    const bookEval = (book: SkillBook) => {
+      let rValue = 0;
+      if (book) {
+        if (book.buff) {
+          const buffs = book.buff;
+          if (Array.isArray(buffs)) {
+            buffs.map((buff) => {
+              if (
+                !buff.attribute.localeCompare(constants.Attribute.Enum.Attack)
+              ) {
+                if (buff.condition) {
+                  if (
+                    buff.condition.includes(
+                      constants.BuffCondition.Enum.Defending
+                    ) ||
+                    buff.condition.includes(
+                      constants.BuffCondition.Enum["brings a dragon"]
+                    )
+                  ) {
+                    rValue += buff.value.number;
+                  }
+                } else {
                   rValue += buff.value.number;
                 }
-              } else {
-                rValue += buff.value.number;
               }
-            }
-          });
+            });
+          }
         }
       }
+      return rValue;
+    };
+    let rValue = 0;
+    if (this._primary_skillBook) {
+      rValue += bookEval(this._primary_skillBook);
+    }
+    if (this._secondary_skillBook) {
+      rValue += bookEval(this._secondary_skillBook);
     }
     return rValue;
   }
 
   /* TODO: I need to add a check that the user is the rally lead */
   public get marchingAttack() {
-    let rValue = 0;
-    if (this._skillBook) {
-      if (this._skillBook.buff) {
-        const buffs = this._skillBook.buff;
-        if (Array.isArray(buffs)) {
-          buffs.map((buff) => {
-            if (
-              !buff.attribute.localeCompare(constants.Attribute.Enum.Attack)
-            ) {
-              if (buff.condition) {
-                if (
-                  buff.condition.includes(
-                    constants.BuffCondition.Enum.Attacking
-                  ) ||
-                  buff.condition.includes(
-                    constants.BuffCondition.Enum.Marching
-                  ) ||
-                  buff.condition.includes(
-                    constants.BuffCondition.Enum["brings a dragon"]
-                  ) ||
-                  buff.condition.includes(
-                    constants.BuffCondition.Enum[
-                      "brings dragon or beast to attack"
-                    ]
-                  ) ||
-                  buff.condition.includes(
-                    constants.BuffCondition.Enum["dragon to the attack"]
-                  ) ||
-                  buff.condition.includes(
-                    constants.BuffCondition.Enum["leading the army to attack"]
-                  ) ||
-                  buff.condition.includes(
-                    constants.BuffCondition.Enum["When Rallying"]
-                  )
-                ) {
+    const bookEval = (book: SkillBook) => {
+      let rValue = 0;
+      if (book) {
+        if (book.buff) {
+          const buffs = book.buff;
+          if (Array.isArray(buffs)) {
+            buffs.map((buff) => {
+              if (
+                !buff.attribute.localeCompare(constants.Attribute.Enum.Attack)
+              ) {
+                if (buff.condition) {
+                  if (
+                    buff.condition.includes(
+                      constants.BuffCondition.Enum.Attacking
+                    ) ||
+                    buff.condition.includes(
+                      constants.BuffCondition.Enum.Marching
+                    ) ||
+                    buff.condition.includes(
+                      constants.BuffCondition.Enum["brings a dragon"]
+                    ) ||
+                    buff.condition.includes(
+                      constants.BuffCondition.Enum[
+                        "brings dragon or beast to attack"
+                      ]
+                    ) ||
+                    buff.condition.includes(
+                      constants.BuffCondition.Enum["dragon to the attack"]
+                    ) ||
+                    buff.condition.includes(
+                      constants.BuffCondition.Enum["leading the army to attack"]
+                    ) ||
+                    buff.condition.includes(
+                      constants.BuffCondition.Enum["When Rallying"]
+                    )
+                  ) {
+                    rValue += buff.value.number;
+                  }
+                } else {
                   rValue += buff.value.number;
                 }
-              } else {
-                rValue += buff.value.number;
               }
-            }
-          });
+            });
+          }
         }
       }
+      return rValue;
+    };
+    let rValue = 0;
+    if (this._primary_skillBook) {
+      rValue += bookEval(this._primary_skillBook);
+    }
+    if (this._secondary_skillBook) {
+      rValue += bookEval(this._secondary_skillBook);
     }
     return rValue;
   }
