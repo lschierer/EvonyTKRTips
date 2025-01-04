@@ -148,8 +148,18 @@ class StandardSkills {
       });
       if (DEBUG2) {
         console.log(
-          `StandardSkills ${row.primary.id}/${row.secondary.id}: found ${conflictGroups.length} conflicting skillbooks`
+          `StandardSkills ${row.primary.id}/${row.secondary.id}: found ${this._bookConflicts.length} conflicting skillbooks`
         );
+        if (this._bookConflicts.length > 0) {
+          console.log(
+            `StandardSkills ${row.primary.id}/${row.secondary.id}: found
+            ${this._bookConflicts
+              .map((bc) => {
+                return `${bc.book.name}: ${bc.book.level}`;
+              })
+              .join("\n")}`
+          );
+        }
       }
     } else {
       if (DEBUG) {
@@ -191,6 +201,11 @@ class StandardSkills {
             ? true
             : false;
           if (!matched) {
+            if (DEBUG2) {
+              console.log(
+                `StandardSkills ${this._primary.id}/${this._secondary.id} no conflict for ${ssb.name}`
+              );
+            }
             if (ssb.level == 4) {
               rValue += genericPvM(
                 ssb,
