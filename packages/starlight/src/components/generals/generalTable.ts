@@ -212,7 +212,7 @@ export default class TableElement extends LitElement {
     }
   }
 
-  static override styles?: CSSResultGroup | undefined = [
+  static override styles?: CSSResultGroup = [
     unsafeCSS(SpectrumTableCSS),
     unsafeCSS(GeneralsCSS),
   ];
@@ -349,11 +349,15 @@ export default class TableElement extends LitElement {
           );
         }
         return html`
-          <table
-            class="spectrum-Table spectrum-Table--sizeM spectrum-Table--emphasized"
+          <div
+            class="tableContainer spectrum-Table spectrum-Table-scroller spectrum-Table--sizeM spectrum-Table--empasized"
           >
-            ${this.tableHead(table)} ${this.tableBody(table)}
-          </table>
+            <table
+              class="spectrum-Table-main spectrum-Table--sizeM spectrum-Table--emphasized"
+            >
+              ${this.tableHead(table)} ${this.tableBody(table)}
+            </table>
+          </div>
           ${DEBUG
             ? html`<pre>${JSON.stringify(this._sorting, null, 2)}</pre>`
             : ""}

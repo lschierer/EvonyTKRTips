@@ -1,7 +1,16 @@
 @import "@spectrum-css/table/dist/index.css";
 
-table.spectrum-Table {
-  height: 60vh;
+th div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  word-wrap: normal;
+  justify-content: space-around;
+}
+
+div.tableContainer {
+  width: 100%;
+  height: 50vh;
 }
 
 table.horizontal tr.spectrum-Table-row {
