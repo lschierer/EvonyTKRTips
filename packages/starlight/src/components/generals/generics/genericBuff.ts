@@ -1,7 +1,7 @@
 import type { Buff } from "@schemas/buff";
 import * as constants from "@schemas/constants";
 
-const DEBUG = true;
+const DEBUG = false;
 
 /*TODO: handle the case when not the rally leader */
 export const genericPvMBuffEval = (

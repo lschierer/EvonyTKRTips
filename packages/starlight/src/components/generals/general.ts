@@ -464,7 +464,7 @@ class SpecialityStats {
 
       this._secondary.specialities.forEach((specialityName, index) => {
         const speciality = stores.specialities.get().find((s) => {
-          return s.name.localeCompare(specialityName);
+          return !s.name.localeCompare(specialityName);
         });
         if (speciality) {
           this._secondary_specialities[index] = speciality;
@@ -479,8 +479,7 @@ class SpecialityStats {
     let rValue = 0;
     rValue += genericPvMSpeciality(
       this._primary_specialities[level - 1],
-      //this._secondary_specialities[0],
-      null,
+      this._secondary_specialities[level - 1],
       level,
       constants.Attribute.Enum.Attack,
       constants.ClassEnum.Enum["Mounted Troops"]
