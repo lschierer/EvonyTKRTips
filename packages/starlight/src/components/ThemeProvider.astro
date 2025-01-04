@@ -7,7 +7,7 @@ type IconProps = ComponentProps<typeof Icon>;
 
 {/* This is intentionally inlined to avoid FOUC. */}
 <script type="module" is:inline>
-  const DEBUG = true;
+  const DEBUG = false;
   window.StarlightThemeProvider = (() => {
     const storedTheme =
       typeof localStorage !== "undefined" &&

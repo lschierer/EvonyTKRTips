@@ -4,6 +4,14 @@ import * as constants from "./constants";
 
 import { SkillBook } from "./skillBooks";
 
+/*
+ * when adding a new sset of skill books to this file
+ * remember to add it to AllStandardSkillBooks
+ * at the bottom
+ *
+ * AllStandardSkillBooks is the default export.
+ */
+
 export const MarchSize: SkillBook[] = [
   {
     name: "March Size Increase",
@@ -50,3 +58,109 @@ export const MarchSize: SkillBook[] = [
     },
   },
 ];
+
+export const MountedAttack: SkillBook[] = [
+  {
+    name: "Mounted Troop Attack",
+    level: 1,
+    buff: {
+      attribute: constants.Attribute.Enum["Attack"],
+      value: {
+        number: 10,
+        unit: constants.Unit.Enum.percentage,
+      },
+    },
+  },
+  {
+    name: "Mounted Troop Attack Against Monster",
+    level: 2,
+    buff: {
+      attribute: constants.Attribute.Enum["Attack"],
+      value: {
+        number: 15,
+        unit: constants.Unit.Enum.percentage,
+      },
+    },
+  },
+  {
+    name: "Mounted Troop Attack Against Monster",
+    level: 3,
+    buff: {
+      attribute: constants.Attribute.Enum["Attack"],
+      value: {
+        number: 20,
+        unit: constants.Unit.Enum.percentage,
+      },
+    },
+  },
+  {
+    name: "Mounted Troop Attack Against Monster",
+    level: 4,
+    buff: {
+      attribute: constants.Attribute.Enum["Attack"],
+      value: {
+        number: 25,
+        unit: constants.Unit.Enum.percentage,
+      },
+    },
+  },
+];
+
+export const MountedAttackAgainstMonster: SkillBook[] = [
+  {
+    name: "Mounted Troop Attack Against Monster",
+    level: 1,
+    buff: {
+      attribute: constants.Attribute.Enum["Attack"],
+      condition: [constants.BuffCondition.Enum["Against Monsters"]],
+      value: {
+        number: 15,
+        unit: constants.Unit.Enum.percentage,
+      },
+    },
+  },
+  {
+    name: "Mounted Troop Attack Against Monster",
+    level: 2,
+    buff: {
+      attribute: constants.Attribute.Enum["Attack"],
+      condition: [constants.BuffCondition.Enum["Against Monsters"]],
+      value: {
+        number: 25,
+        unit: constants.Unit.Enum.percentage,
+      },
+    },
+  },
+  {
+    name: "Mounted Troop Attack Against Monster",
+    level: 3,
+    buff: {
+      attribute: constants.Attribute.Enum["Attack"],
+      condition: [constants.BuffCondition.Enum["Against Monsters"]],
+      value: {
+        number: 35,
+        unit: constants.Unit.Enum.percentage,
+      },
+    },
+  },
+  {
+    name: "Mounted Troop Attack Against Monster",
+    level: 4,
+    buff: {
+      attribute: constants.Attribute.Enum["Attack"],
+      condition: [constants.BuffCondition.Enum["Against Monsters"]],
+      value: {
+        number: 45,
+        unit: constants.Unit.Enum.percentage,
+      },
+    },
+  },
+];
+
+const AllStandardSkillBooks = [
+  ...MarchSize,
+  ...MountedAttack,
+  ...MountedAttackAgainstMonster,
+];
+
+export default AllStandardSkillBooks;

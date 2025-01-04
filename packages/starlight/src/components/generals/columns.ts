@@ -73,6 +73,19 @@ const columns = [
                   .replace(/(\d)0+$/, "$1")}%</span
               >`,
           }),
+          columnHelper.accessor("MountedPVM.attack.SkillBooks", {
+            id: "MountedPVM.attack.SkillBooks",
+            sortingFn: "basic",
+            sortUndefined: "last",
+            header: () => html`<span class="tableHeader">Skill Books</span>`,
+            cell: (row) =>
+              html`<span class="tableCell"
+                >${row
+                  .getValue()
+                  .toFixed(1)
+                  .replace(/(\d)0+$/, "$1")}%</span
+              >`,
+          }),
         ],
       }),
     ],

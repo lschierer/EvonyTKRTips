@@ -101,7 +101,7 @@ import * as MarchSize from "./MarchSize";
 
 import { GeneralPairStats } from "./general";
 
-export const pairs = computed(
+export const pairs = batched(
   [generals, conflictGroups, selectedValues],
   (generals, conflictGroups, selectedValues) => {
     if (DEBUG) {
@@ -283,7 +283,8 @@ export const pairs = computed(
             baseAttribute: generalPairStats.baseAttribute.attack_base,
             levelAttribute: generalPairStats.baseAttribute.attack_increment,
             totalAttribute: generalPairStats.baseAttribute.attack_total,
-            BaseSkill: generalPairStats.baseSkill.monsterAttack,
+            BaseSkill: generalPairStats.baseSkill.mountedPvMAttack,
+            SkillBooks: generalPairStats.standardSkillBooks.mountedPvMAttack,
           },
         },
       };

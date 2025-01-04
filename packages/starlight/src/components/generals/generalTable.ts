@@ -70,7 +70,7 @@ import { SkillBook } from "@schemas/skillBooks";
 import columns from "./columns";
 import { GeneralAscending } from "@schemas/ascending";
 
-const DEBUG = true;
+const DEBUG = false;
 
 @customElement("table-element")
 export default class TableElement extends LitElement {

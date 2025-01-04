@@ -73,6 +73,7 @@ export const GeneralPair = z.object({
         levelAttribute: z.number(),
         totalAttribute: z.number(),
         BaseSkill: z.number(),
+        SkillBooks: z.number(),
       }),
     })
     .optional(),

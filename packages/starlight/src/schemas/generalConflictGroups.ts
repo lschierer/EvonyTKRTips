@@ -12,7 +12,7 @@ export const BookConflict = z.object({
   book: MetaBook,
   condition: constants.Condition,
 });
-export type BookElement = z.infer<typeof BookConflict>;
+export type BookConflict = z.infer<typeof BookConflict>;
 
 export const ConfictGroup = z.object({
   name: z.string().uuid(),
