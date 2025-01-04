@@ -7,22 +7,6 @@ others:
   - 73af81d0-9992-5fee-b0b8-bf75a3ec4b16
 books:
   - book:
-      name: Mounted Attack Increase
-      level: 1
-    condition: all the time
-  - book:
-      name: Mounted Attack Increase
-      level: 2
-    condition: all the time
-  - book:
-      name: Mounted Attack Increase
-      level: 3
-    condition: all the time
-  - book:
-      name: Mounted Attack Increase
-      level: 4
-    condition: all the time
-  - book:
       name: Mounted HP Increase
       level: 1
     condition: when not mine

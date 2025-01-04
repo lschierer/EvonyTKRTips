@@ -8,18 +8,18 @@ others:
   - 512df759-5b7d-500d-93d1-d2179a0b5d12
 books:
   - book:
-      name: Mounted Attack Increase
+      name: Mounted Troop Attack
       level: 1
     condition: when not mine
   - book:
-      name: Mounted Attack Increase
+      name: Mounted Troop Attack
       level: 2
     condition: when not mine
   - book:
-      name: Mounted Attack Increase
+      name: Mounted Troop Attack
       level: 3
     condition: when not mine
   - book:
-      name: Mounted Attack Increase
+      name: Mounted Troop Attack
       level: 4
     condition: when not mine

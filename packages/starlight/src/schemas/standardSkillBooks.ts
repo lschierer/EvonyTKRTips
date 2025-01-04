@@ -59,12 +59,13 @@ export const MarchSize: SkillBook[] = [
   },
 ];
 
-export const MountedAttack: SkillBook[] = [
+export const MountedTroopAttack: SkillBook[] = [
   {
     name: "Mounted Troop Attack",
     level: 1,
     buff: {
       attribute: constants.Attribute.Enum["Attack"],
+      class: constants.ClassEnum.Enum["Mounted Troops"],
       value: {
         number: 10,
         unit: constants.Unit.Enum.percentage,
@@ -72,10 +73,11 @@ export const MountedAttack: SkillBook[] = [
     },
   },
   {
-    name: "Mounted Troop Attack Against Monster",
+    name: "Mounted Troop Attack",
     level: 2,
     buff: {
       attribute: constants.Attribute.Enum["Attack"],
+      class: constants.ClassEnum.Enum["Mounted Troops"],
       value: {
         number: 15,
         unit: constants.Unit.Enum.percentage,
@@ -83,10 +85,11 @@ export const MountedAttack: SkillBook[] = [
     },
   },
   {
-    name: "Mounted Troop Attack Against Monster",
+    name: "Mounted Troop Attack",
     level: 3,
     buff: {
       attribute: constants.Attribute.Enum["Attack"],
+      class: constants.ClassEnum.Enum["Mounted Troops"],
       value: {
         number: 20,
         unit: constants.Unit.Enum.percentage,
@@ -94,10 +97,11 @@ export const MountedAttack: SkillBook[] = [
     },
   },
   {
-    name: "Mounted Troop Attack Against Monster",
+    name: "Mounted Troop Attack",
     level: 4,
     buff: {
       attribute: constants.Attribute.Enum["Attack"],
+      class: constants.ClassEnum.Enum["Mounted Troops"],
       value: {
         number: 25,
         unit: constants.Unit.Enum.percentage,
@@ -112,6 +116,7 @@ export const MountedAttackAgainstMonster: SkillBook[] = [
     level: 1,
     buff: {
       attribute: constants.Attribute.Enum["Attack"],
+      class: constants.ClassEnum.Enum["Mounted Troops"],
       condition: [constants.BuffCondition.Enum["Against Monsters"]],
       value: {
         number: 15,
@@ -124,6 +129,7 @@ export const MountedAttackAgainstMonster: SkillBook[] = [
     level: 2,
     buff: {
       attribute: constants.Attribute.Enum["Attack"],
+      class: constants.ClassEnum.Enum["Mounted Troops"],
       condition: [constants.BuffCondition.Enum["Against Monsters"]],
       value: {
         number: 25,
@@ -136,6 +142,7 @@ export const MountedAttackAgainstMonster: SkillBook[] = [
     level: 3,
     buff: {
       attribute: constants.Attribute.Enum["Attack"],
+      class: constants.ClassEnum.Enum["Mounted Troops"],
       condition: [constants.BuffCondition.Enum["Against Monsters"]],
       value: {
         number: 35,
@@ -148,6 +155,7 @@ export const MountedAttackAgainstMonster: SkillBook[] = [
     level: 4,
     buff: {
       attribute: constants.Attribute.Enum["Attack"],
+      class: constants.ClassEnum.Enum["Mounted Troops"],
       condition: [constants.BuffCondition.Enum["Against Monsters"]],
       value: {
         number: 45,
@@ -159,7 +167,7 @@ export const MountedAttackAgainstMonster: SkillBook[] = [
 
 const AllStandardSkillBooks = [
   ...MarchSize,
-  ...MountedAttack,
+  ...MountedTroopAttack,
   ...MountedAttackAgainstMonster,
 ];
 
