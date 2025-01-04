@@ -1,129 +1,18 @@
-import { General, GeneralType, GeneralPair } from "@schemas/generals";
-import { BookConflict, MetaBook } from "@schemas/generalConflictGroups";
-import { AscendingLevel, GeneralAscending } from "@schemas/ascending";
 import { Buff } from "@schemas/buff";
 import * as constants from "@schemas/constants";
+import { BookConflict } from "@schemas/generalConflictGroups";
+import { General, GeneralPair, GeneralType } from "@schemas/generals";
 import AllStandardSkillBooks from "@schemas/standardSkillBooks";
-
-import { type StoreValue, subscribeKeys } from "nanostores";
 
 import * as stores from "./store";
 
-import * as d3 from "d3";
 import type { SkillBook } from "@schemas/skillBooks";
-import type { Speciality } from "@schemas/specialities";
-import { Level } from "@schemas/covenants";
-import Config from "virtual:starlight/user-config";
-
+import { genericPvMBook } from "./generics/genericBook";
+import { genericPvMSpeciality } from "./generics/genericSpecialities";
+import { Speciality } from "@schemas/specialities";
 const DEBUG = false;
-const DEBUG2 = true;
+const DEBUG2 = false;
 const DEBUG3 = false;
-
-/*TODO: handle the case when not the rally leader */
-const genericPvMBuffEval = (
-  buff: Buff,
-  attribute: constants.Attrbute,
-  troopClass?: constants.ClassEnum
-) => {
-  let rValue = 0;
-  if (!buff.attribute.localeCompare(attribute)) {
-    let badCondition: boolean = false;
-    if (buff.condition) {
-      badCondition = buff.condition.find((c) => {
-        if (c.localeCompare(constants.BuffCondition.Enum["Against Monsters"])) {
-          if (c.localeCompare(constants.BuffCondition.Enum.Attacking)) {
-            if (c.localeCompare(constants.BuffCondition.Enum.Marching)) {
-              if (
-                c.localeCompare(constants.BuffCondition.Enum["brings a dragon"])
-              ) {
-                if (
-                  c.localeCompare(
-                    constants.BuffCondition.Enum[
-                      "brings dragon or beast to attack"
-                    ]
-                  )
-                ) {
-                  if (
-                    c.localeCompare(
-                      constants.BuffCondition.Enum["dragon to the attack"]
-                    )
-                  ) {
-                    if (
-                      c.localeCompare(
-                        constants.BuffCondition.Enum[
-                          "leading the army to attack"
-                        ]
-                      )
-                    ) {
-                      if (
-                        c.localeCompare(
-                          constants.BuffCondition.Enum["When Rallying"]
-                        )
-                      ) {
-                        return true;
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-        return false;
-      })
-        ? true
-        : false;
-      if (badCondition == undefined) {
-      }
-    }
-    if (!badCondition) {
-      if (troopClass) {
-        if (buff.class) {
-          if (!troopClass.localeCompare(buff.class)) {
-            rValue += buff.value.number;
-          }
-        } else {
-          rValue += buff.value.number;
-        }
-      } else {
-        rValue += buff.value.number;
-      }
-    }
-  }
-  return rValue;
-};
-
-const genericPvM = (
-  primary_skillBook: SkillBook,
-  secondary_skillBook: SkillBook | null,
-  attribute: constants.Attrbute,
-  troopClass?: constants.ClassEnum
-) => {
-  const bookEval = (book: SkillBook) => {
-    let rValue = 0;
-    if (book) {
-      if (book) {
-        const buffs = book.buff;
-        if (Array.isArray(buffs)) {
-          buffs.map((buff) => {
-            rValue += genericPvMBuffEval(buff, attribute, troopClass);
-          });
-        } else {
-          rValue += genericPvMBuffEval(buffs, attribute, troopClass);
-        }
-      }
-    }
-    return rValue;
-  };
-  let rValue = 0;
-  if (primary_skillBook) {
-    rValue += bookEval(primary_skillBook);
-  }
-  if (secondary_skillBook) {
-    rValue += bookEval(secondary_skillBook);
-  }
-  return rValue;
-};
 
 class StandardSkills {
   protected _primary: General;
@@ -207,7 +96,7 @@ class StandardSkills {
               );
             }
             if (ssb.level == 4) {
-              rValue += genericPvM(
+              rValue += genericPvMBook(
                 ssb,
                 null,
                 constants.Attribute.Enum.Attack,
@@ -224,7 +113,7 @@ class StandardSkills {
         }
         /* always only evaluate the biggest of each type of skill book */
         if (ssb.level == 4) {
-          rValue += genericPvM(
+          rValue += genericPvMBook(
             ssb,
             null,
             constants.Attribute.Enum.Attack,
@@ -264,7 +153,7 @@ class BaseSkill {
 
   public get mountedPvMAttack() {
     if (this._primary_skillBook && this._secondary_skillBook) {
-      return genericPvM(
+      return genericPvMBook(
         this._primary_skillBook,
         this._secondary_skillBook,
         constants.Attribute.Enum.Attack,
@@ -548,12 +437,65 @@ class BaseAttribute {
   }
 }
 
+class SpecialityStats {
+  protected _primary: General;
+  protected _secondary: General;
+  protected _primary_specialities = new Array<Speciality>();
+  protected _secondary_specialities = new Array<Speciality>();
+
+  constructor(row: GeneralPair) {
+    this._primary = row.primary;
+    this._secondary = row.secondary;
+
+    if (stores.specialities.get().length > 0) {
+      this._primary.specialities.forEach((specialityName, index) => {
+        const speciality = stores.specialities.get().find((s) => {
+          return !s.name.localeCompare(specialityName);
+        });
+        if (speciality) {
+          this._primary_specialities[index] = speciality;
+          if (DEBUG3) {
+            console.log(
+              `SpecialityStats ${this._primary.id} speciality #${index + 1} is ${speciality.name} `
+            );
+          }
+        }
+      });
+
+      this._secondary.specialities.forEach((specialityName, index) => {
+        const speciality = stores.specialities.get().find((s) => {
+          return s.name.localeCompare(specialityName);
+        });
+        if (speciality) {
+          this._secondary_specialities[index] = speciality;
+        }
+      });
+    } else {
+      console.warn(`SpecialityStats constructor missing specialities`);
+    }
+  }
+
+  public mountedPvMAttack(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericPvMSpeciality(
+      this._primary_specialities[level - 1],
+      //this._secondary_specialities[0],
+      null,
+      level,
+      constants.Attribute.Enum.Attack,
+      constants.ClassEnum.Enum["Mounted Troops"]
+    );
+    return rValue;
+  }
+}
+
 export class GeneralPairStats {
   protected _primary: General;
   protected _secondary: General;
   protected _baseAttribute: BaseAttribute;
   protected _baseSkill: BaseSkill;
   protected _standardSkills: StandardSkills;
+  protected _specialityStats: SpecialityStats;
   protected _type: GeneralType;
 
   constructor(row: GeneralPair, type: GeneralType | null = null) {
@@ -567,6 +509,7 @@ export class GeneralPairStats {
     this._baseAttribute = new BaseAttribute(row);
     this._baseSkill = new BaseSkill(row);
     this._standardSkills = new StandardSkills(row);
+    this._specialityStats = new SpecialityStats(row);
   }
 
   public get baseAttribute() {
@@ -579,6 +522,10 @@ export class GeneralPairStats {
 
   public get standardSkillBooks() {
     return this._standardSkills;
+  }
+
+  public get specialityStats() {
+    return this._specialityStats;
   }
 
   public get mountedPvMAttack() {

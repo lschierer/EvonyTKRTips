@@ -285,6 +285,12 @@ export const pairs = batched(
             totalAttribute: generalPairStats.baseAttribute.attack_total,
             BaseSkill: generalPairStats.baseSkill.mountedPvMAttack,
             SkillBooks: generalPairStats.standardSkillBooks.mountedPvMAttack,
+            //BaseSkill: 0,
+            //SkillBooks: 0,
+            Speciality1: generalPairStats.specialityStats.mountedPvMAttack(1),
+            Speciality2: generalPairStats.specialityStats.mountedPvMAttack(2),
+            Speciality3: generalPairStats.specialityStats.mountedPvMAttack(3),
+            Speciality4: generalPairStats.specialityStats.mountedPvMAttack(4),
           },
         },
       };
