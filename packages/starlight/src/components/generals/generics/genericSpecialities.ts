@@ -10,7 +10,7 @@ const specialityEval = (
   speciality: Speciality,
   specialityNumber: 1 | 2 | 3 | 4,
   role: "primary" | "secondary",
-  attribute: constants.Attrbute,
+  attribute: constants.Attribute,
   troopClass?: constants.ClassEnum
 ) => {
   let rValue = 0;
@@ -151,7 +151,7 @@ export const genericPvMSpeciality = (
   primary_speciality: Speciality,
   secondary_speciality: Speciality | null,
   specialityNumber: 1 | 2 | 3 | 4,
-  attribute: constants.Attrbute,
+  attribute: constants.Attribute,
   troopClass?: constants.ClassEnum
 ) => {
   let rValue = 0;

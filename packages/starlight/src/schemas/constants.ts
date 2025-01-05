@@ -50,7 +50,7 @@ export const Attribute = z.enum([
   "Training Speed",
   "Wounded to Death",
 ]);
-export type Attrbute = z.infer<typeof Attribute>;
+export type Attribute = z.infer<typeof Attribute>;
 
 export const BlazonType = z.enum([
   "earth",

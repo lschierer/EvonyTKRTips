@@ -2,6 +2,7 @@ import { Buff } from "@schemas/buff";
 import * as constants from "@schemas/constants";
 import { BookConflict } from "@schemas/generalConflictGroups";
 import { General, GeneralPair, GeneralType } from "@schemas/generals";
+import { GeneralAscending, AscendingLevel } from "@schemas/ascending";
 import AllStandardSkillBooks from "@schemas/standardSkillBooks";
 
 import * as stores from "./store";
@@ -9,6 +10,7 @@ import * as stores from "./store";
 import type { SkillBook } from "@schemas/skillBooks";
 import { genericPvMBook } from "./generics/genericBook";
 import { genericPvMSpeciality } from "./generics/genericSpecialities";
+import { genericPvMAscending } from "./generics/genericAscending";
 import { Speciality } from "@schemas/specialities";
 const DEBUG = false;
 const DEBUG2 = false;
@@ -171,7 +173,7 @@ class BaseSkill {
 
   protected reinforcingBuffEval = (
     buff: Buff,
-    attribute: constants.Attrbute,
+    attribute: constants.Attribute,
     troopClass?: constants.ClassEnum
   ) => {
     let rValue = 0;
@@ -488,6 +490,55 @@ class SpecialityStats {
   }
 }
 
+class AscendingStats {
+  protected _primary: General;
+  protected _secondary: General;
+  protected _ascending_attributes: AscendingLevel[] =
+    new Array<AscendingLevel>();
+
+  constructor(row: GeneralPair) {
+    this._primary = row.primary;
+    this._secondary = row.secondary;
+
+    const aa = stores.ascendingAttributes.get();
+    if (aa) {
+      const pa = aa.find((ga) => {
+        return !ga.general.localeCompare(this._primary.id);
+      });
+      if (pa) {
+        this._ascending_attributes = pa.ascending;
+      } else {
+        if (DEBUG) {
+          console.warn(
+            `AscendingStats cannot find attributes for ${this._primary.id}`
+          );
+        }
+      }
+    } else {
+      if (DEBUG) {
+        console.warn(
+          `AscendingStats is missing ascendingAttributes in constructor`
+        );
+      }
+    }
+  }
+
+  public get mountedPvMAttack() {
+    let rValue = 0;
+    const level = stores.selectedValues.get().stars;
+
+    if (level) {
+      rValue += genericPvMAscending(
+        this._ascending_attributes,
+        level,
+        constants.Attribute.Enum.Attack,
+        constants.ClassEnum.Enum["Mounted Troops"]
+      );
+    }
+    return rValue;
+  }
+}
+
 export class GeneralPairStats {
   protected _primary: General;
   protected _secondary: General;
@@ -495,6 +546,7 @@ export class GeneralPairStats {
   protected _baseSkill: BaseSkill;
   protected _standardSkills: StandardSkills;
   protected _specialityStats: SpecialityStats;
+  protected _ascendingStats: AscendingStats;
   protected _type: GeneralType;
 
   constructor(row: GeneralPair, type: GeneralType | null = null) {
@@ -509,6 +561,7 @@ export class GeneralPairStats {
     this._baseSkill = new BaseSkill(row);
     this._standardSkills = new StandardSkills(row);
     this._specialityStats = new SpecialityStats(row);
+    this._ascendingStats = new AscendingStats(row);
   }
 
   public get baseAttribute() {
@@ -525,6 +578,10 @@ export class GeneralPairStats {
 
   public get specialityStats() {
     return this._specialityStats;
+  }
+
+  public get ascendingStats() {
+    return this._ascendingStats;
   }
 
   public get mountedPvMAttack() {

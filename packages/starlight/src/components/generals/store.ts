@@ -291,6 +291,7 @@ export const pairs = batched(
             Speciality2: generalPairStats.specialityStats.mountedPvMAttack(2),
             Speciality3: generalPairStats.specialityStats.mountedPvMAttack(3),
             Speciality4: generalPairStats.specialityStats.mountedPvMAttack(4),
+            Ascending: generalPairStats.ascendingStats.mountedPvMAttack,
           },
         },
       };

@@ -5,7 +5,7 @@ import { genericPvMBuffEval } from "./genericBuff";
 export const genericPvMBook = (
   primary_skillBook: SkillBook,
   secondary_skillBook: SkillBook | null,
-  attribute: constants.Attrbute,
+  attribute: constants.Attribute,
   troopClass?: constants.ClassEnum
 ) => {
   const bookEval = (book: SkillBook) => {

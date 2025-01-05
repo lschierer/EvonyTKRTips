@@ -210,6 +210,22 @@ const columns = [
                   .replace(/(\d)0+$/, "$1")}%</span
               >`,
           }),
+          columnHelper.accessor("MountedPVM.attack.Ascending", {
+            id: "MountedPVM.attack.Ascending",
+            sortingFn: "basic",
+            sortUndefined: "last",
+            header: () =>
+              html`<span class="tableHeader spectrum-Table-columnTitle"
+                >Ascending</span
+              >`,
+            cell: (row) =>
+              html`<span class="tableCell"
+                >${row
+                  .getValue()
+                  .toFixed(1)
+                  .replace(/(\d)0+$/, "$1")}%</span
+              >`,
+          }),
         ],
       }),
     ],

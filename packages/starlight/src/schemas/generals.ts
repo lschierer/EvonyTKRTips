@@ -78,6 +78,7 @@ export const GeneralPair = z.object({
         Speciality2: z.number(),
         Speciality3: z.number(),
         Speciality4: z.number(),
+        Ascending: z.number(),
       }),
     })
     .optional(),

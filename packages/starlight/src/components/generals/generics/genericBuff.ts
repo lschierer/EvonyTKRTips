@@ -6,7 +6,7 @@ const DEBUG = false;
 /*TODO: handle the case when not the rally leader */
 export const genericPvMBuffEval = (
   buff: Buff,
-  attribute: constants.Attrbute,
+  attribute: constants.Attribute,
   troopClass?: constants.ClassEnum
 ) => {
   if (DEBUG) {
