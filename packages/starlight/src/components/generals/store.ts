@@ -358,15 +358,24 @@ export const pairs = batched(
             Ascending: generalPairStats.ascendingStats.PvMHP,
           },
           doubleDrop: {
-            BaseSkill: generalPairStats.baseSkill.PvMAttack,
-            SkillBooks: generalPairStats.standardSkillBooks.PvMAttack,
+            total:
+              generalPairStats.baseSkill.doubleDrop +
+              generalPairStats.standardSkillBooks.doubleDrop +
+              generalPairStats.specialityStats.doubleDrop(1) +
+              generalPairStats.specialityStats.doubleDrop(2) +
+              generalPairStats.specialityStats.doubleDrop(3) +
+              generalPairStats.specialityStats.doubleDrop(4) +
+              generalPairStats.ascendingStats.doubleDrop +
+              0,
+            BaseSkill: generalPairStats.baseSkill.doubleDrop,
+            SkillBooks: generalPairStats.standardSkillBooks.doubleDrop,
             //BaseSkill: 0,
-            //SkillBooks: 0,
-            Speciality1: generalPairStats.specialityStats.PvMAttack(1),
-            Speciality2: generalPairStats.specialityStats.PvMAttack(2),
-            Speciality3: generalPairStats.specialityStats.PvMAttack(3),
-            Speciality4: generalPairStats.specialityStats.PvMAttack(4),
-            Ascending: generalPairStats.ascendingStats.PvMAttack,
+            //SkillBooks: 10,
+            Speciality1: generalPairStats.specialityStats.doubleDrop(1),
+            Speciality2: generalPairStats.specialityStats.doubleDrop(2),
+            Speciality3: generalPairStats.specialityStats.doubleDrop(3),
+            Speciality4: generalPairStats.specialityStats.doubleDrop(4),
+            Ascending: generalPairStats.ascendingStats.doubleDrop,
           },
           reduceDefense: {
             BaseSkill: generalPairStats.baseSkill.PvMAttack,
