@@ -101,6 +101,18 @@ class StandardSkills {
     );
     return rValue;
   }
+
+  public get PvMHP() {
+    let rValue = 0;
+    rValue += genericSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.HP,
+      this.troopClass
+    );
+    return rValue;
+  }
 }
 
 class BaseSkill {
@@ -163,7 +175,19 @@ class BaseSkill {
       return genericPvMBook(
         this._primary_skillBook,
         this._secondary_skillBook,
-        constants.Attribute.Enum.Attack,
+        constants.Attribute.Enum.Defense,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+
+  public get PvMHP() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericPvMBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum.HP,
         this.troopClass
       );
     }
@@ -371,6 +395,18 @@ class SpecialityStats {
     );
     return rValue;
   }
+
+  public PvMHP(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericPvMSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum.HP,
+      this.troopClass
+    );
+    return rValue;
+  }
 }
 
 class AscendingStats {
@@ -448,6 +484,21 @@ class AscendingStats {
         this._ascending_attributes,
         level,
         constants.Attribute.Enum.Defense,
+        this.troopClass
+      );
+    }
+    return rValue;
+  }
+
+  public get PvMHP() {
+    let rValue = 0;
+    const level = stores.selectedValues.get().stars;
+
+    if (level) {
+      rValue += genericPvMAscending(
+        this._ascending_attributes,
+        level,
+        constants.Attribute.Enum.HP,
         this.troopClass
       );
     }

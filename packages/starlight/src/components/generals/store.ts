@@ -332,18 +332,30 @@ export const pairs = batched(
             Ascending: generalPairStats.ascendingStats.PvMDefense,
           },
           hp: {
-            baseAttribute: 0,
-            levelAttribute: 0,
-            totalAttribute: 0,
-            BaseSkill: generalPairStats.baseSkill.PvMAttack,
-            SkillBooks: generalPairStats.standardSkillBooks.PvMAttack,
+            total:
+              +(generalPairStats.baseAttribute.leadership_total * 100)
+                .toFixed(3)
+                .replace(/(\d)0+$/, "$1") +
+              generalPairStats.baseSkill.PvMHP +
+              generalPairStats.standardSkillBooks.PvMHP +
+              generalPairStats.specialityStats.PvMHP(1) +
+              generalPairStats.specialityStats.PvMHP(2) +
+              generalPairStats.specialityStats.PvMHP(3) +
+              generalPairStats.specialityStats.PvMHP(4) +
+              generalPairStats.ascendingStats.PvMHP +
+              0,
+            baseAttribute: generalPairStats.baseAttribute.leadership_base,
+            levelAttribute: generalPairStats.baseAttribute.leadership_increment,
+            totalAttribute: generalPairStats.baseAttribute.leadership_total,
+            BaseSkill: generalPairStats.baseSkill.PvMHP,
+            SkillBooks: generalPairStats.standardSkillBooks.PvMHP,
             //BaseSkill: 0,
             //SkillBooks: 0,
-            Speciality1: generalPairStats.specialityStats.PvMAttack(1),
-            Speciality2: generalPairStats.specialityStats.PvMAttack(2),
-            Speciality3: generalPairStats.specialityStats.PvMAttack(3),
-            Speciality4: generalPairStats.specialityStats.PvMAttack(4),
-            Ascending: generalPairStats.ascendingStats.PvMAttack,
+            Speciality1: generalPairStats.specialityStats.PvMHP(1),
+            Speciality2: generalPairStats.specialityStats.PvMHP(2),
+            Speciality3: generalPairStats.specialityStats.PvMHP(3),
+            Speciality4: generalPairStats.specialityStats.PvMHP(4),
+            Ascending: generalPairStats.ascendingStats.PvMHP,
           },
           doubleDrop: {
             BaseSkill: generalPairStats.baseSkill.PvMAttack,
