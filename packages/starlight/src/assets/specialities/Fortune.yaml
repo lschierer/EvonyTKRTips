@@ -39,5 +39,5 @@ levels:
           - Against Monsters
         attribute: "Double Items Drop Rate"
         value:
-          number: 5
+          number: 6
           unit: percentage
