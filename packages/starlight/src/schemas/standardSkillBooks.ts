@@ -12,6 +12,52 @@ import { SkillBook } from "./skillBooks";
  * AllStandardSkillBooks is the default export.
  */
 
+export const Luck: SkillBook[] = [
+  {
+    name: "Luck",
+    level: 1,
+    buff: {
+      attribute: constants.Attribute.Enum["Double Items Drop Rate"],
+      value: {
+        number: 5,
+        unit: constants.Unit.Enum.percentage,
+      },
+    },
+  },
+  {
+    name: "Luck",
+    level: 2,
+    buff: {
+      attribute: constants.Attribute.Enum["Double Items Drop Rate"],
+      value: {
+        number: 10,
+        unit: constants.Unit.Enum.percentage,
+      },
+    },
+  },
+  {
+    name: "Luck",
+    level: 3,
+    buff: {
+      attribute: constants.Attribute.Enum["Double Items Drop Rate"],
+      value: {
+        number: 15,
+        unit: constants.Unit.Enum.percentage,
+      },
+    },
+  },
+  {
+    name: "Luck",
+    level: 4,
+    buff: {
+      attribute: constants.Attribute.Enum["Double Items Drop Rate"],
+      value: {
+        number: 18,
+        unit: constants.Unit.Enum.percentage,
+      },
+    },
+  },
+];
 export const MarchSize: SkillBook[] = [
   {
     name: "March Size Increase",
@@ -166,6 +212,7 @@ export const MountedAttackAgainstMonster: SkillBook[] = [
 ];
 
 const AllStandardSkillBooks = [
+  ...Luck,
   ...MarchSize,
   ...MountedTroopAttack,
   ...MountedAttackAgainstMonster,
