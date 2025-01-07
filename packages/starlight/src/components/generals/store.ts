@@ -61,20 +61,20 @@ export const selectedValues = deepMap<SelectedValues>({
     },
   },
   primarySpecialityLevels: [
-    constants.SpecialityLevelName.Enum.None,
-    constants.SpecialityLevelName.Enum.None,
-    constants.SpecialityLevelName.Enum.None,
-    constants.SpecialityLevelName.Enum.None,
+    constants.SpecialityLevelName.Enum.Gold,
+    constants.SpecialityLevelName.Enum.Gold,
+    constants.SpecialityLevelName.Enum.Gold,
+    constants.SpecialityLevelName.Enum.Green,
   ],
   secondarySpecialityLevels: [
-    constants.SpecialityLevelName.Enum.None,
-    constants.SpecialityLevelName.Enum.None,
-    constants.SpecialityLevelName.Enum.None,
-    constants.SpecialityLevelName.Enum.None,
+    constants.SpecialityLevelName.Enum.Gold,
+    constants.SpecialityLevelName.Enum.Gold,
+    constants.SpecialityLevelName.Enum.Gold,
+    constants.SpecialityLevelName.Enum.Green,
   ],
   type: GeneralType.Enum.mounted_specialist,
-  stars: constants.AscendingLevel.Enum.None,
-  level: 0,
+  stars: constants.AscendingLevel.Enum.red5,
+  level: 44,
 });
 
 export const generals = atom<General[]>(new Array<General>());
@@ -278,20 +278,138 @@ export const pairs = batched(
           attributeTotal: MarchSize.AttributeMarchSize(pair),
           baseSkill: MarchSize.BaseSkillMarchSize(pair),
         },
-        MountedPVM: {
+        PvM: {
           attack: {
+            total:
+              +(generalPairStats.baseAttribute.attack_total * 100)
+                .toFixed(3)
+                .replace(/(\d)0+$/, "$1") +
+              generalPairStats.baseSkill.PvMAttack +
+              generalPairStats.standardSkillBooks.PvMAttack +
+              generalPairStats.specialityStats.PvMAttack(1) +
+              generalPairStats.specialityStats.PvMAttack(2) +
+              generalPairStats.specialityStats.PvMAttack(3) +
+              generalPairStats.specialityStats.PvMAttack(4) +
+              generalPairStats.ascendingStats.PvMAttack +
+              0,
             baseAttribute: generalPairStats.baseAttribute.attack_base,
             levelAttribute: generalPairStats.baseAttribute.attack_increment,
             totalAttribute: generalPairStats.baseAttribute.attack_total,
-            BaseSkill: generalPairStats.baseSkill.mountedPvMAttack,
-            SkillBooks: generalPairStats.standardSkillBooks.mountedPvMAttack,
+            BaseSkill: generalPairStats.baseSkill.PvMAttack,
+            SkillBooks: generalPairStats.standardSkillBooks.PvMAttack,
             //BaseSkill: 0,
             //SkillBooks: 0,
-            Speciality1: generalPairStats.specialityStats.mountedPvMAttack(1),
-            Speciality2: generalPairStats.specialityStats.mountedPvMAttack(2),
-            Speciality3: generalPairStats.specialityStats.mountedPvMAttack(3),
-            Speciality4: generalPairStats.specialityStats.mountedPvMAttack(4),
-            Ascending: generalPairStats.ascendingStats.mountedPvMAttack,
+            Speciality1: generalPairStats.specialityStats.PvMAttack(1),
+            Speciality2: generalPairStats.specialityStats.PvMAttack(2),
+            Speciality3: generalPairStats.specialityStats.PvMAttack(3),
+            Speciality4: generalPairStats.specialityStats.PvMAttack(4),
+            Ascending: generalPairStats.ascendingStats.PvMDefense,
+          },
+          defense: {
+            total:
+              +(generalPairStats.baseAttribute.defense_total * 100)
+                .toFixed(3)
+                .replace(/(\d)0+$/, "$1") +
+              generalPairStats.baseSkill.PvMDefense +
+              generalPairStats.standardSkillBooks.PvMDefense +
+              generalPairStats.specialityStats.PvMDefense(1) +
+              generalPairStats.specialityStats.PvMDefense(2) +
+              generalPairStats.specialityStats.PvMDefense(3) +
+              generalPairStats.specialityStats.PvMDefense(4) +
+              generalPairStats.ascendingStats.PvMDefense +
+              0,
+            baseAttribute: generalPairStats.baseAttribute.defense_base,
+            levelAttribute: generalPairStats.baseAttribute.defense_increment,
+            totalAttribute: generalPairStats.baseAttribute.defense_total,
+            BaseSkill: generalPairStats.baseSkill.PvMDefense,
+            SkillBooks: generalPairStats.standardSkillBooks.PvMDefense,
+            //BaseSkill: 0,
+            //SkillBooks: 0,
+            Speciality1: generalPairStats.specialityStats.PvMDefense(1),
+            Speciality2: generalPairStats.specialityStats.PvMDefense(2),
+            Speciality3: generalPairStats.specialityStats.PvMDefense(3),
+            Speciality4: generalPairStats.specialityStats.PvMDefense(4),
+            Ascending: generalPairStats.ascendingStats.PvMDefense,
+          },
+          hp: {
+            baseAttribute: 0,
+            levelAttribute: 0,
+            totalAttribute: 0,
+            BaseSkill: generalPairStats.baseSkill.PvMAttack,
+            SkillBooks: generalPairStats.standardSkillBooks.PvMAttack,
+            //BaseSkill: 0,
+            //SkillBooks: 0,
+            Speciality1: generalPairStats.specialityStats.PvMAttack(1),
+            Speciality2: generalPairStats.specialityStats.PvMAttack(2),
+            Speciality3: generalPairStats.specialityStats.PvMAttack(3),
+            Speciality4: generalPairStats.specialityStats.PvMAttack(4),
+            Ascending: generalPairStats.ascendingStats.PvMAttack,
+          },
+          doubleDrop: {
+            BaseSkill: generalPairStats.baseSkill.PvMAttack,
+            SkillBooks: generalPairStats.standardSkillBooks.PvMAttack,
+            //BaseSkill: 0,
+            //SkillBooks: 0,
+            Speciality1: generalPairStats.specialityStats.PvMAttack(1),
+            Speciality2: generalPairStats.specialityStats.PvMAttack(2),
+            Speciality3: generalPairStats.specialityStats.PvMAttack(3),
+            Speciality4: generalPairStats.specialityStats.PvMAttack(4),
+            Ascending: generalPairStats.ascendingStats.PvMAttack,
+          },
+          reduceDefense: {
+            BaseSkill: generalPairStats.baseSkill.PvMAttack,
+            SkillBooks: generalPairStats.standardSkillBooks.PvMAttack,
+            //BaseSkill: 0,
+            //SkillBooks: 0,
+            Speciality1: generalPairStats.specialityStats.PvMAttack(1),
+            Speciality2: generalPairStats.specialityStats.PvMAttack(2),
+            Speciality3: generalPairStats.specialityStats.PvMAttack(3),
+            Speciality4: generalPairStats.specialityStats.PvMAttack(4),
+            Ascending: generalPairStats.ascendingStats.PvMAttack,
+          },
+          reduceHP: {
+            BaseSkill: generalPairStats.baseSkill.PvMAttack,
+            SkillBooks: generalPairStats.standardSkillBooks.PvMAttack,
+            //BaseSkill: 0,
+            //SkillBooks: 0,
+            Speciality1: generalPairStats.specialityStats.PvMAttack(1),
+            Speciality2: generalPairStats.specialityStats.PvMAttack(2),
+            Speciality3: generalPairStats.specialityStats.PvMAttack(3),
+            Speciality4: generalPairStats.specialityStats.PvMAttack(4),
+            Ascending: generalPairStats.ascendingStats.PvMAttack,
+          },
+          reduceAttack: {
+            BaseSkill: generalPairStats.baseSkill.PvMAttack,
+            SkillBooks: generalPairStats.standardSkillBooks.PvMAttack,
+            //BaseSkill: 0,
+            //SkillBooks: 0,
+            Speciality1: generalPairStats.specialityStats.PvMAttack(1),
+            Speciality2: generalPairStats.specialityStats.PvMAttack(2),
+            Speciality3: generalPairStats.specialityStats.PvMAttack(3),
+            Speciality4: generalPairStats.specialityStats.PvMAttack(4),
+            Ascending: generalPairStats.ascendingStats.PvMAttack,
+          },
+          marchSpeed: {
+            BaseSkill: generalPairStats.baseSkill.PvMAttack,
+            SkillBooks: generalPairStats.standardSkillBooks.PvMAttack,
+            //BaseSkill: 0,
+            //SkillBooks: 0,
+            Speciality1: generalPairStats.specialityStats.PvMAttack(1),
+            Speciality2: generalPairStats.specialityStats.PvMAttack(2),
+            Speciality3: generalPairStats.specialityStats.PvMAttack(3),
+            Speciality4: generalPairStats.specialityStats.PvMAttack(4),
+            Ascending: generalPairStats.ascendingStats.PvMAttack,
+          },
+          reduceStaminaCost: {
+            BaseSkill: generalPairStats.baseSkill.PvMAttack,
+            SkillBooks: generalPairStats.standardSkillBooks.PvMAttack,
+            //BaseSkill: 0,
+            //SkillBooks: 0,
+            Speciality1: generalPairStats.specialityStats.PvMAttack(1),
+            Speciality2: generalPairStats.specialityStats.PvMAttack(2),
+            Speciality3: generalPairStats.specialityStats.PvMAttack(3),
+            Speciality4: generalPairStats.specialityStats.PvMAttack(4),
+            Ascending: generalPairStats.ascendingStats.PvMAttack,
           },
         },
       };

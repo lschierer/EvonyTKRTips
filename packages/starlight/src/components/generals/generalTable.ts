@@ -327,6 +327,35 @@ export default class TableElement extends LitElement {
           getSortedRowModel: getSortedRowModel(),
           getCoreRowModel: getCoreRowModel(),
           renderFallbackValue: "pending data",
+          defaultColumn: {
+            enableHiding: true,
+            enableSorting: true,
+            invertSorting: false,
+            sortDescFirst: false,
+            sortUndefined: "last",
+          },
+          initialState: {
+            columnVisibility: {
+              PvM_attack_total: true,
+              PvM_attack_totalAttribute: false,
+              PvM_attack_BaseSkill: false,
+              PvM_attack_SkillBooks: false,
+              PvM_attack_Speciality1: false,
+              PvM_attack_Speciality2: false,
+              PvM_attack_Speciality3: false,
+              PvM_attack_Speciality4: false,
+              PvM_attack_Ascending: false,
+              PvM_defense_total: true,
+              PvM_defense_totalAttribute: false,
+              PvM_defense_BaseSkill: false,
+              PvM_defense_SkillBooks: false,
+              PvM_defense_Speciality1: false,
+              PvM_defense_Speciality2: false,
+              PvM_defense_Speciality3: false,
+              PvM_defense_Speciality4: false,
+              PvM_defense_Ascending: false,
+            },
+          },
         });
         const state = { ...table.initialState, ...this._tableState };
         const oldOptions = table.options;

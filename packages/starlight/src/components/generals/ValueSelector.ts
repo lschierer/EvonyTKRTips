@@ -34,12 +34,6 @@ const DEBUG = false;
 export default class ValueSelector extends withStores(LitElement, [
   stores.selectedValues,
 ]) {
-  @state()
-  private level = 1;
-
-  @state()
-  private generalType: GeneralType = GeneralType.Enum.mounted_specialist;
-
   constructor() {
     super();
   }
@@ -224,7 +218,6 @@ export default class ValueSelector extends withStores(LitElement, [
           const target = event.target as Picker;
           const valid = GeneralType.safeParse(target.value);
           if (valid.success) {
-            this.generalType = valid.data;
             stores.selectedValues.setKey("type", valid.data);
           }
         });
@@ -250,14 +243,13 @@ export default class ValueSelector extends withStores(LitElement, [
             console.log(`target is ${target.value}`);
           }
           if (isNaN(target.value)) {
-            this.level = 1;
+            stores.selectedValues.setKey("level", 1);
           } else {
-            this.level = target.value;
+            stores.selectedValues.setKey("level", target.value);
           }
           if (DEBUG) {
-            console.log(`level is ${this.level}`);
+            console.log(`level is ${target.value}`);
           }
-          stores.selectedValues.setKey("level", this.level);
         });
       } else {
         console.warn(`#level not found`);
@@ -347,7 +339,7 @@ export default class ValueSelector extends withStores(LitElement, [
               id="generalType"
               size="m"
               label="General Type"
-              value="${this.generalType}"
+              value="${stores.selectedValues.get().type}"
             >
               <span slot="label">Which type of General?</span>
               ${GeneralType.options.map((gt) => {
@@ -363,7 +355,7 @@ export default class ValueSelector extends withStores(LitElement, [
             <sp-field-label for="level" size="m">General Level</sp-field-label>
             <sp-number-field
               id="level"
-              value="${this.level}"
+              value="${stores.selectedValues.get().level}"
               min="1"
               max="45"
               step="1"

@@ -71,6 +71,7 @@ export const ClassEnum = z.enum([
   "Mounted Troops",
   "Ranged Troops",
   "Siege Machines",
+  "All",
 ]);
 export type ClassEnum = z.infer<typeof ClassEnum>;
 
