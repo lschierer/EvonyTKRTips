@@ -336,6 +336,7 @@ export default class TableElement extends LitElement {
           },
           initialState: {
             columnVisibility: {
+              level: false,
               PvM_attack_total: true,
               PvM_attack_totalAttribute: false,
               PvM_attack_BaseSkill: false,
