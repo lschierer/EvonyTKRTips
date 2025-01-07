@@ -4,7 +4,7 @@ import { Buff } from "@schemas/buff";
 import { genericPvMBuffEval } from "./genericBuff";
 import * as stores from "../store";
 
-const DEBUG = true;
+const DEBUG = false;
 
 const evalSingleLevelBuffs = (
   b: Buff | Buff[],
