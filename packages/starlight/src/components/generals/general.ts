@@ -7,9 +7,9 @@ import { GeneralAscending, AscendingLevel } from "@schemas/ascending";
 import * as stores from "./store";
 
 import type { SkillBook } from "@schemas/skillBooks";
-import { genericPvMBook } from "./generics/genericBook";
+import { genericBook } from "./generics/genericBook";
 import { genericSpeciality } from "./generics/genericSpecialities";
-import { genericPvMAscending } from "./generics/genericAscending";
+import { genericAscending } from "./generics/genericAscending";
 import { Speciality } from "@schemas/specialities";
 import { genericStandardSkillBooksEval } from "./generics/genericStandardSkillBook";
 const DEBUG = false;
@@ -87,7 +87,7 @@ class StandardSkills {
       this._bookConflicts,
       constants.Attribute.Enum.Attack,
       false,
-      false,
+      true,
       false,
       this.troopClass
     );
@@ -102,7 +102,7 @@ class StandardSkills {
       this._bookConflicts,
       constants.Attribute.Enum.Defense,
       false,
-      false,
+      true,
       false,
       this.troopClass
     );
@@ -117,7 +117,7 @@ class StandardSkills {
       this._bookConflicts,
       constants.Attribute.Enum.HP,
       false,
-      false,
+      true,
       false,
       this.troopClass
     );
@@ -132,7 +132,7 @@ class StandardSkills {
       this._bookConflicts,
       constants.Attribute.Enum.Defense,
       false,
-      false,
+      true,
       false,
       this.troopClass
     );
@@ -150,7 +150,7 @@ class StandardSkills {
       this._bookConflicts,
       constants.Attribute.Enum["Double Items Drop Rate"],
       false,
-      false,
+      true,
       false
     );
     return rValue;
@@ -203,12 +203,12 @@ class BaseSkill {
 
   public get PvMAttack() {
     if (this._primary_skillBook && this._secondary_skillBook) {
-      return genericPvMBook(
+      return genericBook(
         this._primary_skillBook,
         this._secondary_skillBook,
         constants.Attribute.Enum.Attack,
         false,
-        false,
+        true,
         false,
         this.troopClass
       );
@@ -217,12 +217,12 @@ class BaseSkill {
   }
   public get PvMDefense() {
     if (this._primary_skillBook && this._secondary_skillBook) {
-      return genericPvMBook(
+      return genericBook(
         this._primary_skillBook,
         this._secondary_skillBook,
         constants.Attribute.Enum.Defense,
         false,
-        false,
+        true,
         false,
         this.troopClass
       );
@@ -232,12 +232,12 @@ class BaseSkill {
 
   public get PvMHP() {
     if (this._primary_skillBook && this._secondary_skillBook) {
-      return genericPvMBook(
+      return genericBook(
         this._primary_skillBook,
         this._secondary_skillBook,
         constants.Attribute.Enum.HP,
         false,
-        false,
+        true,
         false,
         this.troopClass
       );
@@ -246,12 +246,12 @@ class BaseSkill {
   }
   public get doubleDrop() {
     if (this._primary_skillBook && this._secondary_skillBook) {
-      return genericPvMBook(
+      return genericBook(
         this._primary_skillBook,
         this._secondary_skillBook,
         constants.Attribute.Enum["Double Items Drop Rate"],
         false,
-        false,
+        true,
         false,
         this.troopClass
       );
@@ -542,10 +542,13 @@ class AscendingStats {
     const level = stores.selectedValues.get().stars;
 
     if (level) {
-      rValue += genericPvMAscending(
+      rValue += genericAscending(
         this._ascending_attributes,
         level,
         constants.Attribute.Enum.Attack,
+        false,
+        true,
+        false,
         this.troopClass
       );
     }
@@ -557,10 +560,13 @@ class AscendingStats {
     const level = stores.selectedValues.get().stars;
 
     if (level) {
-      rValue += genericPvMAscending(
+      rValue += genericAscending(
         this._ascending_attributes,
         level,
         constants.Attribute.Enum.Defense,
+        false,
+        true,
+        false,
         this.troopClass
       );
     }
@@ -572,10 +578,13 @@ class AscendingStats {
     const level = stores.selectedValues.get().stars;
 
     if (level) {
-      rValue += genericPvMAscending(
+      rValue += genericAscending(
         this._ascending_attributes,
         level,
         constants.Attribute.Enum.HP,
+        false,
+        true,
+        false,
         this.troopClass
       );
     }
@@ -586,10 +595,13 @@ class AscendingStats {
     const level = stores.selectedValues.get().stars;
 
     if (level) {
-      rValue += genericPvMAscending(
+      rValue += genericAscending(
         this._ascending_attributes,
         level,
         constants.Attribute.Enum["Double Items Drop Rate"],
+        false,
+        true,
+        false,
         this.troopClass
       );
     }
@@ -605,9 +617,9 @@ export class GeneralPairStats {
   protected _standardSkills: StandardSkills;
   protected _specialityStats: SpecialityStats;
   protected _ascendingStats: AscendingStats;
-  protected _type: GeneralType;
+  protected _type: constants.GeneralType;
 
-  constructor(row: GeneralPair, type: GeneralType | null = null) {
+  constructor(row: GeneralPair, type: constants.GeneralType | null = null) {
     this._primary = row.primary;
     this._secondary = row.secondary;
     this._type = type

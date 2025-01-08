@@ -38,15 +38,13 @@ const evalSingleLevelBuffs = (
   }
   return rValue;
 };
-export const genericPvMAscending = (
+export const genericAscending = (
   alevels: AscendingLevel[],
   level: constants.AscendingLevel,
   attribute: constants.Attribute,
   debuffAttribute: boolean,
-  generalUse: constants.GeneralType,
   pvm: boolean = false,
   reinforcing: boolean = false,
-  dragon: boolean = false,
   troopClass: constants.ClassEnum
 ) => {
   let rValue = 0;

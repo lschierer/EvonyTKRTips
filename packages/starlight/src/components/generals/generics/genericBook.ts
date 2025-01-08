@@ -2,7 +2,7 @@ import * as constants from "@schemas/constants";
 import type { SkillBook } from "@schemas/skillBooks";
 import { genericBuffEval } from "./genericBuff";
 
-export const genericPvMBook = (
+export const genericBook = (
   primary_skillBook: SkillBook,
   secondary_skillBook: SkillBook | null,
   attribute: constants.Attribute,

@@ -159,35 +159,3 @@ export const GeneralPair = z.object({
     .optional(),
 });
 export type GeneralPair = z.infer<typeof GeneralPair>;
-
-/*
-MarchSizeIncrease: z
-  .object({
-
-    baseAttribute: z.number(),
-    attributeIncrement: z.number(),
-    attributeTotal: z.number(),
-    baseSkill: z.number(),
-  })
-  .optional(),
-MountedPVM: z
-  .object({
-    attack: z.object({
-      baseAttribute: z.number(),
-      attributeIncrement: z.number(),
-      attributeTotal: z.number(),
-      baseSkill: z.number(),
-    }),
-  })
-  .optional(),
-AttackingAttack: z
-  .object({
-    attack: z.object({
-      baseAttribute: z.number(),
-      attributeIncrement: z.number(),
-      attributeTotal: z.number(),
-      baseSkill: z.number(),
-    }),
-  })
-  .optional(),
-*/

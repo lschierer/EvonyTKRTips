@@ -2,13 +2,13 @@
 import { getCollection } from "astro:content";
 import "tabulator-tables/dist/css/tabulator.css";
 
-const DEBUG = false;
+const DEBUG = true;
 
 const generals = (await getCollection("generals")).map((entry) => entry.data);
 if (DEBUG) {
   generals.sort((a, b) => {
     return a.id.localeCompare(b.id);
-  }).length = 16;
+  }).length = 6;
 }
 const skillbooks = (await getCollection("skillBooks")).map(
   (entry) => entry.data

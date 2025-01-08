@@ -5,7 +5,7 @@ import { General, GeneralPair } from "@schemas/generals";
 
 import * as stores from "../store";
 import AllStandardSkillBooks from "@schemas/standardSkillBooks";
-import { genericPvMBook } from "./genericBook";
+import { genericBook } from "./genericBook";
 
 const DEBUG = false;
 
@@ -56,7 +56,7 @@ export const genericStandardSkillBooksEval = (
           );
         }
         if (ssb.level == 4) {
-          rValue += genericPvMBook(
+          rValue += genericBook(
             ssb,
             null,
             attribute,
@@ -75,7 +75,7 @@ export const genericStandardSkillBooksEval = (
       }
       /* always only evaluate the biggest of each type of skill book */
       if (ssb.level == 4) {
-        rValue += genericPvMBook(
+        rValue += genericBook(
           ssb,
           null,
           attribute,

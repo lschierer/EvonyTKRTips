@@ -7,17 +7,29 @@ const DEBUG = false;
 
 const isDebuff = (buff: Buff) => {
   if (!buff.condition) {
+    if (DEBUG) {
+      console.log(`isDebuff false for no conditions at all`);
+    }
     return false;
   } else {
-    const match = buff.condition.map((c) => {
+    const match = buff.condition.find((c) => {
       const valid = constants.DebuffCondition.safeParse(c);
       if (valid.success) {
+        if (DEBUG) {
+          console.log(`DebuffCondition safeparse matched`);
+        }
         return true;
+      }
+      if (DEBUG) {
+        console.log(`DebuffCondition safeparse failed`);
       }
       return false;
     })
       ? true
       : false;
+    if (DEBUG) {
+      console.log(`returning ${match}`);
+    }
     return match;
   }
 };
@@ -37,6 +49,9 @@ export const genericBuffEval = (
   const generalUse =
     stores.selectedValues.get().type ??
     constants.GeneralType.Enum.mounted_specialist;
+  if (DEBUG) {
+    console.log(`genericBuffEval detects generalUse ${generalUse}`);
+  }
 
   const validConditions = new Set<constants.Condition>();
   if (!generalUse.localeCompare(constants.GeneralType.Enum.wall)) {
@@ -69,6 +84,9 @@ export const genericBuffEval = (
       );
       return 0;
     } else if (pvm) {
+      if (DEBUG) {
+        console.log(`genericBuffEval using pvm conditions.`);
+      }
       validConditions.add(constants.BuffCondition.Enum["Against Monsters"]);
       validConditions.add(constants.BuffCondition.Enum.Attacking);
       validConditions.add(constants.BuffCondition.Enum.Marching);
@@ -103,6 +121,9 @@ export const genericBuffEval = (
         );
       }
     } else {
+      if (DEBUG) {
+        console.log(`generalUse detected as ${generalUse}, using standard PvP`);
+      }
       validConditions.add(constants.BuffCondition.Enum.Attacking);
       validConditions.add(constants.BuffCondition.Enum.Marching);
       validConditions.add(
@@ -134,7 +155,7 @@ export const genericBuffEval = (
 
   if (DEBUG) {
     console.log(
-      `genericPvMBuffEval for ${JSON.stringify(buff)}\n against ${attribute} and ${troopClass}`
+      `genericBuffEval for ${JSON.stringify(buff)}\n against ${attribute} and ${troopClass}`
     );
   }
   let rValue = 0;
@@ -149,6 +170,14 @@ export const genericBuffEval = (
       }
       badCondition = buff.condition.find((c) => {
         if (validConditions.has(c)) {
+          if (DEBUG) {
+            console.log(`${c} is a valid condition`);
+          }
+          return false;
+        } else {
+          if (DEBUG) {
+            console.log(`${c} is not a valid condition`);
+          }
           return true;
         }
         return false;
@@ -157,14 +186,22 @@ export const genericBuffEval = (
         : false;
     }
     if (!badCondition) {
+      if (DEBUG) {
+        console.log(`there are no bad conditions`);
+      }
       if (troopClass) {
         if (buff.class) {
           if (!troopClass.localeCompare(buff.class)) {
             if (isDebuff(buff) && debuffAttribute) {
               rValue += buff.value.number;
-            }
-            if (!isDebuff(buff) && !debuffAttribute) {
+            } else if (!isDebuff(buff) && !debuffAttribute) {
               rValue += buff.value.number;
+            } else {
+              if (DEBUG) {
+                console.warn(
+                  `matched neither debuff check condition isdebuff: ${isDebuff(buff)}, debuffAttribute: ${debuffAttribute}`
+                );
+              }
             }
           }
         } else {
@@ -182,6 +219,12 @@ export const genericBuffEval = (
         if (!isDebuff(buff) && !debuffAttribute) {
           rValue += buff.value.number;
         }
+      }
+    } else {
+      if (DEBUG) {
+        console.log(
+          `there was a bad condition ${JSON.stringify(badCondition)}`
+        );
       }
     }
   }

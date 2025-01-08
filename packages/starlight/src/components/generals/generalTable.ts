@@ -62,6 +62,7 @@ import GeneralsCSS from "@styles/generals.css?inline";
 import { Speciality } from "@schemas/specialities";
 import { ConfictGroup } from "@schemas/generalConflictGroups";
 import { General, GeneralPair } from "@schemas/generals";
+import { SkillBook } from "@schemas/skillBooks";
 import * as stores from "./store";
 
 import columns from "./columns";
@@ -337,7 +338,7 @@ export default class TableElement extends LitElement {
               PvM_attack_total: true,
               PvM_attack_totalAttribute: false,
               PvM_attack_BaseSkill: false,
-              PvM_attack_SkillBooks: false,
+              PvM_attack_SkillBooks: true,
               PvM_attack_Speciality1: false,
               PvM_attack_Speciality2: false,
               PvM_attack_Speciality3: false,
