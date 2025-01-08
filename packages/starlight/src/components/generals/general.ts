@@ -1,14 +1,14 @@
 import { Buff } from "@schemas/buff";
 import * as constants from "@schemas/constants";
 import { BookConflict } from "@schemas/generalConflictGroups";
-import { General, GeneralPair, GeneralType } from "@schemas/generals";
+import { General, GeneralPair } from "@schemas/generals";
 import { GeneralAscending, AscendingLevel } from "@schemas/ascending";
 
 import * as stores from "./store";
 
 import type { SkillBook } from "@schemas/skillBooks";
 import { genericPvMBook } from "./generics/genericBook";
-import { genericPvMSpeciality } from "./generics/genericSpecialities";
+import { genericSpeciality } from "./generics/genericSpecialities";
 import { genericPvMAscending } from "./generics/genericAscending";
 import { Speciality } from "@schemas/specialities";
 import { genericStandardSkillBooksEval } from "./generics/genericStandardSkillBook";
@@ -29,19 +29,19 @@ class StandardSkills {
 
     this.troopClass = !stores.selectedValues
       .get()
-      .type.localeCompare(GeneralType.Enum.ground_specialist)
+      .type.localeCompare(constants.GeneralType.Enum.ground_specialist)
       ? constants.ClassEnum.Enum["Ground Troops"]
       : !stores.selectedValues
             .get()
-            .type.localeCompare(GeneralType.Enum.mounted_specialist)
+            .type.localeCompare(constants.GeneralType.Enum.mounted_specialist)
         ? constants.ClassEnum.Enum["Mounted Troops"]
         : !stores.selectedValues
               .get()
-              .type.localeCompare(GeneralType.Enum.ranged_specialist)
+              .type.localeCompare(constants.GeneralType.Enum.ranged_specialist)
           ? constants.ClassEnum.Enum["Ranged Troops"]
           : !stores.selectedValues
                 .get()
-                .type.localeCompare(GeneralType.Enum.siege_specialist)
+                .type.localeCompare(constants.GeneralType.Enum.siege_specialist)
             ? constants.ClassEnum.Enum["Siege Machines"]
             : constants.ClassEnum.Enum["All"];
 
@@ -86,6 +86,9 @@ class StandardSkills {
       this._secondary,
       this._bookConflicts,
       constants.Attribute.Enum.Attack,
+      false,
+      false,
+      false,
       this.troopClass
     );
     return rValue;
@@ -98,6 +101,9 @@ class StandardSkills {
       this._secondary,
       this._bookConflicts,
       constants.Attribute.Enum.Defense,
+      false,
+      false,
+      false,
       this.troopClass
     );
     return rValue;
@@ -110,10 +116,29 @@ class StandardSkills {
       this._secondary,
       this._bookConflicts,
       constants.Attribute.Enum.HP,
+      false,
+      false,
+      false,
       this.troopClass
     );
     return rValue;
   }
+
+  public get PvMreduceDefense() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.Defense,
+      false,
+      false,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
   public get doubleDrop() {
     if (DEBUG4) {
       console.log(`doubleDrop for StandardSkills`);
@@ -123,7 +148,10 @@ class StandardSkills {
       this._primary,
       this._secondary,
       this._bookConflicts,
-      constants.Attribute.Enum["Double Items Drop Rate"]
+      constants.Attribute.Enum["Double Items Drop Rate"],
+      false,
+      false,
+      false
     );
     return rValue;
   }
@@ -141,19 +169,19 @@ class BaseSkill {
     this._secondary = row.secondary;
     this.troopClass = !stores.selectedValues
       .get()
-      .type.localeCompare(GeneralType.Enum.ground_specialist)
+      .type.localeCompare(constants.GeneralType.Enum.ground_specialist)
       ? constants.ClassEnum.Enum["Ground Troops"]
       : !stores.selectedValues
             .get()
-            .type.localeCompare(GeneralType.Enum.mounted_specialist)
+            .type.localeCompare(constants.GeneralType.Enum.mounted_specialist)
         ? constants.ClassEnum.Enum["Mounted Troops"]
         : !stores.selectedValues
               .get()
-              .type.localeCompare(GeneralType.Enum.ranged_specialist)
+              .type.localeCompare(constants.GeneralType.Enum.ranged_specialist)
           ? constants.ClassEnum.Enum["Ranged Troops"]
           : !stores.selectedValues
                 .get()
-                .type.localeCompare(GeneralType.Enum.siege_specialist)
+                .type.localeCompare(constants.GeneralType.Enum.siege_specialist)
             ? constants.ClassEnum.Enum["Siege Machines"]
             : constants.ClassEnum.Enum["All"];
 
@@ -179,6 +207,9 @@ class BaseSkill {
         this._primary_skillBook,
         this._secondary_skillBook,
         constants.Attribute.Enum.Attack,
+        false,
+        false,
+        false,
         this.troopClass
       );
     }
@@ -190,6 +221,9 @@ class BaseSkill {
         this._primary_skillBook,
         this._secondary_skillBook,
         constants.Attribute.Enum.Defense,
+        false,
+        false,
+        false,
         this.troopClass
       );
     }
@@ -202,6 +236,9 @@ class BaseSkill {
         this._primary_skillBook,
         this._secondary_skillBook,
         constants.Attribute.Enum.HP,
+        false,
+        false,
+        false,
         this.troopClass
       );
     }
@@ -213,6 +250,9 @@ class BaseSkill {
         this._primary_skillBook,
         this._secondary_skillBook,
         constants.Attribute.Enum["Double Items Drop Rate"],
+        false,
+        false,
+        false,
         this.troopClass
       );
     }
@@ -353,19 +393,19 @@ class SpecialityStats {
     this._secondary = row.secondary;
     this.troopClass = !stores.selectedValues
       .get()
-      .type.localeCompare(GeneralType.Enum.ground_specialist)
+      .type.localeCompare(constants.GeneralType.Enum.ground_specialist)
       ? constants.ClassEnum.Enum["Ground Troops"]
       : !stores.selectedValues
             .get()
-            .type.localeCompare(GeneralType.Enum.mounted_specialist)
+            .type.localeCompare(constants.GeneralType.Enum.mounted_specialist)
         ? constants.ClassEnum.Enum["Mounted Troops"]
         : !stores.selectedValues
               .get()
-              .type.localeCompare(GeneralType.Enum.ranged_specialist)
+              .type.localeCompare(constants.GeneralType.Enum.ranged_specialist)
           ? constants.ClassEnum.Enum["Ranged Troops"]
           : !stores.selectedValues
                 .get()
-                .type.localeCompare(GeneralType.Enum.siege_specialist)
+                .type.localeCompare(constants.GeneralType.Enum.siege_specialist)
             ? constants.ClassEnum.Enum["Siege Machines"]
             : constants.ClassEnum.Enum["All"];
 
@@ -399,7 +439,7 @@ class SpecialityStats {
 
   public PvMAttack(level: 1 | 2 | 3 | 4) {
     let rValue = 0;
-    rValue += genericPvMSpeciality(
+    rValue += genericSpeciality(
       this._primary_specialities[level - 1],
       this._secondary_specialities[level - 1],
       level,
@@ -411,7 +451,7 @@ class SpecialityStats {
 
   public PvMDefense(level: 1 | 2 | 3 | 4) {
     let rValue = 0;
-    rValue += genericPvMSpeciality(
+    rValue += genericSpeciality(
       this._primary_specialities[level - 1],
       this._secondary_specialities[level - 1],
       level,
@@ -423,7 +463,7 @@ class SpecialityStats {
 
   public PvMHP(level: 1 | 2 | 3 | 4) {
     let rValue = 0;
-    rValue += genericPvMSpeciality(
+    rValue += genericSpeciality(
       this._primary_specialities[level - 1],
       this._secondary_specialities[level - 1],
       level,
@@ -435,7 +475,7 @@ class SpecialityStats {
 
   public doubleDrop(level: 1 | 2 | 3 | 4) {
     let rValue = 0;
-    rValue += genericPvMSpeciality(
+    rValue += genericSpeciality(
       this._primary_specialities[level - 1],
       this._secondary_specialities[level - 1],
       level,
@@ -458,19 +498,19 @@ class AscendingStats {
     this._secondary = row.secondary;
     this.troopClass = !stores.selectedValues
       .get()
-      .type.localeCompare(GeneralType.Enum.ground_specialist)
+      .type.localeCompare(constants.GeneralType.Enum.ground_specialist)
       ? constants.ClassEnum.Enum["Ground Troops"]
       : !stores.selectedValues
             .get()
-            .type.localeCompare(GeneralType.Enum.mounted_specialist)
+            .type.localeCompare(constants.GeneralType.Enum.mounted_specialist)
         ? constants.ClassEnum.Enum["Mounted Troops"]
         : !stores.selectedValues
               .get()
-              .type.localeCompare(GeneralType.Enum.ranged_specialist)
+              .type.localeCompare(constants.GeneralType.Enum.ranged_specialist)
           ? constants.ClassEnum.Enum["Ranged Troops"]
           : !stores.selectedValues
                 .get()
-                .type.localeCompare(GeneralType.Enum.siege_specialist)
+                .type.localeCompare(constants.GeneralType.Enum.siege_specialist)
             ? constants.ClassEnum.Enum["Siege Machines"]
             : constants.ClassEnum.Enum["All"];
 
@@ -604,7 +644,9 @@ export class GeneralPairStats {
 
   public get PvMAttack() {
     let rValue = 0;
-    if (this._type.localeCompare(GeneralType.Enum.mounted_specialist)) {
+    if (
+      this._type.localeCompare(constants.GeneralType.Enum.mounted_specialist)
+    ) {
       rValue += this._baseAttribute.attack_total;
       rValue += this._baseSkill.PvMAttack;
       rValue += this._standardSkills.PvMAttack;

@@ -64,9 +64,6 @@ import { ConfictGroup } from "@schemas/generalConflictGroups";
 import { General, GeneralPair } from "@schemas/generals";
 import * as stores from "./store";
 
-import { MountedPvMCompatiblePairMarchSize } from "./MarchSize";
-import { SkillBook } from "@schemas/skillBooks";
-
 import columns from "./columns";
 import { GeneralAscending } from "@schemas/ascending";
 

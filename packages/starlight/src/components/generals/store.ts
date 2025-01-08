@@ -1,7 +1,7 @@
 import { atom, batched, computed, deepMap } from "nanostores";
 import * as d3 from "d3";
 
-import { General, GeneralPair, GeneralType } from "@schemas/generals";
+import { General, GeneralPair } from "@schemas/generals";
 import { GeneralAscending } from "@schemas/ascending";
 import { Speciality } from "@schemas/specialities";
 import { SkillBook } from "@schemas/skillBooks";
@@ -35,9 +35,11 @@ type SelectedValues = {
   };
   primarySpecialityLevels: constants.SpecialityLevelName[];
   secondarySpecialityLevels: constants.SpecialityLevelName[];
-  type: GeneralType;
+  type: constants.GeneralType;
   stars: constants.AscendingLevel;
   level: number;
+  dragon: boolean;
+  beast: boolean;
 };
 
 export const selectedValues = deepMap<SelectedValues>({
@@ -72,9 +74,11 @@ export const selectedValues = deepMap<SelectedValues>({
     constants.SpecialityLevelName.Enum.Gold,
     constants.SpecialityLevelName.Enum.Green,
   ],
-  type: GeneralType.Enum.mounted_specialist,
+  type: constants.GeneralType.Enum.mounted_specialist,
   stars: constants.AscendingLevel.Enum.red5,
   level: 44,
+  dragon: true,
+  beast: true,
 });
 
 export const generals = atom<General[]>(new Array<General>());
@@ -96,8 +100,6 @@ generals.listen((value, oldValue) => {
     );
   }
 });
-
-import * as MarchSize from "./MarchSize";
 
 import { GeneralPairStats } from "./general";
 
@@ -271,12 +273,11 @@ export const pairs = batched(
       const td2: GeneralPair = {
         ...pair,
         MarchSizeIncrease: {
-          MountedPvMCompatiblePair:
-            MarchSize.MountedPvMCompatiblePairMarchSize(pair),
+          MountedPvMCompatiblePair: 0,
           baseAttribute: 0,
           attributeIncrement: 0,
-          attributeTotal: MarchSize.AttributeMarchSize(pair),
-          baseSkill: MarchSize.BaseSkillMarchSize(pair),
+          attributeTotal: 0,
+          baseSkill: 0,
         },
         PvM: {
           attack: {
@@ -378,6 +379,15 @@ export const pairs = batched(
             Ascending: generalPairStats.ascendingStats.doubleDrop,
           },
           reduceDefense: {
+            total:
+              generalPairStats.baseSkill.PvMHP +
+              generalPairStats.standardSkillBooks.PvMHP +
+              generalPairStats.specialityStats.PvMHP(1) +
+              generalPairStats.specialityStats.PvMHP(2) +
+              generalPairStats.specialityStats.PvMHP(3) +
+              generalPairStats.specialityStats.PvMHP(4) +
+              generalPairStats.ascendingStats.PvMHP +
+              0,
             BaseSkill: generalPairStats.baseSkill.PvMAttack,
             SkillBooks: generalPairStats.standardSkillBooks.PvMAttack,
             //BaseSkill: 0,

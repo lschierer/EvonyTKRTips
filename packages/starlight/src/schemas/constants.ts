@@ -67,13 +67,22 @@ export type BuffType = z.infer<typeof BuffType>;
 
 export const ClassEnum = z.enum([
   "Ground Troops",
-  "Monsters",
   "Mounted Troops",
   "Ranged Troops",
   "Siege Machines",
   "All",
 ]);
 export type ClassEnum = z.infer<typeof ClassEnum>;
+
+export const GeneralType = z.enum([
+  "mayor",
+  "wall",
+  "ground_specialist",
+  "mounted_specialist",
+  "ranged_specialist",
+  "siege_specialist",
+]);
+export type GeneralType = z.infer<typeof GeneralType>;
 
 export const BookCondition = z.enum(["all the time", "when not mine"]);
 export type BookCondition = z.infer<typeof BookCondition>;

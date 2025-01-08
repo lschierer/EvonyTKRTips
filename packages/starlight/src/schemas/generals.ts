@@ -1,21 +1,9 @@
 import * as z from "zod";
 
 import * as constants from "./constants";
-import { Buff } from "./buff";
-import { Speciality } from "./specialities";
 
 export const Display = z.enum(["summary"]);
 export type Display = z.infer<typeof Display>;
-
-export const GeneralType = z.enum([
-  "ground_specialist",
-  "mayor",
-  "wall",
-  "mounted_specialist",
-  "ranged_specialist",
-  "siege_specialist",
-]);
-export type GeneralType = z.infer<typeof GeneralType>;
 
 export const BasicAttribute = z.object({
   base: z.number(),
@@ -47,7 +35,7 @@ export const General = z.object({
   specialities: z.array(z.string()),
   specialityLevels: z.array(constants.SpecialityLevelName).optional(),
   stars: constants.AscendingLevel,
-  type: z.array(GeneralType),
+  type: z.array(constants.GeneralType),
   extra: z.array(z.string()).optional(),
   warnings: z.array(z.string()).optional(),
   level: z.number().min(1).max(45).optional(),

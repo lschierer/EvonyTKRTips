@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import "tabulator-tables/dist/css/tabulator.css";
 
-const DEBUG = true;
+const DEBUG = false;
 
 const generals = (await getCollection("generals")).map((entry) => entry.data);
 if (DEBUG) {

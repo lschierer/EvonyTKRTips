@@ -25,7 +25,7 @@ import { Picker } from "@spectrum-web-components/picker";
 import * as stores from "./store";
 
 import * as constants from "@schemas/constants";
-import { General, GeneralPair, GeneralType } from "@schemas/generals";
+import { General, GeneralPair } from "@schemas/generals";
 import { AscendingLevel } from "@schemas/constants";
 
 import ValueSelectorCSS from "../../styles/valueSelector.css?inline";
@@ -216,7 +216,7 @@ export default class ValueSelector extends withStores(LitElement, [
         }
         typeSelector.addEventListener("change", (event) => {
           const target = event.target as Picker;
-          const valid = GeneralType.safeParse(target.value);
+          const valid = constants.GeneralType.safeParse(target.value);
           if (valid.success) {
             stores.selectedValues.setKey("type", valid.data);
           }
@@ -342,7 +342,7 @@ export default class ValueSelector extends withStores(LitElement, [
               value="${stores.selectedValues.get().type}"
             >
               <span slot="label">Which type of General?</span>
-              ${GeneralType.options.map((gt) => {
+              ${constants.GeneralType.options.map((gt) => {
                 return html`
                   <sp-menu-item value="${gt}">
                     ${gt[0].toUpperCase() + gt.slice(1).replaceAll("_", " ")}

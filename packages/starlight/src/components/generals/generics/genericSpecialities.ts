@@ -1,6 +1,6 @@
 import * as constants from "@schemas/constants";
 import { Speciality } from "@schemas/specialities";
-import { genericPvMBuffEval } from "./genericBuff";
+import { genericBuffEval } from "./genericBuff";
 import * as stores from "../store";
 
 const DEBUG = false;
@@ -11,6 +11,9 @@ const specialityEval = (
   specialityNumber: 1 | 2 | 3 | 4,
   role: "primary" | "secondary",
   attribute: constants.Attribute,
+  debuffAttribute: boolean,
+  pvm: boolean = false,
+  reinforcing: boolean = false,
   troopClass?: constants.ClassEnum
 ) => {
   let rValue = 0;
@@ -50,13 +53,27 @@ const specialityEval = (
             console.log(`buff for ${level.level} is an array`);
           }
           b.map((buff) => {
-            rValue += genericPvMBuffEval(buff, attribute, troopClass);
+            rValue += genericBuffEval(
+              buff,
+              attribute,
+              debuffAttribute,
+              pvm,
+              reinforcing,
+              troopClass
+            );
             if (DEBUG2) {
               console.log(`rValue is now ${rValue}`);
             }
           });
         } else {
-          rValue += genericPvMBuffEval(b, attribute, troopClass);
+          rValue += genericBuffEval(
+            b,
+            attribute,
+            debuffAttribute,
+            pvm,
+            reinforcing,
+            troopClass
+          );
         }
       } else {
         if (
@@ -68,10 +85,24 @@ const specialityEval = (
           const b = level.buff;
           if (Array.isArray(b)) {
             b.map((buff) => {
-              rValue += genericPvMBuffEval(buff, attribute, troopClass);
+              rValue += genericBuffEval(
+                buff,
+                attribute,
+                debuffAttribute,
+                pvm,
+                reinforcing,
+                troopClass
+              );
             });
           } else {
-            rValue += genericPvMBuffEval(b, attribute, troopClass);
+            rValue += genericBuffEval(
+              b,
+              attribute,
+              debuffAttribute,
+              pvm,
+              reinforcing,
+              troopClass
+            );
           }
         }
         if (
@@ -86,10 +117,24 @@ const specialityEval = (
           const b = level.buff;
           if (Array.isArray(b)) {
             b.map((buff) => {
-              rValue += genericPvMBuffEval(buff, attribute, troopClass);
+              rValue += genericBuffEval(
+                buff,
+                attribute,
+                debuffAttribute,
+                pvm,
+                reinforcing,
+                troopClass
+              );
             });
           } else {
-            rValue += genericPvMBuffEval(b, attribute, troopClass);
+            rValue += genericBuffEval(
+              b,
+              attribute,
+              debuffAttribute,
+              pvm,
+              reinforcing,
+              troopClass
+            );
           }
         }
         if (
@@ -109,10 +154,24 @@ const specialityEval = (
           const b = level.buff;
           if (Array.isArray(b)) {
             b.map((buff) => {
-              rValue += genericPvMBuffEval(buff, attribute, troopClass);
+              rValue += genericBuffEval(
+                buff,
+                attribute,
+                debuffAttribute,
+                pvm,
+                reinforcing,
+                troopClass
+              );
             });
           } else {
-            rValue += genericPvMBuffEval(b, attribute, troopClass);
+            rValue += genericBuffEval(
+              b,
+              attribute,
+              debuffAttribute,
+              pvm,
+              reinforcing,
+              troopClass
+            );
           }
         }
         if (
@@ -135,10 +194,24 @@ const specialityEval = (
           const b = level.buff;
           if (Array.isArray(b)) {
             b.map((buff) => {
-              rValue += genericPvMBuffEval(buff, attribute, troopClass);
+              rValue += genericBuffEval(
+                buff,
+                attribute,
+                debuffAttribute,
+                pvm,
+                reinforcing,
+                troopClass
+              );
             });
           } else {
-            rValue += genericPvMBuffEval(b, attribute, troopClass);
+            rValue += genericBuffEval(
+              b,
+              attribute,
+              debuffAttribute,
+              pvm,
+              reinforcing,
+              troopClass
+            );
           }
         }
       }
@@ -147,11 +220,14 @@ const specialityEval = (
   return rValue;
 };
 
-export const genericPvMSpeciality = (
+export const genericSpeciality = (
   primary_speciality: Speciality,
   secondary_speciality: Speciality | null,
   specialityNumber: 1 | 2 | 3 | 4,
   attribute: constants.Attribute,
+  debuffAttribute: boolean,
+  pvm: boolean = false,
+  reinforcing: boolean = false,
   troopClass?: constants.ClassEnum
 ) => {
   let rValue = 0;
@@ -161,6 +237,9 @@ export const genericPvMSpeciality = (
       specialityNumber,
       "primary",
       attribute,
+      debuffAttribute,
+      pvm,
+      reinforcing,
       troopClass
     );
   }
@@ -170,6 +249,9 @@ export const genericPvMSpeciality = (
       specialityNumber,
       "secondary",
       attribute,
+      debuffAttribute,
+      pvm,
+      reinforcing,
       troopClass
     );
   }

@@ -1,11 +1,14 @@
 import * as constants from "@schemas/constants";
 import type { SkillBook } from "@schemas/skillBooks";
-import { genericPvMBuffEval } from "./genericBuff";
+import { genericBuffEval } from "./genericBuff";
 
 export const genericPvMBook = (
   primary_skillBook: SkillBook,
   secondary_skillBook: SkillBook | null,
   attribute: constants.Attribute,
+  debuffAttribute: false,
+  pvm: boolean = false,
+  reinforcing: boolean = false,
   troopClass?: constants.ClassEnum
 ) => {
   const bookEval = (book: SkillBook) => {
@@ -15,10 +18,24 @@ export const genericPvMBook = (
         const buffs = book.buff;
         if (Array.isArray(buffs)) {
           buffs.map((buff) => {
-            rValue += genericPvMBuffEval(buff, attribute, troopClass);
+            rValue += genericBuffEval(
+              buff,
+              attribute,
+              debuffAttribute,
+              pvm,
+              reinforcing,
+              troopClass
+            );
           });
         } else {
-          rValue += genericPvMBuffEval(buffs, attribute, troopClass);
+          rValue += genericBuffEval(
+            buffs,
+            attribute,
+            debuffAttribute,
+            pvm,
+            reinforcing,
+            troopClass
+          );
         }
       }
     }

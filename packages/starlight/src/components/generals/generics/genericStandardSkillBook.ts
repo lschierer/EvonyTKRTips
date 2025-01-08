@@ -1,7 +1,7 @@
 import * as constants from "@schemas/constants";
 import { BookConflict } from "@schemas/generalConflictGroups";
 
-import { General, GeneralPair, GeneralType } from "@schemas/generals";
+import { General, GeneralPair } from "@schemas/generals";
 
 import * as stores from "../store";
 import AllStandardSkillBooks from "@schemas/standardSkillBooks";
@@ -14,6 +14,9 @@ export const genericStandardSkillBooksEval = (
   secondary: General,
   bookConflicts: BookConflict[],
   attribute: constants.Attribute,
+  debuffAttribute: false,
+  pvm: boolean = false,
+  reinforcing: boolean = false,
   troopClass?: constants.ClassEnum
 ) => {
   let rValue = 0;
@@ -53,7 +56,15 @@ export const genericStandardSkillBooksEval = (
           );
         }
         if (ssb.level == 4) {
-          rValue += genericPvMBook(ssb, null, attribute, troopClass);
+          rValue += genericPvMBook(
+            ssb,
+            null,
+            attribute,
+            debuffAttribute,
+            pvm,
+            reinforcing,
+            troopClass
+          );
         }
       }
     } else {
@@ -64,7 +75,15 @@ export const genericStandardSkillBooksEval = (
       }
       /* always only evaluate the biggest of each type of skill book */
       if (ssb.level == 4) {
-        rValue += genericPvMBook(ssb, null, attribute, troopClass);
+        rValue += genericPvMBook(
+          ssb,
+          null,
+          attribute,
+          debuffAttribute,
+          pvm,
+          reinforcing,
+          troopClass
+        );
       }
     }
   });
