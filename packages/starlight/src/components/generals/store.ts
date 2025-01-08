@@ -6,6 +6,7 @@ import { GeneralAscending } from "@schemas/ascending";
 import { Speciality } from "@schemas/specialities";
 import { SkillBook } from "@schemas/skillBooks";
 import { ConfictGroup } from "@schemas/generalConflictGroups";
+import { TableColumns } from "@schemas/table";
 
 import * as constants from "@schemas/constants";
 
@@ -66,13 +67,13 @@ export const selectedValues = deepMap<SelectedValues>({
     constants.SpecialityLevelName.Enum.Gold,
     constants.SpecialityLevelName.Enum.Gold,
     constants.SpecialityLevelName.Enum.Gold,
-    constants.SpecialityLevelName.Enum.Green,
+    constants.SpecialityLevelName.Enum.Gold,
   ],
   secondarySpecialityLevels: [
     constants.SpecialityLevelName.Enum.Gold,
     constants.SpecialityLevelName.Enum.Gold,
     constants.SpecialityLevelName.Enum.Gold,
-    constants.SpecialityLevelName.Enum.Green,
+    constants.SpecialityLevelName.Enum.Gold,
   ],
   type: constants.GeneralType.Enum.mounted_specialist,
   stars: constants.AscendingLevel.Enum.red5,
@@ -304,7 +305,7 @@ export const pairs = batched(
             Speciality2: generalPairStats.specialityStats.PvMAttack(2),
             Speciality3: generalPairStats.specialityStats.PvMAttack(3),
             Speciality4: generalPairStats.specialityStats.PvMAttack(4),
-            Ascending: generalPairStats.ascendingStats.PvMDefense,
+            Ascending: generalPairStats.ascendingStats.PvMAttack,
           },
           defense: {
             total:
@@ -465,3 +466,43 @@ import {
 import columns from "./columns";
 
 export const sorting = atom<SortingState>([]);
+
+export const columnVisibility = atom<TableColumns>({
+  level: false,
+  PvM_attack_total: true,
+  PvM_attack_totalAttribute: false,
+  PvM_attack_BaseSkill: false,
+  PvM_attack_SkillBooks: false,
+  PvM_attack_Speciality1: true,
+  PvM_attack_Speciality2: true,
+  PvM_attack_Speciality3: true,
+  PvM_attack_Speciality4: false,
+  PvM_attack_Ascending: false,
+  PvM_defense_total: true,
+  PvM_defense_totalAttribute: false,
+  PvM_defense_BaseSkill: false,
+  PvM_defense_SkillBooks: false,
+  PvM_defense_Speciality1: false,
+  PvM_defense_Speciality2: false,
+  PvM_defense_Speciality3: false,
+  PvM_defense_Speciality4: false,
+  PvM_defense_Ascending: false,
+  PvM_hp_total: true,
+  PvM_hp_totalAttribute: false,
+  PvM_hp_BaseSkill: false,
+  PvM_hp_SkillBooks: false,
+  PvM_hp_Speciality1: false,
+  PvM_hp_Speciality2: false,
+  PvM_hp_Speciality3: false,
+  PvM_hp_Speciality4: false,
+  PvM_hp_Ascending: false,
+  PvM_doubleDrop_total: true,
+  PvM_doubleDrop_totalAttribute: false,
+  PvM_doubleDrop_BaseSkill: false,
+  PvM_doubleDrop_SkillBooks: false,
+  PvM_doubleDrop_Speciality1: false,
+  PvM_doubleDrop_Speciality2: false,
+  PvM_doubleDrop_Speciality3: false,
+  PvM_doubleDrop_Speciality4: false,
+  PvM_doubleDrop_Ascending: false,
+});

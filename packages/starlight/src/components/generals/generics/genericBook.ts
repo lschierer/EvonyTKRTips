@@ -2,6 +2,114 @@ import * as constants from "@schemas/constants";
 import type { SkillBook } from "@schemas/skillBooks";
 import { genericBuffEval } from "./genericBuff";
 
+import * as stores from "../store";
+
+import { General, GeneralPair } from "@schemas/generals";
+
+const DEBUG = false;
+
+export class BaseSkill {
+  protected _primary: General;
+  protected _secondary: General;
+  protected _primary_skillBook: SkillBook | null = null;
+  protected _secondary_skillBook: SkillBook | null = null;
+  protected troopClass: constants.ClassEnum;
+
+  constructor(row: GeneralPair) {
+    this._primary = row.primary;
+    this._secondary = row.secondary;
+    this.troopClass = !stores.selectedValues
+      .get()
+      .type.localeCompare(constants.GeneralType.Enum.ground_specialist)
+      ? constants.ClassEnum.Enum["Ground Troops"]
+      : !stores.selectedValues
+            .get()
+            .type.localeCompare(constants.GeneralType.Enum.mounted_specialist)
+        ? constants.ClassEnum.Enum["Mounted Troops"]
+        : !stores.selectedValues
+              .get()
+              .type.localeCompare(constants.GeneralType.Enum.ranged_specialist)
+          ? constants.ClassEnum.Enum["Ranged Troops"]
+          : !stores.selectedValues
+                .get()
+                .type.localeCompare(constants.GeneralType.Enum.siege_specialist)
+            ? constants.ClassEnum.Enum["Siege Machines"]
+            : constants.ClassEnum.Enum["All"];
+
+    if (stores.skillBooks.value.length > 0) {
+      this._primary_skillBook =
+        stores.skillBooks.get().find((sb) => {
+          return !sb.name.localeCompare(this._primary.book);
+        }) ?? null;
+      this._secondary_skillBook =
+        stores.skillBooks.get().find((sb) => {
+          return !sb.name.localeCompare(this._secondary.book);
+        }) ?? null;
+    } else {
+      if (DEBUG) {
+        console.warn(`missing skillbooks in generals.ts BaseSkill constructor`);
+      }
+    }
+  }
+  public get PvMAttack() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum.Attack,
+        false,
+        true,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+  public get PvMDefense() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum.Defense,
+        false,
+        true,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+
+  public get PvMHP() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum.HP,
+        false,
+        true,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+  public get doubleDrop() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum["Double Items Drop Rate"],
+        false,
+        true,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+}
+
 export const genericBook = (
   primary_skillBook: SkillBook,
   secondary_skillBook: SkillBook | null,

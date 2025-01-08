@@ -215,12 +215,7 @@ const columns = [
                 >Ascending</span
               >`,
             cell: (row) =>
-              html`<span class="tableCell"
-                >${row
-                  .getValue()
-                  .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
+              html` <span class="tableCell"> ${row.getValue()} </span>`,
           }),
         ],
       }),

@@ -8,6 +8,148 @@ import AllStandardSkillBooks from "@schemas/standardSkillBooks";
 import { genericBook } from "./genericBook";
 
 const DEBUG = false;
+const DEBUG2 = false;
+const DEBUG3 = false;
+const DEBUG4 = false;
+
+export class StandardSkills {
+  protected _primary: General;
+  protected _secondary: General;
+  protected _bookConflicts: BookConflict[] = new Array<BookConflict>();
+  protected troopClass: constants.ClassEnum;
+
+  constructor(row: GeneralPair) {
+    this._primary = row.primary;
+    this._secondary = row.secondary;
+
+    this.troopClass = !stores.selectedValues
+      .get()
+      .type.localeCompare(constants.GeneralType.Enum.ground_specialist)
+      ? constants.ClassEnum.Enum["Ground Troops"]
+      : !stores.selectedValues
+            .get()
+            .type.localeCompare(constants.GeneralType.Enum.mounted_specialist)
+        ? constants.ClassEnum.Enum["Mounted Troops"]
+        : !stores.selectedValues
+              .get()
+              .type.localeCompare(constants.GeneralType.Enum.ranged_specialist)
+          ? constants.ClassEnum.Enum["Ranged Troops"]
+          : !stores.selectedValues
+                .get()
+                .type.localeCompare(constants.GeneralType.Enum.siege_specialist)
+            ? constants.ClassEnum.Enum["Siege Machines"]
+            : constants.ClassEnum.Enum["All"];
+
+    const conflictGroups = stores.conflictGroups.get();
+    if (conflictGroups.length > 0) {
+      conflictGroups.map((cg) => {
+        if (cg.books) {
+          if (
+            cg.members.includes(this._primary.id) ||
+            cg.members.includes(this._secondary.id)
+          ) {
+            this._bookConflicts.push(...cg.books);
+          }
+        }
+      });
+      if (DEBUG2) {
+        console.log(
+          `StandardSkills ${row.primary.id}/${row.secondary.id}: found ${this._bookConflicts.length} conflicting skillbooks`
+        );
+        if (this._bookConflicts.length > 0) {
+          console.log(
+            `StandardSkills ${row.primary.id}/${row.secondary.id}: found
+            ${this._bookConflicts
+              .map((bc) => {
+                return `${bc.book.name}: ${bc.book.level}`;
+              })
+              .join("\n")}`
+          );
+        }
+      }
+    } else {
+      if (DEBUG) {
+        console.warn(`missing conflict groups in generals.ts`);
+      }
+    }
+  }
+  public get PvMAttack() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.Attack,
+      false,
+      true,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public get PvMDefense() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.Defense,
+      false,
+      true,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public get PvMHP() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.HP,
+      false,
+      true,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public get PvMreduceDefense() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.Defense,
+      false,
+      true,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public get doubleDrop() {
+    if (DEBUG4) {
+      console.log(`doubleDrop for StandardSkills`);
+    }
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum["Double Items Drop Rate"],
+      false,
+      true,
+      false
+    );
+    return rValue;
+  }
+}
 
 export const genericStandardSkillBooksEval = (
   primary: General,
