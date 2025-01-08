@@ -13,6 +13,64 @@ import { StandardSkills } from "./generics/genericStandardSkillBook";
 
 const DEBUG = false;
 
+export class GeneralPairStats {
+  protected _primary: General;
+  protected _secondary: General;
+  protected _baseAttribute: BaseAttribute;
+  protected _baseSkill: BaseSkill;
+  protected _standardSkills: StandardSkills;
+  protected _specialityStats: SpecialityStats;
+  protected _ascendingStats: AscendingStats;
+  protected _type: constants.GeneralType;
+
+  constructor(row: GeneralPair, type: constants.GeneralType | null = null) {
+    this._primary = row.primary;
+    this._secondary = row.secondary;
+    this._type = type
+      ? type
+      : Array.isArray(row.primary.type)
+        ? row.primary.type[0]
+        : row.primary.type;
+    this._baseAttribute = new BaseAttribute(row);
+    this._baseSkill = new BaseSkill(row);
+    this._standardSkills = new StandardSkills(row);
+    this._specialityStats = new SpecialityStats(row);
+    this._ascendingStats = new AscendingStats(row);
+  }
+
+  public get baseAttribute() {
+    return this._baseAttribute;
+  }
+
+  public get baseSkill() {
+    return this._baseSkill;
+  }
+
+  public get standardSkillBooks() {
+    return this._standardSkills;
+  }
+
+  public get specialityStats() {
+    return this._specialityStats;
+  }
+
+  public get ascendingStats() {
+    return this._ascendingStats;
+  }
+
+  public get PvMAttack() {
+    let rValue = 0;
+    if (
+      this._type.localeCompare(constants.GeneralType.Enum.mounted_specialist)
+    ) {
+      rValue += this._baseAttribute.attack_total;
+      rValue += this._baseSkill.PvMAttack;
+      rValue += this._standardSkills.PvMAttack;
+    }
+    return rValue;
+  }
+}
+
 class BaseAttribute {
   protected _primary: General;
   protected _secondary: General;
@@ -131,63 +189,5 @@ class BaseAttribute {
   }
   public get politics_total() {
     return +this._politics_total.toFixed(3);
-  }
-}
-
-export class GeneralPairStats {
-  protected _primary: General;
-  protected _secondary: General;
-  protected _baseAttribute: BaseAttribute;
-  protected _baseSkill: BaseSkill;
-  protected _standardSkills: StandardSkills;
-  protected _specialityStats: SpecialityStats;
-  protected _ascendingStats: AscendingStats;
-  protected _type: constants.GeneralType;
-
-  constructor(row: GeneralPair, type: constants.GeneralType | null = null) {
-    this._primary = row.primary;
-    this._secondary = row.secondary;
-    this._type = type
-      ? type
-      : Array.isArray(row.primary.type)
-        ? row.primary.type[0]
-        : row.primary.type;
-    this._baseAttribute = new BaseAttribute(row);
-    this._baseSkill = new BaseSkill(row);
-    this._standardSkills = new StandardSkills(row);
-    this._specialityStats = new SpecialityStats(row);
-    this._ascendingStats = new AscendingStats(row);
-  }
-
-  public get baseAttribute() {
-    return this._baseAttribute;
-  }
-
-  public get baseSkill() {
-    return this._baseSkill;
-  }
-
-  public get standardSkillBooks() {
-    return this._standardSkills;
-  }
-
-  public get specialityStats() {
-    return this._specialityStats;
-  }
-
-  public get ascendingStats() {
-    return this._ascendingStats;
-  }
-
-  public get PvMAttack() {
-    let rValue = 0;
-    if (
-      this._type.localeCompare(constants.GeneralType.Enum.mounted_specialist)
-    ) {
-      rValue += this._baseAttribute.attack_total;
-      rValue += this._baseSkill.PvMAttack;
-      rValue += this._standardSkills.PvMAttack;
-    }
-    return rValue;
   }
 }
