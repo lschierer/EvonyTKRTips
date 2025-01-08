@@ -17,9 +17,8 @@ ascending:
   - level: "red2"
     buff:
       - attribute: Attack
-        class: Monsters
         condition:
-          - Reduces
+          - Reduces Monster
         value:
           number: 10
           unit: percentage
