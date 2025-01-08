@@ -4,8 +4,8 @@ import { GeneralPair, General } from "@schemas/generals";
 import { genericBuffEval } from "./genericBuff";
 import * as stores from "../store";
 
-const DEBUG = true;
-const DEBUG2 = true;
+const DEBUG = false;
+const DEBUG2 = false;
 const DEBUG3 = false;
 
 export class SpecialityStats {
