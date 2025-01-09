@@ -47,7 +47,7 @@ export const generalSpecalist = atom<constants.GeneralType>(
 );
 
 export const generalUseCase = atom<constants.BuffActivation>(
-  constants.BuffActivation.Enum.Overall
+  constants.BuffActivation.Enum.PvM
 );
 
 export const primarySpecialityLevels = atom<constants.SpecialityLevelName[]>([
@@ -342,8 +342,6 @@ export const PvMPairsWithStats = batched([initialPairs], (pairs) => {
           totalAttribute: generalPairStats.baseAttribute.attack_total,
           BaseSkill: generalPairStats.baseSkill.PvMAttack,
           SkillBooks: generalPairStats.standardSkillBooks.PvMAttack,
-          //BaseSkill: 0,
-          //SkillBooks: 0,
           Speciality1: generalPairStats.specialityStats.PvMAttack(1),
           Speciality2: generalPairStats.specialityStats.PvMAttack(2),
           Speciality3: generalPairStats.specialityStats.PvMAttack(3),
