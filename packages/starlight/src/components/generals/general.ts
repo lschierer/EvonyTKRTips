@@ -59,14 +59,59 @@ export class GeneralPairStats {
   }
 
   public get PvMAttack() {
+    /*
+     * Evony Answers SpreadSheet
+     * EM.Power Ratings, Mounted
+     * Column S
+     * (row 891 for the first PVM Mounted General)
+     */
     let rValue = 0;
-    if (
-      this._type.localeCompare(constants.GeneralType.Enum.mounted_specialist)
-    ) {
-      rValue += this._baseAttribute.attack_total;
-      rValue += this._baseSkill.PvMAttack;
-      rValue += this._standardSkills.PvMAttack;
-    }
+    /*
+      MountedKeepBasePercentage = 1180.0% //Cell T703
+      MountedBuffFromSubs = defaults to 0 //Cell T704
+      GeneralGearBuffs = defaults to 650.1 //Cell T760
+      Dragon/BeastBuffs = defaults to 197.2 //Cell T762
+      FlexibleSkillBookBuffs = defaults to 20% //Cell T769 & T774
+      StandardSkillBookBuffs = defaults to 45%  //Cell T770 & T775
+
+      TotalMountedPercentageBuffs = //Cell T780 becomes L883
+        MountedKeepBasePercentage +
+        MountedBuffFromSubs +
+        GeneralGearBuffs +
+        Dragon/BeastBuffs +
+        FlexibleSkillBookBuffs +
+        StandardSkillBookBuffs;
+
+      TotalMountedFlatBuffs = //Cell T846 becomes M883
+        MountedKeepBaseFlat = defaults to 200 //Cell T784
+        GeneralGearBuffsFlat = defaults to 0 //Cells T786 to T838
+        Dragon/BeastBuffsFlat = defaults to 0 //Cell T840
+        FlexibleSkillBookBuffsFlat = defaults to 625 //Cells T842 and T844
+
+        GeneralsAttackPercentage // Column L
+
+        GeneralsTotalAttackPercentage = TotalMountedPercentageBuffs + GeneralsAttackPercentage; //Column M
+
+        EvAnsMountedPvMAttackMultiplier = 2.81859
+
+        BaseTroops = // Cell J883
+          MountedT15s = defaults to 3218900 // Cell L857
+
+        RallySpotBaseMarch = defaults to 550000 // Cell P10 becomes I194
+
+        MarchSizeBuff (computed already successfully by the table need a getter for this.)
+
+        ExtraTroops = MarchSizeBuff*RallySpotBaseMarch
+        //** EvAns is ignoring extra troops from armor & mayors
+        TotalTroops = // Column J
+          BaseTroops + ExtraTroops
+      (
+        (
+          TotalTroupCount * ( 1 + GeneralsTotalAttackPercentage ) +
+          TotalMountedFlatBuffs
+        ) * TotalTroops
+      ) * EvAnsMountedPvMAttackMultiplier / 1000000000
+    */
     return rValue;
   }
 }
