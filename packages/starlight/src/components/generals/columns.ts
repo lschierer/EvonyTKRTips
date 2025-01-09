@@ -46,7 +46,7 @@ const columns = [
   }),
 
   columnHelper.group({
-    id: "PvM",
+    id: "BuffSet",
     header: () =>
       html`<span class="tableHeader spectrum-Table-columnTitle"
         >Player versus Monsters</span
