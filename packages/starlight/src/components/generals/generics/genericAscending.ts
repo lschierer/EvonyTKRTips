@@ -58,6 +58,75 @@ export class AscendingStats {
     }
   }
 
+  public get marchSpeed() {
+    let rValue = 0;
+    const level = stores.selectedValues.get().stars;
+
+    if (level) {
+      rValue += genericAscending(
+        this._ascending_attributes,
+        level,
+        constants.Attribute.Enum["Marching Speed"],
+        false,
+        false,
+        false,
+        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+          ? this.troopClass
+          : undefined
+      );
+    }
+    if (DEBUG) {
+      console.log(`AscendingStats MarchSizeIncrease rValue is ${rValue} \n\n`);
+    }
+    return rValue;
+  }
+
+  public get PvMmarchSpeed() {
+    let rValue = 0;
+    const level = stores.selectedValues.get().stars;
+
+    if (level) {
+      rValue += genericAscending(
+        this._ascending_attributes,
+        level,
+        constants.Attribute.Enum["Marching Speed"],
+        false,
+        true,
+        false,
+        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+          ? this.troopClass
+          : undefined
+      );
+    }
+    if (DEBUG) {
+      console.log(`AscendingStats MarchSizeIncrease rValue is ${rValue} \n\n`);
+    }
+    return rValue;
+  }
+
+  public get MarchSizeIncrease() {
+    let rValue = 0;
+    const level = stores.selectedValues.get().stars;
+
+    if (level) {
+      rValue += genericAscending(
+        this._ascending_attributes,
+        level,
+        constants.Attribute.Enum["March Size Capacity"],
+        false,
+        false,
+        false,
+        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+          ? this.troopClass
+          : undefined
+      );
+    }
+    if (DEBUG) {
+      console.log(`AscendingStats MarchSizeIncrease rValue is ${rValue} \n\n`);
+    }
+    return rValue;
+  }
+
   public get PvMAttack() {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
@@ -81,6 +150,29 @@ export class AscendingStats {
     return rValue;
   }
 
+  public get PvMreduceAttack() {
+    let rValue = 0;
+    const level = stores.selectedValues.get().stars;
+
+    if (level) {
+      rValue += genericAscending(
+        this._ascending_attributes,
+        level,
+        constants.Attribute.Enum.Attack,
+        true,
+        true,
+        false,
+        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+          ? this.troopClass
+          : undefined
+      );
+    }
+    if (DEBUG) {
+      console.log(`AscendingStats PvMreduceAttack rValue is ${rValue} \n\n`);
+    }
+    return rValue;
+  }
+
   public get PvMDefense() {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
@@ -91,6 +183,26 @@ export class AscendingStats {
         level,
         constants.Attribute.Enum.Defense,
         false,
+        true,
+        false,
+        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+          ? this.troopClass
+          : undefined
+      );
+    }
+    return rValue;
+  }
+
+  public get PvMreduceDefense() {
+    let rValue = 0;
+    const level = stores.selectedValues.get().stars;
+
+    if (level) {
+      rValue += genericAscending(
+        this._ascending_attributes,
+        level,
+        constants.Attribute.Enum.Defense,
+        true,
         true,
         false,
         this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
@@ -120,6 +232,27 @@ export class AscendingStats {
     }
     return rValue;
   }
+
+  public get PvMreduceHP() {
+    let rValue = 0;
+    const level = stores.selectedValues.get().stars;
+
+    if (level) {
+      rValue += genericAscending(
+        this._ascending_attributes,
+        level,
+        constants.Attribute.Enum.HP,
+        true,
+        true,
+        false,
+        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+          ? this.troopClass
+          : undefined
+      );
+    }
+    return rValue;
+  }
+
   public get doubleDrop() {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;

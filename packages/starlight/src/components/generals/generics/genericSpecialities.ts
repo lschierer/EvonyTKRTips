@@ -5,8 +5,6 @@ import { genericBuffEval } from "./genericBuff";
 import * as stores from "../store";
 
 const DEBUG = false;
-const DEBUG2 = false;
-const DEBUG3 = false;
 
 export class SpecialityStats {
   protected _primary: General;
@@ -43,7 +41,7 @@ export class SpecialityStats {
         });
         if (speciality) {
           this._primary_specialities[index] = speciality;
-          if (DEBUG3) {
+          if (DEBUG) {
             console.log(
               `SpecialityStats ${this._primary.id} speciality #${index + 1} is ${speciality.name} `
             );
@@ -64,6 +62,51 @@ export class SpecialityStats {
     }
   }
 
+  public marchSpeed(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum["Marching Speed"],
+      false,
+      false,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public PvMmarchSpeed(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum["Marching Speed"],
+      false,
+      true,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public MarchSizeIncrease(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum["March Size Capacity"],
+      false,
+      false,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
   public PvMAttack(level: 1 | 2 | 3 | 4) {
     let rValue = 0;
     rValue += genericSpeciality(
@@ -72,6 +115,21 @@ export class SpecialityStats {
       level,
       constants.Attribute.Enum.Attack,
       false,
+      true,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public PvMreduceAttack(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum.Attack,
+      true,
       true,
       false,
       this.troopClass
@@ -94,6 +152,26 @@ export class SpecialityStats {
     return rValue;
   }
 
+  public PvMreduceDefense(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum.Defense,
+      true,
+      true,
+      false,
+      this.troopClass
+    );
+    if (DEBUG) {
+      console.log(
+        `PvMreduceDefense ${level} ${this._primary.id}/${this._secondary.id}returning ${rValue} \n\n`
+      );
+    }
+    return rValue;
+  }
+
   public PvMHP(level: 1 | 2 | 3 | 4) {
     let rValue = 0;
     rValue += genericSpeciality(
@@ -102,6 +180,21 @@ export class SpecialityStats {
       level,
       constants.Attribute.Enum.HP,
       false,
+      true,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public PvMreduceHP(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum.HP,
+      true,
       true,
       false,
       this.troopClass
@@ -176,7 +269,8 @@ const specialityEval = (
   let rValue = 0;
   const levels = speciality.levels;
   const selections = new Array<constants.SpecialityLevelName>();
-  if (DEBUG2) {
+  const levenNumber = specialityNumber - 1;
+  if (DEBUG) {
     console.log(
       `specialityEval: ${speciality.name} as ${role} #${specialityNumber}`
     );
@@ -195,11 +289,14 @@ const specialityEval = (
     selections.push(...s);
   }
   if (
-    selections[specialityNumber - 1].localeCompare(
+    selections[levenNumber].localeCompare(
       constants.SpecialityLevelName.Enum.None
     )
   ) {
-    const levenNumber = specialityNumber - 1;
+    if (DEBUG) {
+      console.log(`selections[levenNumber] is not None`);
+    }
+
     rValue += levels.reduce((sum: number, level) => {
       if (DEBUG) {
         console.log(`specialityEval levels reduce sum ${sum}`);
@@ -252,7 +349,7 @@ const specialityEval = (
         ) {
           if (DEBUG) {
             console.log(
-              `level.level: ${level.level}, selections[levenNumber]: ${selections[levenNumber]}`
+              `specialityEval ${role} ${speciality.name} for ${attribute} debuff: ${debuffAttribute}, pvm: ${pvm}: level.level: ${level.level}, selections[levenNumber]: ${selections[levenNumber]}`
             );
           }
           sum += level.buff.reduce((sum2, buff) => {
@@ -268,8 +365,21 @@ const specialityEval = (
           }, 0);
         }
       }
+      if (DEBUG) {
+        console.log(
+          `specialityEval ${role} ${speciality.name} for ${attribute} debuff: ${debuffAttribute}, pvm: ${pvm}: level ${level.level} returning ${sum}`
+        );
+      }
       return sum;
-    }, rValue);
+    }, 0);
+    if (DEBUG) {
+      console.log(`after levels reduce, rValue is ${rValue}`);
+    }
+  }
+  if (DEBUG) {
+    console.log(
+      `specialityEval ${role} ${speciality.name} for ${attribute} debuff: ${debuffAttribute}, pvm: ${pvm}: returning ${rValue}`
+    );
   }
   return rValue;
 };

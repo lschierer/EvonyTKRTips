@@ -47,11 +47,17 @@ export const GeneralPair = z.object({
   secondary: General,
   MarchSizeIncrease: z
     .object({
-      MountedPvMCompatiblePair: z.number(),
+      total: z.number(),
       baseAttribute: z.number(),
       attributeIncrement: z.number(),
-      attributeTotal: z.number(),
+      totalAttribute: z.number(),
       baseSkill: z.number(),
+      SkillBooks: z.number(),
+      Speciality1: z.number(),
+      Speciality2: z.number(),
+      Speciality3: z.number(),
+      Speciality4: z.number(),
+      Ascending: z.number(),
     })
     .optional(),
   PvM: z

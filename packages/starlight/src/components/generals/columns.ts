@@ -6,81 +6,44 @@ import { GeneralPair } from "@schemas/generals";
 
 const columnHelper = createColumnHelper<GeneralPair>();
 const columns = [
-  {
-    id: "PairNameTopRow",
-    columns: [
-      {
-        id: "PairNameSecondRow",
-        columns: [
-          columnHelper.accessor("primary.id", {
-            id: "primary",
-            enableSorting: true,
-            invertSorting: false,
-            sortDescFirst: false,
-            sortingFn: "alphanumeric",
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Primary</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell">${row.getValue()}</span>`,
-          }),
-          columnHelper.accessor("secondary.id", {
-            id: "secondary",
-            enableSorting: true,
-            invertSorting: false,
-            sortDescFirst: false,
-            sortingFn: "alphanumeric",
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Secondary</span
-              >`,
-            cell: (row) => row.getValue(),
-          }),
-        ],
-      },
-    ],
-  },
-  {
-    id: "Level1stRow",
-    columns: [
-      {
-        id: "Level2ndRow",
-        columns: [
-          columnHelper.accessor("primary.level", {
-            id: "level",
-            sortingFn: "basic",
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Level</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell">${row.getValue()}</span>`,
-          }),
-        ],
-      },
-    ],
-  },
-  {
-    id: "MarchSize1stRow",
-    columns: [
-      {
-        id: "MarchSize2ndRow",
-        columns: [
-          columnHelper.accessor("MarchSizeIncrease.MountedPvMCompatiblePair", {
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >March Size Increase</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell">${row.getValue()}</span>`,
-          }),
-        ],
-      },
-    ],
-  },
+  columnHelper.accessor("primary.id", {
+    id: "primary",
+    enableSorting: true,
+    invertSorting: false,
+    sortDescFirst: false,
+    sortingFn: "alphanumeric",
+    header: () =>
+      html`<span class="tableHeader spectrum-Table-columnTitle">Primary</span>`,
+    cell: (row) => html`<span class="tableCell">${row.getValue()}</span>`,
+  }),
+  columnHelper.accessor("secondary.id", {
+    id: "secondary",
+    enableSorting: true,
+    invertSorting: false,
+    sortDescFirst: false,
+    sortingFn: "alphanumeric",
+    header: () =>
+      html`<span class="tableHeader spectrum-Table-columnTitle"
+        >Secondary</span
+      >`,
+    cell: (row) => row.getValue(),
+  }),
+  columnHelper.accessor("primary.level", {
+    id: "level",
+    sortingFn: "basic",
+    header: () =>
+      html`<span class="tableHeader spectrum-Table-columnTitle">Level</span>`,
+    cell: (row) => html`<span class="tableCell">${row.getValue()}</span>`,
+  }),
+  columnHelper.accessor("MarchSizeIncrease.total", {
+    sortingFn: "basic",
+    header: () => html`
+      <span class="tableHeader spectrum-Table-columnTitle">
+        March Size Increase
+      </span>
+    `,
+    cell: (row) => html`<span class="tableCell">${row.getValue() ?? 0}%</span>`,
+  }),
 
   columnHelper.group({
     id: "PvM",
@@ -89,20 +52,19 @@ const columns = [
         >Player versus Monsters</span
       >`,
     columns: [
+      columnHelper.accessor("PvM.attack.total", {
+        sortingFn: "basic",
+
+        header: () => html`
+          <span class="tableHeader spectrum-Table-columnTitle">
+            Attack Total
+          </span>
+        `,
+        cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
+      }),
       columnHelper.group({
         id: "PvM.Attack",
         columns: [
-          columnHelper.accessor("PvM.attack.total", {
-            sortingFn: "basic",
-
-            header: () => html`
-              <span class="tableHeader spectrum-Table-columnTitle">
-                Attack Total
-              </span>
-            `,
-            cell: (row) =>
-              html`<span class="tableCell">${row.getValue()}%</span>`,
-          }),
           columnHelper.accessor("PvM.attack.totalAttribute", {
             sortingFn: "basic",
 
@@ -219,31 +181,30 @@ const columns = [
           }),
         ],
       }),
+      columnHelper.accessor("PvM.defense.total", {
+        sortingFn: "basic",
+        header: () => html`
+          <span class="tableHeader spectrum-Table-columnTitle">
+            Defense Total
+          </span>
+        `,
+        cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
+      }),
+      columnHelper.accessor("PvM.defense.totalAttribute", {
+        sortingFn: "basic",
+        header: () =>
+          html`<span class="tableHeader spectrum-Table-columnTitle"
+            >Basic Attribute Total</span
+          >`,
+        cell: (row) => html`
+          <span class="tableCell">
+            ${(row.getValue() * 100).toFixed(3).replace(/(\d)0+$/, "$1")}%
+          </span>
+        `,
+      }),
       columnHelper.group({
         id: "PvM.Defense",
         columns: [
-          columnHelper.accessor("PvM.defense.total", {
-            sortingFn: "basic",
-            header: () => html`
-              <span class="tableHeader spectrum-Table-columnTitle">
-                Defense Total
-              </span>
-            `,
-            cell: (row) =>
-              html`<span class="tableCell">${row.getValue()}%</span>`,
-          }),
-          columnHelper.accessor("PvM.defense.totalAttribute", {
-            sortingFn: "basic",
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Basic Attribute Total</span
-              >`,
-            cell: (row) => html`
-              <span class="tableCell">
-                ${(row.getValue() * 100).toFixed(3).replace(/(\d)0+$/, "$1")}%
-              </span>
-            `,
-          }),
           columnHelper.accessor("PvM.defense.BaseSkill", {
             sortingFn: "basic",
 
@@ -356,19 +317,16 @@ const columns = [
           }),
         ],
       }),
+      columnHelper.accessor("PvM.hp.total", {
+        sortingFn: "basic",
+        header: () => html`
+          <span class="tableHeader spectrum-Table-columnTitle"> HP Total </span>
+        `,
+        cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
+      }),
       columnHelper.group({
         id: "PvM.HP",
         columns: [
-          columnHelper.accessor("PvM.hp.total", {
-            sortingFn: "basic",
-            header: () => html`
-              <span class="tableHeader spectrum-Table-columnTitle">
-                HP Total
-              </span>
-            `,
-            cell: (row) =>
-              html`<span class="tableCell">${row.getValue()}%</span>`,
-          }),
           columnHelper.accessor("PvM.hp.totalAttribute", {
             sortingFn: "basic",
             header: () => html`
@@ -495,20 +453,19 @@ const columns = [
           }),
         ],
       }),
+      columnHelper.accessor("PvM.doubleDrop.total", {
+        sortingFn: "basic",
+        header: () => html`
+          <span class="tableHeader spectrum-Table-columnTitle">
+            Double Drop Total
+          </span>
+        `,
+        cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
+      }),
       columnHelper.group({
         id: "PvM.doubleDrop",
 
         columns: [
-          columnHelper.accessor("PvM.doubleDrop.total", {
-            sortingFn: "basic",
-            header: () => html`
-              <span class="tableHeader spectrum-Table-columnTitle">
-                Double Drop Total
-              </span>
-            `,
-            cell: (row) =>
-              html`<span class="tableCell">${row.getValue()}%</span>`,
-          }),
           columnHelper.accessor("PvM.doubleDrop.BaseSkill", {
             sortingFn: "basic",
             header: () => html`
@@ -624,20 +581,140 @@ const columns = [
           }),
         ],
       }),
+      columnHelper.accessor("PvM.reduceAttack.total", {
+        sortingFn: "basic",
+        header: () => html`
+          <span class="tableHeader spectrum-Table-columnTitle">
+            Reduce Attack Total
+          </span>
+        `,
+        cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
+      }),
       columnHelper.group({
-        id: "PvM.reduceDefense",
-
+        id: "PvM.reduceAttack",
         columns: [
-          columnHelper.accessor("PvM.reduceDefense.total", {
+          columnHelper.accessor("PvM.reduceAttack.BaseSkill", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
-                Reduce Defense Total
+                Base Skill
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
+                  .getValue()
+                  .toFixed(1)
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
+          }),
+          columnHelper.accessor("PvM.reduceAttack.SkillBooks", {
+            sortingFn: "basic",
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Skill Books
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${(row.getValue() ?? 0).toFixed(1).replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
+          }),
+          columnHelper.accessor("PvM.reduceAttack.Speciality1", {
+            sortingFn: "basic",
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Speciality 1
               </span>
             `,
             cell: (row) =>
-              html`<span class="tableCell">${row.getValue()}%</span>`,
+              html`<span class="tableCell">
+                ${row
+                  .getValue()
+                  .toFixed(1)
+                  .replace(/(\d)0+$/, "$1")}%
+              </span> `,
           }),
+          columnHelper.accessor("PvM.reduceAttack.Speciality2", {
+            sortingFn: "basic",
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Speciality 2
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
+                  .getValue()
+                  .toFixed(1)
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
+          }),
+          columnHelper.accessor("PvM.reduceAttack.Speciality3", {
+            sortingFn: "basic",
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Speciality 3
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
+                  .getValue()
+                  .toFixed(1)
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
+          }),
+          columnHelper.accessor("PvM.reduceAttack.Speciality4", {
+            sortingFn: "basic",
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Speciality 4
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
+                  .getValue()
+                  .toFixed(1)
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
+          }),
+          columnHelper.accessor("PvM.reduceAttack.Ascending", {
+            sortingFn: "basic",
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Ascending
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
+                  .getValue()
+                  .toFixed(1)
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
+          }),
+        ],
+      }),
+      columnHelper.accessor("PvM.reduceDefense.total", {
+        sortingFn: "basic",
+        header: () => html`
+          <span class="tableHeader spectrum-Table-columnTitle">
+            Reduce Defense Total
+          </span>
+        `,
+        cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
+      }),
+      columnHelper.group({
+        id: "PvM.reduceDefense",
+        columns: [
           columnHelper.accessor("PvM.reduceDefense.BaseSkill", {
             sortingFn: "basic",
             header: () => html`
@@ -671,9 +748,7 @@ const columns = [
             `,
           }),
           columnHelper.accessor("PvM.reduceDefense.Speciality1", {
-            id: "PvM.attack.Speciality1",
             sortingFn: "basic",
-
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
                 Speciality 1
@@ -753,547 +828,247 @@ const columns = [
           }),
         ],
       }),
+      columnHelper.accessor("PvM.reduceHP.total", {
+        sortingFn: "basic",
+        header: () => html`
+          <span class="tableHeader spectrum-Table-columnTitle">
+            Reduce HP Total
+          </span>
+        `,
+        cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
+      }),
       columnHelper.group({
         id: "PvM.reduceHP",
-        header: () =>
-          html`<span class="tableHeader spectrum-Table-columnTitle"
-            >Reduces HP</span
-          >`,
         columns: [
-          columnHelper.accessor("PvM.attack.totalAttribute", {
-            id: "PvM.Attack.attributeTotal",
+          columnHelper.accessor("PvM.reduceHP.BaseSkill", {
             sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Basic Attribute Total</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${(row.getValue() * 100)
-                  .toFixed(3)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-          columnHelper.accessor("PvM.attack.BaseSkill", {
-            id: "PvM.attack.BaseSkill",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Base Skill</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Base Skill
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
                   .getValue()
                   .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
           }),
-          columnHelper.accessor("PvM.attack.SkillBooks", {
-            id: "PvM.attack.SkillBooks",
+          columnHelper.accessor("PvM.reduceHP.SkillBooks", {
             sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Skill Books</span
-              >`,
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Skill Books
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${(row.getValue() ?? 0).toFixed(1).replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
+          }),
+          columnHelper.accessor("PvM.reduceHP.Speciality1", {
+            sortingFn: "basic",
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Speciality 1
+              </span>
+            `,
             cell: (row) =>
-              html`<span class="tableCell"
-                >${row
+              html`<span class="tableCell">
+                ${row
                   .getValue()
                   .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
+                  .replace(/(\d)0+$/, "$1")}%
+              </span> `,
           }),
-          columnHelper.accessor("PvM.attack.Speciality1", {
-            id: "PvM.attack.Speciality1",
+          columnHelper.accessor("PvM.reduceHP.Speciality2", {
             sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Speciality 1</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Speciality 2
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
                   .getValue()
                   .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
           }),
-          columnHelper.accessor("PvM.attack.Speciality2", {
-            id: "PvM.attack.Speciality2",
+          columnHelper.accessor("PvM.reduceHP.Speciality3", {
             sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Speciality 2</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Speciality 3
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
                   .getValue()
                   .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
           }),
-          columnHelper.accessor("PvM.attack.Speciality3", {
-            id: "PvM.attack.Speciality3",
+          columnHelper.accessor("PvM.reduceHP.Speciality4", {
             sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Speciality 3</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Speciality 4
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
                   .getValue()
                   .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
           }),
-          columnHelper.accessor("PvM.attack.Speciality4", {
-            id: "PvM.attack.Speciality4",
+          columnHelper.accessor("PvM.reduceHP.Ascending", {
             sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Speciality 4</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Ascending
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
                   .getValue()
                   .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-          columnHelper.accessor("PvM.attack.Ascending", {
-            id: "PvM.attack.Ascending",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Ascending</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
-                  .getValue()
-                  .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
           }),
         ],
       }),
-      columnHelper.group({
-        id: "PvM.reduceAttack",
-        header: () =>
-          html`<span class="tableHeader spectrum-Table-columnTitle"
-            >Reduces Attack</span
-          >`,
-        columns: [
-          columnHelper.accessor("PvM.attack.totalAttribute", {
-            id: "PvM.Attack.attributeTotal",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Basic Attribute Total</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${(row.getValue() * 100)
-                  .toFixed(3)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-          columnHelper.accessor("PvM.attack.BaseSkill", {
-            id: "PvM.attack.BaseSkill",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Base Skill</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
-                  .getValue()
-                  .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-          columnHelper.accessor("PvM.attack.SkillBooks", {
-            id: "PvM.attack.SkillBooks",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Skill Books</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
-                  .getValue()
-                  .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-          columnHelper.accessor("PvM.attack.Speciality1", {
-            id: "PvM.attack.Speciality1",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Speciality 1</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
-                  .getValue()
-                  .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-          columnHelper.accessor("PvM.attack.Speciality2", {
-            id: "PvM.attack.Speciality2",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Speciality 2</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
-                  .getValue()
-                  .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-          columnHelper.accessor("PvM.attack.Speciality3", {
-            id: "PvM.attack.Speciality3",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Speciality 3</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
-                  .getValue()
-                  .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-          columnHelper.accessor("PvM.attack.Speciality4", {
-            id: "PvM.attack.Speciality4",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Speciality 4</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
-                  .getValue()
-                  .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-          columnHelper.accessor("PvM.attack.Ascending", {
-            id: "PvM.attack.Ascending",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Ascending</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
-                  .getValue()
-                  .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-        ],
+      columnHelper.accessor("PvM.marchSpeed.total", {
+        sortingFn: "basic",
+        header: () => html`
+          <span class="tableHeader spectrum-Table-columnTitle">
+            March Speed Increase Total
+          </span>
+        `,
+        cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
       }),
       columnHelper.group({
         id: "PvM.marchSpeed",
-        header: () =>
-          html`<span class="tableHeader spectrum-Table-columnTitle"
-            >March Speed</span
-          >`,
         columns: [
-          columnHelper.accessor("PvM.attack.totalAttribute", {
-            id: "PvM.Attack.attributeTotal",
+          columnHelper.accessor("PvM.marchSpeed.BaseSkill", {
             sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Basic Attribute Total</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${(row.getValue() * 100)
-                  .toFixed(3)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-          columnHelper.accessor("PvM.attack.BaseSkill", {
-            id: "PvM.attack.BaseSkill",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Base Skill</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Base Skill
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
                   .getValue()
                   .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
           }),
-          columnHelper.accessor("PvM.attack.SkillBooks", {
-            id: "PvM.attack.SkillBooks",
+          columnHelper.accessor("PvM.marchSpeed.SkillBooks", {
             sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Skill Books</span
-              >`,
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Skill Books
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${(row.getValue() ?? 0).toFixed(1).replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
+          }),
+          columnHelper.accessor("PvM.marchSpeed.Speciality1", {
+            sortingFn: "basic",
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Speciality 1
+              </span>
+            `,
             cell: (row) =>
-              html`<span class="tableCell"
-                >${row
+              html`<span class="tableCell">
+                ${row
                   .getValue()
                   .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
+                  .replace(/(\d)0+$/, "$1")}%
+              </span> `,
           }),
-          columnHelper.accessor("PvM.attack.Speciality1", {
-            id: "PvM.attack.Speciality1",
+          columnHelper.accessor("PvM.marchSpeed.Speciality2", {
             sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Speciality 1</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Speciality 2
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
                   .getValue()
                   .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
           }),
-          columnHelper.accessor("PvM.attack.Speciality2", {
-            id: "PvM.attack.Speciality2",
+          columnHelper.accessor("PvM.marchSpeed.Speciality3", {
             sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Speciality 2</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Speciality 3
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
                   .getValue()
                   .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
           }),
-          columnHelper.accessor("PvM.attack.Speciality3", {
-            id: "PvM.attack.Speciality3",
+          columnHelper.accessor("PvM.marchSpeed.Speciality4", {
             sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Speciality 3</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Speciality 4
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
                   .getValue()
                   .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
           }),
-          columnHelper.accessor("PvM.attack.Speciality4", {
-            id: "PvM.attack.Speciality4",
+          columnHelper.accessor("PvM.marchSpeed.Ascending", {
             sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Speciality 4</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Ascending
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
                   .getValue()
                   .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-          columnHelper.accessor("PvM.attack.Ascending", {
-            id: "PvM.attack.Ascending",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Ascending</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
-                  .getValue()
-                  .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-        ],
-      }),
-      columnHelper.group({
-        id: "PvM.reduceStaminaCost",
-        header: () =>
-          html`<span class="tableHeader spectrum-Table-columnTitle"
-            >Reduces Stamina Cost</span
-          >`,
-        columns: [
-          columnHelper.accessor("PvM.attack.totalAttribute", {
-            id: "PvM.Attack.attributeTotal",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Basic Attribute Total</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${(row.getValue() * 100)
-                  .toFixed(3)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-          columnHelper.accessor("PvM.attack.BaseSkill", {
-            id: "PvM.attack.BaseSkill",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Base Skill</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
-                  .getValue()
-                  .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-          columnHelper.accessor("PvM.attack.SkillBooks", {
-            id: "PvM.attack.SkillBooks",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Skill Books</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
-                  .getValue()
-                  .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-          columnHelper.accessor("PvM.attack.Speciality1", {
-            id: "PvM.attack.Speciality1",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Speciality 1</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
-                  .getValue()
-                  .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-          columnHelper.accessor("PvM.attack.Speciality2", {
-            id: "PvM.attack.Speciality2",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Speciality 2</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
-                  .getValue()
-                  .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-          columnHelper.accessor("PvM.attack.Speciality3", {
-            id: "PvM.attack.Speciality3",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Speciality 3</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
-                  .getValue()
-                  .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-          columnHelper.accessor("PvM.attack.Speciality4", {
-            id: "PvM.attack.Speciality4",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Speciality 4</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
-                  .getValue()
-                  .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          }),
-          columnHelper.accessor("PvM.attack.Ascending", {
-            id: "PvM.attack.Ascending",
-            sortingFn: "basic",
-
-            header: () =>
-              html`<span class="tableHeader spectrum-Table-columnTitle"
-                >Ascending</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row
-                  .getValue()
-                  .toFixed(1)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
           }),
         ],
       }),

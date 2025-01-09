@@ -9,6 +9,7 @@ import {
   type Table,
   type TableState,
   type TableOptions,
+  type Header,
 } from "@tanstack/lit-table";
 
 import {
@@ -218,48 +219,50 @@ export default class TableElement extends LitElement {
   protected tableHead(table: Table<GeneralPair>): TemplateResult {
     return html`
       <thead class="spectrum-Table-head">
-        ${repeat(
-          table.getHeaderGroups(),
-          (headerGroup) => headerGroup.id,
-          (headerGroup) => html`
-            <tr>
+        ${table.getHeaderGroups().map((headerGroup) => {
+          return html`
+            <tr key=${headerGroup.id}>
               ${headerGroup.headers.map(
-                (header) => html`
-                  <th
-                    colspan="${header.colSpan}"
-                    class="spectrum-Table-headCell is-sortable"
-                  >
-                    ${header.isPlaceholder
-                      ? null
-                      : html` <div
-                          title=${ifDefined(
-                            header.column.getCanSort()
-                              ? header.column.getNextSortingOrder() === "asc"
-                                ? "Sort ascending"
-                                : header.column.getNextSortingOrder() === "desc"
-                                  ? "Sort descending"
-                                  : "Clear sort"
-                              : undefined
-                          )}
-                          @click="${header.column.getToggleSortingHandler()}"
-                          style="cursor: ${header.column.getCanSort()
-                            ? "pointer"
-                            : "not-allowed"}"
-                        >
-                          ${flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                          ${{ asc: " 🔼", desc: " 🔽" }[
-                            header.column.getIsSorted() as string
-                          ] ?? null}
-                        </div>`}
-                  </th>
-                `
+                (header: Header<GeneralPair, unknown>) => {
+                  return html`
+                    <th
+                      key=${header.id}
+                      colspan=${header.colSpan}
+                      class="spectrum-Table-headCell is-sortable"
+                    >
+                      ${header.isPlaceholder
+                        ? null
+                        : html` <div
+                            title=${ifDefined(
+                              header.column.getCanSort()
+                                ? header.column.getNextSortingOrder() === "asc"
+                                  ? "Sort ascending"
+                                  : header.column.getNextSortingOrder() ===
+                                      "desc"
+                                    ? "Sort descending"
+                                    : "Clear sort"
+                                : undefined
+                            )}
+                            @click="${header.column.getToggleSortingHandler()}"
+                            style="cursor: ${header.column.getCanSort()
+                              ? "pointer"
+                              : "not-allowed"}"
+                          >
+                            ${flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                            ${{ asc: " 🔼", desc: " 🔽" }[
+                              header.column.getIsSorted() as string
+                            ] ?? null}
+                          </div>`}
+                    </th>
+                  `;
+                }
               )}
             </tr>
-          `
-        )}
+          `;
+        })}
       </thead>
     `;
   }

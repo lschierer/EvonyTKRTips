@@ -73,6 +73,52 @@ export class StandardSkills {
       }
     }
   }
+
+  public get MarchSizeIncrease() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum["March Size Capacity"],
+      false,
+      false,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public get marchSpeed() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum["Marching Speed"],
+      false,
+      false,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public get PvMmarchSpeed() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum["Marching Speed"],
+      false,
+      true,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
   public get PvMAttack() {
     let rValue = 0;
     rValue += genericStandardSkillBooksEval(
@@ -125,11 +171,56 @@ export class StandardSkills {
       this._secondary,
       this._bookConflicts,
       constants.Attribute.Enum.Defense,
-      false,
+      true,
       true,
       false,
       this.troopClass
     );
+    if (DEBUG) {
+      console.log(
+        `PvMreduceDefense ${this._primary.id}/${this._secondary.id}returning ${rValue} \n\n`
+      );
+    }
+    return rValue;
+  }
+
+  public get PvMreduceHP() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.HP,
+      true,
+      true,
+      false,
+      this.troopClass
+    );
+    if (DEBUG) {
+      console.log(
+        `PvMreduceDefense ${this._primary.id}/${this._secondary.id}returning ${rValue} \n\n`
+      );
+    }
+    return rValue;
+  }
+
+  public get PvMreduceAttack() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.Attack,
+      true,
+      true,
+      false,
+      this.troopClass
+    );
+    if (DEBUG) {
+      console.log(
+        `PvMreduceDefense ${this._primary.id}/${this._secondary.id}returning ${rValue} \n\n`
+      );
+    }
     return rValue;
   }
 
@@ -156,7 +247,7 @@ export const genericStandardSkillBooksEval = (
   secondary: General,
   bookConflicts: BookConflict[],
   attribute: constants.Attribute,
-  debuffAttribute: false,
+  debuffAttribute: boolean = false,
   pvm: boolean = false,
   reinforcing: boolean = false,
   troopClass?: constants.ClassEnum

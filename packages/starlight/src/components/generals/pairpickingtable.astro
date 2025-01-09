@@ -8,7 +8,7 @@ const generals = (await getCollection("generals")).map((entry) => entry.data);
 if (DEBUG) {
   generals.sort((a, b) => {
     return a.id.localeCompare(b.id);
-  }).length = 6;
+  }).length = 46;
 }
 const skillbooks = (await getCollection("skillBooks")).map(
   (entry) => entry.data

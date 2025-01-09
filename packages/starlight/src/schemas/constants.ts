@@ -36,7 +36,6 @@ export const Attribute = z.enum([
   "HP",
   "Hospital Capacity",
   "March Size Capacity",
-  "March Time",
   "Marching Speed to Monsters",
   "Marching Speed",
   "Rally Capacity",

@@ -4,35 +4,7 @@ import * as stores from "../store";
 import { drag } from "d3";
 
 const DEBUG = false;
-
-const isDebuff = (buff: Buff) => {
-  if (!buff.condition) {
-    if (DEBUG) {
-      console.log(`isDebuff false for no conditions at all`);
-    }
-    return false;
-  } else {
-    const match = buff.condition.find((c) => {
-      const valid = constants.DebuffCondition.safeParse(c);
-      if (valid.success) {
-        if (DEBUG) {
-          console.log(`DebuffCondition safeparse matched`);
-        }
-        return true;
-      }
-      if (DEBUG) {
-        console.log(`DebuffCondition safeparse failed`);
-      }
-      return false;
-    })
-      ? true
-      : false;
-    if (DEBUG) {
-      console.log(`returning ${match}`);
-    }
-    return match;
-  }
-};
+const DEBUG2 = false;
 
 /*TODO: handle the case when not the rally leader */
 
@@ -205,6 +177,11 @@ export const genericBuffEval = (
             }
           }
         } else {
+          if (DEBUG2) {
+            console.log(
+              `troop class but  no buff class for buff ${JSON.stringify(buff)}`
+            );
+          }
           if (isDebuff(buff) && debuffAttribute) {
             rValue += buff.value.number;
           }
@@ -229,4 +206,34 @@ export const genericBuffEval = (
     }
   }
   return rValue;
+};
+
+const isDebuff = (buff: Buff) => {
+  if (!buff.condition) {
+    if (DEBUG) {
+      console.log(`isDebuff false for no conditions at all`);
+    }
+    return false;
+  } else {
+    let match: constants.Condition | undefined = buff.condition.find((c) => {
+      const valid = constants.DebuffCondition.safeParse(c);
+      if (valid.success) {
+        if (DEBUG) {
+          console.log(`DebuffCondition safeparse matched`);
+        }
+        return true;
+      }
+      if (DEBUG) {
+        console.log(`DebuffCondition safeparse failed`);
+      }
+      return false;
+    });
+    if (DEBUG) {
+      console.log(`returning ${match}`);
+    }
+    if (!match) {
+      return false;
+    }
+    return true;
+  }
 };
