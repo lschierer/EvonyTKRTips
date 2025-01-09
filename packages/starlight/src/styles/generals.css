@@ -42,3 +42,23 @@ table.horizontal td.spectrum-Table-cell {
     height: 9rem;
   }
 }
+
+td.speciality0 {
+  background-color: var(--spectrum-green-400);
+}
+
+td.speciality1 {
+  background-color: var(--spectrum-blue-400);
+}
+
+td.speciality2 {
+  background-color: var(--spectrum-purple-400);
+}
+
+td.speciality3 {
+  background-color: var(--spectrum-orange-400);
+}
+
+td.speciality4 {
+  background-color: var(--spectrum-yellow-400);
+}

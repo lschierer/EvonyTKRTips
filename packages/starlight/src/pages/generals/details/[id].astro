@@ -1,6 +1,9 @@
 ---
 import { getCollection } from "astro:content";
 import GeneralsLayout from "@layouts/generals.astro";
+import { Speciality } from "@schemas/specialities";
+import * as constants from "@schemas/constants";
+import { SkillBook } from "@schemas/skillBooks";
 const DEBUG = true;
 
 // 1. Generate a new path for every collection entry
@@ -11,52 +14,214 @@ export async function getStaticPaths() {
     props: { post },
   }));
 }
+const mySpecialities = new Array<Speciality>();
+let myBaseSkill: SkillBook | null = null;
 
 const { post } = Astro.props;
 
 if (DEBUG) {
   console.log(`post is ${JSON.stringify(post)}`);
 }
+if (post) {
+  if (DEBUG) {
+    console.log(`finding specialities`);
+  }
+  const specialities = (await getCollection("specialities")).map(
+    (entry) => entry.data
+  );
+  post.data.specialities.map((specialityName, index) => {
+    if (DEBUG) {
+      console.log(`looking for ${specialityName}`);
+    }
+    const speciality = specialities.find((s) => {
+      return !s.name.localeCompare(specialityName);
+    });
+    if (speciality) {
+      if (DEBUG) {
+        console.log(`found ${specialityName}`);
+      }
+      mySpecialities[index] = speciality;
+      if (DEBUG) {
+        console.log(
+          `mySpecialities now ${mySpecialities.map((s) => s.name).join("\n")}`
+        );
+      }
+    } else {
+      console.warn(`no speciality found for ${specialityName}`);
+    }
+  });
+
+  if (DEBUG) {
+    console.log(`finding base skill`);
+  }
+  const skillbooks = (await getCollection("skillBooks")).map(
+    (entry) => entry.data
+  );
+  if (Array.isArray(skillbooks)) {
+    const sb = skillbooks.find((s) => {
+      const valid = SkillBook.safeParse(s);
+      if (valid.success) {
+        return !post.data.book.localeCompare(valid.data.name);
+      }
+      return false;
+    });
+    if (sb) {
+      console.log(`sb is ${JSON.stringify(sb)}`);
+      const valid = SkillBook.safeParse(sb);
+      if (valid.success) {
+        myBaseSkill = valid.data;
+      } else {
+        console.warn(`error parsing skillbook: \n ${valid.error.message}`);
+      }
+    } else {
+      console.warn(`no sb found for ${post.data.book}`);
+    }
+  }
+}
+
+if (DEBUG) {
+  console.log(`specialities: \n ${JSON.stringify(mySpecialities)}`);
+}
 ---
 
 <GeneralsLayout title=`${post.data.id}`>
   {
     post.data.basic_attributes && (
-      <div class="basicAttributes">
-        <h3>Basic Attributes</h3>
-        <div class="body">
-          <table class="horizontal spectrum-Table spectrum-table--sizeM spectrum-table--emphasized">
-            <tr class="spectrum-Table-row">
-              <th>Leadership</th>
-              <td class="spectrum-Table-cell">
-                {post.data.basic_attributes.leadership.base}
-                (+{post.data.basic_attributes.leadership.increment} per level)
-              </td>
-            </tr>
-            <tr class="spectrum-Table-row">
-              <th>Attack</th>
-              <td class="spectrum-Table-cell">
-                {post.data.basic_attributes.attack.base}
-                (+{post.data.basic_attributes.attack.increment} per level)
-              </td>
-            </tr>
-            <tr class="spectrum-Table-row">
-              <th>Defense</th>
-              <td class="spectrum-Table-cell">
-                {post.data.basic_attributes.defense.base}
-                (+{post.data.basic_attributes.defense.increment} per level)
-              </td>
-            </tr>
-            <tr class="spectrum-Table-row">
-              <th>Politics</th>
-              <td class="spectrum-Table-cell">
-                {post.data.basic_attributes.politics.base}
-                (+{post.data.basic_attributes.politics.increment} per level)
-              </td>
-            </tr>
-          </table>
+      <t>
+        <div class="basicAttributes">
+          <h3>Basic Attributes</h3>
+          <div class="body">
+            <table class="horizontal spectrum-Table spectrum-table--sizeM spectrum-table--emphasized">
+              <tr class="spectrum-Table-row">
+                <th>Leadership</th>
+                <td class="spectrum-Table-cell">
+                  {post.data.basic_attributes.leadership.base}
+                  (+{post.data.basic_attributes.leadership.increment} per level)
+                </td>
+              </tr>
+              <tr class="spectrum-Table-row">
+                <th>Attack</th>
+                <td class="spectrum-Table-cell">
+                  {post.data.basic_attributes.attack.base}
+                  (+{post.data.basic_attributes.attack.increment} per level)
+                </td>
+              </tr>
+              <tr class="spectrum-Table-row">
+                <th>Defense</th>
+                <td class="spectrum-Table-cell">
+                  {post.data.basic_attributes.defense.base}
+                  (+{post.data.basic_attributes.defense.increment} per level)
+                </td>
+              </tr>
+              <tr class="spectrum-Table-row">
+                <th>Politics</th>
+                <td class="spectrum-Table-cell">
+                  {post.data.basic_attributes.politics.base}
+                  (+{post.data.basic_attributes.politics.increment} per level)
+                </td>
+              </tr>
+            </table>
+          </div>
         </div>
-      </div>
+        <div class="BaseSkill">
+          <h3>Base Skill: {myBaseSkill && myBaseSkill.name} </h3>
+          <div class="body">
+            <ul>
+              {myBaseSkill &&
+                Array.isArray(myBaseSkill.buff) &&
+                myBaseSkill.buff.map((b) => (
+                  <li>
+                    <span>Attribute: {b.attribute}</span>
+                    <br />
+                    {b.condition && (
+                      <>
+                        <span>Condition(s): {b.condition.join(", ")}</span>
+                        <br />
+                      </>
+                    )}
+                    {b.class && (
+                      <>
+                        <span>Class: {b.class}</span>
+                        <br />
+                      </>
+                    )}
+                    <span>
+                      Value: {b.value.number}
+                      {!b.value.unit.localeCompare(
+                        constants.Unit.Enum.percentage
+                      )
+                        ? "%"
+                        : ""}
+                    </span>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        </div>
+        <div class="Specialities">
+          <h3>Specialities</h3>
+          <div class="body">
+            <table class="horizontal spectrum-Table spectrum-table--sizeM spectrum-table--emphasized">
+              <thead class="spectrum-Table-head">
+                <tr class="spectrum-Table-row">
+                  {post.data.specialities.map((speciality) => (
+                    <th
+                      aria-sort="descending"
+                      tabindex="0"
+                      class="spectrum-Table-headCell"
+                    >
+                      {speciality}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody class="spectrum-Table-body">
+                {Array.from(Array(5)).map((_, index) => (
+                  <tr class="spectrum-Table-row">
+                    {post.data.specialities.map((speciality, i2) => (
+                      <td class={`spectrum-Table-cell speciality${index}`}>
+                        <ul>
+                          {mySpecialities &&
+                            mySpecialities.length > i2 &&
+                            Array.isArray(mySpecialities[i2].levels) &&
+                            mySpecialities[i2].levels[index].buff.map((b) => (
+                              <li>
+                                <span>Attribute: {b.attribute}</span>
+                                <br />
+                                {b.condition && (
+                                  <>
+                                    <span>
+                                      Condition(s): {b.condition.join(", ")}
+                                    </span>
+                                    <br />
+                                  </>
+                                )}
+                                {b.class && (
+                                  <>
+                                    <span>Class: {b.class}</span>
+                                    <br />
+                                  </>
+                                )}
+                                <span>
+                                  Value: {b.value.number}
+                                  {!b.value.unit.localeCompare(
+                                    constants.Unit.Enum.percentage
+                                  )
+                                    ? "%"
+                                    : ""}
+                                </span>
+                              </li>
+                            ))}
+                        </ul>
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </t>
     )
   }
 </GeneralsLayout>
