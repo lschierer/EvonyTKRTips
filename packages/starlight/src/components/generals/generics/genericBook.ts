@@ -98,6 +98,21 @@ export class BaseSkill {
     return 0;
   }
 
+  public get Attack() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum.Attack,
+        false,
+        false,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+
   public get PvMAttack() {
     if (this._primary_skillBook && this._secondary_skillBook) {
       return genericBook(

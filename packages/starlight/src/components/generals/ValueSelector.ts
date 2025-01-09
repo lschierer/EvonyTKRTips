@@ -169,6 +169,19 @@ export default class ValueSelector extends withStores(LitElement, [
           });
         }
       });
+
+      const generalUseCaseSelector =
+        this.renderRoot.querySelector("#generalUseCase");
+      if (generalUseCaseSelector) {
+        generalUseCaseSelector.addEventListener("change", (event) => {
+          const target = event.target as Picker;
+          const valid = constants.BuffActivation.safeParse(target.value);
+          if (valid.success) {
+            stores.generalUseCase.set(valid.data);
+          }
+        });
+      }
+
       const ascendingSelector =
         this.renderRoot?.querySelector("#primary-ascending");
       if (ascendingSelector) {

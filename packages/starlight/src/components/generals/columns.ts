@@ -52,7 +52,7 @@ const columns = [
         >Player versus Monsters</span
       >`,
     columns: [
-      columnHelper.accessor("PvM.attack.total", {
+      columnHelper.accessor("BuffSet.attack.total", {
         sortingFn: "basic",
 
         header: () => html`
@@ -63,9 +63,9 @@ const columns = [
         cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
       }),
       columnHelper.group({
-        id: "PvM.Attack",
+        id: "BuffSet.attack",
         columns: [
-          columnHelper.accessor("PvM.attack.totalAttribute", {
+          columnHelper.accessor("BuffSet.attack.totalAttribute", {
             sortingFn: "basic",
 
             header: () =>
@@ -79,7 +79,7 @@ const columns = [
                   .replace(/(\d)0+$/, "$1")}%</span
               >`,
           }),
-          columnHelper.accessor("PvM.attack.BaseSkill", {
+          columnHelper.accessor("BuffSet.attack.BaseSkill", {
             sortingFn: "basic",
 
             header: () =>
@@ -94,7 +94,7 @@ const columns = [
                   .replace(/(\d)0+$/, "$1")}%</span
               >`,
           }),
-          columnHelper.accessor("PvM.attack.SkillBooks", {
+          columnHelper.accessor("BuffSet.attack.SkillBooks", {
             sortingFn: "basic",
 
             header: () =>
@@ -109,7 +109,7 @@ const columns = [
                   .replace(/(\d)0+$/, "$1")}%</span
               >`,
           }),
-          columnHelper.accessor("PvM.attack.Speciality1", {
+          columnHelper.accessor("BuffSet.attack.Speciality1", {
             sortingFn: "basic",
 
             header: () =>
@@ -124,7 +124,7 @@ const columns = [
                   .replace(/(\d)0+$/, "$1")}%</span
               >`,
           }),
-          columnHelper.accessor("PvM.attack.Speciality2", {
+          columnHelper.accessor("BuffSet.attack.Speciality2", {
             sortingFn: "basic",
 
             header: () =>
@@ -139,7 +139,7 @@ const columns = [
                   .replace(/(\d)0+$/, "$1")}%</span
               >`,
           }),
-          columnHelper.accessor("PvM.attack.Speciality3", {
+          columnHelper.accessor("BuffSet.attack.Speciality3", {
             sortingFn: "basic",
 
             header: () =>
@@ -154,7 +154,7 @@ const columns = [
                   .replace(/(\d)0+$/, "$1")}%</span
               >`,
           }),
-          columnHelper.accessor("PvM.attack.Speciality4", {
+          columnHelper.accessor("BuffSet.attack.Speciality4", {
             sortingFn: "basic",
 
             header: () =>
@@ -169,7 +169,7 @@ const columns = [
                   .replace(/(\d)0+$/, "$1")}%</span
               >`,
           }),
-          columnHelper.accessor("PvM.attack.Ascending", {
+          columnHelper.accessor("BuffSet.attack.Ascending", {
             sortingFn: "basic",
 
             header: () =>
@@ -181,7 +181,7 @@ const columns = [
           }),
         ],
       }),
-      columnHelper.accessor("PvM.defense.total", {
+      columnHelper.accessor("BuffSet.defense.total", {
         sortingFn: "basic",
         header: () => html`
           <span class="tableHeader spectrum-Table-columnTitle">
@@ -190,7 +190,7 @@ const columns = [
         `,
         cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
       }),
-      columnHelper.accessor("PvM.defense.totalAttribute", {
+      columnHelper.accessor("BuffSet.defense.totalAttribute", {
         sortingFn: "basic",
         header: () =>
           html`<span class="tableHeader spectrum-Table-columnTitle"
@@ -203,9 +203,9 @@ const columns = [
         `,
       }),
       columnHelper.group({
-        id: "PvM.Defense",
+        id: "BuffSet.defense",
         columns: [
-          columnHelper.accessor("PvM.defense.BaseSkill", {
+          columnHelper.accessor("BuffSet.defense.BaseSkill", {
             sortingFn: "basic",
 
             header: () =>
@@ -221,7 +221,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.defense.SkillBooks", {
+          columnHelper.accessor("BuffSet.defense.SkillBooks", {
             sortingFn: "basic",
 
             header: () =>
@@ -237,7 +237,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.defense.Speciality1", {
+          columnHelper.accessor("BuffSet.defense.Speciality1", {
             sortingFn: "basic",
 
             header: () =>
@@ -253,7 +253,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.defense.Speciality2", {
+          columnHelper.accessor("BuffSet.defense.Speciality2", {
             sortingFn: "basic",
 
             header: () => html`
@@ -270,7 +270,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.defense.Speciality3", {
+          columnHelper.accessor("BuffSet.defense.Speciality3", {
             sortingFn: "basic",
 
             header: () => html`
@@ -286,7 +286,7 @@ const columns = [
                   .replace(/(\d)0+$/, "$1")}%</span
               >`,
           }),
-          columnHelper.accessor("PvM.defense.Speciality4", {
+          columnHelper.accessor("BuffSet.defense.Speciality4", {
             sortingFn: "basic",
             header: () =>
               html` <span class="tableHeader spectrum-Table-columnTitle">
@@ -300,7 +300,7 @@ const columns = [
                   .replace(/(\d)0+$/, "$1")}%</span
               >`,
           }),
-          columnHelper.accessor("PvM.defense.Ascending", {
+          columnHelper.accessor("BuffSet.defense.Ascending", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -317,7 +317,7 @@ const columns = [
           }),
         ],
       }),
-      columnHelper.accessor("PvM.hp.total", {
+      columnHelper.accessor("BuffSet.hp.total", {
         sortingFn: "basic",
         header: () => html`
           <span class="tableHeader spectrum-Table-columnTitle"> HP Total </span>
@@ -325,9 +325,9 @@ const columns = [
         cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
       }),
       columnHelper.group({
-        id: "PvM.HP",
+        id: "BuffSet.hp",
         columns: [
-          columnHelper.accessor("PvM.hp.totalAttribute", {
+          columnHelper.accessor("BuffSet.hp.totalAttribute", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -340,7 +340,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.hp.BaseSkill", {
+          columnHelper.accessor("BuffSet.hp.BaseSkill", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -356,7 +356,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.hp.SkillBooks", {
+          columnHelper.accessor("BuffSet.hp.SkillBooks", {
             sortingFn: "basic",
             header: () =>
               html`<span class="tableHeader spectrum-Table-columnTitle"
@@ -371,7 +371,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.hp.Speciality1", {
+          columnHelper.accessor("BuffSet.hp.Speciality1", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -387,7 +387,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.hp.Speciality2", {
+          columnHelper.accessor("BuffSet.hp.Speciality2", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -403,7 +403,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.hp.Speciality3", {
+          columnHelper.accessor("BuffSet.hp.Speciality3", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -419,7 +419,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.hp.Speciality4", {
+          columnHelper.accessor("BuffSet.hp.Speciality4", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -435,7 +435,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.hp.Ascending", {
+          columnHelper.accessor("BuffSet.hp.Ascending", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -453,7 +453,7 @@ const columns = [
           }),
         ],
       }),
-      columnHelper.accessor("PvM.doubleDrop.total", {
+      columnHelper.accessor("BuffSet.doubleDrop.total", {
         sortingFn: "basic",
         header: () => html`
           <span class="tableHeader spectrum-Table-columnTitle">
@@ -463,10 +463,10 @@ const columns = [
         cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
       }),
       columnHelper.group({
-        id: "PvM.doubleDrop",
+        id: "BuffSet.doubleDrop",
 
         columns: [
-          columnHelper.accessor("PvM.doubleDrop.BaseSkill", {
+          columnHelper.accessor("BuffSet.doubleDrop.BaseSkill", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -482,7 +482,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.doubleDrop.SkillBooks", {
+          columnHelper.accessor("BuffSet.doubleDrop.SkillBooks", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -498,7 +498,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.doubleDrop.Speciality1", {
+          columnHelper.accessor("BuffSet.doubleDrop.Speciality1", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -514,7 +514,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.doubleDrop.Speciality2", {
+          columnHelper.accessor("BuffSet.doubleDrop.Speciality2", {
             sortingFn: "basic",
 
             header: () => html`
@@ -531,7 +531,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.doubleDrop.Speciality3", {
+          columnHelper.accessor("BuffSet.doubleDrop.Speciality3", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -547,7 +547,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.doubleDrop.Speciality4", {
+          columnHelper.accessor("BuffSet.doubleDrop.Speciality4", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -563,7 +563,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.doubleDrop.Ascending", {
+          columnHelper.accessor("BuffSet.doubleDrop.Ascending", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -581,7 +581,7 @@ const columns = [
           }),
         ],
       }),
-      columnHelper.accessor("PvM.reduceAttack.total", {
+      columnHelper.accessor("BuffSet.reduceAttack.total", {
         sortingFn: "basic",
         header: () => html`
           <span class="tableHeader spectrum-Table-columnTitle">
@@ -591,9 +591,9 @@ const columns = [
         cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
       }),
       columnHelper.group({
-        id: "PvM.reduceAttack",
+        id: "BuffSet.reduceAttack",
         columns: [
-          columnHelper.accessor("PvM.reduceAttack.BaseSkill", {
+          columnHelper.accessor("BuffSet.reduceAttack.BaseSkill", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -609,7 +609,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.reduceAttack.SkillBooks", {
+          columnHelper.accessor("BuffSet.reduceAttack.SkillBooks", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -622,7 +622,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.reduceAttack.Speciality1", {
+          columnHelper.accessor("BuffSet.reduceAttack.Speciality1", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -637,7 +637,7 @@ const columns = [
                   .replace(/(\d)0+$/, "$1")}%
               </span> `,
           }),
-          columnHelper.accessor("PvM.reduceAttack.Speciality2", {
+          columnHelper.accessor("BuffSet.reduceAttack.Speciality2", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -653,7 +653,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.reduceAttack.Speciality3", {
+          columnHelper.accessor("BuffSet.reduceAttack.Speciality3", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -669,7 +669,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.reduceAttack.Speciality4", {
+          columnHelper.accessor("BuffSet.reduceAttack.Speciality4", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -685,7 +685,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.reduceAttack.Ascending", {
+          columnHelper.accessor("BuffSet.reduceAttack.Ascending", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -703,7 +703,7 @@ const columns = [
           }),
         ],
       }),
-      columnHelper.accessor("PvM.reduceDefense.total", {
+      columnHelper.accessor("BuffSet.reduceDefense.total", {
         sortingFn: "basic",
         header: () => html`
           <span class="tableHeader spectrum-Table-columnTitle">
@@ -713,9 +713,9 @@ const columns = [
         cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
       }),
       columnHelper.group({
-        id: "PvM.reduceDefense",
+        id: "BuffSet.reduceDefense",
         columns: [
-          columnHelper.accessor("PvM.reduceDefense.BaseSkill", {
+          columnHelper.accessor("BuffSet.reduceDefense.BaseSkill", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -731,7 +731,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.reduceDefense.SkillBooks", {
+          columnHelper.accessor("BuffSet.reduceDefense.SkillBooks", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -747,7 +747,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.reduceDefense.Speciality1", {
+          columnHelper.accessor("BuffSet.reduceDefense.Speciality1", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -762,7 +762,7 @@ const columns = [
                   .replace(/(\d)0+$/, "$1")}%
               </span> `,
           }),
-          columnHelper.accessor("PvM.reduceDefense.Speciality2", {
+          columnHelper.accessor("BuffSet.reduceDefense.Speciality2", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -778,7 +778,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.reduceDefense.Speciality3", {
+          columnHelper.accessor("BuffSet.reduceDefense.Speciality3", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -794,7 +794,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.reduceDefense.Speciality4", {
+          columnHelper.accessor("BuffSet.reduceDefense.Speciality4", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -810,7 +810,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.reduceDefense.Ascending", {
+          columnHelper.accessor("BuffSet.reduceDefense.Ascending", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -828,7 +828,7 @@ const columns = [
           }),
         ],
       }),
-      columnHelper.accessor("PvM.reduceHP.total", {
+      columnHelper.accessor("BuffSet.reduceHP.total", {
         sortingFn: "basic",
         header: () => html`
           <span class="tableHeader spectrum-Table-columnTitle">
@@ -838,9 +838,9 @@ const columns = [
         cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
       }),
       columnHelper.group({
-        id: "PvM.reduceHP",
+        id: "BuffSet.reduceHP",
         columns: [
-          columnHelper.accessor("PvM.reduceHP.BaseSkill", {
+          columnHelper.accessor("BuffSet.reduceHP.BaseSkill", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -856,7 +856,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.reduceHP.SkillBooks", {
+          columnHelper.accessor("BuffSet.reduceHP.SkillBooks", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -869,7 +869,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.reduceHP.Speciality1", {
+          columnHelper.accessor("BuffSet.reduceHP.Speciality1", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -884,7 +884,7 @@ const columns = [
                   .replace(/(\d)0+$/, "$1")}%
               </span> `,
           }),
-          columnHelper.accessor("PvM.reduceHP.Speciality2", {
+          columnHelper.accessor("BuffSet.reduceHP.Speciality2", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -900,7 +900,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.reduceHP.Speciality3", {
+          columnHelper.accessor("BuffSet.reduceHP.Speciality3", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -916,7 +916,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.reduceHP.Speciality4", {
+          columnHelper.accessor("BuffSet.reduceHP.Speciality4", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -932,7 +932,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.reduceHP.Ascending", {
+          columnHelper.accessor("BuffSet.reduceHP.Ascending", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -950,7 +950,7 @@ const columns = [
           }),
         ],
       }),
-      columnHelper.accessor("PvM.marchSpeed.total", {
+      columnHelper.accessor("BuffSet.marchSpeed.total", {
         sortingFn: "basic",
         header: () => html`
           <span class="tableHeader spectrum-Table-columnTitle">
@@ -960,9 +960,9 @@ const columns = [
         cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
       }),
       columnHelper.group({
-        id: "PvM.marchSpeed",
+        id: "BuffSet.marchSpeed",
         columns: [
-          columnHelper.accessor("PvM.marchSpeed.BaseSkill", {
+          columnHelper.accessor("BuffSet.marchSpeed.BaseSkill", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -978,7 +978,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.marchSpeed.SkillBooks", {
+          columnHelper.accessor("BuffSet.marchSpeed.SkillBooks", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -991,7 +991,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.marchSpeed.Speciality1", {
+          columnHelper.accessor("BuffSet.marchSpeed.Speciality1", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -1006,7 +1006,7 @@ const columns = [
                   .replace(/(\d)0+$/, "$1")}%
               </span> `,
           }),
-          columnHelper.accessor("PvM.marchSpeed.Speciality2", {
+          columnHelper.accessor("BuffSet.marchSpeed.Speciality2", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -1022,7 +1022,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.marchSpeed.Speciality3", {
+          columnHelper.accessor("BuffSet.marchSpeed.Speciality3", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -1038,7 +1038,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.marchSpeed.Speciality4", {
+          columnHelper.accessor("BuffSet.marchSpeed.Speciality4", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
@@ -1054,7 +1054,7 @@ const columns = [
               </span>
             `,
           }),
-          columnHelper.accessor("PvM.marchSpeed.Ascending", {
+          columnHelper.accessor("BuffSet.marchSpeed.Ascending", {
             sortingFn: "basic",
             header: () => html`
               <span class="tableHeader spectrum-Table-columnTitle">
