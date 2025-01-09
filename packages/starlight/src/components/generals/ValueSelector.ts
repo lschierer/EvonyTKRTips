@@ -37,6 +37,7 @@ export default class ValueSelector extends withStores(LitElement, [
   stores.primarySpecialityLevels,
   stores.secondarySpecialityLevels,
   stores.generalSpecalist,
+  stores.generalUseCase,
 ]) {
   constructor() {
     super();
