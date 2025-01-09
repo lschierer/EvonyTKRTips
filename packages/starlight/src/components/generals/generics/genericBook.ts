@@ -52,6 +52,186 @@ export class BaseSkill {
     }
   }
 
+  public get Attack() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum.Attack,
+        false,
+        false,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+
+  public get PvMAttack() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum.Attack,
+        false,
+        true,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+
+  public get Defense() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum.Defense,
+        false,
+        false,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+
+  public get PvMDefense() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum.Defense,
+        false,
+        true,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+
+  public get HP() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum.HP,
+        false,
+        false,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+
+  public get PvMHP() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum.HP,
+        false,
+        true,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+
+  public get reduceAttack() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum.Attack,
+        true,
+        false,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+
+  public get PvMreduceAttack() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum.Attack,
+        true,
+        true,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+
+  public get PvMreduceDefense() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum.Defense,
+        true,
+        true,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+
+  public get reduceDefense() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum.Defense,
+        true,
+        false,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+
+  public get reduceHP() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum.HP,
+        true,
+        false,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+
+  public get PvMreduceHP() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum.HP,
+        true,
+        true,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+
   public get MarchSizeIncrease() {
     if (this._primary_skillBook && this._secondary_skillBook) {
       return genericBook(
@@ -98,65 +278,6 @@ export class BaseSkill {
     return 0;
   }
 
-  public get Attack() {
-    if (this._primary_skillBook && this._secondary_skillBook) {
-      return genericBook(
-        this._primary_skillBook,
-        this._secondary_skillBook,
-        constants.Attribute.Enum.Attack,
-        false,
-        false,
-        false,
-        this.troopClass
-      );
-    }
-    return 0;
-  }
-
-  public get PvMAttack() {
-    if (this._primary_skillBook && this._secondary_skillBook) {
-      return genericBook(
-        this._primary_skillBook,
-        this._secondary_skillBook,
-        constants.Attribute.Enum.Attack,
-        false,
-        true,
-        false,
-        this.troopClass
-      );
-    }
-    return 0;
-  }
-
-  public get PvMDefense() {
-    if (this._primary_skillBook && this._secondary_skillBook) {
-      return genericBook(
-        this._primary_skillBook,
-        this._secondary_skillBook,
-        constants.Attribute.Enum.Defense,
-        false,
-        true,
-        false,
-        this.troopClass
-      );
-    }
-    return 0;
-  }
-
-  public get PvMHP() {
-    if (this._primary_skillBook && this._secondary_skillBook) {
-      return genericBook(
-        this._primary_skillBook,
-        this._secondary_skillBook,
-        constants.Attribute.Enum.HP,
-        false,
-        true,
-        false,
-        this.troopClass
-      );
-    }
-    return 0;
-  }
   public get doubleDrop() {
     if (this._primary_skillBook && this._secondary_skillBook) {
       return genericBook(
@@ -164,51 +285,6 @@ export class BaseSkill {
         this._secondary_skillBook,
         constants.Attribute.Enum["Double Items Drop Rate"],
         false,
-        true,
-        false,
-        this.troopClass
-      );
-    }
-    return 0;
-  }
-
-  public get PvMreduceDefense() {
-    if (this._primary_skillBook && this._secondary_skillBook) {
-      return genericBook(
-        this._primary_skillBook,
-        this._secondary_skillBook,
-        constants.Attribute.Enum.Defense,
-        true,
-        true,
-        false,
-        this.troopClass
-      );
-    }
-    return 0;
-  }
-
-  public get PvMreduceHP() {
-    if (this._primary_skillBook && this._secondary_skillBook) {
-      return genericBook(
-        this._primary_skillBook,
-        this._secondary_skillBook,
-        constants.Attribute.Enum.HP,
-        true,
-        true,
-        false,
-        this.troopClass
-      );
-    }
-    return 0;
-  }
-
-  public get PvMreduceAttack() {
-    if (this._primary_skillBook && this._secondary_skillBook) {
-      return genericBook(
-        this._primary_skillBook,
-        this._secondary_skillBook,
-        constants.Attribute.Enum.Attack,
-        true,
         true,
         false,
         this.troopClass

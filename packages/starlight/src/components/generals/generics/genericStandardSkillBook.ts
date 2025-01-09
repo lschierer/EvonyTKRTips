@@ -74,6 +74,216 @@ export class StandardSkills {
     }
   }
 
+  public get Attack() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.Attack,
+      false,
+      true,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public get PvMAttack() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.Attack,
+      false,
+      true,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public get Defense() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.Defense,
+      false,
+      false,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public get PvMDefense() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.Defense,
+      false,
+      true,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public get HP() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.HP,
+      false,
+      false,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public get PvMHP() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.HP,
+      false,
+      true,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public get reduceAttack() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.Attack,
+      true,
+      false,
+      false,
+      this.troopClass
+    );
+    if (DEBUG) {
+      console.log(
+        `PvMreduceAttack ${this._primary.id}/${this._secondary.id}returning ${rValue} \n\n`
+      );
+    }
+    return rValue;
+  }
+
+  public get PvMreduceAttack() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.Attack,
+      true,
+      true,
+      false,
+      this.troopClass
+    );
+    if (DEBUG) {
+      console.log(
+        `PvMreduceAttack ${this._primary.id}/${this._secondary.id}returning ${rValue} \n\n`
+      );
+    }
+    return rValue;
+  }
+
+  public get reduceDefense() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.Defense,
+      true,
+      false,
+      false,
+      this.troopClass
+    );
+    if (DEBUG) {
+      console.log(
+        `PvMreduceDefense ${this._primary.id}/${this._secondary.id}returning ${rValue} \n\n`
+      );
+    }
+    return rValue;
+  }
+
+  public get PvMreduceDefense() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.Defense,
+      true,
+      true,
+      false,
+      this.troopClass
+    );
+    if (DEBUG) {
+      console.log(
+        `PvMreduceDefense ${this._primary.id}/${this._secondary.id}returning ${rValue} \n\n`
+      );
+    }
+    return rValue;
+  }
+
+  public get reduceHP() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.HP,
+      true,
+      false,
+      false,
+      this.troopClass
+    );
+    if (DEBUG) {
+      console.log(
+        `PvMreduceHP ${this._primary.id}/${this._secondary.id}returning ${rValue} \n\n`
+      );
+    }
+    return rValue;
+  }
+
+  public get PvMreduceHP() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum.HP,
+      true,
+      true,
+      false,
+      this.troopClass
+    );
+    if (DEBUG) {
+      console.log(
+        `PvMreduceHP ${this._primary.id}/${this._secondary.id}returning ${rValue} \n\n`
+      );
+    }
+    return rValue;
+  }
+
   public get MarchSizeIncrease() {
     let rValue = 0;
     rValue += genericStandardSkillBooksEval(
@@ -116,111 +326,6 @@ export class StandardSkills {
       false,
       this.troopClass
     );
-    return rValue;
-  }
-
-  public get PvMAttack() {
-    let rValue = 0;
-    rValue += genericStandardSkillBooksEval(
-      this._primary,
-      this._secondary,
-      this._bookConflicts,
-      constants.Attribute.Enum.Attack,
-      false,
-      true,
-      false,
-      this.troopClass
-    );
-    return rValue;
-  }
-
-  public get PvMDefense() {
-    let rValue = 0;
-    rValue += genericStandardSkillBooksEval(
-      this._primary,
-      this._secondary,
-      this._bookConflicts,
-      constants.Attribute.Enum.Defense,
-      false,
-      true,
-      false,
-      this.troopClass
-    );
-    return rValue;
-  }
-
-  public get PvMHP() {
-    let rValue = 0;
-    rValue += genericStandardSkillBooksEval(
-      this._primary,
-      this._secondary,
-      this._bookConflicts,
-      constants.Attribute.Enum.HP,
-      false,
-      true,
-      false,
-      this.troopClass
-    );
-    return rValue;
-  }
-
-  public get PvMreduceDefense() {
-    let rValue = 0;
-    rValue += genericStandardSkillBooksEval(
-      this._primary,
-      this._secondary,
-      this._bookConflicts,
-      constants.Attribute.Enum.Defense,
-      true,
-      true,
-      false,
-      this.troopClass
-    );
-    if (DEBUG) {
-      console.log(
-        `PvMreduceDefense ${this._primary.id}/${this._secondary.id}returning ${rValue} \n\n`
-      );
-    }
-    return rValue;
-  }
-
-  public get PvMreduceHP() {
-    let rValue = 0;
-    rValue += genericStandardSkillBooksEval(
-      this._primary,
-      this._secondary,
-      this._bookConflicts,
-      constants.Attribute.Enum.HP,
-      true,
-      true,
-      false,
-      this.troopClass
-    );
-    if (DEBUG) {
-      console.log(
-        `PvMreduceDefense ${this._primary.id}/${this._secondary.id}returning ${rValue} \n\n`
-      );
-    }
-    return rValue;
-  }
-
-  public get PvMreduceAttack() {
-    let rValue = 0;
-    rValue += genericStandardSkillBooksEval(
-      this._primary,
-      this._secondary,
-      this._bookConflicts,
-      constants.Attribute.Enum.Attack,
-      true,
-      true,
-      false,
-      this.troopClass
-    );
-    if (DEBUG) {
-      console.log(
-        `PvMreduceDefense ${this._primary.id}/${this._secondary.id}returning ${rValue} \n\n`
-      );
-    }
     return rValue;
   }
 

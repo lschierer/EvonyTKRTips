@@ -62,6 +62,196 @@ export class SpecialityStats {
     }
   }
 
+  public Attack(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum.Attack,
+      false,
+      false,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public PvMAttack(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum.Attack,
+      false,
+      true,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public Defense(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum.Defense,
+      false,
+      false,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public PvMDefense(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum.Defense,
+      false,
+      true,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public HP(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum.HP,
+      false,
+      false,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public PvMHP(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum.HP,
+      false,
+      true,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public reduceAttack(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum.Attack,
+      true,
+      false,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public PvMreduceAttack(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum.Attack,
+      true,
+      true,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public reduceDefense(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum.Defense,
+      true,
+      false,
+      false,
+      this.troopClass
+    );
+    if (DEBUG) {
+      console.log(
+        `PvMreduceDefense ${level} ${this._primary.id}/${this._secondary.id}returning ${rValue} \n\n`
+      );
+    }
+    return rValue;
+  }
+
+  public PvMreduceDefense(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum.Defense,
+      true,
+      true,
+      false,
+      this.troopClass
+    );
+    if (DEBUG) {
+      console.log(
+        `PvMreduceDefense ${level} ${this._primary.id}/${this._secondary.id}returning ${rValue} \n\n`
+      );
+    }
+    return rValue;
+  }
+
+  public reduceHP(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum.HP,
+      true,
+      false,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public PvMreduceHP(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum.HP,
+      true,
+      true,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
   public marchSpeed(level: 1 | 2 | 3 | 4) {
     let rValue = 0;
     rValue += genericSpeciality(
@@ -101,101 +291,6 @@ export class SpecialityStats {
       constants.Attribute.Enum["March Size Capacity"],
       false,
       false,
-      false,
-      this.troopClass
-    );
-    return rValue;
-  }
-
-  public PvMAttack(level: 1 | 2 | 3 | 4) {
-    let rValue = 0;
-    rValue += genericSpeciality(
-      this._primary_specialities[level - 1],
-      this._secondary_specialities[level - 1],
-      level,
-      constants.Attribute.Enum.Attack,
-      false,
-      true,
-      false,
-      this.troopClass
-    );
-    return rValue;
-  }
-
-  public PvMreduceAttack(level: 1 | 2 | 3 | 4) {
-    let rValue = 0;
-    rValue += genericSpeciality(
-      this._primary_specialities[level - 1],
-      this._secondary_specialities[level - 1],
-      level,
-      constants.Attribute.Enum.Attack,
-      true,
-      true,
-      false,
-      this.troopClass
-    );
-    return rValue;
-  }
-
-  public PvMDefense(level: 1 | 2 | 3 | 4) {
-    let rValue = 0;
-    rValue += genericSpeciality(
-      this._primary_specialities[level - 1],
-      this._secondary_specialities[level - 1],
-      level,
-      constants.Attribute.Enum.Defense,
-      false,
-      true,
-      false,
-      this.troopClass
-    );
-    return rValue;
-  }
-
-  public PvMreduceDefense(level: 1 | 2 | 3 | 4) {
-    let rValue = 0;
-    rValue += genericSpeciality(
-      this._primary_specialities[level - 1],
-      this._secondary_specialities[level - 1],
-      level,
-      constants.Attribute.Enum.Defense,
-      true,
-      true,
-      false,
-      this.troopClass
-    );
-    if (DEBUG) {
-      console.log(
-        `PvMreduceDefense ${level} ${this._primary.id}/${this._secondary.id}returning ${rValue} \n\n`
-      );
-    }
-    return rValue;
-  }
-
-  public PvMHP(level: 1 | 2 | 3 | 4) {
-    let rValue = 0;
-    rValue += genericSpeciality(
-      this._primary_specialities[level - 1],
-      this._secondary_specialities[level - 1],
-      level,
-      constants.Attribute.Enum.HP,
-      false,
-      true,
-      false,
-      this.troopClass
-    );
-    return rValue;
-  }
-
-  public PvMreduceHP(level: 1 | 2 | 3 | 4) {
-    let rValue = 0;
-    rValue += genericSpeciality(
-      this._primary_specialities[level - 1],
-      this._secondary_specialities[level - 1],
-      level,
-      constants.Attribute.Enum.HP,
-      true,
-      true,
       false,
       this.troopClass
     );
