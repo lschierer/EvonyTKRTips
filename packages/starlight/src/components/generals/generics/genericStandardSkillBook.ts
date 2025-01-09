@@ -4,7 +4,7 @@ import { BookConflict } from "@schemas/generalConflictGroups";
 import { General, GeneralPair } from "@schemas/generals";
 
 import * as stores from "../store";
-import AllStandardSkillBooks from "@schemas/standardSkillBooks";
+import AllStandardSkillBooks from "@lib/standardSkillBooks";
 import { genericBook } from "./genericBook";
 
 const DEBUG = false;
