@@ -216,6 +216,36 @@ export class BaseSkill {
     }
     return 0;
   }
+
+  public get reduceStaminaCost() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum["Stamina cost"],
+        false,
+        false,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
+
+  public get PvMreduceStaminaCost() {
+    if (this._primary_skillBook && this._secondary_skillBook) {
+      return genericBook(
+        this._primary_skillBook,
+        this._secondary_skillBook,
+        constants.Attribute.Enum["Stamina cost"],
+        false,
+        true,
+        false,
+        this.troopClass
+      );
+    }
+    return 0;
+  }
 }
 
 export const genericBook = (

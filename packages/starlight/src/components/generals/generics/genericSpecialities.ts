@@ -216,6 +216,36 @@ export class SpecialityStats {
     );
     return rValue;
   }
+
+  public reduceStaminaCost(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum["Stamina cost"],
+      false,
+      false,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
+
+  public PvMreduceStaminaCost(level: 1 | 2 | 3 | 4) {
+    let rValue = 0;
+    rValue += genericSpeciality(
+      this._primary_specialities[level - 1],
+      this._secondary_specialities[level - 1],
+      level,
+      constants.Attribute.Enum["Stamina cost"],
+      false,
+      true,
+      false,
+      this.troopClass
+    );
+    return rValue;
+  }
 }
 
 export const genericSpeciality = (

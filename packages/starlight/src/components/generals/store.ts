@@ -491,15 +491,22 @@ export const PvMPairsWithStats = batched([initialPairs], (pairs) => {
           Ascending: generalPairStats.ascendingStats.PvMmarchSpeed,
         },
         reduceStaminaCost: {
-          BaseSkill: 0,
-          SkillBooks: 0,
-          //BaseSkill: 0,
-          //SkillBooks: 0,
-          Speciality1: 0,
-          Speciality2: 0,
-          Speciality3: 0,
-          Speciality4: 0,
-          Ascending: 0,
+          total:
+            generalPairStats.baseSkill.PvMreduceStaminaCost +
+            generalPairStats.standardSkillBooks.PvMreduceStaminaCost +
+            generalPairStats.specialityStats.PvMreduceStaminaCost(1) +
+            generalPairStats.specialityStats.PvMreduceStaminaCost(2) +
+            generalPairStats.specialityStats.PvMreduceStaminaCost(3) +
+            generalPairStats.specialityStats.PvMreduceStaminaCost(4) +
+            generalPairStats.ascendingStats.PvMreduceStaminaCost +
+            0,
+          BaseSkill: generalPairStats.baseSkill.PvMreduceStaminaCost,
+          SkillBooks: generalPairStats.standardSkillBooks.PvMreduceStaminaCost,
+          Speciality1: generalPairStats.specialityStats.PvMreduceStaminaCost(1),
+          Speciality2: generalPairStats.specialityStats.PvMreduceStaminaCost(2),
+          Speciality3: generalPairStats.specialityStats.PvMreduceStaminaCost(3),
+          Speciality4: generalPairStats.specialityStats.PvMreduceStaminaCost(4),
+          Ascending: generalPairStats.ascendingStats.PvMreduceStaminaCost,
         },
       },
     };
@@ -707,8 +714,6 @@ export const AttackingPairsWithStats = batched([initialPairs], (pairs) => {
         reduceStaminaCost: {
           BaseSkill: 0,
           SkillBooks: 0,
-          //BaseSkill: 0,
-          //SkillBooks: 0,
           Speciality1: 0,
           Speciality2: 0,
           Speciality3: 0,

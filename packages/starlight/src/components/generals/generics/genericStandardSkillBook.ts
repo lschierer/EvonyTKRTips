@@ -240,6 +240,34 @@ export class StandardSkills {
     );
     return rValue;
   }
+
+  public get reduceStaminaCost() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum["Stamina cost"],
+      false,
+      false,
+      false
+    );
+    return rValue;
+  }
+
+  public get PvMreduceStaminaCost() {
+    let rValue = 0;
+    rValue += genericStandardSkillBooksEval(
+      this._primary,
+      this._secondary,
+      this._bookConflicts,
+      constants.Attribute.Enum["Stamina cost"],
+      false,
+      true,
+      false
+    );
+    return rValue;
+  }
 }
 
 export const genericStandardSkillBooksEval = (

@@ -272,6 +272,46 @@ export class AscendingStats {
     }
     return rValue;
   }
+
+  public get reduceStaminaCost() {
+    let rValue = 0;
+    const level = stores.selectedValues.get().stars;
+
+    if (level) {
+      rValue += genericAscending(
+        this._ascending_attributes,
+        level,
+        constants.Attribute.Enum["Stamina cost"],
+        false,
+        false,
+        false,
+        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+          ? this.troopClass
+          : undefined
+      );
+    }
+    return rValue;
+  }
+
+  public get PvMreduceStaminaCost() {
+    let rValue = 0;
+    const level = stores.selectedValues.get().stars;
+
+    if (level) {
+      rValue += genericAscending(
+        this._ascending_attributes,
+        level,
+        constants.Attribute.Enum["Stamina cost"],
+        false,
+        true,
+        false,
+        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+          ? this.troopClass
+          : undefined
+      );
+    }
+    return rValue;
+  }
 }
 
 const genericAscending = (

@@ -1072,31 +1072,131 @@ const columns = [
           }),
         ],
       }),
+
+      columnHelper.accessor("BuffSet.reduceStaminaCost.total", {
+        sortingFn: "basic",
+        header: () => html`
+          <span class="tableHeader spectrum-Table-columnTitle">
+            Stamina Cost Reduction Total
+          </span>
+        `,
+        cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
+      }),
+      columnHelper.group({
+        id: "BuffSet.reduceStaminaCost",
+        columns: [
+          columnHelper.accessor("BuffSet.reduceStaminaCost.BaseSkill", {
+            sortingFn: "basic",
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Base Skill
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
+                  .getValue()
+                  .toFixed(1)
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
+          }),
+          columnHelper.accessor("BuffSet.reduceStaminaCost.SkillBooks", {
+            sortingFn: "basic",
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Skill Books
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${(row.getValue() ?? 0).toFixed(1).replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
+          }),
+          columnHelper.accessor("BuffSet.reduceStaminaCost.Speciality1", {
+            sortingFn: "basic",
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Speciality 1
+              </span>
+            `,
+            cell: (row) =>
+              html`<span class="tableCell">
+                ${row
+                  .getValue()
+                  .toFixed(1)
+                  .replace(/(\d)0+$/, "$1")}%
+              </span> `,
+          }),
+          columnHelper.accessor("BuffSet.reduceStaminaCost.Speciality2", {
+            sortingFn: "basic",
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Speciality 2
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
+                  .getValue()
+                  .toFixed(1)
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
+          }),
+          columnHelper.accessor("BuffSet.reduceStaminaCost.Speciality3", {
+            sortingFn: "basic",
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Speciality 3
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
+                  .getValue()
+                  .toFixed(1)
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
+          }),
+          columnHelper.accessor("BuffSet.reduceStaminaCost.Speciality4", {
+            sortingFn: "basic",
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Speciality 4
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
+                  .getValue()
+                  .toFixed(1)
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
+          }),
+          columnHelper.accessor("BuffSet.reduceStaminaCost.Ascending", {
+            sortingFn: "basic",
+            header: () => html`
+              <span class="tableHeader spectrum-Table-columnTitle">
+                Ascending
+              </span>
+            `,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${row
+                  .getValue()
+                  .toFixed(1)
+                  .replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
+          }),
+        ],
+      }),
     ],
   }),
 ];
-/*
-{
-  id: "marchsize",
-  accessorFn: (row: GeneralPair, index: number) =>
-    MountedPvMCompatiblePairMarchSize(row),
-  sortingFn: "basic",
-
-  header: () => html`<span class="tableHeader spectrum-Table-columnTitle">March Size Increase</span>`,
-  cell: (info) => html`<span class="tableCell">${info.getValue()}</span>`,
-},
-columnHelper.accessor("MarchSizeIncrease.MountedPvMCompatiblePair", {
-  id: "marchsize",
-  sortingFn: "basic",
-
-  header: () => html`<span class="tableHeader spectrum-Table-columnTitle">March Size Increase</span>`,
-  cell: (row) =>
-    html`<span class="tableCell"
-      >${MountedPvMCompatiblePairMarchSize(row.row.original)}</span
-    >`,
-}),
-
-
-*/
 
 export default columns;
