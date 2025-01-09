@@ -22,7 +22,7 @@ import {
 import columns from "./columns";
 
 const DEBUG = false;
-const DEBUG2 = true;
+const DEBUG2 = false;
 
 import { type Table } from "@tanstack/lit-table";
 

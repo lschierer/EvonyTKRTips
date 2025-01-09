@@ -30,7 +30,7 @@ import { General, GeneralPair } from "@schemas/generals";
 import { AscendingLevel } from "@schemas/constants";
 
 import ValueSelectorCSS from "../../styles/valueSelector.css?inline";
-const DEBUG = true;
+const DEBUG = false;
 
 export default class ValueSelector extends withStores(LitElement, [
   stores.selectedValues,
