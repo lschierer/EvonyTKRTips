@@ -18,15 +18,15 @@ export const genericBuffEval = (
 ) => {
   const dragon = stores.selectedValues.get().dragon ?? false;
   const beast = stores.selectedValues.get().beast ?? false;
-  const generalUse =
-    stores.selectedValues.get().type ??
+  const generalSpecialist =
+    stores.generalSpecalist.get() ??
     constants.GeneralType.Enum.mounted_specialist;
   if (DEBUG) {
-    console.log(`genericBuffEval detects generalUse ${generalUse}`);
+    console.log(`genericBuffEval detects generalUse ${generalSpecialist}`);
   }
 
   const validConditions = new Set<constants.Condition>();
-  if (!generalUse.localeCompare(constants.GeneralType.Enum.wall)) {
+  if (!generalSpecialist.localeCompare(constants.GeneralType.Enum.wall)) {
     validConditions.add(constants.BuffCondition.Enum.Defending);
     validConditions.add(constants.BuffCondition.Enum["In Main City"]);
     validConditions.add(constants.DebuffCondition.Enum["Reduces Enemy"]);
@@ -36,7 +36,9 @@ export const genericBuffEval = (
         constants.DebuffCondition.Enum["Reduces Enemy with a Dragon"]
       );
     }
-  } else if (!generalUse.localeCompare(constants.GeneralType.Enum.mayor)) {
+  } else if (
+    !generalSpecialist.localeCompare(constants.GeneralType.Enum.mayor)
+  ) {
     validConditions.add(constants.BuffCondition.Enum.Defending);
     validConditions.add(
       constants.BuffCondition.Enum["When City Mayor for this SubCity"]
@@ -94,7 +96,9 @@ export const genericBuffEval = (
       }
     } else {
       if (DEBUG) {
-        console.log(`generalUse detected as ${generalUse}, using standard PvP`);
+        console.log(
+          `generalUse detected as ${generalSpecialist}, using standard PvP`
+        );
       }
       validConditions.add(constants.BuffCondition.Enum.Attacking);
       validConditions.add(constants.BuffCondition.Enum.Marching);
@@ -199,8 +203,8 @@ export const genericBuffEval = (
       }
     } else {
       if (DEBUG) {
-        console.log(
-          `there was a bad condition ${JSON.stringify(badCondition)}`
+        console.warn(
+          `there was a bad condition ${JSON.stringify(badCondition)} for buff ${JSON.stringify(buff)}`
         );
       }
     }
