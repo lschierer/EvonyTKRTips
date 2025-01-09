@@ -622,22 +622,14 @@ export const AttackingPairsWithStats = batched([initialPairs], (pairs) => {
           Ascending: generalPairStats.ascendingStats.PvMHP,
         },
         doubleDrop: {
-          total:
-            generalPairStats.baseSkill.doubleDrop +
-            generalPairStats.standardSkillBooks.doubleDrop +
-            generalPairStats.specialityStats.doubleDrop(1) +
-            generalPairStats.specialityStats.doubleDrop(2) +
-            generalPairStats.specialityStats.doubleDrop(3) +
-            generalPairStats.specialityStats.doubleDrop(4) +
-            generalPairStats.ascendingStats.doubleDrop +
-            0,
-          BaseSkill: generalPairStats.baseSkill.doubleDrop,
-          SkillBooks: generalPairStats.standardSkillBooks.doubleDrop,
-          Speciality1: generalPairStats.specialityStats.doubleDrop(1),
-          Speciality2: generalPairStats.specialityStats.doubleDrop(2),
-          Speciality3: generalPairStats.specialityStats.doubleDrop(3),
-          Speciality4: generalPairStats.specialityStats.doubleDrop(4),
-          Ascending: generalPairStats.ascendingStats.doubleDrop,
+          total: 0,
+          BaseSkill: 0,
+          SkillBooks: 0,
+          Speciality1: 0,
+          Speciality2: 0,
+          Speciality3: 0,
+          Speciality4: 0,
+          Ascending: 0,
         },
         reduceDefense: {
           total:
@@ -695,30 +687,39 @@ export const AttackingPairsWithStats = batched([initialPairs], (pairs) => {
         },
         marchSpeed: {
           total:
-            generalPairStats.baseSkill.PvMmarchSpeed +
-            generalPairStats.standardSkillBooks.PvMmarchSpeed +
-            generalPairStats.specialityStats.PvMmarchSpeed(1) +
-            generalPairStats.specialityStats.PvMmarchSpeed(2) +
-            generalPairStats.specialityStats.PvMmarchSpeed(3) +
-            generalPairStats.specialityStats.PvMmarchSpeed(4) +
-            generalPairStats.ascendingStats.PvMmarchSpeed +
+            generalPairStats.baseSkill.marchSpeed +
+            generalPairStats.standardSkillBooks.marchSpeed +
+            generalPairStats.specialityStats.marchSpeed(1) +
+            generalPairStats.specialityStats.marchSpeed(2) +
+            generalPairStats.specialityStats.marchSpeed(3) +
+            generalPairStats.specialityStats.marchSpeed(4) +
+            generalPairStats.ascendingStats.marchSpeed +
             0,
-          BaseSkill: generalPairStats.baseSkill.PvMmarchSpeed,
-          SkillBooks: generalPairStats.standardSkillBooks.PvMmarchSpeed,
-          Speciality1: generalPairStats.specialityStats.PvMmarchSpeed(1),
-          Speciality2: generalPairStats.specialityStats.PvMmarchSpeed(2),
-          Speciality3: generalPairStats.specialityStats.PvMmarchSpeed(3),
-          Speciality4: generalPairStats.specialityStats.PvMmarchSpeed(4),
-          Ascending: generalPairStats.ascendingStats.PvMmarchSpeed,
+          BaseSkill: generalPairStats.baseSkill.marchSpeed,
+          SkillBooks: generalPairStats.standardSkillBooks.marchSpeed,
+          Speciality1: generalPairStats.specialityStats.marchSpeed(1),
+          Speciality2: generalPairStats.specialityStats.marchSpeed(2),
+          Speciality3: generalPairStats.specialityStats.marchSpeed(3),
+          Speciality4: generalPairStats.specialityStats.marchSpeed(4),
+          Ascending: generalPairStats.ascendingStats.marchSpeed,
         },
         reduceStaminaCost: {
-          BaseSkill: 0,
-          SkillBooks: 0,
-          Speciality1: 0,
-          Speciality2: 0,
-          Speciality3: 0,
-          Speciality4: 0,
-          Ascending: 0,
+          total:
+            generalPairStats.baseSkill.reduceStaminaCost +
+            generalPairStats.standardSkillBooks.reduceStaminaCost +
+            generalPairStats.specialityStats.reduceStaminaCost(1) +
+            generalPairStats.specialityStats.reduceStaminaCost(2) +
+            generalPairStats.specialityStats.reduceStaminaCost(3) +
+            generalPairStats.specialityStats.reduceStaminaCost(4) +
+            generalPairStats.ascendingStats.reduceStaminaCost +
+            0,
+          BaseSkill: generalPairStats.baseSkill.reduceStaminaCost,
+          SkillBooks: generalPairStats.standardSkillBooks.reduceStaminaCost,
+          Speciality1: generalPairStats.specialityStats.reduceStaminaCost(1),
+          Speciality2: generalPairStats.specialityStats.reduceStaminaCost(2),
+          Speciality3: generalPairStats.specialityStats.reduceStaminaCost(3),
+          Speciality4: generalPairStats.specialityStats.reduceStaminaCost(4),
+          Ascending: generalPairStats.ascendingStats.reduceStaminaCost,
         },
       },
     };
