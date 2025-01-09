@@ -1,8 +1,6 @@
-import { z } from "zod";
+import * as constants from "../schemas/constants";
 
-import * as constants from "./constants";
-
-import { SkillBook } from "./skillBooks";
+import { SkillBook } from "../schemas/skillBooks";
 
 /*
  * when adding a new sset of skill books to this file
