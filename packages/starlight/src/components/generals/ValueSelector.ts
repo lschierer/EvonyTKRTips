@@ -5,10 +5,11 @@ import {
   nothing,
   unsafeCSS,
   type CSSResultGroup,
+  type PropertyValues,
 } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { subscribeKeys, listenKeys } from "nanostores";
-import { withStores } from "@nanostores/lit";
+import { withStores, StoreController } from "@nanostores/lit";
 
 import "@spectrum-web-components/combobox/sp-combobox.js";
 import "@spectrum-web-components/field-group/sp-field-group.js";
@@ -29,10 +30,13 @@ import { General, GeneralPair } from "@schemas/generals";
 import { AscendingLevel } from "@schemas/constants";
 
 import ValueSelectorCSS from "../../styles/valueSelector.css?inline";
-const DEBUG = false;
+const DEBUG = true;
 
 export default class ValueSelector extends withStores(LitElement, [
   stores.selectedValues,
+  stores.primarySpecialityLevels,
+  stores.secondarySpecialityLevels,
+  stores.generalSpecalist,
 ]) {
   constructor() {
     super();
@@ -46,10 +50,8 @@ export default class ValueSelector extends withStores(LitElement, [
       if (DEBUG) {
         console.log(`sp-picker is now defined`);
       }
+
       Array.from(Array(4).keys()).map((n, index) => {
-        if (DEBUG) {
-          console.log(`getSetValues Array.from loop ${n}`);
-        }
         /*#primary-speciality-0 */
         let specialityPicker = this.renderRoot?.querySelector(
           `#primary-speciality-${n}`
@@ -59,6 +61,7 @@ export default class ValueSelector extends withStores(LitElement, [
             console.log(`#primary-speciality-${n} found`);
           }
           specialityPicker.addEventListener("change", (event) => {
+            const ps = stores.primarySpecialityLevels.get();
             if (DEBUG) {
               console.log(
                 `EventListener for change for #primary-speciality-${n}`
@@ -67,32 +70,26 @@ export default class ValueSelector extends withStores(LitElement, [
             const target = event.target as Picker;
             const valid = constants.SpecialityLevelName.safeParse(target.value);
             if (valid.success) {
-              stores.selectedValues.setKey(
-                `primarySpecialityLevels[${index}]`,
-                valid.data
-              );
+              stores.setPrimaryLevel(valid.data, index);
               let enable4 = false;
-              Array.from(Array(4).keys()).map((n2) => {
+
+              Array.from(Array(4).keys()).map((n2, index) => {
                 enable4 = this.enableSpecialityPicker(n2, "primary");
                 if (!enable4) {
-                  stores.selectedValues.setKey(
-                    `primarySpecialityLevels[3]`,
-                    constants.SpecialityLevelName.Enum.None
+                  stores.setPrimaryLevel(
+                    constants.SpecialityLevelName.Enum.None,
+                    3
                   );
                 }
               });
 
               if (enable4) {
                 if (
-                  !stores.selectedValues
-                    .get()
-                    .primarySpecialityLevels[3].localeCompare(
-                      constants.SpecialityLevelName.Enum.None
-                    )
+                  !ps[3].localeCompare(constants.SpecialityLevelName.Enum.None)
                 ) {
-                  stores.selectedValues.setKey(
-                    `primarySpecialityLevels[3]`,
-                    constants.SpecialityLevelName.Enum.Green
+                  stores.setPrimaryLevel(
+                    constants.SpecialityLevelName.Enum.Green,
+                    3
                   );
                 }
               }
@@ -104,11 +101,9 @@ export default class ValueSelector extends withStores(LitElement, [
 
             if (DEBUG) {
               console.log(
-                `values are ${JSON.stringify(stores.selectedValues.value)}`
+                `event listener sees primary values: ${JSON.stringify(stores.primarySpecialityLevels.value)}`
               );
             }
-
-            this.requestUpdate("primarySpecialityLevels");
           });
         } else {
           console.warn(`#primary-speciality-${n} not found`);
@@ -128,6 +123,7 @@ export default class ValueSelector extends withStores(LitElement, [
             console.log(`#secondary-speciality-${n} found`);
           }
           specialityPicker.addEventListener("change", (event) => {
+            const ss = stores.secondarySpecialityLevels.get();
             if (DEBUG) {
               console.log(
                 `EventListener for change for #secondary-speciality-${n}`
@@ -136,32 +132,26 @@ export default class ValueSelector extends withStores(LitElement, [
             const target = event.target as Picker;
             const valid = constants.SpecialityLevelName.safeParse(target.value);
             if (valid.success) {
-              stores.selectedValues.setKey(
-                `secondarySpecialityLevels[${index}]`,
-                valid.data
-              );
+              stores.setSecondaryLevel(valid.data, index);
+
               let enable4 = false;
               Array.from(Array(4).keys()).map((n2) => {
                 enable4 = this.enableSpecialityPicker(n2, "secondary");
                 if (!enable4) {
-                  stores.selectedValues.setKey(
-                    `secondarySpecialityLevels[3]`,
-                    constants.SpecialityLevelName.Enum.None
+                  stores.setSecondaryLevel(
+                    constants.SpecialityLevelName.Enum.None,
+                    3
                   );
                 }
               });
 
               if (enable4) {
                 if (
-                  !stores.selectedValues
-                    .get()
-                    .secondarySpecialityLevels[3].localeCompare(
-                      constants.SpecialityLevelName.Enum.None
-                    )
+                  !ss[3].localeCompare(constants.SpecialityLevelName.Enum.None)
                 ) {
-                  stores.selectedValues.setKey(
-                    `secondarySpecialityLevels[3]`,
-                    constants.SpecialityLevelName.Enum.Green
+                  stores.setSecondaryLevel(
+                    constants.SpecialityLevelName.Enum.Green,
+                    3
                   );
                 }
               }
@@ -172,11 +162,9 @@ export default class ValueSelector extends withStores(LitElement, [
             }
             if (DEBUG) {
               console.log(
-                `selected values are ${stores.selectedValues.get().secondarySpecialityLevels.join(" ")}`
+                `secondary event listener sees values: ${stores.secondarySpecialityLevels.value.join(" ")}`
               );
             }
-
-            this.requestUpdate("secondarySpecialityLevels");
           });
         }
       });
@@ -218,7 +206,7 @@ export default class ValueSelector extends withStores(LitElement, [
           const target = event.target as Picker;
           const valid = constants.GeneralType.safeParse(target.value);
           if (valid.success) {
-            stores.selectedValues.setKey("type", valid.data);
+            stores.generalSpecalist.set(valid.data);
           }
         });
       } else {
@@ -257,26 +245,32 @@ export default class ValueSelector extends withStores(LitElement, [
     });
   };
 
+  protected override willUpdate(_changedProperties: PropertyValues): void {
+    super.willUpdate(_changedProperties);
+    if (_changedProperties.has("primarySpecialityLevels")) {
+      if (DEBUG) {
+        console.log(`willupdate sees change to primarySpecialityLevels`);
+      }
+    }
+  }
+
   protected enableSpecialityPicker = (
     n: number,
     role: "primary" | "secondary" = "primary"
   ) => {
     if (!role.localeCompare("primary")) {
-      if (stores.selectedValues.get().primarySpecialityLevels.length < 4) {
+      const ps = stores.primarySpecialityLevels.get();
+      if (ps.length < 4) {
         Array.from(Array(4).keys()).map((n, index) => {
-          stores.selectedValues.setKey(
-            `primarySpecialityLevels[${index}]`,
-            constants.SpecialityLevelName.Enum.None
-          );
+          ps[index] = constants.SpecialityLevelName.Enum.None;
         });
+        stores.primarySpecialityLevels.set(ps);
       }
     } else {
-      if (stores.selectedValues.get().secondarySpecialityLevels.length < 4) {
+      const ss = stores.secondarySpecialityLevels.get();
+      if (ss.length < 4) {
         Array.from(Array(4).keys()).map((n, index) => {
-          stores.selectedValues.setKey(
-            `secondarySpecialityLevels[${index}]`,
-            constants.SpecialityLevelName.Enum.None
-          );
+          ss[index] = constants.SpecialityLevelName.Enum.None;
         });
       }
     }
@@ -284,40 +278,28 @@ export default class ValueSelector extends withStores(LitElement, [
       return true;
     } else if (
       !role.localeCompare("primary") &&
-      !stores.selectedValues
-        .get()
-        .primarySpecialityLevels[0].localeCompare(
-          constants.SpecialityLevelName.Enum.Gold
-        ) &&
-      !stores.selectedValues
-        .get()
-        .primarySpecialityLevels[1].localeCompare(
-          constants.SpecialityLevelName.Enum.Gold
-        ) &&
-      !stores.selectedValues
-        .get()
-        .primarySpecialityLevels[2].localeCompare(
-          constants.SpecialityLevelName.Enum.Gold
-        )
+      !stores.primarySpecialityLevels
+        .get()[0]
+        .localeCompare(constants.SpecialityLevelName.Enum.Gold) &&
+      !stores.primarySpecialityLevels
+        .get()[1]
+        .localeCompare(constants.SpecialityLevelName.Enum.Gold) &&
+      !stores.primarySpecialityLevels
+        .get()[2]
+        .localeCompare(constants.SpecialityLevelName.Enum.Gold)
     ) {
       return true;
     } else if (
       !role.localeCompare("secondary") &&
-      !stores.selectedValues
-        .get()
-        .secondarySpecialityLevels[0].localeCompare(
-          constants.SpecialityLevelName.Enum.Gold
-        ) &&
-      !stores.selectedValues
-        .get()
-        .secondarySpecialityLevels[1].localeCompare(
-          constants.SpecialityLevelName.Enum.Gold
-        ) &&
-      !stores.selectedValues
-        .get()
-        .secondarySpecialityLevels[2].localeCompare(
-          constants.SpecialityLevelName.Enum.Gold
-        )
+      !stores.secondarySpecialityLevels.value[0].localeCompare(
+        constants.SpecialityLevelName.Enum.Gold
+      ) &&
+      !stores.secondarySpecialityLevels.value[1].localeCompare(
+        constants.SpecialityLevelName.Enum.Gold
+      ) &&
+      !stores.secondarySpecialityLevels.value[2].localeCompare(
+        constants.SpecialityLevelName.Enum.Gold
+      )
     ) {
       return true;
     }
@@ -326,10 +308,18 @@ export default class ValueSelector extends withStores(LitElement, [
 
   static override styles: CSSResultGroup = [unsafeCSS(ValueSelectorCSS)];
 
-  protected override render(): unknown {
+  protected override render() {
+    if (DEBUG) {
+      console.log(
+        `render sees primarySpecialityLevels: ${stores.primarySpecialityLevels.value.join(" ")}`
+      );
+      console.log(
+        `render sees secondarySpecialityLevels: ${stores.secondarySpecialityLevels.value.join(" ")}`
+      );
+    }
     return html`
-      <div class="primary not-content">
-        <sp-field-label>Primary General Options</sp-field-label>
+      <div class="pairOptions not-content">
+        <sp-field-label>Generic Options</sp-field-label>
         <div class="firstRow">
           <div class="flexColumn">
             <sp-field-label for="generalType" size="m"
@@ -339,18 +329,53 @@ export default class ValueSelector extends withStores(LitElement, [
               id="generalType"
               size="m"
               label="General Type"
-              value="${stores.selectedValues.get().type}"
+              value="${stores.generalSpecalist.value}"
             >
               <span slot="label">Which type of General?</span>
-              ${constants.GeneralType.options.map((gt) => {
-                return html`
-                  <sp-menu-item value="${gt}">
-                    ${gt[0].toUpperCase() + gt.slice(1).replaceAll("_", " ")}
-                  </sp-menu-item>
-                `;
-              })}
+              ${constants.GeneralType.options
+                .filter((gt) => {
+                  return gt.localeCompare(constants.GeneralType.Enum.mayor);
+                })
+                .map((gt) => {
+                  return html`
+                    <sp-menu-item value="${gt}">
+                      ${gt[0].toUpperCase() + gt.slice(1).replaceAll("_", " ")}
+                    </sp-menu-item>
+                  `;
+                })}
             </sp-picker>
           </div>
+          <div class="flexColumn">
+            <sp-field-label for="generalUseCase" size="m">
+              General Use Case:
+            </sp-field-label>
+            <sp-picker
+              id="generalUseCase"
+              size="m"
+              label="General Use Case"
+              value="${stores.generalUseCase.value}"
+            >
+              <span slot="label">Which type of General?</span>
+              ${constants.BuffActivation.options
+                .filter((ba) => {
+                  return ba.localeCompare(constants.BuffActivation.Enum.Mayor);
+                })
+                .map((ba) => {
+                  return html`
+                    <sp-menu-item value="${ba}">
+                      ${ba.localeCompare(constants.BuffActivation.Enum.PvM)
+                        ? ba[0].toUpperCase() + ba.slice(1).replaceAll("_", " ")
+                        : "Monster Hunting"}
+                    </sp-menu-item>
+                  `;
+                })}
+            </sp-picker>
+          </div>
+        </div>
+      </div>
+      <div class="primary not-content">
+        <sp-field-label>Primary General Options</sp-field-label>
+        <div class="firstRow">
           <div class="flexColumn">
             <sp-field-label for="level" size="m">General Level</sp-field-label>
             <sp-number-field
@@ -393,25 +418,23 @@ export default class ValueSelector extends withStores(LitElement, [
                     : true}
                   id="primary-speciality-${n}"
                   size="m"
-                  value="${stores.selectedValues.get().primarySpecialityLevels[
-                    n
-                  ]}"
+                  value="${stores.primarySpecialityLevels.value[n]}"
                   style="width: 7rem;"
                 >
                   <span slot="label">Choose a Speciality Level:</span>
                   ${constants.SpecialityLevelName.options.map((spn) => {
                     if (
                       !spn.localeCompare(
-                        stores.selectedValues.get().primarySpecialityLevels[n]
+                        stores.primarySpecialityLevels.value[n]
                       )
                     ) {
-                      return html`<sp-menu-item value="${spn}" selected
-                        >${spn}</sp-menu-item
-                      >`;
+                      return html` <sp-menu-item value="${spn}" selected>
+                        ${spn}
+                      </sp-menu-item>`;
                     } else {
-                      return html`<sp-menu-item value="${spn}"
-                        >${spn}</sp-menu-item
-                      >`;
+                      return html` <sp-menu-item value="${spn}">
+                        ${spn}
+                      </sp-menu-item>`;
                     }
                   })}
                 </sp-picker>
@@ -436,16 +459,25 @@ export default class ValueSelector extends withStores(LitElement, [
                     : true}
                   size="m"
                   label="Speciality Level"
-                  value="${stores.selectedValues.get()
-                    .secondarySpecialityLevels[n] ??
+                  value="${stores.secondarySpecialityLevels.value[n] ??
                   constants.SpecialityLevelName.Enum.None}"
                   style="width: 7rem;"
                 >
                   <span slot="label">Choose a Speciality Level:</span>
                   ${constants.SpecialityLevelName.options.map((spn) => {
-                    return html`<sp-menu-item value="${spn}"
-                      >${spn}</sp-menu-item
-                    >`;
+                    if (
+                      !spn.localeCompare(
+                        stores.secondarySpecialityLevels.value[n]
+                      )
+                    ) {
+                      return html` <sp-menu-item value="${spn}" selected>
+                        ${spn}
+                      </sp-menu-item>`;
+                    } else {
+                      return html` <sp-menu-item value="${spn}">
+                        ${spn}
+                      </sp-menu-item>`;
+                    }
                   })}
                 </sp-picker>
               </div>

@@ -83,6 +83,16 @@ export const GeneralType = z.enum([
 ]);
 export type GeneralType = z.infer<typeof GeneralType>;
 
+export const BuffActivation = z.enum([
+  "Overall",
+  "PvM",
+  "Attacking",
+  "Reinforcing",
+  "Wall",
+  "Mayor",
+]);
+export type BuffActivation = z.infer<typeof BuffActivation>;
+
 export const BookCondition = z.enum(["all the time", "when not mine"]);
 export type BookCondition = z.infer<typeof BookCondition>;
 
@@ -165,3 +175,106 @@ export const Value = z.object({
   unit: Unit,
 });
 export type Value = z.infer<typeof Value>;
+
+export const EvAnsBuffSet = z.object({
+  attack: z.object({
+    total: z.number().optional(),
+    baseAttribute: z.number(),
+    levelAttribute: z.number(),
+    totalAttribute: z.number(),
+    BaseSkill: z.number(),
+    SkillBooks: z.number(),
+    Speciality1: z.number(),
+    Speciality2: z.number(),
+    Speciality3: z.number(),
+    Speciality4: z.number(),
+    Ascending: z.number(),
+  }),
+  defense: z.object({
+    total: z.number().optional(),
+    baseAttribute: z.number(),
+    levelAttribute: z.number(),
+    totalAttribute: z.number(),
+    BaseSkill: z.number(),
+    SkillBooks: z.number(),
+    Speciality1: z.number(),
+    Speciality2: z.number(),
+    Speciality3: z.number(),
+    Speciality4: z.number(),
+    Ascending: z.number(),
+  }),
+  hp: z.object({
+    total: z.number().optional(),
+    baseAttribute: z.number(),
+    levelAttribute: z.number(),
+    totalAttribute: z.number(),
+    BaseSkill: z.number(),
+    SkillBooks: z.number(),
+    Speciality1: z.number(),
+    Speciality2: z.number(),
+    Speciality3: z.number(),
+    Speciality4: z.number(),
+    Ascending: z.number(),
+  }),
+  doubleDrop: z.object({
+    total: z.number().optional(),
+    BaseSkill: z.number(),
+    SkillBooks: z.number(),
+    Speciality1: z.number(),
+    Speciality2: z.number(),
+    Speciality3: z.number(),
+    Speciality4: z.number(),
+    Ascending: z.number(),
+  }),
+  reduceDefense: z.object({
+    total: z.number().optional(),
+    BaseSkill: z.number(),
+    SkillBooks: z.number(),
+    Speciality1: z.number(),
+    Speciality2: z.number(),
+    Speciality3: z.number(),
+    Speciality4: z.number(),
+    Ascending: z.number(),
+  }),
+  reduceHP: z.object({
+    total: z.number().optional(),
+    BaseSkill: z.number(),
+    SkillBooks: z.number(),
+    Speciality1: z.number(),
+    Speciality2: z.number(),
+    Speciality3: z.number(),
+    Speciality4: z.number(),
+    Ascending: z.number(),
+  }),
+  reduceAttack: z.object({
+    total: z.number().optional(),
+    BaseSkill: z.number(),
+    SkillBooks: z.number(),
+    Speciality1: z.number(),
+    Speciality2: z.number(),
+    Speciality3: z.number(),
+    Speciality4: z.number(),
+    Ascending: z.number(),
+  }),
+  marchSpeed: z.object({
+    total: z.number().optional(),
+    BaseSkill: z.number(),
+    SkillBooks: z.number(),
+    Speciality1: z.number(),
+    Speciality2: z.number(),
+    Speciality3: z.number(),
+    Speciality4: z.number(),
+    Ascending: z.number(),
+  }),
+  reduceStaminaCost: z.object({
+    total: z.number().optional(),
+    BaseSkill: z.number(),
+    SkillBooks: z.number(),
+    Speciality1: z.number(),
+    Speciality2: z.number(),
+    Speciality3: z.number(),
+    Speciality4: z.number(),
+    Ascending: z.number(),
+  }),
+});
+export type EvAnsBuffSet = z.infer<typeof EvAnsBuffSet>;

@@ -1,4 +1,4 @@
-import { atom, batched, computed, deepMap } from "nanostores";
+import { atom, batched, computed, map, deepMap } from "nanostores";
 import * as d3 from "d3";
 
 import { General, GeneralPair } from "@schemas/generals";
@@ -10,33 +10,24 @@ import { TableColumns } from "@schemas/table";
 
 import * as constants from "@schemas/constants";
 
+import {
+  createTable,
+  getCoreRowModel,
+  getSortedRowModel,
+  type SortingState,
+  type TableOptionsResolved,
+  type TableState,
+} from "@tanstack/table-core";
+
+import columns from "./columns";
+
 const DEBUG = false;
+const DEBUG2 = true;
 
 import { type Table } from "@tanstack/lit-table";
 
 type SelectedValues = {
   ascending: boolean;
-  basic_attributes: {
-    attack: {
-      base: number;
-      increment: number;
-    };
-    defense: {
-      base: number;
-      increment: number;
-    };
-    leadership: {
-      base: number;
-      increment: number;
-    };
-    politics: {
-      base: number;
-      increment: number;
-    };
-  };
-  primarySpecialityLevels: constants.SpecialityLevelName[];
-  secondarySpecialityLevels: constants.SpecialityLevelName[];
-  type: constants.GeneralType;
   stars: constants.AscendingLevel;
   level: number;
   dragon: boolean;
@@ -45,41 +36,66 @@ type SelectedValues = {
 
 export const selectedValues = deepMap<SelectedValues>({
   ascending: false,
-  basic_attributes: {
-    attack: {
-      base: 0,
-      increment: 0,
-    },
-    defense: {
-      base: 0,
-      increment: 0,
-    },
-    leadership: {
-      base: 0,
-      increment: 0,
-    },
-    politics: {
-      base: 0,
-      increment: 0,
-    },
-  },
-  primarySpecialityLevels: [
-    constants.SpecialityLevelName.Enum.Gold,
-    constants.SpecialityLevelName.Enum.Gold,
-    constants.SpecialityLevelName.Enum.Gold,
-    constants.SpecialityLevelName.Enum.Gold,
-  ],
-  secondarySpecialityLevels: [
-    constants.SpecialityLevelName.Enum.Gold,
-    constants.SpecialityLevelName.Enum.Gold,
-    constants.SpecialityLevelName.Enum.Gold,
-    constants.SpecialityLevelName.Enum.Gold,
-  ],
-  type: constants.GeneralType.Enum.mounted_specialist,
   stars: constants.AscendingLevel.Enum.red5,
   level: 44,
   dragon: true,
   beast: true,
+});
+
+export const generalSpecalist = atom<constants.GeneralType>(
+  constants.GeneralType.Enum.mounted_specialist
+);
+
+export const generalUseCase = atom<constants.BuffActivation>(
+  constants.BuffActivation.Enum.Overall
+);
+
+export const primarySpecialityLevels = atom<constants.SpecialityLevelName[]>([
+  constants.SpecialityLevelName.Enum.Gold,
+  constants.SpecialityLevelName.Enum.Gold,
+  constants.SpecialityLevelName.Enum.Gold,
+  constants.SpecialityLevelName.Enum.Gold,
+]);
+
+export const setPrimaryLevel = (
+  n: constants.SpecialityLevelName,
+  index: number
+) => {
+  const s = [...primarySpecialityLevels.get()];
+  s[index] = n;
+  primarySpecialityLevels.set(s);
+};
+
+primarySpecialityLevels.listen((v, o) => {
+  if (DEBUG2) {
+    console.log(
+      `primarySpecialityLevels debug listener sees values ${v.join(" ")}`
+    );
+  }
+});
+
+export const secondarySpecialityLevels = atom<constants.SpecialityLevelName[]>([
+  constants.SpecialityLevelName.Enum.Gold,
+  constants.SpecialityLevelName.Enum.Gold,
+  constants.SpecialityLevelName.Enum.Gold,
+  constants.SpecialityLevelName.Enum.Gold,
+]);
+
+export const setSecondaryLevel = (
+  n: constants.SpecialityLevelName,
+  index: number
+) => {
+  const s = [...secondarySpecialityLevels.get()];
+  s[index] = n;
+  secondarySpecialityLevels.set(s);
+};
+
+secondarySpecialityLevels.listen((v, o) => {
+  if (DEBUG2) {
+    console.log(
+      `secondarySpecialityLevels debug listener sees values ${v.join(" ")}`
+    );
+  }
 });
 
 export const generals = atom<General[]>(new Array<General>());
@@ -105,8 +121,22 @@ generals.listen((value, oldValue) => {
 import { GeneralPairStats } from "./general";
 
 export const pairs = batched(
-  [generals, conflictGroups, selectedValues],
-  (generals, conflictGroups, selectedValues) => {
+  [
+    generals,
+    conflictGroups,
+    selectedValues,
+    generalSpecalist,
+    primarySpecialityLevels,
+    secondarySpecialityLevels,
+  ],
+  (
+    generals,
+    conflictGroups,
+    selectedValues,
+    generalSpecalist,
+    primarySpecialityLevels,
+    secondarySpecialityLevels
+  ) => {
     if (DEBUG) {
       console.log(`pairs computed starts with ${generals.length} generals`);
       console.log(
@@ -116,7 +146,7 @@ export const pairs = batched(
     const p = generals
       .filter((g) => {
         if (Array.isArray(g.type)) {
-          return g.type.includes(selectedValues.type);
+          return g.type.includes(generalSpecalist);
         } else {
           return false;
         }
@@ -131,6 +161,7 @@ export const pairs = batched(
         if (DEBUG) {
           console.log(`detected l ${l}`);
         }
+        const ps = primarySpecialityLevels;
         const ng: General = {
           ascending: g.ascending,
           basic_attributes: g.basic_attributes,
@@ -139,12 +170,7 @@ export const pairs = batched(
           id: g.id,
           note: g.note,
           specialities: g.specialities,
-          specialityLevels: [
-            selectedValues.primarySpecialityLevels[0],
-            selectedValues.primarySpecialityLevels[1],
-            selectedValues.primarySpecialityLevels[2],
-            selectedValues.primarySpecialityLevels[3],
-          ],
+          specialityLevels: ps,
           stars: selectedValues.stars,
           type: g.type,
           extra: g.extra,
@@ -162,7 +188,7 @@ export const pairs = batched(
     const s = generals
       .filter((g) => {
         if (Array.isArray(g.type)) {
-          return g.type.includes(selectedValues.type);
+          return g.type.includes(generalSpecalist);
         } else {
           return false;
         }
@@ -175,6 +201,7 @@ export const pairs = batched(
               ? selectedValues.level
               : 1
             : 1;
+        const ss = secondarySpecialityLevels;
         const ng: General = {
           ascending: false,
           basic_attributes: g.basic_attributes,
@@ -183,12 +210,7 @@ export const pairs = batched(
           id: g.id,
           note: g.note,
           specialities: g.specialities,
-          specialityLevels: [
-            selectedValues.secondarySpecialityLevels[0],
-            selectedValues.secondarySpecialityLevels[1],
-            selectedValues.secondarySpecialityLevels[2],
-            selectedValues.secondarySpecialityLevels[3],
-          ],
+          specialityLevels: ss,
           stars: constants.AscendingLevel.Enum.None,
           type: g.type,
           extra: g.extra,
@@ -483,17 +505,6 @@ export const pairs = batched(
   }
 );
 
-import {
-  createTable,
-  getCoreRowModel,
-  getSortedRowModel,
-  type SortingState,
-  type TableOptionsResolved,
-  type TableState,
-} from "@tanstack/table-core";
-
-import columns from "./columns";
-
 export const sorting = atom<SortingState>([]);
 
 export const columnVisibility = atom<TableColumns>({
@@ -511,6 +522,7 @@ export const columnVisibility = atom<TableColumns>({
   PvM_reduceDefense: false,
   PvM_reduceHP: false,
   PvM_marchSpeed: false,
+  PvM_reduceStaminaCost: false,
 
   PvM_attack_total: true,
   PvM_attack_totalAttribute: false,
@@ -591,4 +603,14 @@ export const columnVisibility = atom<TableColumns>({
   PvM_marchSpeed_Speciality3: false,
   PvM_marchSpeed_Speciality4: false,
   PvM_marchSpeed_Ascending: false,
+
+  PvM_reduceStaminaCost_total: true,
+  PvM_reduceStaminaCost_totalAttribute: false,
+  PvM_reduceStaminaCost_BaseSkill: false,
+  PvM_reduceStaminaCost_SkillBooks: false,
+  PvM_reduceStaminaCost_Speciality1: false,
+  PvM_reduceStaminaCost_Speciality2: false,
+  PvM_reduceStaminaCost_Speciality3: false,
+  PvM_reduceStaminaCost_Speciality4: false,
+  PvM_reduceStaminaCost_Ascending: false,
 });

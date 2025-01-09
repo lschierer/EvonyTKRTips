@@ -16,21 +16,21 @@ export class SpecialityStats {
   constructor(row: GeneralPair) {
     this._primary = row.primary;
     this._secondary = row.secondary;
-    this.troopClass = !stores.selectedValues
+    this.troopClass = !stores.generalSpecalist
       .get()
-      .type.localeCompare(constants.GeneralType.Enum.ground_specialist)
+      .localeCompare(constants.GeneralType.Enum.ground_specialist)
       ? constants.ClassEnum.Enum["Ground Troops"]
-      : !stores.selectedValues
+      : !stores.generalSpecalist
             .get()
-            .type.localeCompare(constants.GeneralType.Enum.mounted_specialist)
+            .localeCompare(constants.GeneralType.Enum.mounted_specialist)
         ? constants.ClassEnum.Enum["Mounted Troops"]
-        : !stores.selectedValues
+        : !stores.generalSpecalist
               .get()
-              .type.localeCompare(constants.GeneralType.Enum.ranged_specialist)
+              .localeCompare(constants.GeneralType.Enum.ranged_specialist)
           ? constants.ClassEnum.Enum["Ranged Troops"]
-          : !stores.selectedValues
+          : !stores.generalSpecalist
                 .get()
-                .type.localeCompare(constants.GeneralType.Enum.siege_specialist)
+                .localeCompare(constants.GeneralType.Enum.siege_specialist)
             ? constants.ClassEnum.Enum["Siege Machines"]
             : constants.ClassEnum.Enum["All"];
 
@@ -276,13 +276,13 @@ const specialityEval = (
     );
   }
   if (!role.localeCompare("primary")) {
-    const s = stores.selectedValues.get().primarySpecialityLevels;
+    const s = stores.primarySpecialityLevels.get();
     if (DEBUG) {
       console.log(`primary selections are\n${s.join("\n")}`);
     }
     selections.push(...s);
   } else {
-    const s = stores.selectedValues.get().secondarySpecialityLevels;
+    const s = stores.secondarySpecialityLevels.get();
     if (DEBUG) {
       console.log(`secondary selections are\n${s.join("\n")}`);
     }

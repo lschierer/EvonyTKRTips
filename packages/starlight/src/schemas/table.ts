@@ -76,5 +76,27 @@ export const TableColumns = z.object({
   PvM_reduceAttack_Speciality3: z.boolean(),
   PvM_reduceAttack_Speciality4: z.boolean(),
   PvM_reduceAttack_Ascending: z.boolean(),
+
+  PvM_marchSpeed: z.boolean(),
+  PvM_marchSpeed_total: z.boolean(),
+  PvM_marchSpeed_totalAttribute: z.boolean(),
+  PvM_marchSpeed_BaseSkill: z.boolean(),
+  PvM_marchSpeed_SkillBooks: z.boolean(),
+  PvM_marchSpeed_Speciality1: z.boolean(),
+  PvM_marchSpeed_Speciality2: z.boolean(),
+  PvM_marchSpeed_Speciality3: z.boolean(),
+  PvM_marchSpeed_Speciality4: z.boolean(),
+  PvM_marchSpeed_Ascending: z.boolean(),
+
+  PvM_reduceStaminaCost: z.boolean(),
+  PvM_reduceStaminaCost_total: z.boolean(),
+  PvM_reduceStaminaCost_totalAttribute: z.boolean(),
+  PvM_reduceStaminaCost_BaseSkill: z.boolean(),
+  PvM_reduceStaminaCost_SkillBooks: z.boolean(),
+  PvM_reduceStaminaCost_Speciality1: z.boolean(),
+  PvM_reduceStaminaCost_Speciality2: z.boolean(),
+  PvM_reduceStaminaCost_Speciality3: z.boolean(),
+  PvM_reduceStaminaCost_Speciality4: z.boolean(),
+  PvM_reduceStaminaCost_Ascending: z.boolean(),
 });
 export type TableColumns = z.infer<typeof TableColumns>;

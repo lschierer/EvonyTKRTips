@@ -18,21 +18,21 @@ export class BaseSkill {
   constructor(row: GeneralPair) {
     this._primary = row.primary;
     this._secondary = row.secondary;
-    this.troopClass = !stores.selectedValues
+    this.troopClass = !stores.generalSpecalist
       .get()
-      .type.localeCompare(constants.GeneralType.Enum.ground_specialist)
+      .localeCompare(constants.GeneralType.Enum.ground_specialist)
       ? constants.ClassEnum.Enum["Ground Troops"]
-      : !stores.selectedValues
+      : !stores.generalSpecalist
             .get()
-            .type.localeCompare(constants.GeneralType.Enum.mounted_specialist)
+            .localeCompare(constants.GeneralType.Enum.mounted_specialist)
         ? constants.ClassEnum.Enum["Mounted Troops"]
-        : !stores.selectedValues
+        : !stores.generalSpecalist
               .get()
-              .type.localeCompare(constants.GeneralType.Enum.ranged_specialist)
+              .localeCompare(constants.GeneralType.Enum.ranged_specialist)
           ? constants.ClassEnum.Enum["Ranged Troops"]
-          : !stores.selectedValues
+          : !stores.generalSpecalist
                 .get()
-                .type.localeCompare(constants.GeneralType.Enum.siege_specialist)
+                .localeCompare(constants.GeneralType.Enum.siege_specialist)
             ? constants.ClassEnum.Enum["Siege Machines"]
             : constants.ClassEnum.Enum["All"];
 
