@@ -68,7 +68,6 @@ const columns = [
             EvAns Attack Score
           </span>
         `,
-
         cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
       }),
       columnHelper.group({
@@ -190,6 +189,15 @@ const columns = [
           }),
         ],
       }),
+      columnHelper.accessor("ScoreSet.defense", {
+        sortingFn: "basic",
+        header: () => html`
+          <span class="tableHeader spectrum-Table-columnTitle">
+            EvAns Defense Score
+          </span>
+        `,
+        cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
+      }),
       columnHelper.accessor("BuffSet.defense.total", {
         sortingFn: "basic",
         header: () => html`
@@ -200,21 +208,22 @@ const columns = [
         cell: (row) =>
           html`<span class="tableCell"> ${row.getValue()}% </span>`,
       }),
-      columnHelper.accessor("BuffSet.defense.totalAttribute", {
-        sortingFn: "basic",
-        header: () =>
-          html`<span class="tableHeader spectrum-Table-columnTitle"
-            >Basic Attribute Total</span
-          >`,
-        cell: (row) => html`
-          <span class="tableCell">
-            ${(row.getValue() * 100).toFixed(3).replace(/(\d)0+$/, "$1")}%
-          </span>
-        `,
-      }),
+
       columnHelper.group({
         id: "BuffSet.defense",
         columns: [
+          columnHelper.accessor("BuffSet.defense.totalAttribute", {
+            sortingFn: "basic",
+            header: () =>
+              html`<span class="tableHeader spectrum-Table-columnTitle"
+                >Basic Attribute Total</span
+              >`,
+            cell: (row) => html`
+              <span class="tableCell">
+                ${(row.getValue() * 100).toFixed(3).replace(/(\d)0+$/, "$1")}%
+              </span>
+            `,
+          }),
           columnHelper.accessor("BuffSet.defense.BaseSkill", {
             sortingFn: "basic",
 
@@ -327,6 +336,7 @@ const columns = [
           }),
         ],
       }),
+
       columnHelper.accessor("BuffSet.hp.total", {
         sortingFn: "basic",
         header: () => html`
@@ -463,6 +473,7 @@ const columns = [
           }),
         ],
       }),
+
       columnHelper.accessor("BuffSet.doubleDrop.total", {
         sortingFn: "basic",
         header: () => html`

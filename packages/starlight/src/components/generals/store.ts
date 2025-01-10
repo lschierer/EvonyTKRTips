@@ -23,6 +23,8 @@ import {
 import columns from "./columns";
 import rallySpotBaseMarch from "@lib/rallySpot";
 
+import { EvAnsAttack, EvAnsDefense } from "./generics/EvAnsScore";
+
 const DEBUG = false;
 const DEBUG2 = false;
 
@@ -740,37 +742,11 @@ export const pairs = batched(
     }
     if (!generalUseCase.localeCompare(constants.BuffActivation.Enum.PvM)) {
       const step4 = pvmPairs.map((p) => {
-        // see general.ts EvAnsPvMAttack() for notes for now
-
-        const MarchSizeBuff = p.MarchSizeIncrease
-          ? p.MarchSizeIncrease.total
-          : 0;
-        const ArbitraryBase = 3218900;
-        const BaseTroops = +rallySpotBaseMarch.options[40];
-        const ExtraTroops = (BaseTroops * MarchSizeBuff) / 100;
-        const TotalTroops = ExtraTroops + ArbitraryBase;
-        const GeneralsTotalAttackPercentage = p.BuffSet
-          ? p.BuffSet.attack.total
-            ? p.BuffSet.attack.total + 25
-            : 0
-          : 0;
-        const AttackAttribute = 6670;
-        const TotalMountedFlatBuffs = 825;
-        const TotalMountedPercentageBuffs = 2092.3;
-        const Multiplier = 2.81859 / 1000000000;
-
-        const TotalAttackPercentage =
-          TotalMountedPercentageBuffs + GeneralsTotalAttackPercentage;
-        let scoresetAttack = +(
-          (AttackAttribute * (1 + TotalAttackPercentage / 100) +
-            TotalMountedFlatBuffs) *
-          TotalTroops *
-          Multiplier
-        ).toFixed(1);
         const td3: GeneralPair = {
           ...p,
           ScoreSet: {
-            attack: scoresetAttack,
+            attack: EvAnsAttack(p),
+            defense: EvAnsDefense(p),
           },
         };
         return td3;
