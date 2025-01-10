@@ -54,12 +54,21 @@ const columns = [
     columns: [
       columnHelper.accessor("BuffSet.attack.total", {
         sortingFn: "basic",
-
         header: () => html`
           <span class="tableHeader spectrum-Table-columnTitle">
-            Attack Total
+            Attack Buff Total
           </span>
         `,
+        cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
+      }),
+      columnHelper.accessor("ScoreSet.attack", {
+        sortingFn: "basic",
+        header: () => html`
+          <span class="tableHeader spectrum-Table-columnTitle">
+            EvAns Attack Score
+          </span>
+        `,
+
         cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
       }),
       columnHelper.group({
@@ -188,7 +197,8 @@ const columns = [
             Defense Total
           </span>
         `,
-        cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
+        cell: (row) =>
+          html`<span class="tableCell"> ${row.getValue()}% </span>`,
       }),
       columnHelper.accessor("BuffSet.defense.totalAttribute", {
         sortingFn: "basic",

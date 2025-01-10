@@ -2,6 +2,8 @@ import * as z from "zod";
 
 import * as constants from "./constants";
 
+import { GeneralPairStats } from "@components/generals/general";
+
 export const Display = z.enum(["summary"]);
 export type Display = z.infer<typeof Display>;
 

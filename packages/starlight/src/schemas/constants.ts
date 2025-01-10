@@ -176,6 +176,13 @@ export const Value = z.object({
 });
 export type Value = z.infer<typeof Value>;
 
+export const EvAnsScoreSet = z.object({
+  attack: z.number().optional(),
+  defense: z.number().optional(),
+  hp: z.number().optional(),
+});
+export type EvAnsScoreSet = z.infer<typeof EvAnsScoreSet>;
+
 export const EvAnsBuffSet = z.object({
   attack: z.object({
     total: z.number().optional(),

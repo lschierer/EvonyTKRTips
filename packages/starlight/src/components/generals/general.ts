@@ -11,7 +11,9 @@ import {
 import { AscendingStats } from "./generics/genericAscending";
 import { StandardSkills } from "./generics/genericStandardSkillBook";
 
-const DEBUG = false;
+import rallySpotBaseMarch from "@lib/rallySpot";
+
+const DEBUG = true;
 
 export class GeneralPairStats {
   protected _primary: General;
@@ -58,7 +60,7 @@ export class GeneralPairStats {
     return this._ascendingStats;
   }
 
-  public get PvMAttack() {
+  public get EvAnsPvMAttack() {
     /*
      * Evony Answers SpreadSheet
      * EM.Power Ratings, Mounted
@@ -67,6 +69,7 @@ export class GeneralPairStats {
      */
     let rValue = 0;
     /*
+      AttackAttribute = defaults to 6670 // Cell D883 is the T14 Attribute.
       MountedKeepBasePercentage = 1180.0% //Cell T703
       MountedBuffFromSubs = defaults to 0 //Cell T704
       GeneralGearBuffs = defaults to 650.1 //Cell T760
@@ -74,44 +77,63 @@ export class GeneralPairStats {
       FlexibleSkillBookBuffs = defaults to 20% //Cell T769 & T774
       StandardSkillBookBuffs = defaults to 45%  //Cell T770 & T775
 
-      TotalMountedPercentageBuffs = //Cell T780 becomes L883
-        MountedKeepBasePercentage +
-        MountedBuffFromSubs +
-        GeneralGearBuffs +
-        Dragon/BeastBuffs +
-        FlexibleSkillBookBuffs +
-        StandardSkillBookBuffs;
+      TotalMountedPercentageBuffs =  (defaults to 2092.3%)//Cell T780 becomes L883
+        MountedKeepBasePercentage (defaults to 1180.0%) +
+        MountedBuffFromSubs (defaults to 0) +
+        GeneralGearBuffs (defaults to 80 + 50 +26.3 +29 +26.3 + 28 +20 +30 +20 +35 +30 +30 +35 +28.3 +29 +27.2 +26 +20 +15 +50 +15 = 650.1%)+
+        Dragon/BeastBuffs (defaults to 197.2) +
+        FlexibleSkillBookBuffs (defaults to 20) +
+        StandardSkillBookBuffs (defaults to 45);
 
+      FlatAttribute = //Cell T157 becomess M194
       TotalMountedFlatBuffs = //Cell T846 becomes M883
         MountedKeepBaseFlat = defaults to 200 //Cell T784
         GeneralGearBuffsFlat = defaults to 0 //Cells T786 to T838
         Dragon/BeastBuffsFlat = defaults to 0 //Cell T840
         FlexibleSkillBookBuffsFlat = defaults to 625 //Cells T842 and T844
 
-        GeneralsAttackPercentage // Column L
+        GeneralsAttackPercentage // Column L (Cell L891) (compute the same way the store does the BuffSet.Attack.total)
 
-        GeneralsTotalAttackPercentage = TotalMountedPercentageBuffs + GeneralsAttackPercentage; //Column M
+        TotalAttackPercentage = TotalMountedPercentageBuffs + GeneralsAttackPercentage; //Column M (cell M891)
 
-        EvAnsMountedPvMAttackMultiplier = 2.81859
+        EvAnsMountedPvMAttackMultiplier = 2.81859 // Cell D885
 
-        BaseTroops = // Cell J883
-          MountedT15s = defaults to 3218900 // Cell L857
+        TotalMarchSize = defaults to arbitrary 4,318,900 //Cell P183
+        /*
+         * The Spreadsheet seems to be set up so that I create a custom PvP march partly *by hand*
+         * and computes a march size from that PvP march.
+         *
+
+        // EvAns is doing something wierd with march size
+        // total troops is the RallySpot at k40 * the march buff for the extra troops
+        // then the extra troops plus an arbitrary user-entered number for the total troops.
+        BaseTroops = 3,218,900 // Cell J883
+          MountedT15s = defaults to 550000 // Cell I883
 
         RallySpotBaseMarch = defaults to 550000 // Cell P10 becomes I194
 
-        MarchSizeBuff (computed already successfully by the table need a getter for this.)
+        MarchSizeBuff (compute as the store does MarchSizeIncrease.total)
 
         ExtraTroops = MarchSizeBuff*RallySpotBaseMarch
+
         //** EvAns is ignoring extra troops from armor & mayors
-        TotalTroops = // Column J
+        //** For PvM it goes based on Rally Spot and General alone.
+        //** for PvP it essentially has you *tell* it a march size for some aspects of the formula
+        TotalTroops = // Column J Cell J891
           BaseTroops + ExtraTroops
       (
         (
-          TotalTroupCount * ( 1 + GeneralsTotalAttackPercentage ) +
+          AttackAttribute * ( 1 + TotalAttackPercentage ) +
           TotalMountedFlatBuffs
         ) * TotalTroops
       ) * EvAnsMountedPvMAttackMultiplier / 1000000000
+
+      several values must be recomputed because when the store creates a generalPairStat object,
+      the store _itself_ is initializing BuffSet and MarchSizeIncrease (for example), and so cannot pass
+      these objects into the generalPairStat object's constructor.  There is a chicken/egg problem I haven't
+      solved.
     */
+
     return rValue;
   }
 }

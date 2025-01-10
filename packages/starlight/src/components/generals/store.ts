@@ -1,5 +1,6 @@
 import { atom, batched, computed, map, deepMap } from "nanostores";
 import * as d3 from "d3";
+import { z } from "zod";
 
 import { General, GeneralPair } from "@schemas/generals";
 import { GeneralAscending } from "@schemas/ascending";
@@ -20,6 +21,7 @@ import {
 } from "@tanstack/table-core";
 
 import columns from "./columns";
+import rallySpotBaseMarch from "@lib/rallySpot";
 
 const DEBUG = false;
 const DEBUG2 = false;
@@ -120,7 +122,7 @@ generals.listen((value, oldValue) => {
 
 import { GeneralPairStats } from "./general";
 
-export const initialPairs = batched(
+const initialPairs = batched(
   [
     generals,
     conflictGroups,
@@ -297,7 +299,7 @@ export const initialPairs = batched(
   }
 );
 
-export const PvMPairsWithStats = batched([initialPairs], (pairs) => {
+const PvMPairsWithStats = batched([initialPairs], (pairs) => {
   const step3 = pairs.map((pair) => {
     const generalPairStats = new GeneralPairStats(pair);
     const td2: GeneralPair = {
@@ -516,7 +518,7 @@ export const PvMPairsWithStats = batched([initialPairs], (pairs) => {
   return step3;
 });
 
-export const AttackingPairsWithStats = batched([initialPairs], (pairs) => {
+const AttackingPairsWithStats = batched([initialPairs], (pairs) => {
   const step3 = pairs.map((pair) => {
     const generalPairStats = new GeneralPairStats(pair);
     const td2: GeneralPair = {
@@ -737,7 +739,43 @@ export const pairs = batched(
       console.log(`pairs batch run, generalUseCase is ${generalUseCase}`);
     }
     if (!generalUseCase.localeCompare(constants.BuffActivation.Enum.PvM)) {
-      return pvmPairs;
+      const step4 = pvmPairs.map((p) => {
+        // see general.ts EvAnsPvMAttack() for notes for now
+
+        const MarchSizeBuff = p.MarchSizeIncrease
+          ? p.MarchSizeIncrease.total
+          : 0;
+        const ArbitraryBase = 3218900;
+        const BaseTroops = +rallySpotBaseMarch.options[40];
+        const ExtraTroops = (BaseTroops * MarchSizeBuff) / 100;
+        const TotalTroops = ExtraTroops + ArbitraryBase;
+        const GeneralsTotalAttackPercentage = p.BuffSet
+          ? p.BuffSet.attack.total
+            ? p.BuffSet.attack.total + 25
+            : 0
+          : 0;
+        const AttackAttribute = 6670;
+        const TotalMountedFlatBuffs = 825;
+        const TotalMountedPercentageBuffs = 2092.3;
+        const Multiplier = 2.81859 / 1000000000;
+
+        const TotalAttackPercentage =
+          TotalMountedPercentageBuffs + GeneralsTotalAttackPercentage;
+        let scoresetAttack = +(
+          (AttackAttribute * (1 + TotalAttackPercentage / 100) +
+            TotalMountedFlatBuffs) *
+          TotalTroops *
+          Multiplier
+        ).toFixed(1);
+        const td3: GeneralPair = {
+          ...p,
+          ScoreSet: {
+            attack: scoresetAttack,
+          },
+        };
+        return td3;
+      });
+      return step4;
     } else if (
       !generalUseCase.localeCompare(constants.BuffActivation.Enum.Attacking)
     ) {
