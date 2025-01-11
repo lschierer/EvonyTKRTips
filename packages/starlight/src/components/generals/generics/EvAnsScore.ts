@@ -6,7 +6,7 @@ import { GeneralPair } from "@schemas/generals";
 
 import * as stores from "../store";
 
-const DEBUG = true;
+const DEBUG = false;
 
 type EvansTroopAttribute = Record<
   constants.BuffActivation,
@@ -84,6 +84,8 @@ const ArbitraryBase = 3218900;
    the store _itself_ is initializing BuffSet and MarchSizeIncrease (for example), and so cannot pass
    these objects into the generalPairStat object's constructor.  There is a chicken/egg problem I haven't
    solved.
+
+
  */
 export const EvAnsAttack = (p: GeneralPair) => {
   if (DEBUG) {
@@ -585,6 +587,47 @@ const DefenseMultiplier: EvansTroopAttribute = {
   },
 };
 
+export const EvAnsHP = (p: GeneralPair) => {
+  if (DEBUG) {
+    console.log(`computing HP Attack for ${p.primary.id}/${p.secondary.id}`);
+  }
+
+  const useCase = stores.generalUseCase.value
+    ? stores.generalUseCase.value
+    : constants.BuffActivation.Enum.Overall;
+
+  const PairType = stores.generalSpecalist.value
+    ? stores.generalSpecalist.value
+    : constants.GeneralType.Enum.mounted_specialist;
+
+  const TotalFlatBuffs = HPFlatBuffs[useCase][PairType];
+  const TotalPercentageBuffs = HPPercentageBuffs[useCase][PairType];
+  const Multiplier = HPMultiplier[useCase][PairType] / 1000000000;
+
+  const MarchSizeBuff = p.MarchSizeIncrease ? p.MarchSizeIncrease.total : 0;
+  const BaseTroops = +rallySpotBaseMarch.options[40];
+  const ExtraTroops = (BaseTroops * MarchSizeBuff) / 100; //Excel converts percentages to display properly for him. I can't.
+  const TotalTroops = ExtraTroops + ArbitraryBase;
+  const GeneralsTotalPercentage = p.BuffSet
+    ? p.BuffSet.hp.total
+      ? p.BuffSet.hp.total
+      : 0
+    : 0;
+
+  const TotalPercentage =
+    (TotalPercentageBuffs + GeneralsTotalPercentage) / 100; // Same thing here, convert this to a percentage.
+
+  const scoreset = +(
+    (HPAttribute[useCase][PairType] * (1 + TotalPercentage) + TotalFlatBuffs) *
+    TotalTroops *
+    Multiplier
+  ).toFixed(1);
+
+  if (DEBUG) {
+    console.log(`EvAns HP for ${p.primary.id}/${p.secondary.id}: ${scoreset}`);
+  }
+  return scoreset;
+};
 const HPAttribute: EvansTroopAttribute = {
   [constants.BuffActivation.Enum.PvM]: {
     [constants.GeneralType.Enum.mounted_specialist]: 12050,
