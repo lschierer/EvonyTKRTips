@@ -23,7 +23,7 @@ import {
 import columns from "./columns";
 import rallySpotBaseMarch from "@lib/rallySpot";
 
-import { EvAnsAttack, EvAnsDefense } from "./generics/EvAnsScore";
+import { EvAnsAttack, EvAnsDefense, EvAnsHP } from "./generics/EvAnsScore";
 
 const DEBUG = false;
 const DEBUG2 = false;
@@ -747,6 +747,7 @@ export const pairs = batched(
           ScoreSet: {
             attack: EvAnsAttack(p),
             defense: EvAnsDefense(p),
+            hp: EvAnsHP(p),
           },
         };
         return td3;
