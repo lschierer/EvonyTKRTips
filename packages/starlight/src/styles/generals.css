@@ -1,46 +1,8 @@
 @import "@spectrum-css/table/dist/index.css";
 
-th div {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  word-wrap: normal;
-  justify-content: space-around;
-}
-
-div.tableContainer {
-  width: 100%;
-  height: 50vh;
-}
-
-table.horizontal tr.spectrum-Table-row {
-  border-top: 0;
-}
-
-table.horizontal td.spectrum-Table-cell {
-  border-top: 0;
-}
-
 #generals-table {
-  max-height: 60vh;
+  height: minmax(max-content, 60vh);
   max-width: 100%;
-}
-
-#generals-table > div.tabulator-header {
-  height: 10rem;
-}
-
-#generals-table
-  > div.tabulator-header
-  > div
-  > div
-  > div.tabulator-col.tabulator-col-vertical.tabulator-sortable.tabulator-col-sorter-element {
-  width: 4rem;
-
-  & .tabulator-col-title {
-    word-wrap: normal;
-    height: 9rem;
-  }
 }
 
 td.speciality0 {
