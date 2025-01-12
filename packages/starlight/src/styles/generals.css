@@ -1,5 +1,3 @@
-@import "@spectrum-css/table/dist/index.css";
-
 #generals-table {
   height: minmax(max-content, 60vh);
   max-width: 100%;

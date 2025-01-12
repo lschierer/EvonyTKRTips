@@ -1,6 +1,7 @@
 import {
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   type SortingFn,
   type SortingState,
@@ -12,7 +13,6 @@ import {
   type Header,
   type Row,
 } from "@tanstack/lit-table";
-import { VirtualizerController } from "@tanstack/lit-virtual";
 
 import {
   LitElement,
@@ -65,6 +65,7 @@ Tabulator.registerModule([
 
 import SpectrumTableCSS from "@spectrum-css/table/dist/index.css?inline";
 import GeneralsCSS from "@styles/generals.css?inline";
+import PairTableCSS from "@styles/PairTable.css?inline";
 
 import { Speciality } from "@schemas/specialities";
 import { ConfictGroup } from "@schemas/generalConflictGroups";
@@ -74,6 +75,8 @@ import * as stores from "./store";
 
 import columns from "./columns";
 import { GeneralAscending } from "@schemas/ascending";
+
+import { PaginationController } from "./generalTablePagination";
 
 const DEBUG = true;
 
@@ -122,10 +125,6 @@ export default class TableElement extends LitElement {
   private _sorting: SortingState = [];
 
   private tableController = new TableController<GeneralPair>(this);
-  private rowVirtualizerController: VirtualizerController<
-    Element,
-    Element
-  > | null = null;
   private tableContainerRef: Ref = createRef();
 
   private sortKey: string = "primary";
@@ -228,17 +227,6 @@ export default class TableElement extends LitElement {
           `this.tableContainerRef.value is ${this.tableContainerRef.value ? "present" : "not present"}`
         );
       }
-      this.rowVirtualizerController = new VirtualizerController(this, {
-        count: v.length,
-        getScrollElement: () => this.tableContainerRef.value!,
-        estimateSize: () => 33,
-        overscan: 5,
-      });
-      if (DEBUG) {
-        console.log(
-          `connectedCallback rowVirtualizerController shows ${this.rowVirtualizerController.getVirtualizer().getVirtualItems().length} virtual items`
-        );
-      }
     });
     super.connectedCallback();
   }
@@ -248,14 +236,8 @@ export default class TableElement extends LitElement {
       "grid-row": `1 / ${table.getHeaderGroups().length + 1}`,
     };
     return html`
-      <thead
-        class="not-content spectrum-Table-head"
-        style=${styleMap(theadStyles)}
-      >
+      <thead class="not-content spectrum-Table-head">
         ${table.getHeaderGroups().map((headerGroup, index) => {
-          const trStyle = {
-            "grid-column": `${index + 1} / ${index + 1 + headerGroup.headers.length}`,
-          };
           return html`
             <tr key=${headerGroup.id}>
               ${headerGroup.headers.map(
@@ -287,9 +269,6 @@ export default class TableElement extends LitElement {
                           : true
                       : false,
                   };
-                  const thStyles = {
-                    "grid-column": `${header.index + 1} / ${header.index + 1 + header.colSpan}`,
-                  };
                   return html`
                     <th
                       key=${header.id}
@@ -298,7 +277,6 @@ export default class TableElement extends LitElement {
                         thclasses
                       )}"
                       ,
-                      style=${styleMap(thStyles)}
                       aria-sort="${header.column.getCanSort()
                         ? header.column.getNextSortingOrder() === "asc"
                           ? "other"
@@ -334,120 +312,11 @@ export default class TableElement extends LitElement {
     `;
   }
 
-  protected tableBody(
-    table: Table<GeneralPair>,
-    rows: Row<GeneralPair>[]
-  ): TemplateResult {
-    if (DEBUG) {
-      console.log(`tableBody called with ${rows.length} rows`);
-    }
-    if (this.rowVirtualizerController) {
-      if (DEBUG) {
-        console.log(`tableBody has a rowVirtualizerController`);
-      }
-      const virtualizer = this.rowVirtualizerController.getVirtualizer();
-      const bodyStyles = {
-        "grid-row": `${table.getHeaderGroups().length + 1} / -1`,
-      };
-      return html`
-        <tbody class="spectrum-Table-body" style=${styleMap(bodyStyles)}>
-          ${repeat(
-            this.rowVirtualizerController.getVirtualizer().getVirtualItems(),
-            (item) => item.key,
-            (item) => {
-              const row = rows[item.index];
-              return html`
-                <tr class="spectrum-Table-row" style=${styleMap({})}>
-                  ${repeat(
-                    row.getVisibleCells(),
-                    (cell) => cell.id,
-                    (cell) => {
-                      return html`
-                        <td class="spectrum-Table-cell" style=${styleMap({})}>
-                          ${flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </td>
-                      `;
-                    }
-                  )}
-                </tr>
-              `;
-            }
-          )}
-        </tbody>
-      `;
-    }
-    return html`
-      <tbody>
-        fallback
-      </tbody>
-    `;
-  }
-
   static override styles?: CSSResultGroup = [
     unsafeCSS(SpectrumTableCSS),
     unsafeCSS(GeneralsCSS),
-    css`
-      div#tableContainer.tableContainer {
-        display: grid;
-        overflow-x: scroll;
-        overflow: scroll;
-        margin-top: 1rem;
-        width: minmax(max-content, 50vw);
-        height: 50vh;
-        position: "relative";
-      }
-
-      div#tableContainer.tableContainer
-        table.spectrum-Table.spectrum-Table-main {
-        grid-column: 1/-1;
-        grid-row: 1/-1;
-        display: grid;
-        grid-auto-flow: row;
-        grid-template-columns: subgrid;
-        grid-template-rows: subgrid;
-      }
-
-      thead.spectrum-Table-head {
-        grid-column: 1/-1;
-        display: table;
-        height: fit-content;
-        background-color: var(--spectrum-table-header-background-color);
-        z-index:;
-      }
-
-      thead.spectrum-Table-head tr {
-        border-bottom-width: var(--spectrum-table-border-width);
-        border-bottom-style: solid;
-        border-bottom-color: var(--spectrum-table-border-color);
-      }
-
-      thead.spectrum-Table-head tr th.spectrum-Table-headCell {
-        text-align: center;
-        border-top: 0px;
-        border-bottom: 0px;
-        height: 100%;
-      }
-
-      th div {
-        height: max-content;
-        overflow: visible;
-        word-wrap: normal;
-      }
-
-      tbody.spectrum-Table-body tr.spectrum-Table-row {
-        grid-column: 1/-1;
-        display: table;
-        width: 100%;
-        height: max-content;
-      }
-
-      tbody.spectrum-Table-body tr.spectrum-Table-row td.spectrum-Table-cell {
-        height: fit-content;
-      }
-    `,
+    unsafeCSS(PairTableCSS),
+    css``,
   ];
 
   private index = 0;
@@ -493,6 +362,7 @@ export default class TableElement extends LitElement {
               this._sorting = updaterOrValue;
             }
           },
+          getPaginationRowModel: getPaginationRowModel(),
           getSortedRowModel: getSortedRowModel(),
           getCoreRowModel: getCoreRowModel(),
           renderFallbackValue: "pending data",
@@ -509,30 +379,53 @@ export default class TableElement extends LitElement {
         });
 
         const { rows } = table.getRowModel();
-        if (this.rowVirtualizerController) {
-          const virtualizer = this.rowVirtualizerController.getVirtualizer();
-          const tableStyle = {
-            "grid-template-columns": `repeat(${rows[0].getVisibleCells().length}, 1fr)`,
-            "grid-template-rows": `repeat(${table.getHeaderGroups().length + rows.length}, minmax(max-content,5rem)
-            )`,
-          };
-          return html`
-            <div
-              id="tableContainer"
-              class="not-content tableContainer spectrum-Table--sizeM spectrum-Table--empasized"
-              style="${styleMap(tableStyle)}"
-              ${ref(this.tableContainerRef)}
+        return html`
+          <div
+            id="tableContainer"
+            class="not-content tableContainer spectrum-Table--sizeM spectrum-Table--empasized"
+            ${ref(this.tableContainerRef)}
+          >
+            <table
+              class="spectrum-Table spectrum-Table-main spectrum-Table--sizeM spectrum-Table--emphasized"
             >
-              <table
-                class="spectrum-Table spectrum-Table-main spectrum-Table--sizeM spectrum-Table--emphasized"
-              >
-                ${this.tableHead(table)} ${this.tableBody(table, rows)}
-              </table>
-            </div>
-          `;
-        } else {
-          return fallback;
-        }
+              ${this.tableHead(table)}
+              <tbody class="spectrum-Table-body">
+                ${repeat(
+                  table.getRowModel().rows,
+                  (row) => row.id,
+                  (row) => html`
+                    <tr class="spectrum-Table-row">
+                      ${row
+                        .getVisibleCells()
+                        .map(
+                          (cell) => html`
+                            <td class="spectrum-Table-cell">
+                              ${flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </td>
+                          `
+                        )}
+                    </tr>
+                  `
+                )}
+              </tbody>
+            </table>
+          </div>
+          <pagination-controller
+            .hasNextPage=${table.getCanNextPage()}
+            .hasPreviousPage=${table.getCanPreviousPage()}
+            .nextPage=${table.nextPage}
+            .pageCount=${table.getPageCount()}
+            .pageIndex=${table.getState().pagination.pageIndex}
+            .pageSize=${table.getState().pagination.pageSize}
+            .setPageSize="${table.setPageSize}"
+            .previousPage=${table.previousPage}
+            .firstPage=${table.firstPage}
+            .lastPage=${table.lastPage}
+          ></pagination-controller>
+        `;
       } else {
         return fallback;
       }

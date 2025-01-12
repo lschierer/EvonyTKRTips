@@ -92,6 +92,12 @@ importers:
       '@nanostores/lit':
         specifier: ^0.2.2
         version: 0.2.2(lit@3.2.1)(nanostores@0.11.3)
+      '@spectrum-css/actionbutton':
+        specifier: ^6.2.0
+        version: 6.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0)
+      '@spectrum-css/button':
+        specifier: ^13.5.0
+        version: 13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0)
       '@spectrum-css/icon':
         specifier: ^7.2.0
         version: 7.2.0(@spectrum-css/tokens@14.6.0)
@@ -101,9 +107,12 @@ importers:
       '@spectrum-css/page':
         specifier: ^8.2.0
         version: 8.2.0(@spectrum-css/tokens@14.6.0)
+      '@spectrum-css/pagination':
+        specifier: ^8.2.0
+        version: 8.2.0(@spectrum-css/actionbutton@6.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0))(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/splitbutton@8.1.2(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/vars@9.0.8))(@spectrum-css/textfield@7.3.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0)
       '@spectrum-css/table':
         specifier: ^6.2.0
-        version: 6.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0)
+        version: 6.2.0(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0)
       '@spectrum-css/tokens':
         specifier: ^14.6.0
         version: 14.6.0
@@ -1439,6 +1448,27 @@ packages:
     resolution: {integrity: sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==}
     engines: {node: '>=18'}
 
+  '@spectrum-css/actionbutton@6.2.0':
+    resolution: {integrity: sha512-66xueU2DAbWYxDSTQwNqPc2k/waXG5o5yKAO8fe7HW+46Ani3GI5nmt3XxnezVm0s2tNh8/Bpc7PlBn69FbTsw==}
+    peerDependencies:
+      '@spectrum-css/icon': '>=7'
+      '@spectrum-css/tokens': '>=14'
+    peerDependenciesMeta:
+      '@spectrum-css/icon':
+        optional: true
+
+  '@spectrum-css/button@13.5.0':
+    resolution: {integrity: sha512-0uKR1y3q/kI84vUXwAEl3SFUzNpd9+wJoRwJNx6F0m8mziJJknEhiEu077R0RuIU1eSZ+BOEkmaP0MLA49HRmg==}
+    peerDependencies:
+      '@spectrum-css/icon': '>=7'
+      '@spectrum-css/progresscircle': '>=3'
+      '@spectrum-css/tokens': '>=14'
+    peerDependenciesMeta:
+      '@spectrum-css/icon':
+        optional: true
+      '@spectrum-css/progresscircle':
+        optional: true
+
   '@spectrum-css/icon@7.2.0':
     resolution: {integrity: sha512-P3mnpMxqNZ+YJGhjAHKrcUpKp9wLa2RnuZVYtUsh8bweb4MlYm/4/a2VzeQunrgziU17YNG5KrXyRHpWHv1U9w==}
     peerDependencies:
@@ -1453,6 +1483,27 @@ packages:
     resolution: {integrity: sha512-zEOaGprMKsDCGf0e4o6KMDi6WJdQ29tHYjOzghFSLMN4V0Pilr/jSifWts12e6vtqAQDhhgRTfQrGIQrLCnXTA==}
     peerDependencies:
       '@spectrum-css/tokens': '>=14'
+
+  '@spectrum-css/pagination@8.2.0':
+    resolution: {integrity: sha512-Hq6bsLC/U185+K8HuYOLxSEOdVlmmAhM7deH4TgNz9kMjRYwjTv+2EAa33k8XP37H6gRG4v6IvroBh7bs6LCDg==}
+    peerDependencies:
+      '@spectrum-css/actionbutton': '>=6'
+      '@spectrum-css/button': '>=13'
+      '@spectrum-css/icon': '>=7'
+      '@spectrum-css/splitbutton': '>=8'
+      '@spectrum-css/textfield': '>=7'
+      '@spectrum-css/tokens': '>=14'
+
+  '@spectrum-css/splitbutton@8.1.2':
+    resolution: {integrity: sha512-hUsqhEhgm8PfKvwKPSACPU+Jqt0NaovD53gOp9QRa4jU9G3q8RpE5uJbs+pGZ9vyI6ocsm5lbs0zYtA082axzQ==}
+    deprecated: Split button has been deprecated. Use a button group to show any additional actions related to the most critical action instead. Reference Spectrum documentation for more information.
+    peerDependencies:
+      '@spectrum-css/button': '>=11'
+      '@spectrum-css/icon': '>=4'
+      '@spectrum-css/vars': '>=9'
+    peerDependenciesMeta:
+      '@spectrum-css/icon':
+        optional: true
 
   '@spectrum-css/table@6.2.0':
     resolution: {integrity: sha512-kEEG8Pdox6NsGqzHiYtGkylvFoiaQ43jmKFcr5ie9tr8M74NjHCDoO6PlE/PgZhldENi5MsSGVVy+/w6vUDhwQ==}
@@ -1470,6 +1521,15 @@ packages:
       '@spectrum-css/thumbnail':
         optional: true
 
+  '@spectrum-css/textfield@7.3.0':
+    resolution: {integrity: sha512-I12DT7/u1O9EnC+YHrlkuHCEA+EYRM/fsy94ee+5UwJ5R3n1uVOOU9kivKv7hQUK2eF+MgO8ZcX2CEmO92H49w==}
+    peerDependencies:
+      '@spectrum-css/helptext': '>=5'
+      '@spectrum-css/tokens': '>=14'
+    peerDependenciesMeta:
+      '@spectrum-css/helptext':
+        optional: true
+
   '@spectrum-css/tokens@14.6.0':
     resolution: {integrity: sha512-v/ko2A2i2v4ShHizSdRkOs0fYBVLdiQe5yN/ECFBjpamd0YJHfZGh4uBIGSG+uZjwWpHbKhRusdCRFJKJ+WNYQ==}
 
@@ -1477,6 +1537,10 @@ packages:
     resolution: {integrity: sha512-yaqc4wFY3asUhh3zzdqRI5dVJow7xJ2nL2bo4AADDLT305Dtje5PYO89m+f3nTVf2utKE3H8nlJbWUG57QpFqw==}
     peerDependencies:
       '@spectrum-css/tokens': '>=14.5.0'
+
+  '@spectrum-css/vars@9.0.8':
+    resolution: {integrity: sha512-rGfd7jqXOdR69bEjrRP58ynuIeJU0czPfwQvzhtCzg7jKVukV+efNHqrs086sC6xutB3W4TF71K/dZMr3oyTyg==}
+    deprecated: This package has been deprecated and is no longer receiving updates. Please use the @spectrum-css/tokens package instead.
 
   '@spectrum-web-components/action-button@1.0.3':
     resolution: {integrity: sha512-kX20OLTqcZjHRriVFcMBPuCy+G70hYeElX4B4C/7EeYVik39VNPYFJvcyKsngCEe/g8yfowVKVTKUpQdbOF/+g==}
@@ -6978,6 +7042,18 @@ snapshots:
 
   '@sindresorhus/merge-streams@2.3.0': {}
 
+  '@spectrum-css/actionbutton@6.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0)':
+    dependencies:
+      '@spectrum-css/tokens': 14.6.0
+    optionalDependencies:
+      '@spectrum-css/icon': 7.2.0(@spectrum-css/tokens@14.6.0)
+
+  '@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0)':
+    dependencies:
+      '@spectrum-css/tokens': 14.6.0
+    optionalDependencies:
+      '@spectrum-css/icon': 7.2.0(@spectrum-css/tokens@14.6.0)
+
   '@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0)':
     dependencies:
       '@spectrum-css/tokens': 14.6.0
@@ -6990,9 +7066,31 @@ snapshots:
     dependencies:
       '@spectrum-css/tokens': 14.6.0
 
-  '@spectrum-css/table@6.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0)':
+  '@spectrum-css/pagination@8.2.0(@spectrum-css/actionbutton@6.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0))(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/splitbutton@8.1.2(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/vars@9.0.8))(@spectrum-css/textfield@7.3.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0)':
+    dependencies:
+      '@spectrum-css/actionbutton': 6.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0)
+      '@spectrum-css/button': 13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0)
+      '@spectrum-css/icon': 7.2.0(@spectrum-css/tokens@14.6.0)
+      '@spectrum-css/splitbutton': 8.1.2(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/vars@9.0.8)
+      '@spectrum-css/textfield': 7.3.0(@spectrum-css/tokens@14.6.0)
+      '@spectrum-css/tokens': 14.6.0
+
+  '@spectrum-css/splitbutton@8.1.2(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/vars@9.0.8)':
+    dependencies:
+      '@spectrum-css/button': 13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0)
+      '@spectrum-css/vars': 9.0.8
+    optionalDependencies:
+      '@spectrum-css/icon': 7.2.0(@spectrum-css/tokens@14.6.0)
+
+  '@spectrum-css/table@6.2.0(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0)':
     dependencies:
       '@spectrum-css/icon': 7.2.0(@spectrum-css/tokens@14.6.0)
+      '@spectrum-css/tokens': 14.6.0
+    optionalDependencies:
+      '@spectrum-css/button': 13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@14.6.0))(@spectrum-css/tokens@14.6.0)
+
+  '@spectrum-css/textfield@7.3.0(@spectrum-css/tokens@14.6.0)':
+    dependencies:
       '@spectrum-css/tokens': 14.6.0
 
   '@spectrum-css/tokens@14.6.0': {}
@@ -7000,6 +7098,8 @@ snapshots:
   '@spectrum-css/typography@6.2.0(@spectrum-css/tokens@14.6.0)':
     dependencies:
       '@spectrum-css/tokens': 14.6.0
+
+  '@spectrum-css/vars@9.0.8': {}
 
   '@spectrum-web-components/action-button@1.0.3':
     dependencies:
