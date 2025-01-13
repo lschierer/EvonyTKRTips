@@ -23,6 +23,7 @@ export class PaginationController extends LitElement {
   public hasPreviousPage: boolean = false;
 
   @property()
+  //@ts-expect-error
   public nextPage: () => void;
 
   @property()
