@@ -7,7 +7,6 @@ import { GeneralAscending } from "@schemas/ascending";
 import { Speciality } from "@schemas/specialities";
 import { SkillBook } from "@schemas/skillBooks";
 import { ConfictGroup } from "@schemas/generalConflictGroups";
-import { TableColumns } from "@schemas/table";
 
 import * as constants from "@schemas/constants";
 
@@ -25,7 +24,7 @@ import rallySpotBaseMarch from "@lib/rallySpot";
 
 import { EvAnsAttack, EvAnsDefense, EvAnsHP } from "./generics/EvAnsScore";
 
-const DEBUG = false;
+const DEBUG = true;
 const DEBUG2 = false;
 
 import { type Table } from "@tanstack/lit-table";
@@ -51,7 +50,7 @@ export const generalSpecalist = atom<constants.GeneralType>(
 );
 
 export const generalUseCase = atom<constants.BuffActivation>(
-  constants.BuffActivation.Enum.PvM
+  constants.BuffActivation.Enum.Overall
 );
 
 export const primarySpecialityLevels = atom<constants.SpecialityLevelName[]>([
@@ -146,7 +145,8 @@ const initialPairs = batched(
         `initialPairs computed starts with ${generals.length} generals`
       );
       console.log(
-        `initialPairs computed starts with ${JSON.stringify(selectedValues)} `
+        `initialPairs computed starts with ${JSON.stringify(selectedValues)} `,
+        `primary specialities start at ${JSON.stringify(primarySpecialityLevels)}`
       );
     }
     const p = generals
@@ -240,7 +240,7 @@ const initialPairs = batched(
       if (match) {
         if (DEBUG) {
           console.log(
-            `conflict group ${c.name} matches based on finding ${match.id}`
+            `conflict group ${c.name} matches based on finding ${p.id}/${match.id} conflict`
           );
         }
         return true;
@@ -623,70 +623,7 @@ const AttackingPairsWithStats = batched([initialPairs], (pairs) => {
           Speciality4: generalPairStats.specialityStats.PvMHP(4),
           Ascending: generalPairStats.ascendingStats.PvMHP,
         },
-        doubleDrop: {
-          total: 0,
-          BaseSkill: 0,
-          SkillBooks: 0,
-          Speciality1: 0,
-          Speciality2: 0,
-          Speciality3: 0,
-          Speciality4: 0,
-          Ascending: 0,
-        },
-        reduceDefense: {
-          total:
-            generalPairStats.baseSkill.PvMreduceDefense +
-            generalPairStats.standardSkillBooks.PvMreduceDefense +
-            generalPairStats.specialityStats.PvMreduceDefense(1) +
-            generalPairStats.specialityStats.PvMreduceDefense(2) +
-            generalPairStats.specialityStats.PvMreduceDefense(3) +
-            generalPairStats.specialityStats.PvMreduceDefense(4) +
-            generalPairStats.ascendingStats.PvMreduceDefense +
-            0,
-          BaseSkill: generalPairStats.baseSkill.PvMreduceDefense,
-          SkillBooks: generalPairStats.standardSkillBooks.PvMreduceDefense,
-          Speciality1: generalPairStats.specialityStats.PvMreduceDefense(1),
-          Speciality2: generalPairStats.specialityStats.PvMreduceDefense(2),
-          Speciality3: generalPairStats.specialityStats.PvMreduceDefense(3),
-          Speciality4: generalPairStats.specialityStats.PvMreduceDefense(4),
-          Ascending: generalPairStats.ascendingStats.PvMreduceDefense,
-        },
-        reduceHP: {
-          total:
-            generalPairStats.baseSkill.PvMreduceHP +
-            generalPairStats.standardSkillBooks.PvMreduceHP +
-            generalPairStats.specialityStats.PvMreduceHP(1) +
-            generalPairStats.specialityStats.PvMreduceHP(2) +
-            generalPairStats.specialityStats.PvMreduceHP(3) +
-            generalPairStats.specialityStats.PvMreduceHP(4) +
-            generalPairStats.ascendingStats.PvMreduceHP +
-            0,
-          BaseSkill: generalPairStats.baseSkill.PvMreduceHP,
-          SkillBooks: generalPairStats.standardSkillBooks.PvMreduceHP,
-          Speciality1: generalPairStats.specialityStats.PvMreduceHP(1),
-          Speciality2: generalPairStats.specialityStats.PvMreduceHP(2),
-          Speciality3: generalPairStats.specialityStats.PvMreduceHP(3),
-          Speciality4: generalPairStats.specialityStats.PvMreduceHP(4),
-          Ascending: generalPairStats.ascendingStats.PvMreduceHP,
-        },
-        reduceAttack: {
-          total:
-            generalPairStats.baseSkill.PvMreduceAttack +
-            generalPairStats.standardSkillBooks.PvMreduceAttack +
-            generalPairStats.specialityStats.PvMreduceAttack(1) +
-            generalPairStats.specialityStats.PvMreduceAttack(2) +
-            generalPairStats.specialityStats.PvMreduceAttack(3) +
-            generalPairStats.specialityStats.PvMreduceAttack(4) +
-            generalPairStats.ascendingStats.PvMreduceAttack +
-            0,
-          BaseSkill: generalPairStats.baseSkill.PvMreduceAttack,
-          SkillBooks: generalPairStats.standardSkillBooks.PvMreduceAttack,
-          Speciality1: generalPairStats.specialityStats.PvMreduceAttack(1),
-          Speciality2: generalPairStats.specialityStats.PvMreduceAttack(2),
-          Speciality3: generalPairStats.specialityStats.PvMreduceAttack(3),
-          Speciality4: generalPairStats.specialityStats.PvMreduceAttack(4),
-          Ascending: generalPairStats.ascendingStats.PvMreduceAttack,
-        },
+
         marchSpeed: {
           total:
             generalPairStats.baseSkill.marchSpeed +
@@ -705,24 +642,6 @@ const AttackingPairsWithStats = batched([initialPairs], (pairs) => {
           Speciality4: generalPairStats.specialityStats.marchSpeed(4),
           Ascending: generalPairStats.ascendingStats.marchSpeed,
         },
-        reduceStaminaCost: {
-          total:
-            generalPairStats.baseSkill.reduceStaminaCost +
-            generalPairStats.standardSkillBooks.reduceStaminaCost +
-            generalPairStats.specialityStats.reduceStaminaCost(1) +
-            generalPairStats.specialityStats.reduceStaminaCost(2) +
-            generalPairStats.specialityStats.reduceStaminaCost(3) +
-            generalPairStats.specialityStats.reduceStaminaCost(4) +
-            generalPairStats.ascendingStats.reduceStaminaCost +
-            0,
-          BaseSkill: generalPairStats.baseSkill.reduceStaminaCost,
-          SkillBooks: generalPairStats.standardSkillBooks.reduceStaminaCost,
-          Speciality1: generalPairStats.specialityStats.reduceStaminaCost(1),
-          Speciality2: generalPairStats.specialityStats.reduceStaminaCost(2),
-          Speciality3: generalPairStats.specialityStats.reduceStaminaCost(3),
-          Speciality4: generalPairStats.specialityStats.reduceStaminaCost(4),
-          Ascending: generalPairStats.ascendingStats.reduceStaminaCost,
-        },
       },
     };
     return td2;
@@ -737,7 +656,7 @@ export const pairs = batched(
   [PvMPairsWithStats, AttackingPairsWithStats, generalUseCase],
 
   (pvmPairs, attackingPairs, generalUseCase) => {
-    if (DEBUG2) {
+    if (DEBUG) {
       console.log(`pairs batch run, generalUseCase is ${generalUseCase}`);
     }
     if (!generalUseCase.localeCompare(constants.BuffActivation.Enum.PvM)) {
@@ -764,111 +683,3 @@ export const pairs = batched(
 );
 
 export const sorting = atom<SortingState>([]);
-
-export const columnVisibility = atom<TableColumns>({
-  primary: true,
-  secondary: true,
-  level: false,
-
-  MarchSizeIncrease_total: true,
-
-  BuffSet_attack: false,
-  BuffSet_defense: false,
-  BuffSet_hp: false,
-  BuffSet_doubleDrop: false,
-  BuffSet_reduceAttack: false,
-  BuffSet_reduceDefense: false,
-  BuffSet_reduceHP: false,
-  BuffSet_marchSpeed: false,
-  BuffSet_reduceStaminaCost: false,
-
-  BuffSet_attack_total: true,
-  BuffSet_attack_totalAttribute: false,
-  BuffSet_attack_BaseSkill: false,
-  BuffSet_attack_SkillBooks: false,
-  BuffSet_attack_Speciality1: false,
-  BuffSet_attack_Speciality2: false,
-  BuffSet_attack_Speciality3: false,
-  BuffSet_attack_Speciality4: false,
-  BuffSet_attack_Ascending: false,
-
-  BuffSet_defense_total: true,
-  BuffSet_defense_totalAttribute: false,
-  BuffSet_defense_BaseSkill: false,
-  BuffSet_defense_SkillBooks: false,
-  BuffSet_defense_Speciality1: false,
-  BuffSet_defense_Speciality2: false,
-  BuffSet_defense_Speciality3: false,
-  BuffSet_defense_Speciality4: false,
-  BuffSet_defense_Ascending: false,
-
-  BuffSet_hp_total: true,
-  BuffSet_hp_totalAttribute: false,
-  BuffSet_hp_BaseSkill: false,
-  BuffSet_hp_SkillBooks: false,
-  BuffSet_hp_Speciality1: false,
-  BuffSet_hp_Speciality2: false,
-  BuffSet_hp_Speciality3: false,
-  BuffSet_hp_Speciality4: false,
-  BuffSet_hp_Ascending: false,
-
-  BuffSet_doubleDrop_total: true,
-  BuffSet_doubleDrop_totalAttribute: false,
-  BuffSet_doubleDrop_BaseSkill: false,
-  BuffSet_doubleDrop_SkillBooks: false,
-  BuffSet_doubleDrop_Speciality1: false,
-  BuffSet_doubleDrop_Speciality2: false,
-  BuffSet_doubleDrop_Speciality3: false,
-  BuffSet_doubleDrop_Speciality4: false,
-  BuffSet_doubleDrop_Ascending: false,
-
-  BuffSet_reduceDefense_total: true,
-  BuffSet_reduceDefense_totalAttribute: false,
-  BuffSet_reduceDefense_BaseSkill: false,
-  BuffSet_reduceDefense_SkillBooks: false,
-  BuffSet_reduceDefense_Speciality1: false,
-  BuffSet_reduceDefense_Speciality2: false,
-  BuffSet_reduceDefense_Speciality3: false,
-  BuffSet_reduceDefense_Speciality4: false,
-  BuffSet_reduceDefense_Ascending: false,
-
-  BuffSet_reduceHP_total: true,
-  BuffSet_reduceHP_totalAttribute: false,
-  BuffSet_reduceHP_BaseSkill: false,
-  BuffSet_reduceHP_SkillBooks: false,
-  BuffSet_reduceHP_Speciality1: false,
-  BuffSet_reduceHP_Speciality2: false,
-  BuffSet_reduceHP_Speciality3: false,
-  BuffSet_reduceHP_Speciality4: false,
-  BuffSet_reduceHP_Ascending: false,
-
-  BuffSet_reduceAttack_total: true,
-  BuffSet_reduceAttack_totalAttribute: false,
-  BuffSet_reduceAttack_BaseSkill: false,
-  BuffSet_reduceAttack_SkillBooks: false,
-  BuffSet_reduceAttack_Speciality1: false,
-  BuffSet_reduceAttack_Speciality2: false,
-  BuffSet_reduceAttack_Speciality3: false,
-  BuffSet_reduceAttack_Speciality4: false,
-  BuffSet_reduceAttack_Ascending: false,
-
-  BuffSet_marchSpeed_total: true,
-  BuffSet_marchSpeed_totalAttribute: false,
-  BuffSet_marchSpeed_BaseSkill: false,
-  BuffSet_marchSpeed_SkillBooks: false,
-  BuffSet_marchSpeed_Speciality1: false,
-  BuffSet_marchSpeed_Speciality2: false,
-  BuffSet_marchSpeed_Speciality3: false,
-  BuffSet_marchSpeed_Speciality4: false,
-  BuffSet_marchSpeed_Ascending: false,
-
-  BuffSet_reduceStaminaCost_total: true,
-  BuffSet_reduceStaminaCost_totalAttribute: false,
-  BuffSet_reduceStaminaCost_BaseSkill: false,
-  BuffSet_reduceStaminaCost_SkillBooks: false,
-  BuffSet_reduceStaminaCost_Speciality1: false,
-  BuffSet_reduceStaminaCost_Speciality2: false,
-  BuffSet_reduceStaminaCost_Speciality3: false,
-  BuffSet_reduceStaminaCost_Speciality4: false,
-  BuffSet_reduceStaminaCost_Ascending: false,
-});

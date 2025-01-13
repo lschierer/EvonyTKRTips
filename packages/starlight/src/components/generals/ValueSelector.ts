@@ -37,7 +37,6 @@ export default class ValueSelector extends withStores(LitElement, [
   stores.primarySpecialityLevels,
   stores.secondarySpecialityLevels,
   stores.generalSpecalist,
-  stores.generalUseCase,
 ]) {
   constructor() {
     super();
@@ -169,18 +168,6 @@ export default class ValueSelector extends withStores(LitElement, [
           });
         }
       });
-
-      const generalUseCaseSelector =
-        this.renderRoot.querySelector("#generalUseCase");
-      if (generalUseCaseSelector) {
-        generalUseCaseSelector.addEventListener("change", (event) => {
-          const target = event.target as Picker;
-          const valid = constants.BuffActivation.safeParse(target.value);
-          if (valid.success) {
-            stores.generalUseCase.set(valid.data);
-          }
-        });
-      }
 
       const ascendingSelector =
         this.renderRoot?.querySelector("#primary-ascending");
@@ -354,32 +341,6 @@ export default class ValueSelector extends withStores(LitElement, [
                   return html`
                     <sp-menu-item value="${gt}">
                       ${gt[0].toUpperCase() + gt.slice(1).replaceAll("_", " ")}
-                    </sp-menu-item>
-                  `;
-                })}
-            </sp-picker>
-          </div>
-          <div class="flexColumn">
-            <sp-field-label for="generalUseCase" size="m">
-              General Use Case:
-            </sp-field-label>
-            <sp-picker
-              id="generalUseCase"
-              size="m"
-              label="General Use Case"
-              value="${stores.generalUseCase.value}"
-            >
-              <span slot="label">Which type of General?</span>
-              ${constants.BuffActivation.options
-                .filter((ba) => {
-                  return ba.localeCompare(constants.BuffActivation.Enum.Mayor);
-                })
-                .map((ba) => {
-                  return html`
-                    <sp-menu-item value="${ba}">
-                      ${ba.localeCompare(constants.BuffActivation.Enum.PvM)
-                        ? ba[0].toUpperCase() + ba.slice(1).replaceAll("_", " ")
-                        : "Monster Hunting"}
                     </sp-menu-item>
                   `;
                 })}

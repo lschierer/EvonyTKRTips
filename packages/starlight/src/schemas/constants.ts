@@ -223,65 +223,77 @@ export const EvAnsBuffSet = z.object({
     Speciality4: z.number(),
     Ascending: z.number(),
   }),
-  doubleDrop: z.object({
-    total: z.number().optional(),
-    BaseSkill: z.number(),
-    SkillBooks: z.number(),
-    Speciality1: z.number(),
-    Speciality2: z.number(),
-    Speciality3: z.number(),
-    Speciality4: z.number(),
-    Ascending: z.number(),
-  }),
-  reduceDefense: z.object({
-    total: z.number().optional(),
-    BaseSkill: z.number(),
-    SkillBooks: z.number(),
-    Speciality1: z.number(),
-    Speciality2: z.number(),
-    Speciality3: z.number(),
-    Speciality4: z.number(),
-    Ascending: z.number(),
-  }),
-  reduceHP: z.object({
-    total: z.number().optional(),
-    BaseSkill: z.number(),
-    SkillBooks: z.number(),
-    Speciality1: z.number(),
-    Speciality2: z.number(),
-    Speciality3: z.number(),
-    Speciality4: z.number(),
-    Ascending: z.number(),
-  }),
-  reduceAttack: z.object({
-    total: z.number().optional(),
-    BaseSkill: z.number(),
-    SkillBooks: z.number(),
-    Speciality1: z.number(),
-    Speciality2: z.number(),
-    Speciality3: z.number(),
-    Speciality4: z.number(),
-    Ascending: z.number(),
-  }),
-  marchSpeed: z.object({
-    total: z.number().optional(),
-    BaseSkill: z.number(),
-    SkillBooks: z.number(),
-    Speciality1: z.number(),
-    Speciality2: z.number(),
-    Speciality3: z.number(),
-    Speciality4: z.number(),
-    Ascending: z.number(),
-  }),
-  reduceStaminaCost: z.object({
-    total: z.number().optional(),
-    BaseSkill: z.number(),
-    SkillBooks: z.number(),
-    Speciality1: z.number(),
-    Speciality2: z.number(),
-    Speciality3: z.number(),
-    Speciality4: z.number(),
-    Ascending: z.number(),
-  }),
+  doubleDrop: z
+    .object({
+      total: z.number().optional(),
+      BaseSkill: z.number(),
+      SkillBooks: z.number(),
+      Speciality1: z.number(),
+      Speciality2: z.number(),
+      Speciality3: z.number(),
+      Speciality4: z.number(),
+      Ascending: z.number(),
+    })
+    .optional(),
+  reduceDefense: z
+    .object({
+      total: z.number().optional(),
+      BaseSkill: z.number(),
+      SkillBooks: z.number(),
+      Speciality1: z.number(),
+      Speciality2: z.number(),
+      Speciality3: z.number(),
+      Speciality4: z.number(),
+      Ascending: z.number(),
+    })
+    .optional(),
+  reduceHP: z
+    .object({
+      total: z.number().optional(),
+      BaseSkill: z.number(),
+      SkillBooks: z.number(),
+      Speciality1: z.number(),
+      Speciality2: z.number(),
+      Speciality3: z.number(),
+      Speciality4: z.number(),
+      Ascending: z.number(),
+    })
+    .optional(),
+  reduceAttack: z
+    .object({
+      total: z.number().optional(),
+      BaseSkill: z.number(),
+      SkillBooks: z.number(),
+      Speciality1: z.number(),
+      Speciality2: z.number(),
+      Speciality3: z.number(),
+      Speciality4: z.number(),
+      Ascending: z.number(),
+    })
+    .optional(),
+  marchSpeed: z
+    .object({
+      total: z.number().optional(),
+      BaseSkill: z.number(),
+      SkillBooks: z.number(),
+      Speciality1: z.number(),
+      Speciality2: z.number(),
+      Speciality3: z.number(),
+      Speciality4: z.number(),
+      Ascending: z.number(),
+    })
+    .optional(),
+  reduceStaminaCost: z
+    .object({
+      total: z.number().optional(),
+      BaseSkill: z.number(),
+      SkillBooks: z.number(),
+      Speciality1: z.number(),
+      Speciality2: z.number(),
+      Speciality3: z.number(),
+      Speciality4: z.number(),
+      Ascending: z.number(),
+    })
+    .optional(),
 });
 export type EvAnsBuffSet = z.infer<typeof EvAnsBuffSet>;
