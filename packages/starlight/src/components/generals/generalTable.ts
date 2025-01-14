@@ -1,48 +1,32 @@
 import {
-  type Column,
+  type ColumnDef,
   flexRender,
   getCoreRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
-  type SortingFn,
   type SortingState,
   TableController,
-  createColumnHelper,
-  type Table,
   type TableState,
-  type TableOptions,
-  type Header,
-  type Row,
 } from "@tanstack/lit-table";
 
-import {
-  type RowData,
-  type TableOptionsResolved,
-  createTable,
-} from "@tanstack/table-core";
+import { type TableOptionsResolved } from "@tanstack/table-core";
 
 import {
-  LitElement,
-  html,
   css,
-  type PropertyValues,
   type CSSResultGroup,
-  unsafeCSS,
-  type TemplateResult,
+  html,
+  LitElement,
   nothing,
+  type PropertyValues,
+  unsafeCSS,
 } from "lit";
-import { repeat } from "lit/directives/repeat.js";
-import { customElement, property, state } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
-import { createRef, ref, type Ref } from "lit/directives/ref.js";
-import { styleMap } from "lit/directives/style-map.js";
+import { customElement, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
+import { styleMap } from "lit/directives/style-map.js";
 
 import { StoreController, withStores } from "@nanostores/lit";
-import { atom, subscribeKeys } from "nanostores";
+import { atom } from "nanostores";
 
 import {
-  Tabulator,
   AccessorModule,
   ColumnCalcsModule,
   DataTreeModule,
@@ -51,10 +35,10 @@ import {
   FormatModule,
   MutatorModule,
   ReactiveDataModule,
-  ResponsiveLayoutModule,
   ResizeColumnsModule,
+  ResponsiveLayoutModule,
   SortModule,
-  PageModule,
+  Tabulator,
 } from "tabulator-tables";
 Tabulator.registerModule([
   AccessorModule,
@@ -74,21 +58,15 @@ import SpectrumTableCSS from "@spectrum-css/table/dist/index.css?inline";
 import GeneralsCSS from "@styles/generals.css?inline";
 import PairTableCSS from "@styles/PairTable.css?inline";
 
-import { Speciality } from "@schemas/specialities";
 import * as constants from "@schemas/constants";
-import { ConfictGroup } from "@schemas/generalConflictGroups";
-import { General, GeneralPair } from "@schemas/generals";
-import { SkillBook } from "@schemas/skillBooks";
+import { GeneralPair } from "@schemas/generals";
 import * as stores from "./store";
 
-import { DefaultColumns, PvPcolumns, PvMcolumns } from "./columns";
-import { GeneralAscending } from "@schemas/ascending";
+import { DefaultColumns, PvMcolumns, PvPcolumns } from "./columns";
 
-import { PaginationController } from "./generalTablePagination";
-import { data } from "autoprefixer";
+import attackingVisibility from "./visibility/attacking";
 import defaultVisibility from "./visibility/default";
 import pvmVisibility from "./visibility/pvm";
-import attackingVisibility from "./visibility/attacking";
 
 const DEBUG = true;
 
@@ -104,7 +82,7 @@ export default class TableElement extends withStores(LitElement, [
   private tableController = new TableController<GeneralPair>(this);
 
   @state()
-  private data: GeneralPair[] = new Array<GeneralPair>();
+  protected data: GeneralPair[] = new Array<GeneralPair>();
 
   @state()
   private _columns: ColumnDef<GeneralPair>[];
@@ -113,6 +91,8 @@ export default class TableElement extends withStores(LitElement, [
 
   @state()
   private _sorting: SortingState = [];
+
+  protected _state = atom<TableState | null>(null);
 
   constructor() {
     super();
@@ -124,8 +104,13 @@ export default class TableElement extends withStores(LitElement, [
       this.columnVisibility = pvmVisibility;
       (this._columns = PvMcolumns),
         stores.PvMPairsWithStats.subscribe((v, o) => {
+          if (DEBUG) {
+            console.log(
+              `PvMPairsWithStats subscribe from TableElement constructor`
+            );
+          }
+          this.data.length = 0;
           this.data = [...v];
-          this.requestUpdate("data");
         });
     } else if (
       !this.useCaseController.value.localeCompare(
@@ -135,8 +120,12 @@ export default class TableElement extends withStores(LitElement, [
       this.columnVisibility = attackingVisibility;
       this._columns = PvPcolumns;
       stores.AttackingPairsWithStats.subscribe((v, o) => {
+        if (DEBUG) {
+          console.log(
+            `AttackingPairsWithStats subscribe from TableElement constructor`
+          );
+        }
         this.data = [...v];
-        this.requestUpdate();
       });
     } else {
       if (DEBUG) {
@@ -149,10 +138,14 @@ export default class TableElement extends withStores(LitElement, [
 
   protected override willUpdate(_changedProperties: PropertyValues): void {
     super.willUpdate(_changedProperties);
-    if (DEBUG) {
-      console.log(
-        `_changedProperties has ${JSON.stringify(_changedProperties)}`
-      );
+    if (_changedProperties.has("data")) {
+      if (DEBUG) {
+        console.log(`change to data detected by willUpdate`);
+      }
+      this.tableController.table({
+        ...this._state,
+        data: this.data,
+      });
     }
   }
 
@@ -167,9 +160,7 @@ export default class TableElement extends withStores(LitElement, [
   protected override render() {
     if (DEBUG) {
       console.log(`TableElement render start ${this.index++}`);
-      console.log(
-        `stores.pairs has ${stores.pairs.value ? stores.pairs.value.length : 0} pairs `
-      );
+
       if (this.data.length > 0) {
         console.log(
           `data[0] has EvAns Attack of ${this.data[0].primary.id}/${this.data[0].secondary.id}: ${this.data[0].ScoreSet?.attack}`
@@ -187,7 +178,6 @@ export default class TableElement extends withStores(LitElement, [
     } else {
       const sortUndefined: "first" | "last" | false | -1 | 1 = "last";
       const options = {
-        onStateChange: () => this.requestUpdate(),
         getSortedRowModel: getSortedRowModel(),
         getCoreRowModel: getCoreRowModel(),
         renderFallbackValue: "pending data",
@@ -200,6 +190,7 @@ export default class TableElement extends withStores(LitElement, [
         },
       };
       const resolvedOptions: TableOptionsResolved<GeneralPair> = {
+        onStateChange: () => this.requestUpdate(),
         data: this.data,
         columns: this._columns,
         manualSorting: false, //tanstack will handle sorting.
@@ -228,6 +219,8 @@ export default class TableElement extends withStores(LitElement, [
         },
         ...options,
       });
+
+      this._state.set(table.initialState);
       /*const table = createTable<GeneralPair>({
         ...resolvedOptions,
       });
@@ -259,7 +252,8 @@ export default class TableElement extends withStores(LitElement, [
         data: this.data,
 
       });*/
-
+      const headerGroups = table.getHeaderGroups();
+      console.log(`headerGroups: ${JSON.stringify(headerGroups)}`);
       return html`
         <div
           id="tableContainer"
@@ -269,7 +263,7 @@ export default class TableElement extends withStores(LitElement, [
             class="spectrum-Table spectrum-Table-main spectrum-Table--sizeM spectrum-Table--emphasized"
           >
             <thead class="not-content spectrum-Table-head">
-              ${table.getHeaderGroups().map((headerGroup) => {
+              ${headerGroups.map((headerGroup) => {
                 let currentstart = 0;
                 return html`
                   <tr key=${headerGroup.id}>
@@ -357,12 +351,7 @@ export default class TableElement extends withStores(LitElement, [
                   <tr class="spectrum-Table-row">
                     ${row.getVisibleCells().map((cell) => {
                       return html`
-                        <td class="spectrum-Table-cell">
-                          ${flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </td>
+                        <td class="spectrum-Table-cell">${cell.getValue()}</td>
                       `;
                     })}
                   </tr>
