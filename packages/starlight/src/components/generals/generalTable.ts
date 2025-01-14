@@ -81,14 +81,14 @@ import { General, GeneralPair } from "@schemas/generals";
 import { SkillBook } from "@schemas/skillBooks";
 import * as stores from "./store";
 
-import getColumns from "./columns";
-import { PvPcolumns, PvMcolumns } from "./columns";
+import { DefaultColumns, PvPcolumns, PvMcolumns } from "./columns";
 import { GeneralAscending } from "@schemas/ascending";
 
 import { PaginationController } from "./generalTablePagination";
 import { data } from "autoprefixer";
 import defaultVisibility from "./visibility/default";
 import pvmVisibility from "./visibility/pvm";
+import attackingVisibility from "./visibility/attacking";
 
 const DEBUG = true;
 
@@ -106,7 +106,13 @@ export default class TableElement extends withStores(LitElement, [
   @state()
   private data: GeneralPair[] = new Array<GeneralPair>();
 
+  @state()
+  private _columns: ColumnDef<GeneralPair>[];
+
   private columnVisibility: Record<string, boolean>;
+
+  @state()
+  private _sorting: SortingState = [];
 
   constructor() {
     super();
@@ -116,15 +122,28 @@ export default class TableElement extends withStores(LitElement, [
       )
     ) {
       this.columnVisibility = pvmVisibility;
-      stores.PvMPairsWithStats.subscribe((v, o) => {
+      (this._columns = PvMcolumns),
+        stores.PvMPairsWithStats.subscribe((v, o) => {
+          this.data = [...v];
+          this.requestUpdate("data");
+        });
+    } else if (
+      !this.useCaseController.value.localeCompare(
+        constants.BuffActivation.Enum.Attacking
+      )
+    ) {
+      this.columnVisibility = attackingVisibility;
+      this._columns = PvPcolumns;
+      stores.AttackingPairsWithStats.subscribe((v, o) => {
         this.data = [...v];
-        this.requestUpdate("data");
+        this.requestUpdate();
       });
     } else {
       if (DEBUG) {
         console.warn(`use case at default: ${this.useCaseController.value}`);
       }
       this.columnVisibility = defaultVisibility;
+      this._columns = DefaultColumns;
     }
   }
 
@@ -166,14 +185,11 @@ export default class TableElement extends withStores(LitElement, [
         ></div>
       `;
     } else {
-      if (DEBUG) {
-        console.log(`visibility is ${JSON.stringify(this.columnVisibility)}`);
-      }
       const sortUndefined: "first" | "last" | false | -1 | 1 = "last";
       const options = {
         onStateChange: () => this.requestUpdate(),
-        getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
+        getCoreRowModel: getCoreRowModel(),
         renderFallbackValue: "pending data",
         defaultColumn: {
           enableHiding: true,
@@ -185,14 +201,34 @@ export default class TableElement extends withStores(LitElement, [
       };
       const resolvedOptions: TableOptionsResolved<GeneralPair> = {
         data: this.data,
-        columns: getColumns(),
-        state: {},
+        columns: this._columns,
+        manualSorting: false, //tanstack will handle sorting.
+        enableSortingRemoval:
+          false /*Set enableSortingRemoval to false if you want to ensure that at least one column is always sorted. */,
+        /* state has to be here or I get a typescript type error */
+        /* the lit example from https://tanstack.com/table/latest/docs/framework/lit/examples/sorting suggests setting sorting here */
+        state: {
+          sorting: this._sorting,
+        },
         initialState: {
           columnVisibility: this.columnVisibility,
         },
         ...options,
       };
-      const table = createTable<GeneralPair>({
+
+      const table = this.tableController.table({
+        data: this.data,
+        columns: this._columns,
+        manualSorting: false, //tanstack will handle sorting.
+        enableSortingRemoval:
+          false /*Set enableSortingRemoval to false if you want to ensure that at least one column is always sorted. */,
+
+        initialState: {
+          columnVisibility: this.columnVisibility,
+        },
+        ...options,
+      });
+      /*const table = createTable<GeneralPair>({
         ...resolvedOptions,
       });
       const state = atom(table.initialState);
@@ -209,6 +245,7 @@ export default class TableElement extends withStores(LitElement, [
           onStateChange: (updater) => {
             if (typeof updater === "function") {
               const newState = updater(currentState);
+              this._sorting = newState.sorting;
               state.set(newState);
             } else {
               state.set(updater);
@@ -216,7 +253,7 @@ export default class TableElement extends withStores(LitElement, [
             options.onStateChange?.();
           },
         }));
-      });
+      });*/
       /*const table = this.tableController.table({
         columns: getColumns(),
         data: this.data,

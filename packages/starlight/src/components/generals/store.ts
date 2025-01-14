@@ -19,7 +19,6 @@ import {
   type TableState,
 } from "@tanstack/table-core";
 
-import columns from "./columns";
 import rallySpotBaseMarch from "@lib/rallySpot";
 
 import { EvAnsAttack, EvAnsDefense, EvAnsHP } from "./generics/EvAnsScore";
@@ -690,7 +689,25 @@ export const AttackingPairsWithStats = batched([initialPairs], (pairs) => {
   if (DEBUG) {
     console.log(`step3 has ${step3.length} pairs `);
   }
-  return step3;
+
+  const step4 = step3.map((p) => {
+    const td3: GeneralPair = {
+      ...p,
+      ScoreSet: {
+        attack: EvAnsAttack(p),
+        defense: EvAnsDefense(p),
+        hp: EvAnsHP(p),
+      },
+    };
+    return td3;
+  });
+  if (DEBUG) {
+    console.log(`pairs batched store returning step4 from Attacking`);
+    console.log(
+      `EvAnsAttack for first pair ${step4[0].primary.id}/${step4[0].secondary.id}is ${step4[0].ScoreSet?.attack}`
+    );
+  }
+  return step4;
 });
 
 export const pairs = batched(
