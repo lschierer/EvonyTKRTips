@@ -22,8 +22,11 @@ const getColumns = () => {
 
 export default getColumns;
 
-const PvMcolumns: ColumnDef<GeneralPair> = {
+export const PvMcolumns: ColumnDef<GeneralPair> = {
   id: "PvM",
+  header: () => html`
+    <span class="generalTableHeader"> Player Versus Monster Statistics </span>
+  `,
   columns: [
     {
       accessorKey: "BuffSet.attack.total",
@@ -1054,7 +1057,7 @@ const PvMcolumns: ColumnDef<GeneralPair> = {
   ],
 };
 
-const PvPcolumns: ColumnDef<GeneralPair>[] = [];
+export const PvPcolumns: ColumnDef<GeneralPair>[] = [];
 
 const DefaultColumns: ColumnDef<GeneralPair>[] = [
   {

@@ -16,6 +16,12 @@ import {
 } from "@tanstack/lit-table";
 
 import {
+  type RowData,
+  type TableOptionsResolved,
+  createTable,
+} from "@tanstack/table-core";
+
+import {
   LitElement,
   html,
   css,
@@ -33,7 +39,7 @@ import { styleMap } from "lit/directives/style-map.js";
 import { classMap } from "lit/directives/class-map.js";
 
 import { StoreController, withStores } from "@nanostores/lit";
-import { subscribeKeys } from "nanostores";
+import { atom, subscribeKeys } from "nanostores";
 
 import {
   Tabulator,
@@ -75,7 +81,8 @@ import { General, GeneralPair } from "@schemas/generals";
 import { SkillBook } from "@schemas/skillBooks";
 import * as stores from "./store";
 
-import columns from "./columns";
+import getColumns from "./columns";
+import { PvPcolumns, PvMcolumns } from "./columns";
 import { GeneralAscending } from "@schemas/ascending";
 
 import { PaginationController } from "./generalTablePagination";
@@ -88,43 +95,46 @@ const DEBUG = true;
 @customElement("table-element")
 export default class TableElement extends withStores(LitElement, [
   stores.generalUseCase,
+  stores.PvMPairsWithStats,
+  stores.AttackingPairsWithStats,
   stores.pairs,
 ]) {
-  private pairsController = new StoreController(this, stores.pairs);
+  private useCaseController = new StoreController(this, stores.generalUseCase);
 
   private tableController = new TableController<GeneralPair>(this);
-  private tableContainerRef: Ref = createRef();
 
-  private table: Table<GeneralPair> | null = null;
+  @state()
+  private data: GeneralPair[] = new Array<GeneralPair>();
+
+  private columnVisibility: Record<string, boolean>;
 
   constructor() {
     super();
-    stores.pairs.subscribe((pairs) => {});
+    if (
+      !this.useCaseController.value.localeCompare(
+        constants.BuffActivation.Enum.PvM
+      )
+    ) {
+      this.columnVisibility = pvmVisibility;
+      stores.PvMPairsWithStats.subscribe((v, o) => {
+        this.data = [...v];
+        this.requestUpdate("data");
+      });
+    } else {
+      if (DEBUG) {
+        console.warn(`use case at default: ${this.useCaseController.value}`);
+      }
+      this.columnVisibility = defaultVisibility;
+    }
   }
 
   protected override willUpdate(_changedProperties: PropertyValues): void {
     super.willUpdate(_changedProperties);
-  }
-
-  override connectedCallback(): void {
-    stores.pairs.listen((v, o) => {
-      if (DEBUG) {
-        console.log(`connectedCallback sees a change to pairs`);
-      }
-    });
-    stores.generalUseCase.listen((v, o) => {
-      if (DEBUG) {
-        console.log(`connectedCallback sees a change to generalUseCase Store`);
-      }
-      if (this.table) {
-        this.requestUpdate();
-      } else {
-        if (DEBUG) {
-          console.log(`however the table is not present`);
-        }
-      }
-    });
-    super.connectedCallback();
+    if (DEBUG) {
+      console.log(
+        `_changedProperties has ${JSON.stringify(_changedProperties)}`
+      );
+    }
   }
 
   static override styles?: CSSResultGroup = [
@@ -138,205 +148,205 @@ export default class TableElement extends withStores(LitElement, [
   protected override render() {
     if (DEBUG) {
       console.log(`TableElement render start ${this.index++}`);
+      console.log(
+        `stores.pairs has ${stores.pairs.value ? stores.pairs.value.length : 0} pairs `
+      );
+      if (this.data.length > 0) {
+        console.log(
+          `data[0] has EvAns Attack of ${this.data[0].primary.id}/${this.data[0].secondary.id}: ${this.data[0].ScoreSet?.attack}`
+        );
+      }
     }
 
-    const fallback = html`
-      <div
-        class="tableContainer spectrum-Table--sizeM spectrum-Table--empasized"
-        ${ref(this.tableContainerRef)}
-      >
-        pending data
-      </div>
-    `;
-
-    if (
-      !Array.isArray(this.pairsController.value) ||
-      this.pairsController.value.length == 0
-    ) {
-      if (DEBUG) {
-        console.warn(`no pairs: ${this.pairsController.value.length} pairs`);
-      }
-      return fallback;
+    if (!this.data || this.data.length == 0) {
+      return html`
+        <div
+          id="tableContainer"
+          class="not-content tableContainer spectrum-Table--sizeM spectrum-Table--empasized"
+        ></div>
+      `;
     } else {
       if (DEBUG) {
-        console.log(
-          `in render level for 0th pair is ${this.pairsController.value[0].primary.level}`
-        );
-        console.log(
-          `in render generalUseCase is ${stores.generalUseCase.get()}`
-        );
+        console.log(`visibility is ${JSON.stringify(this.columnVisibility)}`);
       }
+      const sortUndefined: "first" | "last" | false | -1 | 1 = "last";
+      const options = {
+        onStateChange: () => this.requestUpdate(),
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        renderFallbackValue: "pending data",
+        defaultColumn: {
+          enableHiding: true,
+          enableSorting: true,
+          invertSorting: false,
+          sortDescFirst: false,
+          sortUndefined,
+        },
+      };
+      const resolvedOptions: TableOptionsResolved<GeneralPair> = {
+        data: this.data,
+        columns: getColumns(),
+        state: {},
+        initialState: {
+          columnVisibility: this.columnVisibility,
+        },
+        ...options,
+      };
+      const table = createTable<GeneralPair>({
+        ...resolvedOptions,
+      });
+      const state = atom(table.initialState);
 
-      if (stores.pairs.value) {
-        this.table = this.tableController.table({
-          columns: columns(),
-          data: stores.pairs.value,
-          manualSorting: false, //tanstack will handle sorting.
-          enableSortingRemoval:
-            false /*Set enableSortingRemoval to false if you want to ensure that at least one column is always sorted. */,
-          getPaginationRowModel: getPaginationRowModel(),
-          getSortedRowModel: getSortedRowModel(),
-          getCoreRowModel: getCoreRowModel(),
-          renderFallbackValue: "pending data",
-          defaultColumn: {
-            enableHiding: true,
-            enableSorting: true,
-            invertSorting: false,
-            sortDescFirst: false,
-            sortUndefined: "last",
+      state.subscribe((currentState) => {
+        table.setOptions((prev) => ({
+          ...prev,
+          ...options,
+          state: {
+            ...currentState,
+            columnVisibility: this.columnVisibility,
           },
-          initialState: {
-            columnVisibility: !stores.generalUseCase
-              .get()
-              .localeCompare(constants.BuffActivation.Enum.PvM)
-              ? pvmVisibility
-              : defaultVisibility,
+          // Similarly, we'll maintain both our internal state and any user-provided state
+          onStateChange: (updater) => {
+            if (typeof updater === "function") {
+              const newState = updater(currentState);
+              state.set(newState);
+            } else {
+              state.set(updater);
+            }
+            options.onStateChange?.();
           },
-        });
+        }));
+      });
+      /*const table = this.tableController.table({
+        columns: getColumns(),
+        data: this.data,
 
-        const { rows } = this.table.getRowModel();
+      });*/
 
-        if (DEBUG) {
-          console.log(
-            `I have ${this.table.getAllFlatColumns().length} flat columns`
-          );
-        }
-
-        return html`
-          <div
-            id="tableContainer"
-            class="not-content tableContainer spectrum-Table--sizeM spectrum-Table--empasized"
-            ${ref(this.tableContainerRef)}
+      return html`
+        <div
+          id="tableContainer"
+          class="not-content tableContainer spectrum-Table--sizeM spectrum-Table--empasized"
+        >
+          <table
+            class="spectrum-Table spectrum-Table-main spectrum-Table--sizeM spectrum-Table--emphasized"
           >
-            <table
-              class="spectrum-Table spectrum-Table-main spectrum-Table--sizeM spectrum-Table--emphasized"
-            >
-              <thead class="not-content spectrum-Table-head">
-                ${this.table.getHeaderGroups().map((headerGroup) => {
-                  let currentstart = 0;
-                  return html`
-                    <tr key=${headerGroup.id}>
-                      ${headerGroup.headers.map((header) => {
-                        /*
-                         * there doesn't seem to be an API for the *current* just the *next*
-                         * the state machine goes ascending -> decending -> other -> acending (loop)
-                         * if can sort, test further.
-                         * if next is ascending, I am currently on "other"
-                         * If next is not ascending it could be decending or "other".
-                         * if next is decending, I am currently on ascending.
-                         * if next is niether ascending nor decending, I am currently on decending.
-                         * else I could not sort, so return false
-                         */
-                        const thclasses = {
-                          "is-sortable": header.column.getCanSort()
-                            ? true
-                            : false,
-                          "is-sorted-asc": header.column.getCanSort()
-                            ? header.column.getNextSortingOrder() === "asc"
-                              ? false
-                              : header.column.getNextSortingOrder() === "desc"
-                                ? true
-                                : false
-                            : false,
-                          "is-sorted-desc": header.column.getCanSort()
-                            ? header.column.getNextSortingOrder() === "asc"
-                              ? false
-                              : header.column.getNextSortingOrder() === "desc"
-                                ? false
-                                : true
-                            : false,
-                        };
-                        const thStyle = {
-                          "grid-row": `${currentstart + 1} / ${header.colSpan}`,
-                        };
-                        currentstart += header.colSpan;
-                        const ariaSort = header.column.getCanSort()
+            <thead class="not-content spectrum-Table-head">
+              ${table.getHeaderGroups().map((headerGroup) => {
+                let currentstart = 0;
+                return html`
+                  <tr key=${headerGroup.id}>
+                    ${headerGroup.headers.map((header) => {
+                      /*
+                       * there doesn't seem to be an API for the *current* just the *next*
+                       * the state machine goes ascending -> decending -> other -> acending (loop)
+                       * if can sort, test further.
+                       * if next is ascending, I am currently on "other"
+                       * If next is not ascending it could be decending or "other".
+                       * if next is decending, I am currently on ascending.
+                       * if next is niether ascending nor decending, I am currently on decending.
+                       * else I could not sort, so return false
+                       */
+                      const thclasses = {
+                        "is-sortable": header.column.getCanSort()
+                          ? true
+                          : false,
+                        "is-sorted-asc": header.column.getCanSort()
                           ? header.column.getNextSortingOrder() === "asc"
-                            ? "other"
+                            ? false
                             : header.column.getNextSortingOrder() === "desc"
-                              ? "ascending"
-                              : "descending"
-                          : "none";
-                        if (header.column.getIsVisible()) {
-                          return html`
-                            <th
-                              key=${header.id}
-                              colspan=${header.colSpan}
-                              style="${styleMap(thStyle)}"
-                              class="not-content spectrum-Table-headCell ${classMap(
-                                thclasses
-                              )}"
-                              aria-sort=${ariaSort}
-                              @click="${header.column.getToggleSortingHandler()}"
-                            >
-                              ${header.isPlaceholder
-                                ? nothing
-                                : html`
-                                    <span
-                                      class="tableHeader spectrum-Table-columnTitle"
-                                    >
-                                      ${flexRender(
-                                        header.column.columnDef.header,
-                                        header.getContext()
-                                      )}
-                                      ${{ asc: " 🔼", desc: " 🔽" }[
-                                        header.column.getIsSorted() as string
-                                      ] ?? null}
-                                    </span>
-                                  `}
-                            </th>
-                          `;
-                        } else {
-                          return html``;
-                        }
-                      })}
-                    </tr>
-                  `;
-                })}
-              </thead>
-              <tbody class="spectrum-Table-body">
-                ${repeat(
-                  this.table.getRowModel().rows,
-                  (row) => row.id,
-                  (row) => html`
-                    <tr class="spectrum-Table-row">
-                      ${row
-                        .getVisibleCells()
-                        .map(
-                          (cell) => html`
-                            <td class="spectrum-Table-cell">
-                              ${flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext()
-                              )}
-                            </td>
-                          `
-                        )}
-                    </tr>
-                  `
-                )}
-              </tbody>
-            </table>
-          </div>
-          <pagination-controller
-            .hasNextPage=${this.table.getCanNextPage()}
-            .hasPreviousPage=${this.table.getCanPreviousPage()}
-            .nextPage=${this.table.nextPage}
-            .pageCount=${this.table.getPageCount()}
-            .pageIndex=${this.table.getState().pagination.pageIndex}
-            .pageSize=${this.table.getState().pagination.pageSize}
-            .setPageSize="${this.table.setPageSize}"
-            .previousPage=${this.table.previousPage}
-            .firstPage=${this.table.firstPage}
-            .lastPage=${this.table.lastPage}
-          ></pagination-controller>
-        `;
-      } else {
-        if (DEBUG) {
-          console.log(`stores.pairs.value not valid, rendering fallback`);
-        }
-        return fallback;
-      }
+                              ? true
+                              : false
+                          : false,
+                        "is-sorted-desc": header.column.getCanSort()
+                          ? header.column.getNextSortingOrder() === "asc"
+                            ? false
+                            : header.column.getNextSortingOrder() === "desc"
+                              ? false
+                              : true
+                          : false,
+                      };
+                      const thStyle = {
+                        "grid-row": `${currentstart + 1} / ${header.colSpan}`,
+                      };
+                      currentstart += header.colSpan;
+                      const ariaSort = header.column.getCanSort()
+                        ? header.column.getNextSortingOrder() === "asc"
+                          ? "other"
+                          : header.column.getNextSortingOrder() === "desc"
+                            ? "ascending"
+                            : "descending"
+                        : "none";
+                      if (header.column.getIsVisible()) {
+                        return html`
+                          <th
+                            key=${header.id}
+                            colspan=${header.colSpan}
+                            style="${styleMap(thStyle)}"
+                            class="not-content spectrum-Table-headCell ${classMap(
+                              thclasses
+                            )}"
+                            aria-sort=${ariaSort}
+                            @click="${header.column.getToggleSortingHandler()}"
+                          >
+                            ${header.isPlaceholder
+                              ? nothing
+                              : html`
+                                  <span
+                                    class="tableHeader spectrum-Table-columnTitle"
+                                  >
+                                    ${flexRender(
+                                      header.column.columnDef.header,
+                                      header.getContext()
+                                    )}
+                                    ${{ asc: " 🔼", desc: " 🔽" }[
+                                      header.column.getIsSorted() as string
+                                    ] ?? null}
+                                  </span>
+                                `}
+                          </th>
+                        `;
+                      } else {
+                        return html``;
+                      }
+                    })}
+                  </tr>
+                `;
+              })}
+            </thead>
+            <tbody class="spectrum-Table-body">
+              ${table.getRowModel().rows.map((row) => {
+                return html`
+                  <tr class="spectrum-Table-row">
+                    ${row.getVisibleCells().map((cell) => {
+                      return html`
+                        <td class="spectrum-Table-cell">
+                          ${flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </td>
+                      `;
+                    })}
+                  </tr>
+                `;
+              })}
+            </tbody>
+          </table>
+        </div>
+        <pagination-controller
+          .hasNextPage=${table.getCanNextPage()}
+          .hasPreviousPage=${table.getCanPreviousPage()}
+          .nextPage=${table.nextPage}
+          .pageCount=${table.getPageCount()}
+          .pageIndex=${table.getState().pagination.pageIndex}
+          .pageSize=${table.getState().pagination.pageSize}
+          .setPageSize="${table.setPageSize}"
+          .previousPage=${table.previousPage}
+          .firstPage=${table.firstPage}
+          .lastPage=${table.lastPage}
+        ></pagination-controller>
+      `;
     }
   }
 }

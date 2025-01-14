@@ -46,7 +46,6 @@ const specialities = (await getCollection("specialities")).map(
     ascending={JSON.stringify(ascending)}
     usecase={generalUseCase}
   >
-    <table-element></table-element>
   </table-holder>
 </div>
 
@@ -64,14 +63,20 @@ const specialities = (await getCollection("specialities")).map(
   class TableHolder extends HTMLElement {
     connectedCallback() {
       const attributes = this.getAttributeNames();
-      if (attributes.includes("generals")) {
-        const valid = z
-          .array(General)
-          .safeParse(JSON.parse(this.getAttribute("generals") ?? ""));
+      if (attributes.includes("usecase")) {
+        const valid = constants.BuffActivation.safeParse(
+          this.getAttribute("usecase")
+        );
         if (valid.success) {
-          stores.generals.set(valid.data);
+          console.log(`generalUseCase is ${valid.data}`);
+          stores.generalUseCase.set(valid.data);
+        } else {
+          console.warn(`invalid generalUseCase: ${valid.error.message}`);
         }
+      } else {
+        console.error(`no generalUseCase provided`);
       }
+
       if (attributes.includes("specialities")) {
         const valid = z
           .array(Speciality)
@@ -106,19 +111,17 @@ const specialities = (await getCollection("specialities")).map(
           stores.ascendingAttributes.set(valid.data);
         }
       }
-      if (attributes.includes("usecase")) {
-        const valid = constants.BuffActivation.safeParse(
-          this.getAttribute("usecase")
-        );
+      if (attributes.includes("generals")) {
+        const valid = z
+          .array(General)
+          .safeParse(JSON.parse(this.getAttribute("generals") ?? ""));
         if (valid.success) {
-          console.log(`generalUseCase is ${valid.data}`);
-          stores.generalUseCase.set(valid.data);
-        } else {
-          console.warn(`invalid generalUseCase: ${valid.error.message}`);
+          stores.generals.set(valid.data);
         }
-      } else {
-        console.error(`no generalUseCase provided`);
       }
+      this.innerHTML = `
+        <table-element></table-element>
+      `;
     }
   }
   customElements.define("table-holder", TableHolder);
