@@ -10,23 +10,12 @@ import { ConfictGroup } from "@schemas/generalConflictGroups";
 
 import * as constants from "@schemas/constants";
 
-import {
-  createTable,
-  getCoreRowModel,
-  getSortedRowModel,
-  type SortingState,
-  type TableOptionsResolved,
-  type TableState,
-} from "@tanstack/table-core";
-
 import rallySpotBaseMarch from "@lib/rallySpot";
 
 import { EvAnsAttack, EvAnsDefense, EvAnsHP } from "./generics/EvAnsScore";
 
 const DEBUG = false;
 const DEBUG2 = false;
-
-import { type Table } from "@tanstack/lit-table";
 
 type SelectedValues = {
   ascending: boolean;
@@ -709,5 +698,3 @@ export const pairs = batched(
     }
   }
 );
-
-export const sorting = atom<SortingState>([]);
