@@ -142,10 +142,6 @@ export default class TableElement extends withStores(LitElement, [
       if (DEBUG) {
         console.log(`change to data detected by willUpdate`);
       }
-      this.tableController.table({
-        ...this._state,
-        data: this.data,
-      });
     }
   }
 
@@ -253,7 +249,6 @@ export default class TableElement extends withStores(LitElement, [
 
       });*/
       const headerGroups = table.getHeaderGroups();
-      console.log(`headerGroups: ${JSON.stringify(headerGroups)}`);
       return html`
         <div
           id="tableContainer"
