@@ -1,8 +1,11 @@
 ---
 import { getCollection } from "astro:content";
 import "tabulator-tables/dist/css/tabulator.css";
+import TableStoreProvider from "./TableStore";
+import TableElement from "./PairTable";
 
 import * as constants from "@schemas/constants";
+import { SkillBook } from "@schemas/skillBooks";
 const DEBUG = true;
 
 interface Props {
@@ -20,9 +23,14 @@ if (DEBUG) {
     return a.id.localeCompare(b.id);
   }).length = 46;
 }
-const skillbooks = (await getCollection("skillBooks")).map(
-  (entry) => entry.data
-);
+const skillbooks = new Array<SkillBook>();
+(await getCollection("skillBooks")).map((entry) => {
+  if (Array.isArray(entry.data)) {
+    entry.data.map((e) => skillbooks.push(e));
+  } else {
+    skillbooks.push(entry.data);
+  }
+});
 const conflictGroups = (await getCollection("conflictGroups")).map(
   (entry) => entry.data
 );
@@ -36,22 +44,22 @@ const specialities = (await getCollection("specialities")).map(
 <div class="not-content">
   <value-selector></value-selector>
 
-  <table-holder
-    id="generals-table"
-    class="not-content"
-    generals={JSON.stringify(generals)}
-    skillbooks={JSON.stringify(skillbooks)}
-    conflictgroups={JSON.stringify(conflictGroups)}
-    specialities={JSON.stringify(specialities)}
-    ascending={JSON.stringify(ascending)}
-    usecase={generalUseCase}
+  <TableStoreProvider
+    generals={generals}
+    skillbooks={skillbooks}
+    conflictgroups={conflictGroups}
+    specialities={specialities}
+    ascending={ascending}
+    useCase={generalUseCase}><TableElement /></TableStoreProvider
   >
-  </table-holder>
 </div>
 
 <script>
+  import { createStore, type SetStoreFunction } from "solid-js/store";
+  import type { Component } from "solid-js";
+
   import ValueSelector from "./ValueSelector.ts";
-  import TableElement from "./generalTable.ts";
+  import TableElement from "./PairTable.tsx";
   import { General } from "@schemas/generals";
   import * as constants from "@schemas/constants";
   import * as stores from "./store";
@@ -60,8 +68,17 @@ const specialities = (await getCollection("specialities")).map(
   import { SkillBook } from "@schemas/skillBooks";
   import { ConfictGroup } from "@schemas/generalConflictGroups";
   import { GeneralAscending } from "@schemas/ascending";
+  import { TableContext, type tc } from "./TableContext";
   class TableHolder extends HTMLElement {
+    private TableStore: [get: {}, set: SetStoreFunction<{}>] | null = null;
+
     connectedCallback() {
+      let useCase;
+      let generals;
+      let skillbooks;
+      let specialities;
+      let ascending;
+      let conflictgroups;
       const attributes = this.getAttributeNames();
       if (attributes.includes("usecase")) {
         const valid = constants.BuffActivation.safeParse(
@@ -69,7 +86,7 @@ const specialities = (await getCollection("specialities")).map(
         );
         if (valid.success) {
           console.log(`generalUseCase is ${valid.data}`);
-          stores.generalUseCase.set(valid.data);
+          useCase = valid.data;
         } else {
           console.warn(`invalid generalUseCase: ${valid.error.message}`);
         }
@@ -119,8 +136,9 @@ const specialities = (await getCollection("specialities")).map(
           stores.generals.set(valid.data);
         }
       }
+
       this.innerHTML = `
-        <table-element></table-element>
+
       `;
     }
   }
