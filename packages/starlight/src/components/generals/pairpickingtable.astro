@@ -3,10 +3,14 @@ import { getCollection } from "astro:content";
 import "tabulator-tables/dist/css/tabulator.css";
 import TableStoreProvider from "./TableStore";
 import TableElement from "./PairTable";
+import { z } from "zod";
 
 import * as constants from "@schemas/constants";
 import { SkillBook } from "@schemas/skillBooks";
+import Generals from "@layouts/generals.astro";
 const DEBUG = true;
+
+import { General } from "@schemas/generals";
 
 interface Props {
   generalUseCase: constants.BuffActivation;
@@ -14,7 +18,7 @@ interface Props {
 
 const { generalUseCase } = Astro.props;
 if (DEBUG) {
-  console.log(`generalUseCase is ${generalUseCase}`);
+  console.log(`pairpickingtable.astro generalUseCase is ${generalUseCase}`);
 }
 
 const generals = (await getCollection("generals")).map((entry) => entry.data);
@@ -39,6 +43,12 @@ const ascending = (await getCollection("ascending")).map((entry) => entry.data);
 const specialities = (await getCollection("specialities")).map(
   (entry) => entry.data
 );
+if (DEBUG) {
+  let valid = z.array(General).safeParse(generals);
+  if (valid.success) {
+    console.log(`pairpickingtable.astro generals array parsed successfully`);
+  }
+}
 ---
 
 <div class="not-content">
@@ -53,94 +63,3 @@ const specialities = (await getCollection("specialities")).map(
     useCase={generalUseCase}><TableElement /></TableStoreProvider
   >
 </div>
-
-<script>
-  import { createStore, type SetStoreFunction } from "solid-js/store";
-  import type { Component } from "solid-js";
-
-  import ValueSelector from "./ValueSelector.ts";
-  import TableElement from "./PairTable.tsx";
-  import { General } from "@schemas/generals";
-  import * as constants from "@schemas/constants";
-  import * as stores from "./store";
-  import { z } from "zod";
-  import { Speciality } from "@schemas/specialities";
-  import { SkillBook } from "@schemas/skillBooks";
-  import { ConfictGroup } from "@schemas/generalConflictGroups";
-  import { GeneralAscending } from "@schemas/ascending";
-  import { TableContext, type tc } from "./TableContext";
-  class TableHolder extends HTMLElement {
-    private TableStore: [get: {}, set: SetStoreFunction<{}>] | null = null;
-
-    connectedCallback() {
-      let useCase;
-      let generals;
-      let skillbooks;
-      let specialities;
-      let ascending;
-      let conflictgroups;
-      const attributes = this.getAttributeNames();
-      if (attributes.includes("usecase")) {
-        const valid = constants.BuffActivation.safeParse(
-          this.getAttribute("usecase")
-        );
-        if (valid.success) {
-          console.log(`generalUseCase is ${valid.data}`);
-          useCase = valid.data;
-        } else {
-          console.warn(`invalid generalUseCase: ${valid.error.message}`);
-        }
-      } else {
-        console.error(`no generalUseCase provided`);
-      }
-
-      if (attributes.includes("specialities")) {
-        const valid = z
-          .array(Speciality)
-          .safeParse(JSON.parse(this.getAttribute("specialities") ?? ""));
-        if (valid.success) {
-          stores.specialities.set(valid.data);
-        }
-      }
-      if (attributes.includes("skillbooks")) {
-        const valid = z
-          .array(SkillBook)
-          .safeParse(JSON.parse(this.getAttribute("skillbooks") ?? ""));
-        if (valid.success) {
-          stores.skillBooks.set(valid.data);
-        }
-      }
-      if (attributes.includes("conflictgroups")) {
-        const valid = z
-          .array(ConfictGroup)
-          .safeParse(JSON.parse(this.getAttribute("conflictgroups") ?? ""));
-        if (valid.success) {
-          stores.conflictGroups.set(valid.data);
-        }
-      } else {
-        console.warn(`no conflict groups provided`);
-      }
-      if (attributes.includes("ascending")) {
-        const valid = z
-          .array(GeneralAscending)
-          .safeParse(JSON.parse(this.getAttribute("ascending") ?? ""));
-        if (valid.success) {
-          stores.ascendingAttributes.set(valid.data);
-        }
-      }
-      if (attributes.includes("generals")) {
-        const valid = z
-          .array(General)
-          .safeParse(JSON.parse(this.getAttribute("generals") ?? ""));
-        if (valid.success) {
-          stores.generals.set(valid.data);
-        }
-      }
-
-      this.innerHTML = `
-
-      `;
-    }
-  }
-  customElements.define("table-holder", TableHolder);
-</script>

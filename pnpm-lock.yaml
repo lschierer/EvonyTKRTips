@@ -72,6 +72,19 @@ importers:
 
   infrastructure: {}
 
+  packages/my-app:
+    dependencies:
+      solid-js:
+        specifier: ^1.9.3
+        version: 1.9.4
+    devDependencies:
+      vite:
+        specifier: ^6.0.0
+        version: 6.0.7(@types/node@22.10.6)(jiti@2.4.2)(tsx@4.19.2)(yaml@2.7.0)
+      vite-plugin-solid:
+        specifier: ^2.11.0
+        version: 2.11.0(solid-js@1.9.4)(vite@6.0.7(@types/node@22.10.6)(jiti@2.4.2)(tsx@4.19.2)(yaml@2.7.0))
+
   packages/starlight:
     dependencies:
       '@astrojs/mdx':

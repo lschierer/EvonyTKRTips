@@ -1,4 +1,5 @@
 import {
+  createEffect,
   createSignal,
   type Component,
   type JSX,
@@ -6,25 +7,51 @@ import {
 } from "solid-js";
 
 import { createStore, type SetStoreFunction } from "solid-js/store";
+import { z } from "zod";
 
-import { TableContext, type tc } from "./TableContext";
+import { General } from "@schemas/generals";
+import { TableContext, type tcValue, type tc } from "./TableContext";
 
-type tsp = tc & {
+const DEBUG = true;
+
+type tsp = tcValue & {
   children?: JSX.Element;
 };
 const TableStoreProvider: Component<tsp> = (props) => {
-  const [state, setState] = createSignal<tc>({
+  let valid = z.array(General).safeParse(props.generals);
+  const generals = new Array<General>();
+  if (valid.success) {
+    if (DEBUG) {
+      createEffect(() => {
+        console.log(`TableStoreProvider parsed generals: ${valid.data.length}`);
+      });
+    }
+
+    valid.data.forEach((g) => generals.push(g));
+  } else {
+    throw new Error(
+      `TableStoreProvider failed to parse generals with error ${valid.error.message}`
+    );
+  }
+  const [state, setState] = createStore<tcValue>({
     useCase: props.useCase,
-    generals: props.generals,
+    generals: generals,
     skillbooks: props.skillbooks,
     specialities: props.specialities,
     ascending: props.ascending,
     conflictgroups: props.conflictgroups,
   });
-  const instance: tc = state();
+  createEffect(() => {
+    if (DEBUG) {
+      console.log(`props generals is ${props.generals}`);
+      console.log(`state.useCase is ${state.useCase}`);
+    }
+  });
+
+  const v = { value: state };
   return (
-    <TableContext.Provider value={{ ...instance }}>
-      <span>test</span>
+    <TableContext.Provider x }>
+      <span>{valid.success && valid.data.length}</span>
       {props.children}
     </TableContext.Provider>
   );
