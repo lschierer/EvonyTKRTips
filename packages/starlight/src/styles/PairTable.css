@@ -7,12 +7,24 @@ div#tableContainer.tableContainer {
   height: minmax(max-content, 40rem);
 }
 
+table.spectrum-Table.spectrum-Table-main {
+  display: grid;
+}
+
 thead.spectrum-Table-head {
+  display: grid;
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
   /*background-color: var(--spectrum-table-header-background-color);*/
   background-color: var(--sl-color-text-accent);
 }
 
-thead.spectrum-Table-head tr {
+thead.spectrum-Table-head tr.tableHeaderRow {
+  display: grid;
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
+  grid-auto-flow: row;
+  height: 4rem;
   border-bottom-width: var(--spectrum-table-border-width);
   border-bottom-style: solid;
   border-bottom-color: var(--spectrum-table-border-color);

@@ -6,6 +6,7 @@ import {
   nothing,
   type PropertyValues,
   unsafeCSS,
+  type TemplateResult,
 } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
@@ -57,6 +58,10 @@ export default class TableElement extends withStores(LitElement, [
   private _columns: ColumnDef[];
 
   private columnVisibility: Record<string, boolean>;
+
+  protected _number_of_columns: number = 0;
+
+  protected headerRows: TemplateResult[] = new Array<TemplateResult>();
 
   constructor() {
     super();
@@ -132,17 +137,23 @@ export default class TableElement extends withStores(LitElement, [
     }
   };
 
-  protected headerRender = (columns: ColumnDef[], colstart = 0) => {
+  protected headerRender = (
+    columns: ColumnDef[],
+    iteration = 0,
+    colstart = 0
+  ) => {
     let header = html``;
-    const currentRow = new Array<ColumnDef>();
+    let nextRow = html``;
 
     columns.map((c, index) => {
-      colstart += index;
+      if (colstart == 0) {
+        colstart++;
+      }
       if (Object.keys(c).includes("columns")) {
+        const headerStyle = {
+          "grid-column": `${colstart} / ${c["columns" as keyof typeof c].length + colstart}`,
+        };
         if (Object.keys(c).includes("header")) {
-          const headerStyle = {
-            "grid-row": `${colstart} / ${c["columns" as keyof typeof c].length}`,
-          };
           header = html`${header}
             <th
               class="not-content spectrum-Table-headCell"
@@ -155,13 +166,35 @@ export default class TableElement extends withStores(LitElement, [
             </th> `;
         } else {
           header = html`${header}
-            <th class="not-content spectrum-Table-headCell">${c.id}</th> `;
+            <th
+              style="${styleMap(headerStyle)}"
+              class="not-content spectrum-Table-headCell"
+            >
+              ${c.id}
+            </th> `;
         }
-        currentRow.push(c);
+
+        //@ts-expect-error
+        const columns = c["columns" as keyof typeof c] as ColumnDef[];
+        this.headerRender(columns, iteration + 1, colstart);
+        colstart += c["columns" as keyof typeof c].length;
       } else {
+        this._number_of_columns++;
+
+        if (DEBUG) {
+          console.log(
+            `after incrementing, I have ${this._number_of_columns} columns`
+          );
+        }
+        const headerStyle = {
+          "grid-column": `${colstart} / ${++colstart}`,
+        };
         if (Object.keys(c).includes("header")) {
           header = html`${header}
-            <th class="not-content spectrum-Table-headCell">
+            <th
+              style=${styleMap(headerStyle)}
+              class="not-content spectrum-Table-headCell"
+            >
               ${
                 //@ts-expect-error
                 c["header" as keyof typeof c]()
@@ -169,21 +202,18 @@ export default class TableElement extends withStores(LitElement, [
             </th> `;
         } else {
           header = html`${header}
-            <th class="not-content spectrum-Table-headCell">${c.id}</th> `;
+            <th
+              style=${styleMap(headerStyle)}
+              class="not-content spectrum-Table-headCell"
+            >
+              ${c.id}
+            </th> `;
         }
       }
     });
-    header = html`
-      <tr>
-        ${header}
-      </tr>
+    this.headerRows[iteration] = html`
+      ${this.headerRows[iteration]} ${header}
     `;
-    currentRow.map((c) => {
-      //@ts-expect-error
-      const columns = c["columns" as keyof typeof c] as ColumnDef[];
-      header = html` ${header} ${this.headerRender(columns, colstart)}`;
-    });
-    return header;
   };
 
   private index = 0;
@@ -206,16 +236,29 @@ export default class TableElement extends withStores(LitElement, [
         ></div>
       `;
     } else {
+      this._number_of_columns = 0;
+      this.headerRender(this._columns);
+      const tableStyle = {
+        "grid-template-columns": `10rem 10rem repeat(${this._number_of_columns - 2}, 5rem)`,
+      };
+
       return html`
         <div
           id="tableContainer"
           class="not-content tableContainer spectrum-Table--sizeM spectrum-Table--empasized"
         >
           <table
+            style="${styleMap(tableStyle)}"
             class="spectrum-Table spectrum-Table-main spectrum-Table--sizeM spectrum-Table--emphasized"
           >
             <thead class="not-content spectrum-Table-head">
-              ${this.headerRender(this._columns)}
+              ${this.headerRows.map(
+                (hr) => html`
+                  <tr class="tableHeaderRow">
+                    ${hr}
+                  </tr>
+                `
+              )}
             </thead>
             <tbody class="spectrum-Table-body">
               ${this.data.map((row) => {
