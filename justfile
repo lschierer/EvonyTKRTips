@@ -19,7 +19,7 @@ build: install parse
   cd packages/starlight && ${PNPM} run build
 
 parse: install
-  cd packages/starlight && ./bin/createCollections.sh
+  cd packages/assets && ./bin/createCollections.sh -o ../starlight/src/content/
 
 
 deploy: build

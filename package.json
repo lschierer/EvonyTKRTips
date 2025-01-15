@@ -30,6 +30,8 @@
   },
   "dependencies": {
     "jiti": "^1.21.7",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-sh": "^0.14.0",
     "tsx": "^4.19.2"
   },
   "lint-staged": {

@@ -1,0 +1,11 @@
+{
+  "name": "assets",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "author": "Luke Schierer",
+  "license": "ISC",
+  "dependencies": {
+    "quicktype": "^23.0.170"
+  }
+}

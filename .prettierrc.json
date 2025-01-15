@@ -2,6 +2,14 @@
   "singleQuote": false,
   "trailingComma": "es5",
   "tabWidth": 2,
-  "semi": true
+  "semi": true,
+  "plugins": ["prettier-plugin-astro", "prettier-plugin-sh"],
+  "overrides": [
+    {
+      "files": "*.astro",
+      "options": {
+        "parser": "astro"
+      }
+    }
+  ]
 }
-
