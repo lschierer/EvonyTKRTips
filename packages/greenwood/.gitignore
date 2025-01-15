@@ -3,3 +3,5 @@
 node_modules/
 public/
 .greenwood/
+
+src/assets/collections
