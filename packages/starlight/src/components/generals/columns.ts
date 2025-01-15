@@ -89,7 +89,8 @@ export const PvMcolumns: ColumnDef[] = [
         header: () => html`
           <span class="generalTableHeader"> Attack Buff Total </span>
         `,
-        cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
+        cell: (row) =>
+          html`<span class="tableCell">${row.BuffSet?.attack.total}%</span>`,
       },
       {
         id: "ScoreSet.attack",
@@ -98,7 +99,8 @@ export const PvMcolumns: ColumnDef[] = [
         header: () => html`
           <span class="generalTableHeader"> EvAns Attack Score </span>
         `,
-        cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
+        cell: (row) =>
+          html`<span class="tableCell">${row.ScoreSet?.attack}%</span>`,
       },
       {
         id: "PvM.attack",
