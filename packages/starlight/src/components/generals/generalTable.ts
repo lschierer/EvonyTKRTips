@@ -6,6 +6,8 @@ import {
   type SortingState,
   TableController,
   type TableState,
+  type RequiredKeys,
+  type TableOptions,
 } from "@tanstack/lit-table";
 
 import { type TableOptionsResolved } from "@tanstack/table-core";
@@ -94,6 +96,11 @@ export default class TableElement extends withStores(LitElement, [
 
   protected _state = atom<TableState | null>(null);
 
+  protected _tableOptions = atom<RequiredKeys<
+    TableOptions<GeneralPair>,
+    "state"
+  > | null>(null);
+
   constructor() {
     super();
     if (
@@ -112,6 +119,14 @@ export default class TableElement extends withStores(LitElement, [
           this.data.length = 0;
           this.data = [...v];
           this.tableController.host.requestUpdate();
+
+          this.tableController.host.updateComplete.then((updateHappened) => {
+            if (DEBUG) {
+              console.log(
+                `PvMPairsWithStats subscribe tableController updateComplete says ${updateHappened ? "update finished" : "update needed"}`
+              );
+            }
+          });
         });
     } else if (
       !this.useCaseController.value.localeCompare(
@@ -187,23 +202,7 @@ export default class TableElement extends withStores(LitElement, [
           sortUndefined,
         },
       };
-      const resolvedOptions: TableOptionsResolved<GeneralPair> = {
-        onStateChange: () => this.requestUpdate(),
-        data: this.data,
-        columns: this._columns,
-        manualSorting: false, //tanstack will handle sorting.
-        enableSortingRemoval:
-          false /*Set enableSortingRemoval to false if you want to ensure that at least one column is always sorted. */,
-        /* state has to be here or I get a typescript type error */
-        /* the lit example from https://tanstack.com/table/latest/docs/framework/lit/examples/sorting suggests setting sorting here */
-        state: {
-          sorting: this._sorting,
-        },
-        initialState: {
-          columnVisibility: this.columnVisibility,
-        },
-        ...options,
-      };
+
       const table = this.tableController.table({
         data: this.data,
         columns: this._columns,
@@ -216,39 +215,15 @@ export default class TableElement extends withStores(LitElement, [
         },
         ...options,
       });
+
       this._state.set(table.initialState);
-      this.tableController.host.requestUpdate();
-      /*const table = createTable<GeneralPair>({
-        ...resolvedOptions,
-      });
-      const state = atom(table.initialState);
-
-      state.subscribe((currentState) => {
-        table.setOptions((prev) => ({
-          ...prev,
-          ...options,
-          state: {
-            ...currentState,
-            columnVisibility: this.columnVisibility,
-          },
-          // Similarly, we'll maintain both our internal state and any user-provided state
-          onStateChange: (updater) => {
-            if (typeof updater === "function") {
-              const newState = updater(currentState);
-              this._sorting = newState.sorting;
-              state.set(newState);
-            } else {
-              state.set(updater);
-            }
-            options.onStateChange?.();
-          },
-        }));
-      });*/
-      /*const table = this.tableController.table({
-        columns: getColumns(),
+      const o = table.options;
+      this._tableOptions.set({
+        ...table.options,
         data: this.data,
+      });
+      this.tableController.host.requestUpdate();
 
-      });*/
       const headerGroups = table.getHeaderGroups();
       return html`
         <div
@@ -347,7 +322,12 @@ export default class TableElement extends withStores(LitElement, [
                   <tr class="spectrum-Table-row">
                     ${row.getVisibleCells().map((cell) => {
                       return html`
-                        <td class="spectrum-Table-cell">${cell.getValue()}</td>
+                        <td class="spectrum-Table-cell">
+                          ${flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </td>
                       `;
                     })}
                   </tr>
