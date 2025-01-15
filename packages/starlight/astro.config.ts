@@ -7,6 +7,8 @@ import mdx from "@astrojs/mdx";
 
 import node from "@astrojs/node";
 
+import solidJs from "@astrojs/solid-js";
+
 export default defineConfig({
   site: "https://www.evonytkrtips.net",
   trailingSlash: "always",
@@ -50,5 +52,8 @@ export default defineConfig({
       }),
     }),
     mdx(),
+    solidJs({
+      devtools: false,
+    }),
   ],
 });
