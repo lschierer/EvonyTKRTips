@@ -111,6 +111,7 @@ export default class TableElement extends withStores(LitElement, [
           }
           this.data.length = 0;
           this.data = [...v];
+          this.tableController.host.requestUpdate();
         });
     } else if (
       !this.useCaseController.value.localeCompare(
@@ -142,6 +143,7 @@ export default class TableElement extends withStores(LitElement, [
       if (DEBUG) {
         console.log(`change to data detected by willUpdate`);
       }
+      this.tableController.host.requestUpdate();
     }
   }
 
@@ -202,7 +204,6 @@ export default class TableElement extends withStores(LitElement, [
         },
         ...options,
       };
-
       const table = this.tableController.table({
         data: this.data,
         columns: this._columns,
@@ -215,8 +216,8 @@ export default class TableElement extends withStores(LitElement, [
         },
         ...options,
       });
-
       this._state.set(table.initialState);
+      this.tableController.host.requestUpdate();
       /*const table = createTable<GeneralPair>({
         ...resolvedOptions,
       });
