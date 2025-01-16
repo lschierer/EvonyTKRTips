@@ -8,6 +8,7 @@ import {
   unsafeCSS,
   type TemplateResult,
 } from "lit";
+import { ref, type Ref, createRef } from "lit/directives/ref.js";
 import { customElement, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { styleMap } from "lit/directives/style-map.js";
@@ -20,6 +21,9 @@ import {
   virtualizerRef,
 } from "@lit-labs/virtualizer/virtualize.js";
 import { LitVirtualizer } from "@lit-labs/virtualizer";
+
+import "@spectrum-web-components/table/elements.js";
+import { Table } from "@spectrum-web-components/table/src/Table.js";
 
 import SpectrumTableCSS from "@spectrum-css/table/dist/index.css?inline";
 import GeneralsCSS from "@styles/generals.css?inline";
@@ -63,6 +67,8 @@ export default class TableElement extends withStores(LitElement, [
 
   protected headerRows: TemplateResult[] = new Array<TemplateResult>();
 
+  protected tableRef: Ref<Table> = createRef<Table>();
+
   constructor() {
     super();
     if (
@@ -80,6 +86,9 @@ export default class TableElement extends withStores(LitElement, [
           }
           this.data.length = 0;
           this.data = [...v];
+          if (this.tableRef.value) {
+            this.initTable();
+          }
         });
     } else {
       if (DEBUG) {
@@ -90,11 +99,23 @@ export default class TableElement extends withStores(LitElement, [
     }
   }
 
+  protected override firstUpdated(_changedProperties: PropertyValues): void {
+    super.firstUpdated(_changedProperties);
+    this.initTable();
+  }
+
   protected override willUpdate(_changedProperties: PropertyValues): void {
     super.willUpdate(_changedProperties);
     if (_changedProperties.has("data")) {
       if (DEBUG) {
         console.log(`change to data detected by willUpdate`);
+      }
+      if (this.tableRef.value) {
+        this.initTable();
+      } else {
+        if (DEBUG) {
+          console.log(`willupdate sees invalid tableref value`);
+        }
       }
     }
   }
@@ -155,23 +176,15 @@ export default class TableElement extends withStores(LitElement, [
         };
         if (Object.keys(c).includes("header")) {
           header = html`${header}
-            <th
-              class="not-content spectrum-Table-headCell"
-              style="${styleMap(headerStyle)}"
-            >
+            <sp-table-head-cell>
               ${
                 //@ts-expect-error
                 c["header" as keyof typeof c]()
               }
-            </th> `;
+            </sp-table-head-cell> `;
         } else {
           header = html`${header}
-            <th
-              style="${styleMap(headerStyle)}"
-              class="not-content spectrum-Table-headCell"
-            >
-              ${c.id}
-            </th> `;
+            <sp-table-head-cell> ${c.id} </sp-table-head-cell> `;
         }
 
         //@ts-expect-error
@@ -191,23 +204,15 @@ export default class TableElement extends withStores(LitElement, [
         };
         if (Object.keys(c).includes("header")) {
           header = html`${header}
-            <th
-              style=${styleMap(headerStyle)}
-              class="not-content spectrum-Table-headCell"
-            >
+            <sp-table-head-cell>
               ${
                 //@ts-expect-error
                 c["header" as keyof typeof c]()
               }
-            </th> `;
+            </sp-table-head-cell> `;
         } else {
           header = html`${header}
-            <th
-              style=${styleMap(headerStyle)}
-              class="not-content spectrum-Table-headCell"
-            >
-              ${c.id}
-            </th> `;
+            <sp-table-head-cell> ${c.id} </sp-table-head-cell> `;
         }
       }
     });
@@ -247,37 +252,41 @@ export default class TableElement extends withStores(LitElement, [
           id="tableContainer"
           class="not-content tableContainer spectrum-Table--sizeM spectrum-Table--empasized"
         >
-          <table
-            style="${styleMap(tableStyle)}"
-            class="spectrum-Table spectrum-Table-main spectrum-Table--sizeM spectrum-Table--emphasized"
-          >
-            <thead class="not-content spectrum-Table-head">
-              ${this.headerRows.map(
-                (hr) => html`
-                  <tr class="tableHeaderRow">
-                    ${hr}
-                  </tr>
-                `
-              )}
-            </thead>
-            <tbody class="spectrum-Table-body">
-              ${this.data.map((row) => {
-                return html`
-                  <tr class="spectrum-Table-row">
-                    ${this._columns.map((cell) => {
-                      return html`
-                        <td class="spectrum-Table-cell">
-                          ${this.cellRender(cell, row)}
-                        </td>
-                      `;
-                    })}
-                  </tr>
-                `;
-              })}
-            </tbody>
-          </table>
+          <sp-table scroller?="true" ${ref(this.tableRef)}>
+            <sp-table-head>
+              ${this.headerRows.map((hr) => html` ${hr}`)}
+            </sp-table-head>
+          </sp-table>
         </div>
       `;
     }
   }
+
+  protected initTable = () => {
+    if (DEBUG) {
+      console.log(`initTable fired`);
+    }
+    const table = this.tableRef.value;
+    if (table) {
+      table.items = this.data.map((datum) => {
+        const key = `${datum.primary.id}/${datum.secondary.id}`;
+        const i: TableItem = {
+          [key]: datum,
+        };
+        return i;
+      });
+
+      table.renderItem = (item, index) => {
+        const gp = Object.values(item)[0] as GeneralPair;
+        const cells = new Array<TemplateResult>();
+        for (const column of this._columns) {
+          const v = this.cellRender(column, gp);
+          cells.push(html` <sp-table-cell> ${v} </sp-table-cell> `);
+        }
+        return html` ${cells} `;
+      };
+    }
+  };
 }
+
+type TableItem = Record<string, GeneralPair>;

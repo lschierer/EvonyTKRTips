@@ -29,11 +29,6 @@ export type ColumnDef =
       sortingFn: "alphanumeric" | "basic";
       header: () => string | TemplateResult;
       cell: (row: GeneralPair) => string | TemplateResult;
-    }
-  | {
-      id: string;
-      columns: ColumnDef[];
-      header?: () => string | TemplateResult;
     };
 
 export const DefaultColumns: ColumnDef[] = [
@@ -76,453 +71,367 @@ export const DefaultColumns: ColumnDef[] = [
 
 export const PvMcolumns: ColumnDef[] = [
   ...DefaultColumns,
+
   {
-    id: "PvM",
+    id: "BuffSet.attack.total",
+    accessorKey: "BuffSet.attack.total",
+    sortingFn: "basic",
     header: () => html`
-      <span class="generalTableHeader"> Player Versus Monster Statistics </span>
+      <span class="generalTableHeader"> Attack Buff Total </span>
     `,
-    columns: [
-      {
-        id: "BuffSet.attack.total",
-        accessorKey: "BuffSet.attack.total",
-        sortingFn: "basic",
-        header: () => html`
-          <span class="generalTableHeader"> Attack Buff Total </span>
-        `,
-        cell: (row) =>
-          html`<span class="tableCell">${row.BuffSet?.attack.total}%</span>`,
-      },
-      {
-        id: "ScoreSet.attack",
-        accessorKey: "ScoreSet.attack",
-        sortingFn: "basic",
-        header: () => html`
-          <span class="generalTableHeader"> EvAns Attack Score </span>
-        `,
-        cell: (row) =>
-          html`<span class="tableCell">${row.ScoreSet?.attack}%</span>`,
-      },
-      {
-        id: "PvM.attack",
-        columns: [
-          {
-            id: "BuffSet.attack.totalAttribute",
-            sortingFn: "basic",
+    cell: (row) =>
+      html`<span class="tableCell">${row.BuffSet?.attack.total}%</span>`,
+  },
+  {
+    id: "ScoreSet.attack",
+    accessorKey: "ScoreSet.attack",
+    sortingFn: "basic",
+    header: () => html`
+      <span class="generalTableHeader"> EvAns Attack Score </span>
+    `,
+    cell: (row) =>
+      html`<span class="tableCell">${row.ScoreSet?.attack}%</span>`,
+  },
 
-            header: () =>
-              html`<span class="generalTableHeader"
-                >Basic Attribute Total</span
-              >`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${(row.BuffSet?.attack.totalAttribute ?? 0 * 100)
-                  .toFixed(3)
-                  .replace(/(\d)0+$/, "$1")}%</span
-              >`,
-          },
-          {
-            id: "BuffSet.attack.BaseSkill",
-            sortingFn: "basic",
+  {
+    id: "BuffSet.attack.totalAttribute",
+    sortingFn: "basic",
 
-            header: () =>
-              html`<span class="generalTableHeader">Base Skill</span>`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row.BuffSet?.attack.BaseSkill.toFixed(1).replace(
-                  /(\d)0+$/,
-                  "$1"
-                )}%</span
-              >`,
-          },
-          {
-            id: "BuffSet.attack.SkillBooks",
-            sortingFn: "basic",
+    header: () =>
+      html`<span class="generalTableHeader">Basic Attribute Total</span>`,
+    cell: (row) =>
+      html`<span class="tableCell"
+        >${(row.BuffSet?.attack.totalAttribute ?? 0 * 100)
+          .toFixed(3)
+          .replace(/(\d)0+$/, "$1")}%</span
+      >`,
+  },
+  {
+    id: "BuffSet.attack.BaseSkill",
+    sortingFn: "basic",
 
-            header: () =>
-              html`<span class="generalTableHeader">Skill Books</span>`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row.BuffSet?.attack.SkillBooks.toFixed(1).replace(
-                  /(\d)0+$/,
-                  "$1"
-                )}%</span
-              >`,
-          },
-          {
-            id: "BuffSet.attack.Speciality1",
-            sortingFn: "basic",
+    header: () => html`<span class="generalTableHeader">Base Skill</span>`,
+    cell: (row) =>
+      html`<span class="tableCell"
+        >${row.BuffSet?.attack.BaseSkill.toFixed(1).replace(
+          /(\d)0+$/,
+          "$1"
+        )}%</span
+      >`,
+  },
+  {
+    id: "BuffSet.attack.SkillBooks",
+    sortingFn: "basic",
 
-            header: () =>
-              html`<span class="generalTableHeader">Speciality 1</span>`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row.BuffSet?.attack.Speciality1.toFixed(1).replace(
-                  /(\d)0+$/,
-                  "$1"
-                )}%</span
-              >`,
-          },
-          {
-            id: "BuffSet.attack.Speciality2",
-            sortingFn: "basic",
+    header: () => html`<span class="generalTableHeader">Skill Books</span>`,
+    cell: (row) =>
+      html`<span class="tableCell"
+        >${row.BuffSet?.attack.SkillBooks.toFixed(1).replace(
+          /(\d)0+$/,
+          "$1"
+        )}%</span
+      >`,
+  },
+  {
+    id: "BuffSet.attack.Speciality1",
+    sortingFn: "basic",
 
-            header: () =>
-              html`<span class="generalTableHeader">Speciality 2</span>`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row.BuffSet?.attack.Speciality2.toFixed(1).replace(
-                  /(\d)0+$/,
-                  "$1"
-                )}%</span
-              >`,
-          },
-          {
-            id: "PvM.attack",
-            columns: [
-              {
-                id: "BuffSet.attack.Speciality3",
-                sortingFn: "basic",
-                header: () =>
-                  html`<span class="generalTableHeader">Speciality 3</span>`,
-                cell: (row) =>
-                  html`<span class="tableCell"
-                    >${row.BuffSet?.attack.Speciality3.toFixed(1).replace(
-                      /(\d)0+$/,
-                      "$1"
-                    )}%</span
-                  >`,
-              },
-              {
-                id: "BuffSet.attack.Speciality4",
-                sortingFn: "basic",
+    header: () => html`<span class="generalTableHeader">Speciality 1</span>`,
+    cell: (row) =>
+      html`<span class="tableCell"
+        >${row.BuffSet?.attack.Speciality1.toFixed(1).replace(
+          /(\d)0+$/,
+          "$1"
+        )}%</span
+      >`,
+  },
+  {
+    id: "BuffSet.attack.Speciality2",
+    sortingFn: "basic",
 
-                header: () =>
-                  html`<span class="generalTableHeader">Speciality 4</span>`,
-                cell: (row) =>
-                  html`<span class="tableCell"
-                    >${row.BuffSet?.attack.Speciality4.toFixed(1).replace(
-                      /(\d)0+$/,
-                      "$1"
-                    )}%</span
-                  >`,
-              },
-              {
-                id: "BuffSet.attack.Ascending",
-                sortingFn: "basic",
+    header: () => html`<span class="generalTableHeader">Speciality 2</span>`,
+    cell: (row) =>
+      html`<span class="tableCell"
+        >${row.BuffSet?.attack.Speciality2.toFixed(1).replace(
+          /(\d)0+$/,
+          "$1"
+        )}%</span
+      >`,
+  },
+  {
+    id: "BuffSet.attack.Speciality3",
+    sortingFn: "basic",
+    header: () => html`<span class="generalTableHeader">Speciality 3</span>`,
+    cell: (row) =>
+      html`<span class="tableCell"
+        >${row.BuffSet?.attack.Speciality3.toFixed(1).replace(
+          /(\d)0+$/,
+          "$1"
+        )}%</span
+      >`,
+  },
+  {
+    id: "BuffSet.attack.Speciality4",
+    sortingFn: "basic",
 
-                header: () =>
-                  html`<span class="generalTableHeader">Ascending</span>`,
-                cell: (row) =>
-                  html` <span class="tableCell">
-                    ${row.BuffSet?.attack.Ascending}
-                  </span>`,
-              },
-            ],
-          },
-        ],
-      },
+    header: () => html`<span class="generalTableHeader">Speciality 4</span>`,
+    cell: (row) =>
+      html`<span class="tableCell"
+        >${row.BuffSet?.attack.Speciality4.toFixed(1).replace(
+          /(\d)0+$/,
+          "$1"
+        )}%</span
+      >`,
+  },
+  {
+    id: "BuffSet.attack.Ascending",
+    sortingFn: "basic",
 
-      {
-        id: "ScoreSet.defense",
-        accessorKey: "ScoreSet.defense",
-        sortingFn: "basic",
-        header: () => html`
-          <span class="generalTableHeader"> EvAns Defense Score </span>
-        `,
-        cell: (row) =>
-          html`<span class="tableCell">${row.ScoreSet?.defense}%</span>`,
-      },
-      {
-        id: "BuffSet.defense.total",
-        accessorKey: "BuffSet.defense.total",
-        sortingFn: "basic",
-        header: () => html`
-          <span class="generalTableHeader"> Defense Total </span>
-        `,
-        cell: (row) =>
-          html`<span class="tableCell"> ${row.BuffSet?.defense.total}% </span>`,
-      },
-      {
-        id: "PvM.defense",
-        columns: [
-          {
-            id: "BuffSet.defense.totalAttribute",
-            sortingFn: "basic",
-            header: () =>
-              html`<span class="generalTableHeader"
-                >Basic Attribute Total</span
-              >`,
-            cell: (row) => html`
-              <span class="tableCell">
-                ${(row.BuffSet?.defense.totalAttribute ?? 0 * 100)
-                  .toFixed(3)
-                  .replace(/(\d)0+$/, "$1")}%
-              </span>
-            `,
-          },
-          {
-            id: "BuffSet.defense.BaseSkill",
-            sortingFn: "basic",
+    header: () => html`<span class="generalTableHeader">Ascending</span>`,
+    cell: (row) =>
+      html` <span class="tableCell"> ${row.BuffSet?.attack.Ascending} </span>`,
+  },
 
-            header: () =>
-              html`<span class="generalTableHeader">Base Skill</span>`,
-            cell: (row) => html`
-              <span class="tableCell">
-                ${row.BuffSet?.defense.BaseSkill.toFixed(1).replace(
-                  /(\d)0+$/,
-                  "$1"
-                )}%
-              </span>
-            `,
-          },
-          {
-            id: "BuffSet.defense.SkillBooks",
-            sortingFn: "basic",
+  {
+    id: "ScoreSet.defense",
+    accessorKey: "ScoreSet.defense",
+    sortingFn: "basic",
+    header: () => html`
+      <span class="generalTableHeader"> EvAns Defense Score </span>
+    `,
+    cell: (row) =>
+      html`<span class="tableCell">${row.ScoreSet?.defense}%</span>`,
+  },
+  {
+    id: "BuffSet.defense.total",
+    accessorKey: "BuffSet.defense.total",
+    sortingFn: "basic",
+    header: () => html`
+      <span class="generalTableHeader"> Defense Total </span>
+    `,
+    cell: (row) =>
+      html`<span class="tableCell"> ${row.BuffSet?.defense.total}% </span>`,
+  },
 
-            header: () =>
-              html`<span class="generalTableHeader"> Skill Books </span> `,
-            cell: (row) => html`
-              <span class="tableCell">
-                ${row.BuffSet?.defense.SkillBooks.toFixed(1).replace(
-                  /(\d)0+$/,
-                  "$1"
-                )}%
-              </span>
-            `,
-          },
-          {
-            id: "BuffSet.defense.Speciality1",
-            sortingFn: "basic",
+  {
+    id: "BuffSet.defense.totalAttribute",
+    sortingFn: "basic",
+    header: () =>
+      html`<span class="generalTableHeader">Basic Attribute Total</span>`,
+    cell: (row) => html`
+      <span class="tableCell">
+        ${(row.BuffSet?.defense.totalAttribute ?? 0 * 100)
+          .toFixed(3)
+          .replace(/(\d)0+$/, "$1")}%
+      </span>
+    `,
+  },
+  {
+    id: "BuffSet.defense.BaseSkill",
+    sortingFn: "basic",
 
-            header: () =>
-              html`<span class="generalTableHeader"> Speciality 1 </span>`,
-            cell: (row) => html`
-              <span class="tableCell">
-                ${row.BuffSet?.defense.Speciality1.toFixed(1).replace(
-                  /(\d)0+$/,
-                  "$1"
-                )}%
-              </span>
-            `,
-          },
-          {
-            id: "BuffSet.defense.Speciality2",
-            sortingFn: "basic",
+    header: () => html`<span class="generalTableHeader">Base Skill</span>`,
+    cell: (row) => html`
+      <span class="tableCell">
+        ${row.BuffSet?.defense.BaseSkill.toFixed(1).replace(/(\d)0+$/, "$1")}%
+      </span>
+    `,
+  },
+  {
+    id: "BuffSet.defense.SkillBooks",
+    sortingFn: "basic",
 
-            header: () => html`
-              <span class="generalTableHeader"> Speciality 2 </span>
-            `,
-            cell: (row) => html`
-              <span class="tableCell">
-                ${row.BuffSet?.defense.Speciality2.toFixed(1).replace(
-                  /(\d)0+$/,
-                  "$1"
-                )}%
-              </span>
-            `,
-          },
-          {
-            id: "BuffSet.defense.Speciality3",
-            sortingFn: "basic",
+    header: () => html`<span class="generalTableHeader"> Skill Books </span> `,
+    cell: (row) => html`
+      <span class="tableCell">
+        ${row.BuffSet?.defense.SkillBooks.toFixed(1).replace(/(\d)0+$/, "$1")}%
+      </span>
+    `,
+  },
+  {
+    id: "BuffSet.defense.Speciality1",
+    sortingFn: "basic",
 
-            header: () => html`
-              <span class="generalTableHeader"> Speciality 3 </span>
-            `,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row.BuffSet?.defense.Speciality3.toFixed(1).replace(
-                  /(\d)0+$/,
-                  "$1"
-                )}%</span
-              >`,
-          },
-          {
-            id: "BuffSet.defense.Speciality4",
-            sortingFn: "basic",
-            header: () =>
-              html` <span class="generalTableHeader"> Speciality 4 </span>`,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row.BuffSet?.defense.Speciality4.toFixed(1).replace(
-                  /(\d)0+$/,
-                  "$1"
-                )}%</span
-              >`,
-          },
-          {
-            id: "BuffSet.defense.Ascending",
-            sortingFn: "basic",
-            header: () => html`
-              <span class="generalTableHeader"> Ascending </span>
-            `,
-            cell: (row) =>
-              html`<span class="tableCell"
-                >${row.BuffSet?.defense.Ascending.toFixed(1).replace(
-                  /(\d)0+$/,
-                  "$1"
-                )}%</span
-              >`,
-          },
-        ],
-      },
+    header: () => html`<span class="generalTableHeader"> Speciality 1 </span>`,
+    cell: (row) => html`
+      <span class="tableCell">
+        ${row.BuffSet?.defense.Speciality1.toFixed(1).replace(/(\d)0+$/, "$1")}%
+      </span>
+    `,
+  },
+  {
+    id: "BuffSet.defense.Speciality2",
+    sortingFn: "basic",
 
-      {
-        id: "BuffSet.hp.total",
-        accessorKey: "BuffSet.hp.total",
-        sortingFn: "basic",
-        header: () => html`
-          <span class="generalTableHeader"> HP Total </span>
-        `,
-        cell: (row) =>
-          html`<span class="tableCell">${row.BuffSet?.hp.total}%</span>`,
-      },
-      {
-        id: "ScoreSet.hp",
-        accessorKey: "ScoreSet.hp",
-        sortingFn: "basic",
-        header: () => html`
-          <span class="generalTableHeader"> EvAns HP Score </span>
-        `,
-        cell: (row) =>
-          html`<span class="tableCell">${row.ScoreSet?.hp}%</span>`,
-      },
-      {
-        id: "PvM.hp",
-        columns: [
-          {
-            id: "BuffSet.hp.totalAttribute",
-            sortingFn: "basic",
-            header: () => html`
-              <span class="generalTableHeader"> Basic Attribute Total </span>
-            `,
-            cell: (row) => html`
-              <span class="tableCell">
-                ${(row.BuffSet?.hp.totalAttribute ?? 0 * 100)
-                  .toFixed(3)
-                  .replace(/(\d)0+$/, "$1")}%
-              </span>
-            `,
-          },
-          {
-            id: "BuffSet.hp.BaseSkill",
-            sortingFn: "basic",
-            header: () => html`
-              <span class="generalTableHeader"> Base Skill </span>
-            `,
-            cell: (row) => html`
-              <span class="tableCell">
-                ${row.BuffSet?.hp.BaseSkill.toFixed(1).replace(
-                  /(\d)0+$/,
-                  "$1"
-                )}%
-              </span>
-            `,
-          },
-          {
-            id: "BuffSet.hp.SkillBooks",
-            sortingFn: "basic",
-            header: () =>
-              html`<span class="generalTableHeader">Skill Books</span>`,
-            cell: (row) => html`
-              <span class="tableCell">
-                ${row.BuffSet?.hp.SkillBooks.toFixed(1).replace(
-                  /(\d)0+$/,
-                  "$1"
-                )}%
-              </span>
-            `,
-          },
-          {
-            id: "BuffSet.hp.Speciality1",
-            sortingFn: "basic",
-            header: () => html`
-              <span class="generalTableHeader"> Speciality 1 </span>
-            `,
-            cell: (row) => html`
-              <span class="tableCell">
-                ${row.BuffSet?.hp.Speciality1.toFixed(1).replace(
-                  /(\d)0+$/,
-                  "$1"
-                )}%
-              </span>
-            `,
-          },
-          {
-            id: "BuffSet.hp.Speciality2",
-            sortingFn: "basic",
-            header: () => html`
-              <span class="generalTableHeader"> Speciality 2 </span>
-            `,
-            cell: (row) => html`
-              <span class="tableCell">
-                ${row.BuffSet?.hp.Speciality2.toFixed(1).replace(
-                  /(\d)0+$/,
-                  "$1"
-                )}%
-              </span>
-            `,
-          },
-          {
-            id: "BuffSet.hp.Speciality3",
-            sortingFn: "basic",
-            header: () => html`
-              <span class="generalTableHeader"> Speciality 3 </span>
-            `,
-            cell: (row) => html`
-              <span class="tableCell">
-                ${row.BuffSet?.hp.Speciality3.toFixed(1).replace(
-                  /(\d)0+$/,
-                  "$1"
-                )}%
-              </span>
-            `,
-          },
-          {
-            id: "BuffSet.hp.Speciality4",
-            sortingFn: "basic",
-            header: () => html`
-              <span class="generalTableHeader"> Speciality 4 </span>
-            `,
-            cell: (row) => html`
-              <span class="tableCell">
-                ${row.BuffSet?.hp.Speciality4.toFixed(1).replace(
-                  /(\d)0+$/,
-                  "$1"
-                )}%
-              </span>
-            `,
-          },
-          {
-            id: "BuffSet.hp.Ascending",
-            sortingFn: "basic",
-            header: () => html`
-              <span class="generalTableHeader"> Ascending </span>
-            `,
-            cell: (row) => html`
-              <span class="tableCell">
-                ${row.BuffSet?.hp.Ascending.toFixed(1).replace(
-                  /(\d)0+$/,
-                  "$1"
-                )}%
-              </span>
-            `,
-          },
-        ],
-      },
+    header: () => html`
+      <span class="generalTableHeader"> Speciality 2 </span>
+    `,
+    cell: (row) => html`
+      <span class="tableCell">
+        ${row.BuffSet?.defense.Speciality2.toFixed(1).replace(/(\d)0+$/, "$1")}%
+      </span>
+    `,
+  },
+  {
+    id: "BuffSet.defense.Speciality3",
+    sortingFn: "basic",
 
-      {
-        id: "BuffSet.doubleDrop.total",
-        accessorKey: "BuffSet.doubleDrop.total",
-        sortingFn: "basic",
-        header: () => html`
-          <span class="generalTableHeader"> Double Drop Total </span>
-        `,
-        cell: (row) =>
-          html`<span class="tableCell"
-            >${row.BuffSet?.doubleDrop?.total}%</span
-          >`,
-      },
-    ],
+    header: () => html`
+      <span class="generalTableHeader"> Speciality 3 </span>
+    `,
+    cell: (row) =>
+      html`<span class="tableCell"
+        >${row.BuffSet?.defense.Speciality3.toFixed(1).replace(
+          /(\d)0+$/,
+          "$1"
+        )}%</span
+      >`,
+  },
+  {
+    id: "BuffSet.defense.Speciality4",
+    sortingFn: "basic",
+    header: () => html` <span class="generalTableHeader"> Speciality 4 </span>`,
+    cell: (row) =>
+      html`<span class="tableCell"
+        >${row.BuffSet?.defense.Speciality4.toFixed(1).replace(
+          /(\d)0+$/,
+          "$1"
+        )}%</span
+      >`,
+  },
+  {
+    id: "BuffSet.defense.Ascending",
+    sortingFn: "basic",
+    header: () => html` <span class="generalTableHeader"> Ascending </span> `,
+    cell: (row) =>
+      html`<span class="tableCell"
+        >${row.BuffSet?.defense.Ascending.toFixed(1).replace(
+          /(\d)0+$/,
+          "$1"
+        )}%</span
+      >`,
+  },
+
+  {
+    id: "BuffSet.hp.total",
+    accessorKey: "BuffSet.hp.total",
+    sortingFn: "basic",
+    header: () => html` <span class="generalTableHeader"> HP Total </span> `,
+    cell: (row) =>
+      html`<span class="tableCell">${row.BuffSet?.hp.total}%</span>`,
+  },
+  {
+    id: "ScoreSet.hp",
+    accessorKey: "ScoreSet.hp",
+    sortingFn: "basic",
+    header: () => html`
+      <span class="generalTableHeader"> EvAns HP Score </span>
+    `,
+    cell: (row) => html`<span class="tableCell">${row.ScoreSet?.hp}%</span>`,
+  },
+
+  {
+    id: "BuffSet.hp.totalAttribute",
+    sortingFn: "basic",
+    header: () => html`
+      <span class="generalTableHeader"> Basic Attribute Total </span>
+    `,
+    cell: (row) => html`
+      <span class="tableCell">
+        ${(row.BuffSet?.hp.totalAttribute ?? 0 * 100)
+          .toFixed(3)
+          .replace(/(\d)0+$/, "$1")}%
+      </span>
+    `,
+  },
+  {
+    id: "BuffSet.hp.BaseSkill",
+    sortingFn: "basic",
+    header: () => html` <span class="generalTableHeader"> Base Skill </span> `,
+    cell: (row) => html`
+      <span class="tableCell">
+        ${row.BuffSet?.hp.BaseSkill.toFixed(1).replace(/(\d)0+$/, "$1")}%
+      </span>
+    `,
+  },
+  {
+    id: "BuffSet.hp.SkillBooks",
+    sortingFn: "basic",
+    header: () => html`<span class="generalTableHeader">Skill Books</span>`,
+    cell: (row) => html`
+      <span class="tableCell">
+        ${row.BuffSet?.hp.SkillBooks.toFixed(1).replace(/(\d)0+$/, "$1")}%
+      </span>
+    `,
+  },
+  {
+    id: "BuffSet.hp.Speciality1",
+    sortingFn: "basic",
+    header: () => html`
+      <span class="generalTableHeader"> Speciality 1 </span>
+    `,
+    cell: (row) => html`
+      <span class="tableCell">
+        ${row.BuffSet?.hp.Speciality1.toFixed(1).replace(/(\d)0+$/, "$1")}%
+      </span>
+    `,
+  },
+  {
+    id: "BuffSet.hp.Speciality2",
+    sortingFn: "basic",
+    header: () => html`
+      <span class="generalTableHeader"> Speciality 2 </span>
+    `,
+    cell: (row) => html`
+      <span class="tableCell">
+        ${row.BuffSet?.hp.Speciality2.toFixed(1).replace(/(\d)0+$/, "$1")}%
+      </span>
+    `,
+  },
+  {
+    id: "BuffSet.hp.Speciality3",
+    sortingFn: "basic",
+    header: () => html`
+      <span class="generalTableHeader"> Speciality 3 </span>
+    `,
+    cell: (row) => html`
+      <span class="tableCell">
+        ${row.BuffSet?.hp.Speciality3.toFixed(1).replace(/(\d)0+$/, "$1")}%
+      </span>
+    `,
+  },
+  {
+    id: "BuffSet.hp.Speciality4",
+    sortingFn: "basic",
+    header: () => html`
+      <span class="generalTableHeader"> Speciality 4 </span>
+    `,
+    cell: (row) => html`
+      <span class="tableCell">
+        ${row.BuffSet?.hp.Speciality4.toFixed(1).replace(/(\d)0+$/, "$1")}%
+      </span>
+    `,
+  },
+  {
+    id: "BuffSet.hp.Ascending",
+    sortingFn: "basic",
+    header: () => html` <span class="generalTableHeader"> Ascending </span> `,
+    cell: (row) => html`
+      <span class="tableCell">
+        ${row.BuffSet?.hp.Ascending.toFixed(1).replace(/(\d)0+$/, "$1")}%
+      </span>
+    `,
+  },
+
+  {
+    id: "BuffSet.doubleDrop.total",
+    accessorKey: "BuffSet.doubleDrop.total",
+    sortingFn: "basic",
+    header: () => html`
+      <span class="generalTableHeader"> Double Drop Total </span>
+    `,
+    cell: (row) =>
+      html`<span class="tableCell">${row.BuffSet?.doubleDrop?.total}%</span>`,
   },
 ];
 /*{

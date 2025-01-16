@@ -32,6 +32,7 @@
     "@spectrum-web-components/menu": "^1.0.3",
     "@spectrum-web-components/number-field": "^1.0.3",
     "@spectrum-web-components/picker": "^1.0.3",
+    "@spectrum-web-components/table": "^1.0.3",
     "@spectrum-web-components/theme": "^1.0.3",
     "astro": "^5.1.6",
     "d3": "^7.9.0",

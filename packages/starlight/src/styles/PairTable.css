@@ -6,6 +6,23 @@ div#tableContainer.tableContainer {
   width: minmax(max-content, 50vw);
   height: minmax(max-content, 40rem);
 }
+sp-table {
+  height: 40rem;
+  display: grid;
+}
+
+sp-table-head {
+  display: grid;
+  grid-column: 1/-1;
+
+  grid-auto-flow: column;
+}
+
+sp-table sp-table-body sp-table-row {
+  display: grid;
+
+  grid-auto-flow: column;
+}
 
 table.spectrum-Table.spectrum-Table-main {
   display: grid;
