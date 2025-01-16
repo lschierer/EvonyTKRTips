@@ -286,6 +286,9 @@ importers:
       '@spectrum-web-components/picker':
         specifier: ^1.0.3
         version: 1.0.3
+      '@spectrum-web-components/table':
+        specifier: ^1.0.3
+        version: 1.0.3
       '@spectrum-web-components/theme':
         specifier: ^1.0.3
         version: 1.0.3
@@ -1980,6 +1983,9 @@ packages:
   '@spectrum-web-components/button@1.0.3':
     resolution: {integrity: sha512-vqRjPjyFEH+rwt/B4d3AXhojb+/pPEGP72oWV0n7qQRrwq+fHyjimc/GdipENwJ0McQZQW7YsfOUVdSNGD84NA==}
 
+  '@spectrum-web-components/checkbox@1.0.3':
+    resolution: {integrity: sha512-rHORC3zngF3a3miS7NgYolrAjjhx/DFXiVb0KVOKU4eQv0jT+tzJa0TGYA6MWwph9BpnCKSEocyLoeiPKgj54Q==}
+
   '@spectrum-web-components/clear-button@1.0.3':
     resolution: {integrity: sha512-WqEzr6b67HCSF1iczFT9KN0POgObhQJOWmaBBF8L/i5k35xmGV7bpyz2PB0yLxpMj5yx5Cge+BmyqW70LGE8mQ==}
 
@@ -2048,6 +2054,9 @@ packages:
 
   '@spectrum-web-components/styles@1.0.3':
     resolution: {integrity: sha512-Ogkw3sxdUyKFr4GAd4Liwyb/fol3E6iotKm1BP4vO4qfuU/ANUC6JE6HXq25oflSandJsomUu7oK40jbxoRMCA==}
+
+  '@spectrum-web-components/table@1.0.3':
+    resolution: {integrity: sha512-jB5WBDU6xLePze7XM7flGT+WaF721v8nkv6eVNfq3gzM4ZTLndoNuO5bmJSWG2q+MeDQrabeJgKppdOGftEc8A==}
 
   '@spectrum-web-components/textfield@1.0.3':
     resolution: {integrity: sha512-wAoKaJhwj7q0v0OPQbbN0Lw90KRx1fHLyUWWmnOL3VnyOy7ktokDuHEwvwegU5c50NK0zt3Llel8XH3d+duRGw==}
@@ -8924,6 +8933,13 @@ snapshots:
       '@spectrum-web-components/reactive-controllers': 1.0.3
       '@spectrum-web-components/shared': 1.0.3
 
+  '@spectrum-web-components/checkbox@1.0.3':
+    dependencies:
+      '@spectrum-web-components/base': 1.0.3
+      '@spectrum-web-components/icon': 1.0.3
+      '@spectrum-web-components/icons-ui': 1.0.3
+      '@spectrum-web-components/shared': 1.0.3
+
   '@spectrum-web-components/clear-button@1.0.3':
     dependencies:
       '@spectrum-web-components/base': 1.0.3
@@ -9081,6 +9097,15 @@ snapshots:
     dependencies:
       '@spectrum-web-components/base': 1.0.3
       lit: 3.2.1
+
+  '@spectrum-web-components/table@1.0.3':
+    dependencies:
+      '@lit-labs/observers': 2.0.4
+      '@lit-labs/virtualizer': 2.0.15
+      '@spectrum-web-components/base': 1.0.3
+      '@spectrum-web-components/checkbox': 1.0.3
+      '@spectrum-web-components/icon': 1.0.3
+      '@spectrum-web-components/icons-ui': 1.0.3
 
   '@spectrum-web-components/textfield@1.0.3':
     dependencies:
