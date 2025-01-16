@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 OPTS=$(getopt -o o: --long output: -n 'createCollections.sh' -- "$@")
 
@@ -57,4 +57,5 @@ find . -type d -mindepth 1 -maxdepth 1 ! -name 'bin' ! -name 'node_modules' | wh
     j=`basename "$file" .yaml`;
     $YQ eval -o=json "$file" > "$OUTPUTDIR/$c/$j.json"
   done
+  find "$OUTPUTDIR/$c/" -iname "*.json" -exec basename {} \+ | gsed -E 's/(.*)/"\1",/; /./{H;$!d} ; x ; s/^/const collection=[/; s/$/]; export default collection;/' > "$OUTPUTDIR/$c/collection.ts"
 done

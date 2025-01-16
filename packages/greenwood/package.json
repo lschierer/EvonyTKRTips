@@ -4,10 +4,10 @@
   "description": "Project Greenwood based frontend for Evony TKR Tips",
   "type": "module",
   "scripts": {
-    "dev": "tsx --import @greenwood/cli/register ./node_modules/@greenwood/cli/src/index.js develop",
-    "start": "tsx --import @greenwood/cli/register ./node_modules/@greenwood/cli/src/index.js develop",
-    "build": "tsx --import @greenwood/cli/register ./node_modules/@greenwood/cli/src/index.js build",
-    "serve": "tsx --import @greenwood/cli/register ./node_modules/@greenwood/cli/src/index.js serve"
+    "dev": "node --import @greenwood/cli/register ./node_modules/@greenwood/cli/src/index.js develop",
+    "start": "node --import @greenwood/cli/register ./node_modules/@greenwood/cli/src/index.js develop",
+    "build": "node --import @greenwood/cli/register ./node_modules/@greenwood/cli/src/index.js build",
+    "serve": "node --import @greenwood/cli/register ./node_modules/@greenwood/cli/src/index.js serve"
   },
   "devDependencies": {
     "@greenwood/cli": "0.31.0-alpha.4",
