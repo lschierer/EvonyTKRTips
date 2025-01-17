@@ -1,9 +1,11 @@
 import {
   createTable,
+  type SortingState,
   type TableState,
   type TableOptions,
   type TableOptionsResolved,
   getCoreRowModel,
+  getSortedRowModel,
 } from "@tanstack/table-core";
 
 import { atom, batched, computed, map, deepMap } from "nanostores";
@@ -17,11 +19,34 @@ import { DefaultColumns, PvMcolumns, PvPcolumns } from "./columns";
 
 const DEBUG = true;
 
-const stateStore = atom<TableState | null>(null);
+export const stateStore = atom<TableState | null>(null);
+
+export const sortingStore = atom<SortingState>([
+  {
+    id: "primary",
+    desc: false,
+  },
+  {
+    id: "secondary",
+    desc: false,
+  },
+]);
+
+if (DEBUG) {
+  sortingStore.subscribe((v) => {
+    console.log(`sorting state change, `, JSON.stringify(v));
+  });
+}
 
 const tableStore = computed(
-  [stateStore, stores.generalUseCase, stores.PvMPairsWithStats, stores.pairs],
-  (currentState, currentUseCase, PvMPairs, DefaultPairs) => {
+  [
+    stateStore,
+    sortingStore,
+    stores.generalUseCase,
+    stores.PvMPairsWithStats,
+    stores.pairs,
+  ],
+  (currentState, currentSorting, currentUseCase, PvMPairs, DefaultPairs) => {
     if (DEBUG) {
       console.log(`computing new table`);
     }
@@ -48,24 +73,38 @@ const tableStore = computed(
       }
       // Compose in the generic options to the user options
       const resolvedOptions: TableOptionsResolved<GeneralPair> = {
-        state: {}, // Dummy state
+        state: {
+          ...currentState,
+          sorting: currentSorting,
+        },
         onStateChange: () => {}, // noop
         renderFallbackValue: null,
         columns,
+        enableSorting: true,
+        enableSortingRemoval: false,
+        enableMultiSort: false,
         data: PvMPairs,
         getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
         ...currentState,
       };
 
       return resolvedOptions;
     } else {
       const resolvedOptions: TableOptionsResolved<GeneralPair> = {
-        state: {}, // Dummy state
+        state: {
+          ...currentState,
+          sorting: currentSorting,
+        },
         onStateChange: () => {}, // noop
         renderFallbackValue: null,
         columns,
+        enableSorting: true,
+        enableSortingRemoval: false,
+        enableMultiSort: false,
         data: DefaultPairs,
         getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
         ...currentState,
       };
 

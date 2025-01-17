@@ -21,6 +21,7 @@ import {
   type Row,
   type RowData,
   type RowModel,
+  type SortingState,
   type Table as tanstackTable,
   type TableOptions,
   type TableOptionsResolved,
@@ -28,7 +29,7 @@ import {
 } from "@tanstack/table-core";
 
 import { StoreController, withStores } from "@nanostores/lit";
-import { atom, computed } from "nanostores";
+import { atom } from "nanostores";
 
 import "@spectrum-web-components/table/elements.js";
 import { Table } from "@spectrum-web-components/table";
@@ -44,9 +45,11 @@ import pvmVisibility from "./visibility/pvm";
 
 import * as stores from "./store";
 import tableStore from "./backendTable";
+import { stateStore, sortingStore } from "./backendTable";
 import { GeneralPair } from "@schemas/generals";
 
 import * as constants from "@schemas/constants";
+import type { CursorPos } from "readline";
 
 const DEBUG = true;
 
@@ -57,6 +60,7 @@ export default class PairingTable extends withStores(LitElement, [
   stores.AttackingPairsWithStats,
   stores.pairs,
   tableStore,
+  sortingStore,
 ]) {
   @state()
   protected _columns: ColumnDef<GeneralPair>[] = new Array<
@@ -76,8 +80,17 @@ export default class PairingTable extends withStores(LitElement, [
       }
       if (this.table) {
         const options = this.table.options;
+        if (DEBUG) {
+          console.log(
+            `tableStore change, options are: `,
+            JSON.stringify(options),
+            ` current value should be: `,
+            JSON.stringify(currentValue)
+          );
+        }
         this.table.setOptions({
           ...options,
+          ...currentValue,
           data: this.tanstackData,
         });
         this.spTable(this.table);
@@ -172,6 +185,26 @@ export default class PairingTable extends withStores(LitElement, [
           `;
         })}`;
       };
+
+      tableElement.addEventListener("sorted", (event) => {
+        const { sortDirection, sortKey } = (event as CustomEvent).detail;
+        console.log(`table sorted event has sortKey ${sortKey}`);
+        if (this.table) {
+          const sorting = this.table.getState().sorting;
+          if (DEBUG) {
+            console.log(
+              `sorting event handler shows current state ${JSON.stringify(sorting)}`
+            );
+          }
+          const newSorting: SortingState = [
+            {
+              id: sortKey,
+              desc: !(sortDirection as String).localeCompare("desc"),
+            },
+          ];
+          sortingStore.set(newSorting);
+        }
+      });
     }
   };
 
@@ -204,8 +237,18 @@ export default class PairingTable extends withStores(LitElement, [
               .getLeafHeaders()
               .filter((h) => !h.id.startsWith("center_"))
               .map((header) => {
+                const sortDirection =
+                  header.column.getNextSortingOrder() === "asc"
+                    ? "asc"
+                    : header.column.getNextSortingOrder() === "desc"
+                      ? "desc"
+                      : false;
                 return html`
-                  <sp-table-head-cell>
+                  <sp-table-head-cell
+                    ?sortable=${header.column.getCanSort()}
+                    sort-direction=${sortDirection}
+                    sort-key=${header.id}
+                  >
                     ${this.flexRender(
                       header.column.columnDef.header,
                       header.getContext()
@@ -219,22 +262,6 @@ export default class PairingTable extends withStores(LitElement, [
     }
   }
 }
-/*
-${tableStore
-  .get()
-  .getLeafHeaders()
-  .filter((h) => !h.id.startsWith("center_"))
-  .map((header) => {
-    return html`
-      <sp-table-head-cell>
-        ${this.flexRender(
-          header.column.columnDef.header,
-          header.getContext()
-        )}
-      </sp-table-head-cell>
-    `;
-  })}
-*/
 
 const useTable = <TData extends RowData>(options: TableOptions<TData>) => {
   // Compose in the generic options to the user options
@@ -249,10 +276,10 @@ const useTable = <TData extends RowData>(options: TableOptions<TData>) => {
   const table = createTable<TData>(resolvedOptions);
 
   // By default, manage table state here using the table's initial state
-  const state = atom(table.initialState);
+  stateStore.set(table.initialState);
 
   // Subscribe to state changes
-  state.subscribe((currentState) => {
+  stateStore.subscribe((currentState) => {
     table.setOptions((prev) => ({
       ...prev,
       ...options,
@@ -263,10 +290,12 @@ const useTable = <TData extends RowData>(options: TableOptions<TData>) => {
       // Similarly, we'll maintain both our internal state and any user-provided state
       onStateChange: (updater) => {
         if (typeof updater === "function") {
-          const newState = updater(currentState);
-          state.set(newState);
+          if (currentState) {
+            const newState = updater(currentState);
+            stateStore.set(newState);
+          }
         } else {
-          state.set(updater);
+          stateStore.set(updater);
         }
         options.onStateChange?.(updater);
       },
