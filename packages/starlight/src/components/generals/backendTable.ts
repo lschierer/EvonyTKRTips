@@ -52,7 +52,7 @@ const tableStore = computed(
         onStateChange: () => {}, // noop
         renderFallbackValue: null,
         columns,
-        data: JSON.parse(JSON.stringify(PvMPairs)),
+        data: PvMPairs,
         getCoreRowModel: getCoreRowModel(),
         ...currentState,
       };
@@ -64,7 +64,7 @@ const tableStore = computed(
         onStateChange: () => {}, // noop
         renderFallbackValue: null,
         columns,
-        data: JSON.parse(JSON.stringify(DefaultPairs)),
+        data: DefaultPairs,
         getCoreRowModel: getCoreRowModel(),
         ...currentState,
       };
