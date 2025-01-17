@@ -30,6 +30,10 @@ export const sortingStore = atom<SortingState>([
     id: "secondary",
     desc: false,
   },
+  {
+    id: "MarchSizeIncrease_total",
+    desc: true,
+  },
 ]);
 
 if (DEBUG) {

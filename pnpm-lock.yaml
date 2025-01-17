@@ -247,21 +247,39 @@ importers:
       '@spectrum-css/button':
         specifier: ^13.5.0
         version: 13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/fieldlabel':
+        specifier: ^8.2.0
+        version: 8.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
       '@spectrum-css/icon':
         specifier: ^7.2.0
         version: 7.2.0(@spectrum-css/tokens@15.0.0)
       '@spectrum-css/link':
         specifier: ^5.2.0
         version: 5.2.0(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/menu':
+        specifier: ^7.2.0
+        version: 7.2.0(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
       '@spectrum-css/page':
         specifier: ^8.2.0
         version: 8.2.0(@spectrum-css/tokens@15.0.0)
       '@spectrum-css/pagination':
         specifier: ^8.2.0
         version: 8.2.0(@spectrum-css/actionbutton@6.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/splitbutton@8.1.2(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/vars@9.0.8))(@spectrum-css/textfield@7.3.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/picker':
+        specifier: ^8.3.0
+        version: 8.3.0(rtxlxw24tvsqoju7fb7flhhyhm)
+      '@spectrum-css/popover':
+        specifier: ^7.2.0
+        version: 7.2.0(@spectrum-css/alertdialog@2.2.0(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/modal@5.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)(@spectrum-css/underlay@4.2.0(@spectrum-css/tokens@15.0.0)))(@spectrum-css/dialog@10.2.0(@spectrum-css/closebutton@5.3.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/modal@5.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)(@spectrum-css/underlay@4.2.0(@spectrum-css/tokens@15.0.0)))(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/menu@7.2.0(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/stepper':
+        specifier: ^6.3.0
+        version: 6.3.0(@spectrum-css/actionbutton@6.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/textfield@7.3.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
       '@spectrum-css/table':
         specifier: ^6.2.0
         version: 6.2.0(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/textfield':
+        specifier: ^7.3.0
+        version: 7.3.0(@spectrum-css/tokens@15.0.0)
       '@spectrum-css/tokens':
         specifier: ^15.0.0
         version: 15.0.0
@@ -292,6 +310,9 @@ importers:
       '@spectrum-web-components/theme':
         specifier: ^1.0.3
         version: 1.0.3
+      '@tanstack/lit-form':
+        specifier: ^0.41.2
+        version: 0.41.2(lit@3.2.1)
       '@tanstack/table-core':
         specifier: ^8.20.5
         version: 8.20.5
@@ -1754,6 +1775,21 @@ packages:
       '@spectrum-css/icon':
         optional: true
 
+  '@spectrum-css/alertdialog@2.2.0':
+    resolution: {integrity: sha512-jzKCxcQyr8ulV4QORaJiRH8UOdQW2uypjaLf0jrhRPcQTbrUMcFUQP0d2Px6+4+/893xey7b7G1/m+oszK5Jgg==}
+    peerDependencies:
+      '@spectrum-css/buttongroup': '>=7'
+      '@spectrum-css/divider': '>=3'
+      '@spectrum-css/icon': '>=7'
+      '@spectrum-css/modal': '>=5'
+      '@spectrum-css/tokens': '>=14'
+      '@spectrum-css/underlay': '>=4'
+    peerDependenciesMeta:
+      '@spectrum-css/buttongroup':
+        optional: true
+      '@spectrum-css/icon':
+        optional: true
+
   '@spectrum-css/button@13.5.0':
     resolution: {integrity: sha512-0uKR1y3q/kI84vUXwAEl3SFUzNpd9+wJoRwJNx6F0m8mziJJknEhiEu077R0RuIU1eSZ+BOEkmaP0MLA49HRmg==}
     peerDependencies:
@@ -1766,6 +1802,39 @@ packages:
       '@spectrum-css/progresscircle':
         optional: true
 
+  '@spectrum-css/closebutton@5.3.0':
+    resolution: {integrity: sha512-HfZmJAKhvQgg1CGyQjKUH00MDyOu/aov7jmnxhexrEBUVO7a22WWYv9HbUKjOhRkp9E9/MHomOWMENunLhNULg==}
+    peerDependencies:
+      '@spectrum-css/icon': '>=7'
+      '@spectrum-css/tokens': '>=14'
+
+  '@spectrum-css/dialog@10.2.0':
+    resolution: {integrity: sha512-sOYf2j9PI7ZuCp3WgxWgErXad0BWJtPewbVYOqk2U7IqkgIqvTVGyaLhq037II0U04bqCsJwvsEkjLwYk5tF/Q==}
+    peerDependencies:
+      '@spectrum-css/closebutton': '>=5'
+      '@spectrum-css/divider': '>=3'
+      '@spectrum-css/modal': '>=5'
+      '@spectrum-css/tokens': '>=14'
+      '@spectrum-css/underlay': '>=4'
+    peerDependenciesMeta:
+      '@spectrum-css/divider':
+        optional: true
+      '@spectrum-css/modal':
+        optional: true
+      '@spectrum-css/underlay':
+        optional: true
+
+  '@spectrum-css/divider@3.2.0':
+    resolution: {integrity: sha512-CPb1Yrvdx1YsV6313IezOJOGazdlJ4rhxU8JiD2WuDNiziVYhWYzPLGMvydhAhfDAluOdeMQ4kzoWiBQOLb7iw==}
+    peerDependencies:
+      '@spectrum-css/tokens': '>=14'
+
+  '@spectrum-css/fieldlabel@8.2.0':
+    resolution: {integrity: sha512-+GQKv7qbSqIH6F/PNCvsi94wxrhzGJ/h11ERiwAldLHqPcxEu1z7niT+XwP5CCeBTSHiaeBih3ZKVmPPBaeSlQ==}
+    peerDependencies:
+      '@spectrum-css/icon': '>=7'
+      '@spectrum-css/tokens': '>=14'
+
   '@spectrum-css/icon@7.2.0':
     resolution: {integrity: sha512-P3mnpMxqNZ+YJGhjAHKrcUpKp9wLa2RnuZVYtUsh8bweb4MlYm/4/a2VzeQunrgziU17YNG5KrXyRHpWHv1U9w==}
     peerDependencies:
@@ -1773,6 +1842,30 @@ packages:
 
   '@spectrum-css/link@5.2.0':
     resolution: {integrity: sha512-v2jo3rejLOlQvIQrXFG/otmF3rLQlbbXPsB3zx62u8JXZa83MExRToEFZJ62BtO/h62cAW6EJ5zK4sN63YO47g==}
+    peerDependencies:
+      '@spectrum-css/tokens': '>=14'
+
+  '@spectrum-css/menu@7.2.0':
+    resolution: {integrity: sha512-HOJ/80cL4ttT3dmhZxm8cppDSasxmpxNLwGTubh6CaTJ7pGn0bg+wVDawp9j+lExBk3U/st7zwUJvqFeDjXvtg==}
+    peerDependencies:
+      '@spectrum-css/checkbox': '>=9'
+      '@spectrum-css/divider': '>=3'
+      '@spectrum-css/icon': '>=7'
+      '@spectrum-css/switch': '>=5'
+      '@spectrum-css/tokens': '>=14'
+      '@spectrum-css/tray': '>=3'
+    peerDependenciesMeta:
+      '@spectrum-css/checkbox':
+        optional: true
+      '@spectrum-css/divider':
+        optional: true
+      '@spectrum-css/switch':
+        optional: true
+      '@spectrum-css/tray':
+        optional: true
+
+  '@spectrum-css/modal@5.2.0':
+    resolution: {integrity: sha512-sOGU3bHa9yoMYWcqrpUv6+syZgNZacho/jAxCrUcE4SwN18Zephntac+uPLXzu4dH9/v8+AfqnOeD2+V9G2vFQ==}
     peerDependencies:
       '@spectrum-css/tokens': '>=14'
 
@@ -1791,6 +1884,35 @@ packages:
       '@spectrum-css/textfield': '>=7'
       '@spectrum-css/tokens': '>=14'
 
+  '@spectrum-css/picker@8.3.0':
+    resolution: {integrity: sha512-AedXM1QjITG321wCvJUpPsdxZj+MzuqQZWe9jfh0vPYtzWE7BaTSCuXHvm1k7zjPpGvhjwD9OJdXb5P1HgzMmA==}
+    peerDependencies:
+      '@spectrum-css/helptext': '>=5'
+      '@spectrum-css/icon': '>=7'
+      '@spectrum-css/menu': '>=7'
+      '@spectrum-css/popover': '>=7'
+      '@spectrum-css/progresscircle': '>=3'
+      '@spectrum-css/tokens': '>=14'
+    peerDependenciesMeta:
+      '@spectrum-css/helptext':
+        optional: true
+      '@spectrum-css/progresscircle':
+        optional: true
+
+  '@spectrum-css/popover@7.2.0':
+    resolution: {integrity: sha512-8PtxN/+0ggIugugjI9DxOSKFaVQXqvm8g7RupAUEslQKJjCQ+IIHhmLLkjeCHrRgeH0zn65/q0fw1epkxQJCdw==}
+    peerDependencies:
+      '@spectrum-css/alertdialog': '>=2'
+      '@spectrum-css/dialog': '>=10'
+      '@spectrum-css/divider': '>=3'
+      '@spectrum-css/menu': '>=7'
+      '@spectrum-css/tokens': '>=14'
+    peerDependenciesMeta:
+      '@spectrum-css/divider':
+        optional: true
+      '@spectrum-css/menu':
+        optional: true
+
   '@spectrum-css/splitbutton@8.1.2':
     resolution: {integrity: sha512-hUsqhEhgm8PfKvwKPSACPU+Jqt0NaovD53gOp9QRa4jU9G3q8RpE5uJbs+pGZ9vyI6ocsm5lbs0zYtA082axzQ==}
     deprecated: Split button has been deprecated. Use a button group to show any additional actions related to the most critical action instead. Reference Spectrum documentation for more information.
@@ -1800,6 +1922,18 @@ packages:
       '@spectrum-css/vars': '>=9'
     peerDependenciesMeta:
       '@spectrum-css/icon':
+        optional: true
+
+  '@spectrum-css/stepper@6.3.0':
+    resolution: {integrity: sha512-iTiWpqZibRFF+UNUdLuoikz19ZcBiR5cHQ7Mi79yfsTqNBUZeuuZsXd34kULVczs9X/j4eNATjrRx96cm0EdKQ==}
+    peerDependencies:
+      '@spectrum-css/actionbutton': '>=6'
+      '@spectrum-css/icon': '>=7'
+      '@spectrum-css/infieldbutton': '>=5'
+      '@spectrum-css/textfield': '>=7'
+      '@spectrum-css/tokens': '>=14'
+    peerDependenciesMeta:
+      '@spectrum-css/infieldbutton':
         optional: true
 
   '@spectrum-css/table@6.2.0':
@@ -1834,6 +1968,11 @@ packages:
     resolution: {integrity: sha512-yaqc4wFY3asUhh3zzdqRI5dVJow7xJ2nL2bo4AADDLT305Dtje5PYO89m+f3nTVf2utKE3H8nlJbWUG57QpFqw==}
     peerDependencies:
       '@spectrum-css/tokens': '>=14.5.0'
+
+  '@spectrum-css/underlay@4.2.0':
+    resolution: {integrity: sha512-yd65zrufWXaS+oJvDx7Aa5XCLn0/g0cvlusGIT/NHMzRq2cbzNwzyx7fLwsnVnOtZsXWCtk70jT+2rg4ny3sOw==}
+    peerDependencies:
+      '@spectrum-css/tokens': '>=14'
 
   '@spectrum-css/vars@9.0.8':
     resolution: {integrity: sha512-rGfd7jqXOdR69bEjrRP58ynuIeJU0czPfwQvzhtCzg7jKVukV+efNHqrs086sC6xutB3W4TF71K/dZMr3oyTyg==}
@@ -1940,6 +2079,17 @@ packages:
 
   '@swc/helpers@0.5.15':
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
+
+  '@tanstack/form-core@0.41.2':
+    resolution: {integrity: sha512-A12oiYb66K2ddHS+KuFrn6fDye3hEmozzO0BAVpTZvnWeB/ifgw9naTz7riQTSfsae+MiMTrszxDI+nBdpQCtg==}
+
+  '@tanstack/lit-form@0.41.2':
+    resolution: {integrity: sha512-DRt6pJ8DtUeBKrHRWQfoNL3Sm+dZ9RcthonLcZfiUMs+wviY2TVRG0obegftYiHjRYyXlB1kXXKkGMvUvNg4rg==}
+    peerDependencies:
+      lit: ^3.0.0
+
+  '@tanstack/store@0.7.0':
+    resolution: {integrity: sha512-CNIhdoUsmD2NolYuaIs8VfWM467RK6oIBAW4nPEKZhg1smZ+/CwtCdpURgp7nxSqOaV9oKkzdWD80+bC66F/Jg==}
 
   '@tanstack/table-core@8.20.5':
     resolution: {integrity: sha512-P9dF7XbibHph2PFRz8gfBKEXEY/HJPOhym8CHmjF8y3q5mWpKx9xtZapXQUWCgkqvsK0R46Azuz+VaxD4Xl+Tg==}
@@ -8652,17 +8802,60 @@ snapshots:
     optionalDependencies:
       '@spectrum-css/icon': 7.2.0(@spectrum-css/tokens@15.0.0)
 
+  '@spectrum-css/alertdialog@2.2.0(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/modal@5.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)(@spectrum-css/underlay@4.2.0(@spectrum-css/tokens@15.0.0))':
+    dependencies:
+      '@spectrum-css/divider': 3.2.0(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/modal': 5.2.0(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/tokens': 15.0.0
+      '@spectrum-css/underlay': 4.2.0(@spectrum-css/tokens@15.0.0)
+    optionalDependencies:
+      '@spectrum-css/icon': 7.2.0(@spectrum-css/tokens@15.0.0)
+
   '@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)':
     dependencies:
       '@spectrum-css/tokens': 15.0.0
     optionalDependencies:
       '@spectrum-css/icon': 7.2.0(@spectrum-css/tokens@15.0.0)
 
+  '@spectrum-css/closebutton@5.3.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)':
+    dependencies:
+      '@spectrum-css/icon': 7.2.0(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/tokens': 15.0.0
+
+  '@spectrum-css/dialog@10.2.0(@spectrum-css/closebutton@5.3.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/modal@5.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)(@spectrum-css/underlay@4.2.0(@spectrum-css/tokens@15.0.0))':
+    dependencies:
+      '@spectrum-css/closebutton': 5.3.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/tokens': 15.0.0
+    optionalDependencies:
+      '@spectrum-css/divider': 3.2.0(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/modal': 5.2.0(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/underlay': 4.2.0(@spectrum-css/tokens@15.0.0)
+
+  '@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0)':
+    dependencies:
+      '@spectrum-css/tokens': 15.0.0
+
+  '@spectrum-css/fieldlabel@8.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)':
+    dependencies:
+      '@spectrum-css/icon': 7.2.0(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/tokens': 15.0.0
+
   '@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0)':
     dependencies:
       '@spectrum-css/tokens': 15.0.0
 
   '@spectrum-css/link@5.2.0(@spectrum-css/tokens@15.0.0)':
+    dependencies:
+      '@spectrum-css/tokens': 15.0.0
+
+  '@spectrum-css/menu@7.2.0(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)':
+    dependencies:
+      '@spectrum-css/icon': 7.2.0(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/tokens': 15.0.0
+    optionalDependencies:
+      '@spectrum-css/divider': 3.2.0(@spectrum-css/tokens@15.0.0)
+
+  '@spectrum-css/modal@5.2.0(@spectrum-css/tokens@15.0.0)':
     dependencies:
       '@spectrum-css/tokens': 15.0.0
 
@@ -8679,12 +8872,35 @@ snapshots:
       '@spectrum-css/textfield': 7.3.0(@spectrum-css/tokens@15.0.0)
       '@spectrum-css/tokens': 15.0.0
 
+  '@spectrum-css/picker@8.3.0(rtxlxw24tvsqoju7fb7flhhyhm)':
+    dependencies:
+      '@spectrum-css/icon': 7.2.0(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/menu': 7.2.0(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/popover': 7.2.0(@spectrum-css/alertdialog@2.2.0(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/modal@5.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)(@spectrum-css/underlay@4.2.0(@spectrum-css/tokens@15.0.0)))(@spectrum-css/dialog@10.2.0(@spectrum-css/closebutton@5.3.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/modal@5.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)(@spectrum-css/underlay@4.2.0(@spectrum-css/tokens@15.0.0)))(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/menu@7.2.0(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/tokens': 15.0.0
+
+  '@spectrum-css/popover@7.2.0(@spectrum-css/alertdialog@2.2.0(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/modal@5.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)(@spectrum-css/underlay@4.2.0(@spectrum-css/tokens@15.0.0)))(@spectrum-css/dialog@10.2.0(@spectrum-css/closebutton@5.3.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/modal@5.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)(@spectrum-css/underlay@4.2.0(@spectrum-css/tokens@15.0.0)))(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/menu@7.2.0(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)':
+    dependencies:
+      '@spectrum-css/alertdialog': 2.2.0(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/modal@5.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)(@spectrum-css/underlay@4.2.0(@spectrum-css/tokens@15.0.0))
+      '@spectrum-css/dialog': 10.2.0(@spectrum-css/closebutton@5.3.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/modal@5.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)(@spectrum-css/underlay@4.2.0(@spectrum-css/tokens@15.0.0))
+      '@spectrum-css/tokens': 15.0.0
+    optionalDependencies:
+      '@spectrum-css/divider': 3.2.0(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/menu': 7.2.0(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
+
   '@spectrum-css/splitbutton@8.1.2(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/vars@9.0.8)':
     dependencies:
       '@spectrum-css/button': 13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
       '@spectrum-css/vars': 9.0.8
     optionalDependencies:
       '@spectrum-css/icon': 7.2.0(@spectrum-css/tokens@15.0.0)
+
+  '@spectrum-css/stepper@6.3.0(@spectrum-css/actionbutton@6.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/textfield@7.3.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)':
+    dependencies:
+      '@spectrum-css/actionbutton': 6.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/icon': 7.2.0(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/textfield': 7.3.0(@spectrum-css/tokens@15.0.0)
+      '@spectrum-css/tokens': 15.0.0
 
   '@spectrum-css/table@6.2.0(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)':
     dependencies:
@@ -8700,6 +8916,10 @@ snapshots:
   '@spectrum-css/tokens@15.0.0': {}
 
   '@spectrum-css/typography@6.2.0(@spectrum-css/tokens@15.0.0)':
+    dependencies:
+      '@spectrum-css/tokens': 15.0.0
+
+  '@spectrum-css/underlay@4.2.0(@spectrum-css/tokens@15.0.0)':
     dependencies:
       '@spectrum-css/tokens': 15.0.0
 
@@ -8938,6 +9158,17 @@ snapshots:
   '@swc/helpers@0.5.15':
     dependencies:
       tslib: 2.8.1
+
+  '@tanstack/form-core@0.41.2':
+    dependencies:
+      '@tanstack/store': 0.7.0
+
+  '@tanstack/lit-form@0.41.2(lit@3.2.1)':
+    dependencies:
+      '@tanstack/form-core': 0.41.2
+      lit: 3.2.1
+
+  '@tanstack/store@0.7.0': {}
 
   '@tanstack/table-core@8.20.5': {}
 

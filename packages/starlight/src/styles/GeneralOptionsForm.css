@@ -1,0 +1,38 @@
+div.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+div.flexRow {
+  display: flex;
+  flex-direction: row;
+}
+
+/*for spacing in the axis as flex-dierction*/
+.FlexJustifySpaceAround {
+  justify-content: space-around;
+}
+
+/*for spacing in the opposite axis to the flex-direction*/
+.FlexAlignSpaceAround {
+  align-content: space-around;
+}
+
+label.spectrum-FieldLabel: {
+  display: flex;
+  flex-direction: row;
+}
+
+select.spectrum div.spectrum-Stepper {
+  width: 3rem;
+}
+
+div.primaryOptions {
+  display: flex;
+  flex-direction: row;
+}
+
+div.primaryOptions > div,
+div.secondaryOptions > div {
+  margin-right: 2rem;
+}

@@ -33,6 +33,7 @@ const specialities = (await getCollection("specialities")).map(
 ---
 
 <div class="not-content">
+  <general-options></general-options>
   <value-selector></value-selector>
 
   <table-holder>
@@ -52,6 +53,7 @@ const specialities = (await getCollection("specialities")).map(
 
 <script>
   const DEBUG = true;
+  import { GeneralOptionsForm } from "./GeneralOptions/GeneralOptions";
   import PairingTable from "./PairingTable";
   console.log(`first script`);
   customElements.define(
