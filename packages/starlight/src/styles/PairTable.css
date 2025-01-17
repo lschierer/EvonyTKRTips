@@ -1,60 +1,10 @@
 @import "@spectrum-css/table/dist/index.css";
 
-div#tableContainer.tableContainer {
-  overflow: auto;
-  margin-top: 1rem;
-  width: minmax(max-content, 50vw);
-  height: minmax(max-content, 40rem);
-}
 sp-table {
   height: 40rem;
-  display: grid;
+  width: max-content;
 }
 
-sp-table-head {
-  display: grid;
-  grid-column: 1/-1;
-
-  grid-auto-flow: column;
-}
-
-sp-table sp-table-body sp-table-row {
-  display: grid;
-
-  grid-auto-flow: column;
-}
-
-table.spectrum-Table.spectrum-Table-main {
-  display: grid;
-}
-
-thead.spectrum-Table-head {
-  display: grid;
-  grid-column: 1/-1;
-  grid-template-columns: subgrid;
-  /*background-color: var(--spectrum-table-header-background-color);*/
-  background-color: var(--sl-color-text-accent);
-}
-
-thead.spectrum-Table-head tr.tableHeaderRow {
-  display: grid;
-  grid-column: 1/-1;
-  grid-template-columns: subgrid;
-  grid-auto-flow: row;
-  height: 4rem;
-  border-bottom-width: var(--spectrum-table-border-width);
-  border-bottom-style: solid;
-  border-bottom-color: var(--spectrum-table-border-color);
-}
-
-thead.spectrum-Table-head tr th.spectrum-Table-headCell {
-  text-align: center;
-  border-top: 0px;
-  border-bottom: 0px;
-}
-
-th div {
-  height: max-content;
-  overflow: visible;
-  word-wrap: normal;
+sp-table sp-table-body {
+  width: 100%;
 }

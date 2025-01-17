@@ -35,22 +35,61 @@ const specialities = (await getCollection("specialities")).map(
 <div class="not-content">
   <value-selector></value-selector>
 
-  <table-holder
-    id="generals-table"
-    class="not-content"
-    generals={JSON.stringify(generals)}
-    skillbooks={JSON.stringify(skillbooks)}
-    conflictgroups={JSON.stringify(conflictGroups)}
-    specialities={JSON.stringify(specialities)}
-    ascending={JSON.stringify(ascending)}
-    usecase={generalUseCase}
-  >
+  <table-holder>
+    <store-setter
+      id="generals-table"
+      class="not-content"
+      generals={JSON.stringify(generals)}
+      skillbooks={JSON.stringify(skillbooks)}
+      conflictgroups={JSON.stringify(conflictGroups)}
+      specialities={JSON.stringify(specialities)}
+      ascending={JSON.stringify(ascending)}
+      usecase={generalUseCase}
+    >
+    </store-setter>
   </table-holder>
 </div>
 
 <script>
+  const DEBUG = true;
+  import PairingTable from "./PairingTable";
+  console.log(`first script`);
+  customElements.define(
+    "table-holder",
+    class extends HTMLElement {
+      constructor() {
+        super();
+
+        const shadow = this.attachShadow({ mode: "open" });
+
+        shadow.innerHTML = `
+          <span>test</span>
+          <style>
+            div#tableContainer.tableContainer {
+              width: max(50vw, 100%);
+              overflow-x: scroll;
+            }
+          </style>
+          <div id="tableContainer" class="tableContainer">
+            <pairing-table></pairing-table>
+          </div>
+          <style>
+            .hidden {
+            display: none
+
+            }
+          </style>
+          <div class="hidden">
+            <slot></slot>
+          </div>
+        `;
+      }
+    }
+  );
+</script>
+
+<script>
   import ValueSelector from "./ValueSelector.ts";
-  import TableElement from "./generalTable.ts";
   import { General } from "@schemas/generals";
   import * as constants from "@schemas/constants";
   import * as stores from "./store";
@@ -59,7 +98,10 @@ const specialities = (await getCollection("specialities")).map(
   import { SkillBook } from "@schemas/skillBooks";
   import { ConfictGroup } from "@schemas/generalConflictGroups";
   import { GeneralAscending } from "@schemas/ascending";
-  class TableHolder extends HTMLElement {
+
+  const DEBUG = true;
+
+  class StoreSetter extends HTMLElement {
     connectedCallback() {
       const attributes = this.getAttributeNames();
       if (attributes.includes("usecase")) {
@@ -119,9 +161,9 @@ const specialities = (await getCollection("specialities")).map(
         }
       }
       this.innerHTML = `
-        <table-element></table-element>
+        ${DEBUG ? "<span>stores element</span>" : "<!-- stores populated -->"}
       `;
     }
   }
-  customElements.define("table-holder", TableHolder);
+  customElements.define("store-setter", StoreSetter);
 </script>
