@@ -66,20 +66,20 @@ export const PvMcolumns: ColumnDef<GeneralPair>[] = [
   },
 
   {
-    accessorKey: "ScoreSet.defense",
-    sortingFn: "basic",
-    header: () => html`
-      <span class="generalTableHeader"> EvAns Defense Score </span>
-    `,
-    cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
-  },
-  {
     accessorKey: "BuffSet.defense.total",
     sortingFn: "basic",
     header: () => html`
       <span class="generalTableHeader"> Defense Total </span>
     `,
     cell: (row) => html`<span class="tableCell"> ${row.getValue()}% </span>`,
+  },
+  {
+    accessorKey: "ScoreSet.defense",
+    sortingFn: "basic",
+    header: () => html`
+      <span class="generalTableHeader"> EvAns Defense Score </span>
+    `,
+    cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
   },
 
   {
@@ -152,4 +152,54 @@ export const PvMcolumns: ColumnDef<GeneralPair>[] = [
   },
 ];
 
-export const PvPcolumns: ColumnDef<GeneralPair>[] = [];
+export const PvPcolumns: ColumnDef<GeneralPair>[] = [
+  ...DefaultColumns,
+  {
+    accessorKey: "BuffSet.attack.total",
+    sortingFn: "basic",
+    header: () => html`
+      <span class="generalTableHeader"> Attack Buff Total </span>
+    `,
+    cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
+  },
+  {
+    accessorKey: "ScoreSet.attack",
+    sortingFn: "basic",
+    header: () => html`
+      <span class="generalTableHeader"> EvAns Attack Score </span>
+    `,
+    cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
+  },
+
+  {
+    accessorKey: "BuffSet.defense.total",
+    sortingFn: "basic",
+    header: () => html`
+      <span class="generalTableHeader"> Defense Total </span>
+    `,
+    cell: (row) => html`<span class="tableCell"> ${row.getValue()}% </span>`,
+  },
+  {
+    accessorKey: "ScoreSet.defense",
+    sortingFn: "basic",
+    header: () => html`
+      <span class="generalTableHeader"> EvAns Defense Score </span>
+    `,
+    cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
+  },
+
+  {
+    accessorKey: "BuffSet.hp.total",
+    sortingFn: "basic",
+    header: () => html` <span class="generalTableHeader"> HP Total </span> `,
+    cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
+  },
+  {
+    accessorKey: "ScoreSet.hp",
+    sortingFn: "basic",
+    header: () => html`
+      <span class="generalTableHeader"> EvAns HP Score </span>
+    `,
+    cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
+  },
+];

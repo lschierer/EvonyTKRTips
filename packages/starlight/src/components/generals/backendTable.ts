@@ -44,12 +44,22 @@ const tableStore = computed(
     sortingStore,
     stores.generalUseCase,
     stores.PvMPairsWithStats,
+    stores.AttackingPairsWithStats,
     stores.pairs,
   ],
-  (currentState, currentSorting, currentUseCase, PvMPairs, DefaultPairs) => {
+  (
+    currentState,
+    currentSorting,
+    currentUseCase,
+    PvMPairs,
+    PvPPairs,
+    DefaultPairs
+  ) => {
     if (DEBUG) {
       console.log(`computing new table`);
     }
+    let PvM = false;
+    let Attacking = false;
     let columns = DefaultColumns;
     let data: GeneralPair[];
     if (!currentUseCase.localeCompare(constants.BuffActivation.Enum.PvM)) {
@@ -57,59 +67,37 @@ const tableStore = computed(
         console.log(`table store sees use case is PvM`);
       }
       columns = PvMcolumns;
+      PvM = true;
+    } else if (
+      !currentUseCase.localeCompare(constants.BuffActivation.Enum.Attacking)
+    ) {
+      columns = PvPcolumns;
+      Attacking = true;
     } else {
       if (DEBUG) {
         console.log(`table store using defaults`);
       }
     }
 
-    if (!currentUseCase.localeCompare(constants.BuffActivation.Enum.PvM)) {
-      if (DEBUG) {
-        console.log(
-          `sending PvM row`,
-          `${PvMPairs[0].primary.id}/${PvMPairs[0].secondary.id}` +
-            `${PvMPairs[0].MarchSizeIncrease?.total} ${PvMPairs[0].BuffSet?.attack.total}`
-        );
-      }
-      // Compose in the generic options to the user options
-      const resolvedOptions: TableOptionsResolved<GeneralPair> = {
-        state: {
-          ...currentState,
-          sorting: currentSorting,
-        },
-        onStateChange: () => {}, // noop
-        renderFallbackValue: null,
-        columns,
-        enableSorting: true,
-        enableSortingRemoval: false,
-        enableMultiSort: false,
-        data: PvMPairs,
-        getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
+    // Compose in the generic options to the user options
+    const resolvedOptions: TableOptions<GeneralPair> = {
+      state: {
         ...currentState,
-      };
+        sorting: currentSorting,
+      },
+      onStateChange: () => {}, // noop
+      renderFallbackValue: null,
+      columns,
+      enableSorting: true,
+      enableSortingRemoval: false,
+      enableMultiSort: false,
+      getCoreRowModel: getCoreRowModel(),
+      getSortedRowModel: getSortedRowModel(),
+      data: PvM ? PvMPairs : Attacking ? PvPPairs : DefaultPairs,
+      ...currentState,
+    };
 
-      return resolvedOptions;
-    } else {
-      const resolvedOptions: TableOptionsResolved<GeneralPair> = {
-        state: {
-          ...currentState,
-          sorting: currentSorting,
-        },
-        onStateChange: () => {}, // noop
-        renderFallbackValue: null,
-        columns,
-        enableSorting: true,
-        enableSortingRemoval: false,
-        enableMultiSort: false,
-        data: DefaultPairs,
-        getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        ...currentState,
-      };
-
-      return resolvedOptions;
-    }
+    return resolvedOptions;
   }
 );
 

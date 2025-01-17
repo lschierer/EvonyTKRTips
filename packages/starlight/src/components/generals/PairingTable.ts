@@ -115,6 +115,20 @@ export default class PairingTable extends withStores(LitElement, [
             );
           }
         });
+      } else if (
+        !currentValue.localeCompare(constants.BuffActivation.Enum.Attacking)
+      ) {
+        stores.AttackingPairsWithStats.subscribe((PvPPairs) => {
+          if (DEBUG) {
+            console.log(
+              `AttackingPairsWithStats from generalUseCase from PairingTable constructor`
+            );
+            console.log(`${PvPPairs.length} pairs present`);
+          }
+          this.tanstackData.length = 0;
+          this.tanstackData = [...PvPPairs];
+          this._columns = PvPcolumns;
+        });
       }
     });
   }
