@@ -2,7 +2,7 @@
 
 sp-table {
   height: 40rem;
-  width: max-content;
+  width: fit-content;
 }
 
 sp-table sp-table-body {
