@@ -31,7 +31,6 @@ import { StoreController, withStores } from "@nanostores/lit";
 import { atom, computed } from "nanostores";
 
 import "@spectrum-web-components/table/elements.js";
-import { SpectrumElement } from "@spectrum-web-components/base";
 import { Table } from "@spectrum-web-components/table";
 
 import SpectrumTableCSS from "@spectrum-css/table/dist/index.css?inline";
@@ -76,6 +75,11 @@ export default class PairingTable extends withStores(LitElement, [
         console.log(`tableStore Subscribe`);
       }
       if (this.table) {
+        const options = this.table.options;
+        this.table.setOptions({
+          ...options,
+          data: this.tanstackData,
+        });
         this.spTable(this.table);
         this.requestUpdate();
       } else {
@@ -141,6 +145,15 @@ export default class PairingTable extends withStores(LitElement, [
         console.log(`spTable callback sees table`);
       }
       const rows = table.getRowModel().rows;
+      if (DEBUG) {
+        console.log(`spTable callback has ${rows.length} rows`);
+        console.log(
+          `sptable callback first row`,
+          `${rows[0].original.primary.id}/${rows[0].original.secondary.id}`,
+          `${rows[0].original.MarchSizeIncrease?.total}`,
+          `${rows[0].original.BuffSet?.attack.total}`
+        );
+      }
       if (Array.isArray(rows)) {
         (tableElement as Table).items = rows.map((row) => {
           return {
