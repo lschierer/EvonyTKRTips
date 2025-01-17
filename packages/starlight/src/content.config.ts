@@ -22,7 +22,7 @@ export const collections = {
   ascending: defineCollection({
     loader: glob({
       pattern: "*.json",
-      base: "./src/content/ascending",
+      base: "./src/content/ascendingAttributes",
     }),
     schema: GeneralAscending,
   }),
