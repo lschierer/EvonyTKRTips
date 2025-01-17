@@ -10,7 +10,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.0.5",
+    "@astrojs/mdx": "^4.0.6",
     "@astrojs/node": "^9.0.1",
     "@astrojs/starlight": "^0.31.0",
     "@astrojs/ts-plugin": "^1.10.4",
@@ -35,7 +35,7 @@
     "@spectrum-web-components/table": "^1.0.3",
     "@spectrum-web-components/theme": "^1.0.3",
     "@tanstack/table-core": "^8.20.5",
-    "astro": "^5.1.6",
+    "astro": "^5.1.7",
     "d3": "^7.9.0",
     "d3-array": "^3.2.4",
     "iconify-icon": "^2.3.0",
