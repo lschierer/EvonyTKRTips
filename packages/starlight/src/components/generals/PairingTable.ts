@@ -39,9 +39,6 @@ import GeneralsCSS from "@styles/generals.css?inline";
 import PairTableCSS from "@styles/PairTable.css?inline";
 
 import { DefaultColumns, PvMcolumns, PvPcolumns } from "./columns";
-import attackingVisibility from "./visibility/attacking";
-import defaultVisibility from "./visibility/default";
-import pvmVisibility from "./visibility/pvm";
 
 import * as stores from "./store";
 import tableStore from "./backendTable";
@@ -94,7 +91,6 @@ export default class PairingTable extends withStores(LitElement, [
           data: this.tanstackData,
         });
         this.spTable(this.table);
-        this.requestUpdate();
       } else {
         console.error(`tableStore subscribe has no table to update`);
       }
