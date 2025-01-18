@@ -5,6 +5,7 @@ set dotenv-load
 export PNPM := `which pnpm`
 export NPM := `which npm`
 export NPX := `which npx`
+export ROOT := `pwd`
 
 install:
   ${PNPM} install
@@ -18,8 +19,9 @@ check: install
 build: install parse
   cd packages/starlight && ${PNPM} run build
 
+[working-directory: 'packages/assets']
 parse: install
-  cd packages/assets && ./bin/createCollections.sh -o ../starlight/src/content/
+  ./bin/createCollections.sh -o "../starlight/src/content"
 
 
 deploy: build

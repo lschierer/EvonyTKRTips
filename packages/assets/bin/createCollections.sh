@@ -1,41 +1,31 @@
 #!/bin/bash
 
-OPTS=$(getopt -o o: --long output: -n 'createCollections.sh' -- "$@")
-
-if [ $? -ne 0 ]; then
-        echo "Invalid usage: '$@'" >&2
-        exit 1
-fi
-
-# Note the quotes around "$TEMP": they are essential!
-eval set -- "$OPTS"
-unset OPTS
-
-unset -v OUTPUTDIR
-
-while true; do
-  case "$1" in
-    -o | --output)
-      OUTPUTDIR="$2"
+while getopts ":o:" opt; do
+  case "$opt" in
+    o)
+      OUTPUTDIR="$OPTARG"
       shift 2
       continue
       ;;
-    --)
-      shift
-      break
-      ;;
-    *)
+    \?)
       echo "Unrecognized option '$1'"
       exit 2
       ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
   esac
 done
+
+shift $((OPTIND-1))
 
 if [ -z OUTPUTDIR ]; then
   echo '-o is required' >&2
   exit 3
 elif [ ! -d "$OUTPUTDIR" ]; then
   echo "OUTPUTDIR '$OUTPUTDIR' must exist"
+  echo `pwd`
   exit 4
 else
   echo "OUTPUTDIR is '$OUTPUTDIR'"
