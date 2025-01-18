@@ -235,13 +235,7 @@ export default class PairingTable extends withStores(LitElement, [
       };
 
       return html`
-        <sp-table
-          scroller
-          quiet
-          emphasized
-          density="compact"
-          ${ref(this.tableRef)}
-        >
+        <sp-table scroller quiet density="compact" ${ref(this.tableRef)}>
           <sp-table-head style="">
             ${this.table
               .getLeafHeaders()
