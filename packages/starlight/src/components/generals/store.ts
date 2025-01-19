@@ -1,16 +1,15 @@
-import { atom, batched, computed, map, deepMap } from "nanostores";
 import * as d3 from "d3";
-import { z } from "zod";
+import { atom, batched, deepMap } from "nanostores";
 
-import { General, GeneralPair } from "@schemas/generals";
 import { GeneralAscending } from "@schemas/ascending";
-import { Speciality } from "@schemas/specialities";
-import { SkillBook } from "@schemas/skillBooks";
 import { ConfictGroup } from "@schemas/generalConflictGroups";
+import { General, GeneralPair } from "@schemas/generals";
+import { SkillBook } from "@schemas/skillBooks";
+import { Speciality } from "@schemas/specialities";
 
 import * as constants from "@schemas/constants";
 
-import rallySpotBaseMarch from "@lib/rallySpot";
+import { GeneralPairStats } from "./general";
 
 import { EvAnsAttack, EvAnsDefense, EvAnsHP } from "./generics/EvAnsScore";
 
@@ -108,8 +107,6 @@ generals.listen((value, oldValue) => {
     );
   }
 });
-
-import { GeneralPairStats } from "./general";
 
 const initialPairs = batched(
   [
@@ -560,75 +557,75 @@ export const AttackingPairsWithStats = batched([initialPairs], (pairs) => {
               .toFixed(3)
               .replace(/(\d)0+$/, "$1") +
             generalPairStats.baseSkill.Attack +
-            generalPairStats.standardSkillBooks.PvMAttack +
-            generalPairStats.specialityStats.PvMAttack(1) +
-            generalPairStats.specialityStats.PvMAttack(2) +
-            generalPairStats.specialityStats.PvMAttack(3) +
-            generalPairStats.specialityStats.PvMAttack(4) +
-            generalPairStats.ascendingStats.PvMAttack +
+            generalPairStats.standardSkillBooks.Attack +
+            generalPairStats.specialityStats.Attack(1) +
+            generalPairStats.specialityStats.Attack(2) +
+            generalPairStats.specialityStats.Attack(3) +
+            generalPairStats.specialityStats.Attack(4) +
+            generalPairStats.ascendingStats.Attack +
             0,
           baseAttribute: generalPairStats.baseAttribute.attack_base,
           levelAttribute: generalPairStats.baseAttribute.attack_increment,
           totalAttribute: generalPairStats.baseAttribute.attack_total,
-          BaseSkill: generalPairStats.baseSkill.PvMAttack,
-          SkillBooks: generalPairStats.standardSkillBooks.PvMAttack,
+          BaseSkill: generalPairStats.baseSkill.Attack,
+          SkillBooks: generalPairStats.standardSkillBooks.Attack,
           //BaseSkill: 0,
           //SkillBooks: 0,
-          Speciality1: generalPairStats.specialityStats.PvMAttack(1),
-          Speciality2: generalPairStats.specialityStats.PvMAttack(2),
-          Speciality3: generalPairStats.specialityStats.PvMAttack(3),
-          Speciality4: generalPairStats.specialityStats.PvMAttack(4),
-          Ascending: generalPairStats.ascendingStats.PvMAttack,
+          Speciality1: generalPairStats.specialityStats.Attack(1),
+          Speciality2: generalPairStats.specialityStats.Attack(2),
+          Speciality3: generalPairStats.specialityStats.Attack(3),
+          Speciality4: generalPairStats.specialityStats.Attack(4),
+          Ascending: generalPairStats.ascendingStats.Attack,
         },
         defense: {
           total:
             +(generalPairStats.baseAttribute.defense_total * 100)
               .toFixed(3)
               .replace(/(\d)0+$/, "$1") +
-            generalPairStats.baseSkill.PvMDefense +
-            generalPairStats.standardSkillBooks.PvMDefense +
-            generalPairStats.specialityStats.PvMDefense(1) +
-            generalPairStats.specialityStats.PvMDefense(2) +
-            generalPairStats.specialityStats.PvMDefense(3) +
-            generalPairStats.specialityStats.PvMDefense(4) +
-            generalPairStats.ascendingStats.PvMDefense +
+            generalPairStats.baseSkill.Defense +
+            generalPairStats.standardSkillBooks.Defense +
+            generalPairStats.specialityStats.Defense(1) +
+            generalPairStats.specialityStats.Defense(2) +
+            generalPairStats.specialityStats.Defense(3) +
+            generalPairStats.specialityStats.Defense(4) +
+            generalPairStats.ascendingStats.Defense +
             0,
           baseAttribute: generalPairStats.baseAttribute.defense_base,
           levelAttribute: generalPairStats.baseAttribute.defense_increment,
           totalAttribute: generalPairStats.baseAttribute.defense_total,
-          BaseSkill: generalPairStats.baseSkill.PvMDefense,
-          SkillBooks: generalPairStats.standardSkillBooks.PvMDefense,
+          BaseSkill: generalPairStats.baseSkill.Defense,
+          SkillBooks: generalPairStats.standardSkillBooks.Defense,
           //BaseSkill: 0,
           //SkillBooks: 0,
-          Speciality1: generalPairStats.specialityStats.PvMDefense(1),
-          Speciality2: generalPairStats.specialityStats.PvMDefense(2),
-          Speciality3: generalPairStats.specialityStats.PvMDefense(3),
-          Speciality4: generalPairStats.specialityStats.PvMDefense(4),
-          Ascending: generalPairStats.ascendingStats.PvMDefense,
+          Speciality1: generalPairStats.specialityStats.Defense(1),
+          Speciality2: generalPairStats.specialityStats.Defense(2),
+          Speciality3: generalPairStats.specialityStats.Defense(3),
+          Speciality4: generalPairStats.specialityStats.Defense(4),
+          Ascending: generalPairStats.ascendingStats.Defense,
         },
         hp: {
           total:
             +(generalPairStats.baseAttribute.leadership_total * 100)
               .toFixed(3)
               .replace(/(\d)0+$/, "$1") +
-            generalPairStats.baseSkill.PvMHP +
-            generalPairStats.standardSkillBooks.PvMHP +
-            generalPairStats.specialityStats.PvMHP(1) +
-            generalPairStats.specialityStats.PvMHP(2) +
-            generalPairStats.specialityStats.PvMHP(3) +
-            generalPairStats.specialityStats.PvMHP(4) +
-            generalPairStats.ascendingStats.PvMHP +
+            generalPairStats.baseSkill.HP +
+            generalPairStats.standardSkillBooks.HP +
+            generalPairStats.specialityStats.HP(1) +
+            generalPairStats.specialityStats.HP(2) +
+            generalPairStats.specialityStats.HP(3) +
+            generalPairStats.specialityStats.HP(4) +
+            generalPairStats.ascendingStats.HP +
             0,
           baseAttribute: generalPairStats.baseAttribute.leadership_base,
           levelAttribute: generalPairStats.baseAttribute.leadership_increment,
           totalAttribute: generalPairStats.baseAttribute.leadership_total,
-          BaseSkill: generalPairStats.baseSkill.PvMHP,
-          SkillBooks: generalPairStats.standardSkillBooks.PvMHP,
-          Speciality1: generalPairStats.specialityStats.PvMHP(1),
-          Speciality2: generalPairStats.specialityStats.PvMHP(2),
-          Speciality3: generalPairStats.specialityStats.PvMHP(3),
-          Speciality4: generalPairStats.specialityStats.PvMHP(4),
-          Ascending: generalPairStats.ascendingStats.PvMHP,
+          BaseSkill: generalPairStats.baseSkill.HP,
+          SkillBooks: generalPairStats.standardSkillBooks.HP,
+          Speciality1: generalPairStats.specialityStats.HP(1),
+          Speciality2: generalPairStats.specialityStats.HP(2),
+          Speciality3: generalPairStats.specialityStats.HP(3),
+          Speciality4: generalPairStats.specialityStats.HP(4),
+          Ascending: generalPairStats.ascendingStats.HP,
         },
 
         marchSpeed: {
