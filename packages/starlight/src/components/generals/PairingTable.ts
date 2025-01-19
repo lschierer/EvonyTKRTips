@@ -48,6 +48,8 @@ import { GeneralPair } from "@schemas/generals";
 import * as constants from "@schemas/constants";
 import type { CursorPos } from "readline";
 
+import { TableSorting } from "./TableSorting";
+
 const DEBUG = true;
 
 @customElement("pairing-table")
@@ -70,6 +72,14 @@ export default class PairingTable extends withStores(LitElement, [
   protected tableRef: Ref<Table> = createRef<Table>();
   constructor() {
     super();
+
+    sortingStore.subscribe((v) => {
+      if (DEBUG) {
+        console.log(
+          `Table sees sorting store change.  new value is ${JSON.stringify(v)}`
+        );
+      }
+    });
 
     tableStore.subscribe((currentValue) => {
       if (DEBUG) {
@@ -235,6 +245,7 @@ export default class PairingTable extends withStores(LitElement, [
       };
 
       return html`
+        <table-sorting></table-sorting>
         <sp-table scroller quiet density="compact" ${ref(this.tableRef)}>
           <sp-table-head style="">
             ${this.table
@@ -249,14 +260,27 @@ export default class PairingTable extends withStores(LitElement, [
                       : false;
                 return html`
                   <sp-table-head-cell
-                    ?sortable=${header.column.getCanSort()}
                     sort-direction=${sortDirection}
                     sort-key=${header.id}
                   >
                     ${this.flexRender(
                       header.column.columnDef.header,
                       header.getContext()
-                    )}
+                    )}${header.column.getCanSort()
+                      ? sortDirection
+                        ? !sortDirection.localeCompare("asc")
+                          ? html`<iconify-icon
+                              icon="ion:chevron-down"
+                              width="1rem"
+                              height="1rem"
+                            ></iconify-icon>`
+                          : html`<iconify-icon
+                              icon="ion:chevron-up"
+                              width="1rem"
+                              height="1rem"
+                            ></iconify-icon>`
+                        : ""
+                      : ""}
                   </sp-table-head-cell>
                 `;
               })}

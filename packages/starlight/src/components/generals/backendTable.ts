@@ -8,6 +8,8 @@ import {
   getSortedRowModel,
 } from "@tanstack/table-core";
 
+import { z } from "zod";
+
 import { atom, batched, computed, map, deepMap } from "nanostores";
 
 import * as stores from "./store";
@@ -21,7 +23,7 @@ const DEBUG = true;
 
 export const stateStore = atom<TableState | null>(null);
 
-export const sortingStore = atom<SortingState>([
+export const sortByPrimarySecondary: SortingState = [
   {
     id: "primary",
     desc: false,
@@ -30,11 +32,54 @@ export const sortingStore = atom<SortingState>([
     id: "secondary",
     desc: false,
   },
+];
+
+export const sortByMarchSizeAttackScore: SortingState = [
   {
     id: "MarchSizeIncrease_total",
     desc: true,
   },
+  {
+    id: "ScoreSet.attack",
+    desc: true,
+  },
+  {
+    id: "primary",
+    desc: false,
+  },
+  {
+    id: "secondary",
+    desc: false,
+  },
+];
+
+export const sortByAttackScoreMarchSize: SortingState = [
+  {
+    id: "ScoreSet.attack",
+    desc: true,
+  },
+  {
+    id: "MarchSizeIncrease_total",
+    desc: true,
+  },
+  {
+    id: "primary",
+    desc: false,
+  },
+  {
+    id: "secondary",
+    desc: false,
+  },
+];
+
+export const SortingPresets = z.enum([
+  "sortByPrimarySecondary",
+  "sortByMarchSizeAttackScore",
+  "sortByAttackScoreMarchSize",
 ]);
+export type SortingPresets = z.infer<typeof SortingPresets>;
+
+export const sortingStore = atom<SortingState>(sortByPrimarySecondary);
 
 if (DEBUG) {
   sortingStore.subscribe((v) => {
@@ -83,6 +128,11 @@ const tableStore = computed(
       }
     }
 
+    if (DEBUG) {
+      console.log(
+        `resolving options, sortingState is ${JSON.stringify(currentSorting)}`
+      );
+    }
     // Compose in the generic options to the user options
     const resolvedOptions: TableOptions<GeneralPair> = {
       state: {
@@ -94,9 +144,14 @@ const tableStore = computed(
       columns,
       enableSorting: true,
       enableSortingRemoval: false,
-      enableMultiSort: false,
+      enableMultiSort: true,
       getCoreRowModel: getCoreRowModel(),
       getSortedRowModel: getSortedRowModel(),
+      defaultColumn: {
+        enableSorting: true,
+        invertSorting: false,
+        sortDescFirst: true,
+      },
       data: PvM ? PvMPairs : Attacking ? PvPPairs : DefaultPairs,
       ...currentState,
     };

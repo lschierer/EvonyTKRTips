@@ -18,8 +18,6 @@ const columnHelper = createColumnHelper<GeneralPair>();
 export const DefaultColumns: ColumnDef<GeneralPair>[] = [
   {
     id: "primary",
-    enableSorting: true,
-    invertSorting: false,
     sortDescFirst: false,
     accessorKey: "primary.id",
     sortingFn: "alphanumeric",
@@ -29,8 +27,6 @@ export const DefaultColumns: ColumnDef<GeneralPair>[] = [
   {
     accessorKey: "secondary.id",
     id: "secondary",
-    enableSorting: true,
-    invertSorting: false,
     sortDescFirst: false,
     sortingFn: "alphanumeric",
     header: () => html`<span class="generalTableHeader">Secondary</span>`,
@@ -162,7 +158,9 @@ export const PvPcolumns: ColumnDef<GeneralPair>[] = [
     `,
     cell: (row) => html`<span class="tableCell">${row.getValue()}%</span>`,
   },
+
   {
+    id: "ScoreSet.attack",
     accessorKey: "ScoreSet.attack",
     sortingFn: "basic",
     header: () => html`
