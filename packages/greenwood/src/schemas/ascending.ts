@@ -1,7 +1,7 @@
 import * as z from "zod";
 
-import * as constants from "./constants";
-import { Buff } from "./buff";
+import * as constants from "./constants.ts";
+import { Buff } from "./buff.ts";
 
 export const AscendingLevel = z.object({
   level: constants.AscendingLevel,

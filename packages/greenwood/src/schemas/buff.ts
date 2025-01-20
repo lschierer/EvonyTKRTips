@@ -1,5 +1,5 @@
 import { z } from "zod";
-import * as constants from "./constants";
+import * as constants from "./constants.ts";
 
 const Category = constants.CovenantCategory;
 type Category = z.infer<typeof Category>;

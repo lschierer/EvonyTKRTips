@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import { Buff } from "./buff";
+import { Buff } from "./buff.ts";
 
 export const Art = z.object({
   name: z.string(),

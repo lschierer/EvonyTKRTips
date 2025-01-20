@@ -1,14 +1,15 @@
 export const prerender = true;
 
-const DEBUG = true;
+import debugFunction from "@lib/debug.ts";
+const DEBUG = debugFunction("pages/Generals/details/index.ts");
 
-async function getBody(compilation, route) {
+function getBody() {
   return `
-<generals-collection></generals-collection>
+    <generals-collection></generals-collection>
   `;
 }
 
-async function getLayout(compilation, route) {
+function getLayout() {
   if (DEBUG) {
     console.log(`route is ${JSON.stringify(route)}`);
   }
@@ -28,7 +29,7 @@ async function getLayout(compilation, route) {
   `;
 }
 
-async function getFrontmatter() {
+function getFrontmatter() {
   return {
     title: "General Details",
     author: "Luke Schierer",

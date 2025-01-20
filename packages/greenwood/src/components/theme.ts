@@ -1,4 +1,5 @@
-const DEBUG = true;
+import debugFunction from "@lib/debug.ts";
+const DEBUG = debugFunction("components/theme.ts");
 
 export default class ThemeComponent extends HTMLElement {
   protected connectedCallback() {
@@ -21,22 +22,20 @@ export default class ThemeComponent extends HTMLElement {
     document.querySelectorAll("html").forEach((htmlTag) => {
       if (!theme.localeCompare("light") || !theme.localeCompare("dark")) {
         const scale = "medium";
-        if (htmlTag != undefined) {
-          if (!htmlTag.classList.contains("spectrum")) {
-            htmlTag.classList.add("spectrum");
+        if (!htmlTag.classList.contains("spectrum")) {
+          htmlTag.classList.add("spectrum");
+        }
+        if (!htmlTag.classList.contains(theme)) {
+          if (!theme.localeCompare("light")) {
+            htmlTag.classList.add("spectrum--light");
+            htmlTag.classList.remove("spectrum--dark");
+          } else {
+            htmlTag.classList.remove("spectrum--light");
+            htmlTag.classList.add("spectrum--dark");
           }
-          if (!htmlTag.classList.contains(theme)) {
-            if (!theme.localeCompare("light")) {
-              htmlTag.classList.add("spectrum--light");
-              htmlTag.classList.remove("spectrum--dark");
-            } else {
-              htmlTag.classList.remove("spectrum--light");
-              htmlTag.classList.add("spectrum--dark");
-            }
-          }
-          if (!htmlTag.classList.contains(scale)) {
-            htmlTag.classList.add(scale);
-          }
+        }
+        if (!htmlTag.classList.contains(scale)) {
+          htmlTag.classList.add(scale);
         }
       }
     });

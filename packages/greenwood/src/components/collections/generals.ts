@@ -4,31 +4,33 @@ import collection from "../../assets/collections/generals/collection.ts";
 
 import { General } from "../../schemas/generals.ts";
 
-const DEBUG = true;
+import debugFunction from "@lib/debug.ts";
+const DEBUG = debugFunction("components/collections/generals.ts");
 
 const generals = await Promise.all(
   collection.map(async (gf) => {
     if (DEBUG) {
       console.log(`gf is ${gf}`);
     }
-    const jsondata = await import(`../../assets/collections/generals/${gf}`, {
+    return await import(`../../assets/collections/generals/${gf}`, {
       with: { type: "json" },
-    });
-    if (jsondata) {
-      const valid = General.safeParse(jsondata.default);
-      if (valid.success) {
-        return valid.data;
-      } else {
-        if (DEBUG) {
-          console.error(`error parsing ${gf}`, valid.error.message);
-          console.error(JSON.stringify(jsondata));
+    }).then((jsondata: object) => {
+      const keys = Object.keys(jsondata);
+      if (keys.includes("default")) {
+        const valid = General.safeParse(
+          jsondata["default" as keyof typeof jsondata]
+        );
+        if (valid.success) {
+          return valid.data;
+        } else {
+          if (DEBUG) {
+            console.error(`error parsing ${gf}`, valid.error.message);
+            console.error(JSON.stringify(jsondata));
+          }
         }
       }
-    } else {
-      console.error(`jsondata is undefined for ${gf}`);
-    }
-
-    return undefined;
+      return null;
+    });
   })
 );
 
