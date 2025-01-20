@@ -20,7 +20,7 @@ async function getLayout(compilation, route) {
         <script type="module"  src="../../../components/collections/generals.ts"></script>
       </head>
       <body>
-        <h1>This heading was rendered server side for route ${JSON.stringify(route)}!</h1>
+        <h1>Available Generals</h1>
         <generals-collection></generals-collection>
         <content-outlet></content-outlet>
       </body>

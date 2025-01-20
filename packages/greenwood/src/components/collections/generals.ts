@@ -40,7 +40,27 @@ export default class GeneralsCollection extends HTMLElement {
       );
     }
 
-    this.innerHTML = `<div class="GeneralsCollection">${generals.map((g) => g.id).join(" ")}</div>`;
+    this.innerHTML = `
+      <div class="GeneralsCollection">
+        <ul>
+          ${generals
+            .sort((a, b) => {
+              if (a) {
+                if (b) {
+                  return a.id.localeCompare(b.id);
+                }
+                return -1;
+              }
+              if (b) {
+                return 1;
+              }
+              return 0;
+            })
+            .map((g) => `<li>${g.id}</li>`)
+            .join(" ")}
+        </ul>
+      </div>
+    `;
   }
 }
 customElements.define("generals-collection", GeneralsCollection);
