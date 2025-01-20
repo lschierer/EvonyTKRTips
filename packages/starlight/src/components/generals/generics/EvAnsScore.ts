@@ -21,7 +21,7 @@ const ArbitraryBase = 3218900;
  * (row 891 for the first PVM Mounted General)
  */
 /*
-   AttackAttribute = defaults to 6670 // Cell D883 is the T14 Attribute.
+   AttackAttribute = defaults to 6670 // Cell D975 is the T14 Attribute.
    MountedKeepBasePercentage = 1180.0% //Cell T703
    MountedBuffFromSubs = defaults to 0 //Cell T704
    GeneralGearBuffs = defaults to 650.1 //Cell T760
@@ -142,7 +142,7 @@ const AttackAttribute: EvansTroopAttribute = {
     [constants.GeneralType.Enum.wall]: 0,
   },
   [constants.BuffActivation.Enum.Attacking]: {
-    [constants.GeneralType.Enum.mounted_specialist]: 0,
+    [constants.GeneralType.Enum.mounted_specialist]: 5452, //Cell D196 is an average of T11 to T14
     [constants.GeneralType.Enum.ground_specialist]: 0,
     [constants.GeneralType.Enum.ranged_specialist]: 0,
     [constants.GeneralType.Enum.siege_specialist]: 0,
@@ -193,7 +193,7 @@ const AttackFlatBuffs: EvansTroopAttribute = {
     [constants.GeneralType.Enum.wall]: 0,
   },
   [constants.BuffActivation.Enum.Attacking]: {
-    [constants.GeneralType.Enum.mounted_specialist]: 0,
+    [constants.GeneralType.Enum.mounted_specialist]: 975.0,
     [constants.GeneralType.Enum.ground_specialist]: 0,
     [constants.GeneralType.Enum.ranged_specialist]: 0,
     [constants.GeneralType.Enum.siege_specialist]: 0,
@@ -237,7 +237,7 @@ const AttackFlatBuffs: EvansTroopAttribute = {
 const AttackPercentageBuffs: EvansTroopAttribute = {
   [constants.BuffActivation.Enum.PvM]: {
     [constants.GeneralType.Enum.mounted_specialist]: 2092.3,
-    [constants.GeneralType.Enum.ground_specialist]: 0,
+    [constants.GeneralType.Enum.ground_specialist]: 1630.6,
     [constants.GeneralType.Enum.ranged_specialist]: 0,
     [constants.GeneralType.Enum.siege_specialist]: 0,
     [constants.GeneralType.Enum.mayor]: 0,
