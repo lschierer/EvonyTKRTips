@@ -5,7 +5,8 @@ import { General, GeneralPair } from "@schemas/generals";
 import { genericBuffEval } from "./genericBuff";
 import * as stores from "../store";
 
-const DEBUG = false;
+import debugFunction from "@lib/debug";
+const DEBUG = debugFunction("components/generals/generics/genericAscending.ts");
 
 export class AscendingStats {
   protected _primary: General;
@@ -36,23 +37,15 @@ export class AscendingStats {
             : constants.ClassEnum.Enum.All;
 
     const aa = stores.ascendingAttributes.get();
-    if (aa) {
-      const pa = aa.find((ga) => {
-        return !ga.general.localeCompare(this._primary.id);
-      });
-      if (pa) {
-        this._ascending_attributes = pa.ascending;
-      } else {
-        if (DEBUG) {
-          console.warn(
-            `AscendingStats cannot find attributes for ${this._primary.id}`
-          );
-        }
-      }
+    const pa = aa.find((ga) => {
+      return !ga.general.localeCompare(this._primary.id);
+    });
+    if (pa) {
+      this._ascending_attributes = pa.ascending;
     } else {
       if (DEBUG) {
         console.warn(
-          `AscendingStats is missing ascendingAttributes in constructor`
+          `AscendingStats cannot find attributes for ${this._primary.id}`
         );
       }
     }
@@ -62,19 +55,17 @@ export class AscendingStats {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
 
-    if (level) {
-      rValue += genericAscending(
-        this._ascending_attributes,
-        level,
-        constants.Attribute.Enum.Attack,
-        false,
-        false,
-        false,
-        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
-          ? this.troopClass
-          : undefined
-      );
-    }
+    rValue += genericAscending(
+      this._ascending_attributes,
+      level,
+      constants.Attribute.Enum.Attack,
+      false,
+      false,
+      false,
+      this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+        ? this.troopClass
+        : undefined
+    );
     if (DEBUG) {
       console.log(`AscendingStats PvMAttack rValue is ${rValue} \n\n`);
     }
@@ -85,19 +76,17 @@ export class AscendingStats {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
 
-    if (level) {
-      rValue += genericAscending(
-        this._ascending_attributes,
-        level,
-        constants.Attribute.Enum.Attack,
-        false,
-        true,
-        false,
-        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
-          ? this.troopClass
-          : undefined
-      );
-    }
+    rValue += genericAscending(
+      this._ascending_attributes,
+      level,
+      constants.Attribute.Enum.Attack,
+      false,
+      true,
+      false,
+      this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+        ? this.troopClass
+        : undefined
+    );
     if (DEBUG) {
       console.log(`AscendingStats PvMAttack rValue is ${rValue} \n\n`);
     }
@@ -108,19 +97,17 @@ export class AscendingStats {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
 
-    if (level) {
-      rValue += genericAscending(
-        this._ascending_attributes,
-        level,
-        constants.Attribute.Enum.Defense,
-        false,
-        false,
-        false,
-        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
-          ? this.troopClass
-          : undefined
-      );
-    }
+    rValue += genericAscending(
+      this._ascending_attributes,
+      level,
+      constants.Attribute.Enum.Defense,
+      false,
+      false,
+      false,
+      this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+        ? this.troopClass
+        : undefined
+    );
     return rValue;
   }
 
@@ -128,19 +115,17 @@ export class AscendingStats {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
 
-    if (level) {
-      rValue += genericAscending(
-        this._ascending_attributes,
-        level,
-        constants.Attribute.Enum.Defense,
-        false,
-        true,
-        false,
-        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
-          ? this.troopClass
-          : undefined
-      );
-    }
+    rValue += genericAscending(
+      this._ascending_attributes,
+      level,
+      constants.Attribute.Enum.Defense,
+      false,
+      true,
+      false,
+      this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+        ? this.troopClass
+        : undefined
+    );
     return rValue;
   }
 
@@ -148,19 +133,17 @@ export class AscendingStats {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
 
-    if (level) {
-      rValue += genericAscending(
-        this._ascending_attributes,
-        level,
-        constants.Attribute.Enum.HP,
-        false,
-        false,
-        false,
-        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
-          ? this.troopClass
-          : undefined
-      );
-    }
+    rValue += genericAscending(
+      this._ascending_attributes,
+      level,
+      constants.Attribute.Enum.HP,
+      false,
+      false,
+      false,
+      this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+        ? this.troopClass
+        : undefined
+    );
     return rValue;
   }
 
@@ -168,19 +151,17 @@ export class AscendingStats {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
 
-    if (level) {
-      rValue += genericAscending(
-        this._ascending_attributes,
-        level,
-        constants.Attribute.Enum.HP,
-        false,
-        true,
-        false,
-        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
-          ? this.troopClass
-          : undefined
-      );
-    }
+    rValue += genericAscending(
+      this._ascending_attributes,
+      level,
+      constants.Attribute.Enum.HP,
+      false,
+      true,
+      false,
+      this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+        ? this.troopClass
+        : undefined
+    );
     return rValue;
   }
 
@@ -188,19 +169,17 @@ export class AscendingStats {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
 
-    if (level) {
-      rValue += genericAscending(
-        this._ascending_attributes,
-        level,
-        constants.Attribute.Enum.Attack,
-        true,
-        false,
-        false,
-        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
-          ? this.troopClass
-          : undefined
-      );
-    }
+    rValue += genericAscending(
+      this._ascending_attributes,
+      level,
+      constants.Attribute.Enum.Attack,
+      true,
+      false,
+      false,
+      this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+        ? this.troopClass
+        : undefined
+    );
     if (DEBUG) {
       console.log(`AscendingStats PvMreduceAttack rValue is ${rValue} \n\n`);
     }
@@ -211,19 +190,17 @@ export class AscendingStats {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
 
-    if (level) {
-      rValue += genericAscending(
-        this._ascending_attributes,
-        level,
-        constants.Attribute.Enum.Attack,
-        true,
-        true,
-        false,
-        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
-          ? this.troopClass
-          : undefined
-      );
-    }
+    rValue += genericAscending(
+      this._ascending_attributes,
+      level,
+      constants.Attribute.Enum.Attack,
+      true,
+      true,
+      false,
+      this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+        ? this.troopClass
+        : undefined
+    );
     if (DEBUG) {
       console.log(`AscendingStats PvMreduceAttack rValue is ${rValue} \n\n`);
     }
@@ -234,19 +211,17 @@ export class AscendingStats {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
 
-    if (level) {
-      rValue += genericAscending(
-        this._ascending_attributes,
-        level,
-        constants.Attribute.Enum.Defense,
-        true,
-        false,
-        false,
-        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
-          ? this.troopClass
-          : undefined
-      );
-    }
+    rValue += genericAscending(
+      this._ascending_attributes,
+      level,
+      constants.Attribute.Enum.Defense,
+      true,
+      false,
+      false,
+      this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+        ? this.troopClass
+        : undefined
+    );
     return rValue;
   }
 
@@ -254,19 +229,17 @@ export class AscendingStats {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
 
-    if (level) {
-      rValue += genericAscending(
-        this._ascending_attributes,
-        level,
-        constants.Attribute.Enum.Defense,
-        true,
-        true,
-        false,
-        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
-          ? this.troopClass
-          : undefined
-      );
-    }
+    rValue += genericAscending(
+      this._ascending_attributes,
+      level,
+      constants.Attribute.Enum.Defense,
+      true,
+      true,
+      false,
+      this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+        ? this.troopClass
+        : undefined
+    );
     return rValue;
   }
 
@@ -274,19 +247,17 @@ export class AscendingStats {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
 
-    if (level) {
-      rValue += genericAscending(
-        this._ascending_attributes,
-        level,
-        constants.Attribute.Enum.HP,
-        true,
-        false,
-        false,
-        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
-          ? this.troopClass
-          : undefined
-      );
-    }
+    rValue += genericAscending(
+      this._ascending_attributes,
+      level,
+      constants.Attribute.Enum.HP,
+      true,
+      false,
+      false,
+      this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+        ? this.troopClass
+        : undefined
+    );
     return rValue;
   }
 
@@ -294,19 +265,17 @@ export class AscendingStats {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
 
-    if (level) {
-      rValue += genericAscending(
-        this._ascending_attributes,
-        level,
-        constants.Attribute.Enum.HP,
-        true,
-        true,
-        false,
-        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
-          ? this.troopClass
-          : undefined
-      );
-    }
+    rValue += genericAscending(
+      this._ascending_attributes,
+      level,
+      constants.Attribute.Enum.HP,
+      true,
+      true,
+      false,
+      this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+        ? this.troopClass
+        : undefined
+    );
     return rValue;
   }
 
@@ -314,19 +283,17 @@ export class AscendingStats {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
 
-    if (level) {
-      rValue += genericAscending(
-        this._ascending_attributes,
-        level,
-        constants.Attribute.Enum["Marching Speed"],
-        false,
-        false,
-        false,
-        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
-          ? this.troopClass
-          : undefined
-      );
-    }
+    rValue += genericAscending(
+      this._ascending_attributes,
+      level,
+      constants.Attribute.Enum["Marching Speed"],
+      false,
+      false,
+      false,
+      this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+        ? this.troopClass
+        : undefined
+    );
     if (DEBUG) {
       console.log(`AscendingStats MarchSizeIncrease rValue is ${rValue} \n\n`);
     }
@@ -337,19 +304,17 @@ export class AscendingStats {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
 
-    if (level) {
-      rValue += genericAscending(
-        this._ascending_attributes,
-        level,
-        constants.Attribute.Enum["Marching Speed"],
-        false,
-        true,
-        false,
-        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
-          ? this.troopClass
-          : undefined
-      );
-    }
+    rValue += genericAscending(
+      this._ascending_attributes,
+      level,
+      constants.Attribute.Enum["Marching Speed"],
+      false,
+      true,
+      false,
+      this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+        ? this.troopClass
+        : undefined
+    );
     if (DEBUG) {
       console.log(`AscendingStats MarchSizeIncrease rValue is ${rValue} \n\n`);
     }
@@ -360,19 +325,17 @@ export class AscendingStats {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
 
-    if (level) {
-      rValue += genericAscending(
-        this._ascending_attributes,
-        level,
-        constants.Attribute.Enum["March Size Capacity"],
-        false,
-        false,
-        false,
-        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
-          ? this.troopClass
-          : undefined
-      );
-    }
+    rValue += genericAscending(
+      this._ascending_attributes,
+      level,
+      constants.Attribute.Enum["March Size Capacity"],
+      false,
+      false,
+      false,
+      this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+        ? this.troopClass
+        : undefined
+    );
     if (DEBUG) {
       console.log(`AscendingStats MarchSizeIncrease rValue is ${rValue} \n\n`);
     }
@@ -383,19 +346,17 @@ export class AscendingStats {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
 
-    if (level) {
-      rValue += genericAscending(
-        this._ascending_attributes,
-        level,
-        constants.Attribute.Enum["Double Items Drop Rate"],
-        false,
-        true,
-        false,
-        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
-          ? this.troopClass
-          : undefined
-      );
-    }
+    rValue += genericAscending(
+      this._ascending_attributes,
+      level,
+      constants.Attribute.Enum["Double Items Drop Rate"],
+      false,
+      true,
+      false,
+      this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+        ? this.troopClass
+        : undefined
+    );
     return rValue;
   }
 
@@ -403,19 +364,17 @@ export class AscendingStats {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
 
-    if (level) {
-      rValue += genericAscending(
-        this._ascending_attributes,
-        level,
-        constants.Attribute.Enum["Stamina cost"],
-        false,
-        false,
-        false,
-        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
-          ? this.troopClass
-          : undefined
-      );
-    }
+    rValue += genericAscending(
+      this._ascending_attributes,
+      level,
+      constants.Attribute.Enum["Stamina cost"],
+      false,
+      false,
+      false,
+      this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+        ? this.troopClass
+        : undefined
+    );
     return rValue;
   }
 
@@ -423,19 +382,17 @@ export class AscendingStats {
     let rValue = 0;
     const level = stores.selectedValues.get().stars;
 
-    if (level) {
-      rValue += genericAscending(
-        this._ascending_attributes,
-        level,
-        constants.Attribute.Enum["Stamina cost"],
-        false,
-        true,
-        false,
-        this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
-          ? this.troopClass
-          : undefined
-      );
-    }
+    rValue += genericAscending(
+      this._ascending_attributes,
+      level,
+      constants.Attribute.Enum["Stamina cost"],
+      false,
+      true,
+      false,
+      this.troopClass.localeCompare(constants.ClassEnum.Enum.All)
+        ? this.troopClass
+        : undefined
+    );
     return rValue;
   }
 }

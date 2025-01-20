@@ -6,7 +6,8 @@ import * as stores from "../store";
 
 import { General, GeneralPair } from "@schemas/generals";
 
-const DEBUG = false;
+import debugFunction from "@lib/debug";
+const DEBUG = debugFunction("components/generals/generics/genericBook.ts");
 
 export class BaseSkill {
   protected _primary: General;
@@ -335,38 +336,32 @@ export const genericBook = (
 ) => {
   const bookEval = (book: SkillBook) => {
     let rValue = 0;
-    if (book) {
-      if (book) {
-        const buffs = book.buff;
-        if (Array.isArray(buffs)) {
-          buffs.map((buff) => {
-            rValue += genericBuffEval(
-              buff,
-              attribute,
-              debuffAttribute,
-              pvm,
-              reinforcing,
-              troopClass
-            );
-          });
-        } else {
-          rValue += genericBuffEval(
-            buffs,
-            attribute,
-            debuffAttribute,
-            pvm,
-            reinforcing,
-            troopClass
-          );
-        }
-      }
+    const buffs = book.buff;
+    if (Array.isArray(buffs)) {
+      buffs.map((buff) => {
+        rValue += genericBuffEval(
+          buff,
+          attribute,
+          debuffAttribute,
+          pvm,
+          reinforcing,
+          troopClass
+        );
+      });
+    } else {
+      rValue += genericBuffEval(
+        buffs,
+        attribute,
+        debuffAttribute,
+        pvm,
+        reinforcing,
+        troopClass
+      );
     }
     return rValue;
   };
   let rValue = 0;
-  if (primary_skillBook) {
-    rValue += bookEval(primary_skillBook);
-  }
+  rValue += bookEval(primary_skillBook);
   if (secondary_skillBook) {
     rValue += bookEval(secondary_skillBook);
   }

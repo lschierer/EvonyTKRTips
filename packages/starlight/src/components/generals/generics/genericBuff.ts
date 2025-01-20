@@ -1,10 +1,10 @@
 import type { Buff } from "@schemas/buff";
 import * as constants from "@schemas/constants";
 import * as stores from "../store";
-import { drag } from "d3";
 
-const DEBUG = false;
-const DEBUG2 = false;
+import debugFunction from "@lib/debug";
+const DEBUG = debugFunction("components/generals/generics/genericBuff.ts");
+const DEBUG2 = debugFunction("components/generals/generics/genericBuff.ts");
 
 /*TODO: handle the case when not the rally leader */
 
@@ -16,11 +16,9 @@ export const genericBuffEval = (
   reinforcing = false,
   troopClass?: constants.ClassEnum
 ) => {
-  const dragon = stores.selectedValues.get().dragon ?? false;
-  const beast = stores.selectedValues.get().beast ?? false;
-  const generalSpecialist =
-    stores.generalSpecalist.get() ??
-    constants.GeneralType.Enum.mounted_specialist;
+  const dragon = stores.selectedValues.get().dragon;
+  const beast = stores.selectedValues.get().beast;
+  const generalSpecialist = stores.generalSpecalist.get();
   if (DEBUG) {
     console.log(`genericBuffEval detects generalUse ${generalSpecialist}`);
   }

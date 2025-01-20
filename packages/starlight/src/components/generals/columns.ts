@@ -1,19 +1,8 @@
-import {
-  createColumnHelper,
-  type AccessorKeyColumnDef,
-  type ColumnDef,
-  type ColumnDefBase,
-  type GroupColumnDef,
-} from "@tanstack/table-core";
+import { type ColumnDef } from "@tanstack/table-core";
 
 import { html } from "lit";
 
 import { GeneralPair } from "@schemas/generals";
-import * as constants from "@schemas/constants";
-
-import * as stores from "./store";
-
-const columnHelper = createColumnHelper<GeneralPair>();
 
 export const DefaultColumns: ColumnDef<GeneralPair>[] = [
   {

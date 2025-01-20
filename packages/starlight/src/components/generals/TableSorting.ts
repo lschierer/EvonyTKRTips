@@ -1,9 +1,7 @@
 import { TanStackFormController } from "@tanstack/lit-form";
-import { type SortingState } from "@tanstack/table-core";
 
-import { LitElement, css, unsafeCSS, html, type CSSResultGroup } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
-import { repeat } from "lit/directives/repeat.js";
+import { LitElement, unsafeCSS, html, type CSSResultGroup } from "lit";
+import { customElement } from "lit/decorators.js";
 import { withStores } from "@nanostores/lit";
 
 import { z } from "zod";
@@ -12,13 +10,9 @@ import SpectrumCssMenu from "@spectrum-css/menu/dist/index.css?inline";
 import SpectrumCssFieldLabel from "@spectrum-css/fieldlabel/dist/index.css?inline";
 import SpectrumCssPicker from "@spectrum-css/picker/dist/index.css?inline";
 import SpectrumCssPopover from "@spectrum-css/popover/dist/index.css?inline";
-import SpectrumCssStepper from "@spectrum-css/stepper/dist/index.css?inline";
-import SpectrumCssTextfield from "@spectrum-css/textfield/dist/index.css?inline";
 import GeneralOptionsFormCss from "@styles/GeneralOptionsForm.css?inline";
 
 import "iconify-icon";
-
-import * as constants from "@schemas/constants";
 
 import {
   sortByPrimarySecondary,
@@ -33,7 +27,8 @@ const SortingPreset = z.object({
 });
 type SortingPreset = z.infer<typeof SortingPreset>;
 
-const DEBUG = true;
+import debugFunction from "@lib/debug";
+const DEBUG = debugFunction("components/generals/TableSorting.ts");
 
 @customElement("table-sorting")
 export class TableSorting extends withStores(LitElement, [sortingStore]) {
@@ -61,6 +56,7 @@ export class TableSorting extends withStores(LitElement, [sortingStore]) {
         @change=${(e: Event) => {
           if (DEBUG) {
             console.log(`TableSorting form change callback`);
+            console.log(`event was ${JSON.stringify(e)}`);
           }
           const currentFormState = this.#form.api.state;
           if (DEBUG) {
@@ -71,7 +67,7 @@ export class TableSorting extends withStores(LitElement, [sortingStore]) {
               SortingPresets.Enum.sortByPrimarySecondary
             )
           ) {
-            sortingStore.set(sortByAttackScoreMarchSize);
+            sortingStore.set(sortByPrimarySecondary);
           } else if (
             !currentFormState.values.preset.localeCompare(
               SortingPresets.Enum.sortByMarchSizeAttackScore

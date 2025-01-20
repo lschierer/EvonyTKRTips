@@ -7,10 +7,16 @@ import * as stores from "../store";
 import AllStandardSkillBooks from "@lib/standardSkillBooks";
 import { genericBook } from "./genericBook";
 
-const DEBUG = false;
-const DEBUG2 = false;
-const DEBUG3 = false;
-const DEBUG4 = false;
+import debugFunction from "@lib/debug";
+const DEBUG = debugFunction(
+  "components/generals/generics/genericStandardSkillBook.ts"
+);
+const DEBUG2 = debugFunction(
+  "components/generals/generics/genericStandardSkillBook.ts"
+);
+const DEBUG4 = debugFunction(
+  "components/generals/generics/genericStandardSkillBook.ts"
+);
 
 export class StandardSkills {
   protected _primary: General;

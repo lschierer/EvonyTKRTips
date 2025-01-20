@@ -1,35 +1,26 @@
 import {
-  css,
   type CSSResultGroup,
   html,
   LitElement,
-  nothing,
   type PropertyValues,
   unsafeCSS,
   type TemplateResult,
-  type CSSResultArray,
 } from "lit";
 import { ref, type Ref, createRef } from "lit/directives/ref.js";
 import { customElement, state } from "lit/decorators.js";
-import { classMap } from "lit/directives/class-map.js";
-import { styleMap } from "lit/directives/style-map.js";
 
 import {
   type ColumnDef,
   createTable,
-  type Header,
   type Row,
   type RowData,
-  type RowModel,
   type SortingState,
   type Table as tanstackTable,
   type TableOptions,
   type TableOptionsResolved,
-  type TableState,
 } from "@tanstack/table-core";
 
-import { StoreController, withStores } from "@nanostores/lit";
-import { atom } from "nanostores";
+import { withStores } from "@nanostores/lit";
 
 import "@spectrum-web-components/table/elements.js";
 import { Table } from "@spectrum-web-components/table";
@@ -38,7 +29,7 @@ import SpectrumTableCSS from "@spectrum-css/table/dist/index.css?inline";
 import GeneralsCSS from "@styles/generals.css?inline";
 import PairTableCSS from "@styles/PairTable.css?inline";
 
-import { DefaultColumns, PvMcolumns, PvPcolumns } from "./columns";
+import { PvMcolumns, PvPcolumns } from "./columns";
 
 import * as stores from "./store";
 import tableStore from "./backendTable";
@@ -46,11 +37,9 @@ import { stateStore, sortingStore } from "./backendTable";
 import { GeneralPair } from "@schemas/generals";
 
 import * as constants from "@schemas/constants";
-import type { CursorPos } from "readline";
 
-import { TableSorting } from "./TableSorting";
-
-const DEBUG = true;
+import debugFunction from "@lib/debug";
+const DEBUG = debugFunction("components/generals/PairingTable.ts");
 
 @customElement("pairing-table")
 export default class PairingTable extends withStores(LitElement, [
@@ -161,8 +150,11 @@ export default class PairingTable extends withStores(LitElement, [
     ];
   }
 
-  protected flexRender = <TProps extends object>(comp: any, props: TProps) => {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  protected flexRender = (comp: any, props: object) => {
     if (typeof comp === "function") {
+      /*eslint-disable @typescript-eslint/no-unsafe-call */
+      /*eslint-disable @typescript-eslint/no-unsafe-return */
       return comp(props);
     }
     return comp;
@@ -195,7 +187,7 @@ export default class PairingTable extends withStores(LitElement, [
         });
       }
 
-      tableElement.renderItem = (item, index) => {
+      tableElement.renderItem = (item) => {
         const row = Object.values(item)[0] as Row<GeneralPair>;
         return html`${row.getVisibleCells().map((cell) => {
           return html`
@@ -207,6 +199,7 @@ export default class PairingTable extends withStores(LitElement, [
       };
 
       tableElement.addEventListener("sorted", (event) => {
+        /* eslint-disable @typescript-eslint/no-unsafe-assignment */
         const { sortDirection, sortKey } = (event as CustomEvent).detail;
         console.log(`table sorted event has sortKey ${sortKey}`);
         if (this.table) {
@@ -230,64 +223,53 @@ export default class PairingTable extends withStores(LitElement, [
 
   protected table: tanstackTable<GeneralPair> | null = null;
   protected override render(): TemplateResult {
-    if (this.table == undefined || this.table == null) {
+    if (this.table == undefined) {
       this.table = useTable<GeneralPair>(tableStore.get());
     }
-    if (this.table == null) {
-      console.error(`table is still null even after useTable`);
-      return html``;
-    } else {
-      const headStyle = {
-        "grid-template-columns": `repeat(${
-          this.table.getLeafHeaders().filter((h) => h.id.startsWith("center_"))
-            .length
-        }, 1fr)`,
-      };
 
-      return html`
-        <table-sorting></table-sorting>
-        <sp-table scroller quiet density="compact" ${ref(this.tableRef)}>
-          <sp-table-head style="">
-            ${this.table
-              .getLeafHeaders()
-              .filter((h) => !h.id.startsWith("center_"))
-              .map((header) => {
-                const sortDirection =
-                  header.column.getNextSortingOrder() === "asc"
-                    ? "asc"
-                    : header.column.getNextSortingOrder() === "desc"
-                      ? "desc"
-                      : false;
-                return html`
-                  <sp-table-head-cell
-                    sort-direction=${sortDirection}
-                    sort-key=${header.id}
-                  >
-                    ${this.flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}${header.column.getCanSort()
-                      ? sortDirection
-                        ? !sortDirection.localeCompare("asc")
-                          ? html`<iconify-icon
-                              icon="ion:chevron-down"
-                              width="1rem"
-                              height="1rem"
-                            ></iconify-icon>`
-                          : html`<iconify-icon
-                              icon="ion:chevron-up"
-                              width="1rem"
-                              height="1rem"
-                            ></iconify-icon>`
-                        : ""
-                      : ""}
-                  </sp-table-head-cell>
-                `;
-              })}
-          </sp-table-head>
-        </sp-table>
-      `;
-    }
+    return html`
+      <table-sorting></table-sorting>
+      <sp-table scroller quiet density="compact" ${ref(this.tableRef)}>
+        <sp-table-head style="">
+          ${this.table
+            .getLeafHeaders()
+            .filter((h) => !h.id.startsWith("center_"))
+            .map((header) => {
+              const sortDirection =
+                header.column.getNextSortingOrder() === "asc"
+                  ? "asc"
+                  : header.column.getNextSortingOrder() === "desc"
+                    ? "desc"
+                    : false;
+              return html`
+                <sp-table-head-cell
+                  sort-direction=${sortDirection}
+                  sort-key=${header.id}
+                >
+                  ${this.flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}${header.column.getCanSort()
+                    ? sortDirection
+                      ? !sortDirection.localeCompare("asc")
+                        ? html`<iconify-icon
+                            icon="ion:chevron-down"
+                            width="1rem"
+                            height="1rem"
+                          ></iconify-icon>`
+                        : html`<iconify-icon
+                            icon="ion:chevron-up"
+                            width="1rem"
+                            height="1rem"
+                          ></iconify-icon>`
+                      : ""
+                    : ""}
+                </sp-table-head-cell>
+              `;
+            })}
+        </sp-table-head>
+      </sp-table>
+    `;
   }
 }
 

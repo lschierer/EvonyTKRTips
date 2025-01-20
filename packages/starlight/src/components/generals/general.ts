@@ -4,16 +4,9 @@ import { General, GeneralPair } from "@schemas/generals";
 import * as stores from "./store";
 
 import { BaseSkill } from "./generics/genericBook";
-import {
-  SpecialityStats,
-  genericSpeciality,
-} from "./generics/genericSpecialities";
+import { SpecialityStats } from "./generics/genericSpecialities";
 import { AscendingStats } from "./generics/genericAscending";
 import { StandardSkills } from "./generics/genericStandardSkillBook";
-
-import rallySpotBaseMarch from "@lib/rallySpot";
-
-const DEBUG = true;
 
 export class GeneralPairStats {
   protected _primary: General;

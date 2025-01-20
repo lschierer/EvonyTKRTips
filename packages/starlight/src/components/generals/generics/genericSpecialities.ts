@@ -4,7 +4,10 @@ import { GeneralPair, General } from "@schemas/generals";
 import { genericBuffEval } from "./genericBuff";
 import * as stores from "../store";
 
-const DEBUG = false;
+import debugFunction from "@lib/debug";
+const DEBUG = debugFunction(
+  "components/generals/generics/genericSpecialities.ts"
+);
 
 export class SpecialityStats {
   protected _primary: General;
@@ -354,18 +357,16 @@ export const genericSpeciality = (
   troopClass?: constants.ClassEnum
 ) => {
   let rValue = 0;
-  if (primary_speciality) {
-    rValue += specialityEval(
-      primary_speciality,
-      specialityNumber,
-      "primary",
-      attribute,
-      debuffAttribute,
-      pvm,
-      reinforcing,
-      troopClass
-    );
-  }
+  rValue += specialityEval(
+    primary_speciality,
+    specialityNumber,
+    "primary",
+    attribute,
+    debuffAttribute,
+    pvm,
+    reinforcing,
+    troopClass
+  );
   if (secondary_speciality) {
     rValue += specialityEval(
       secondary_speciality,

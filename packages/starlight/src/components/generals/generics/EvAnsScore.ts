@@ -6,7 +6,8 @@ import { GeneralPair } from "@schemas/generals";
 
 import * as stores from "../store";
 
-const DEBUG = false;
+import debugFunction from "@lib/debug";
+const DEBUG = debugFunction("components/generals/generics/EvAnsScore.ts");
 
 type EvansTroopAttribute = Record<
   constants.BuffActivation,
@@ -92,13 +93,9 @@ export const EvAnsAttack = (p: GeneralPair) => {
     console.log(`computing EvAns Attack for ${p.primary.id}/${p.secondary.id}`);
   }
 
-  const useCase = stores.generalUseCase.value
-    ? stores.generalUseCase.value
-    : constants.BuffActivation.Enum.Overall;
+  const useCase = stores.generalUseCase.value;
 
-  const PairType = stores.generalSpecalist.value
-    ? stores.generalSpecalist.value
-    : constants.GeneralType.Enum.mounted_specialist;
+  const PairType = stores.generalSpecalist.value;
 
   const TotalFlatBuffs = AttackFlatBuffs[useCase][PairType];
   const TotalPercentageBuffs = AttackPercentageBuffs[useCase][PairType];
@@ -343,13 +340,9 @@ export const EvAnsDefense = (p: GeneralPair) => {
     );
   }
 
-  const useCase = stores.generalUseCase.value
-    ? stores.generalUseCase.value
-    : constants.BuffActivation.Enum.Overall;
+  const useCase = stores.generalUseCase.value;
 
-  const PairType = stores.generalSpecalist.value
-    ? stores.generalSpecalist.value
-    : constants.GeneralType.Enum.mounted_specialist;
+  const PairType = stores.generalSpecalist.value;
 
   const TotalFlatBuffs = DefenseFlatBuffs[useCase][PairType];
   const TotalPercentageBuffs = DefensePercentageBuffs[useCase][PairType];
@@ -592,13 +585,9 @@ export const EvAnsHP = (p: GeneralPair) => {
     console.log(`computing HP Attack for ${p.primary.id}/${p.secondary.id}`);
   }
 
-  const useCase = stores.generalUseCase.value
-    ? stores.generalUseCase.value
-    : constants.BuffActivation.Enum.Overall;
+  const useCase = stores.generalUseCase.value;
 
-  const PairType = stores.generalSpecalist.value
-    ? stores.generalSpecalist.value
-    : constants.GeneralType.Enum.mounted_specialist;
+  const PairType = stores.generalSpecalist.value;
 
   const TotalFlatBuffs = HPFlatBuffs[useCase][PairType];
   const TotalPercentageBuffs = HPPercentageBuffs[useCase][PairType];

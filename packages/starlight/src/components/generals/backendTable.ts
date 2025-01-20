@@ -1,16 +1,14 @@
 import {
-  createTable,
   type SortingState,
   type TableState,
   type TableOptions,
-  type TableOptionsResolved,
   getCoreRowModel,
   getSortedRowModel,
 } from "@tanstack/table-core";
 
 import { z } from "zod";
 
-import { atom, batched, computed, map, deepMap } from "nanostores";
+import { atom, computed } from "nanostores";
 
 import * as stores from "./store";
 
@@ -19,7 +17,8 @@ import { GeneralPair } from "@schemas/generals";
 
 import { DefaultColumns, PvMcolumns, PvPcolumns } from "./columns";
 
-const DEBUG = true;
+import debugFunction from "@lib/debug";
+const DEBUG = debugFunction("components/generals/backendTable.ts");
 
 export const stateStore = atom<TableState | null>(null);
 
@@ -110,7 +109,6 @@ const tableStore = computed(
     let PvM = false;
     let Attacking = false;
     let columns = DefaultColumns;
-    let data: GeneralPair[];
     if (!currentUseCase.localeCompare(constants.BuffActivation.Enum.PvM)) {
       if (DEBUG) {
         console.log(`table store sees use case is PvM`);

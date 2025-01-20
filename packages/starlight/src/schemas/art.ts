@@ -12,4 +12,4 @@ export type Art = z.infer<typeof Art>;
 export const ArtWork = z.object({
   art: Art,
 });
-export type ExcaliburL3 = z.infer<typeof ArtWork>;
+export type ArtWork = z.infer<typeof ArtWork>;

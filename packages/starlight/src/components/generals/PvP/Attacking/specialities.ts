@@ -5,7 +5,10 @@ import { genericBuffEval } from "../../generics/genericBuff";
 import { PvPAttackingDebuff } from "./debuff";
 import * as stores from "../../store";
 
-const DEBUG = false;
+import debugFunction from "@lib/debug";
+const DEBUG = debugFunction(
+  "components/generals/PvP/Attacking/specialities.ts"
+);
 
 export class PvPAtackingSpecialityStats {
   protected _primary: General;
@@ -318,17 +321,15 @@ export const PvPAttackingSpeciality = (
   debuffClass?: constants.ClassEnum
 ) => {
   let rValue = 0;
-  if (primary_speciality) {
-    rValue += specialityEval(
-      primary_speciality,
-      specialityNumber,
-      "primary",
-      attribute,
-      debuffAttribute,
-      troopClass,
-      debuffClass
-    );
-  }
+  rValue += specialityEval(
+    primary_speciality,
+    specialityNumber,
+    "primary",
+    attribute,
+    debuffAttribute,
+    troopClass,
+    debuffClass
+  );
   if (secondary_speciality) {
     rValue += specialityEval(
       secondary_speciality,

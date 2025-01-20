@@ -2,16 +2,16 @@ import type { Buff } from "@schemas/buff";
 import * as constants from "@schemas/constants";
 import * as stores from "../../store";
 
-const DEBUG = false;
-const DEBUG2 = false;
+//import debugFunction from "@lib/debug";
+//const DEBUG = debugFunction("components/generals/PvP/Attacking/debuff.ts");
 
 export const PvPAttackingDebuff = (
   buff: Buff,
   attribute: constants.Attribute,
   debuffClass: constants.ClassEnum
 ) => {
-  const dragon = stores.selectedValues.get().dragon ?? false;
-  const beast = stores.selectedValues.get().beast ?? false;
+  const dragon = stores.selectedValues.get().dragon;
+  const beast = stores.selectedValues.get().beast;
 
   const validConditions = new Set<constants.Condition>();
   if (dragon) {

@@ -1,15 +1,11 @@
 import {
   LitElement,
-  css,
   html,
-  nothing,
   unsafeCSS,
   type CSSResultGroup,
   type PropertyValues,
 } from "lit";
-import { customElement, state } from "lit/decorators.js";
-import { subscribeKeys, listenKeys } from "nanostores";
-import { withStores, StoreController } from "@nanostores/lit";
+import { withStores } from "@nanostores/lit";
 
 import "@spectrum-web-components/combobox/sp-combobox.js";
 import "@spectrum-web-components/field-group/sp-field-group.js";
@@ -19,18 +15,18 @@ import "@spectrum-web-components/menu/sp-menu-item.js";
 import "@spectrum-web-components/menu/sp-menu-divider.js";
 import "@spectrum-web-components/number-field/sp-number-field.js";
 import "@spectrum-web-components/picker/sp-picker.js";
-import { Combobox } from "@spectrum-web-components/combobox";
 import { NumberField } from "@spectrum-web-components/number-field";
 import { Picker } from "@spectrum-web-components/picker";
 
 import * as stores from "./store";
 
 import * as constants from "@schemas/constants";
-import { General, GeneralPair } from "@schemas/generals";
 import { AscendingLevel } from "@schemas/constants";
 
 import ValueSelectorCSS from "../../styles/valueSelector.css?inline";
-const DEBUG = false;
+
+import debugFunction from "@lib/debug";
+const DEBUG = debugFunction("components/generals/ValueSelector.ts");
 
 export default class ValueSelector extends withStores(LitElement, [
   stores.selectedValues,
@@ -38,10 +34,7 @@ export default class ValueSelector extends withStores(LitElement, [
   stores.secondarySpecialityLevels,
   stores.generalSpecalist,
 ]) {
-  constructor() {
-    super();
-  }
-
+  /* eslint-disable @typescript-eslint/no-misused-promises */
   override firstUpdated = async () => {
     if (DEBUG) {
       console.log(`firstUpdated start`);
@@ -71,9 +64,9 @@ export default class ValueSelector extends withStores(LitElement, [
             const valid = constants.SpecialityLevelName.safeParse(target.value);
             if (valid.success) {
               stores.setPrimaryLevel(valid.data, index);
-              let enable4 = false;
+              let enable4: boolean = false;
 
-              Array.from(Array(4).keys()).map((n2, index) => {
+              Array.from(Array(4).keys()).map((n2) => {
                 enable4 = this.enableSpecialityPicker(n2, "primary");
                 if (!enable4) {
                   stores.setPrimaryLevel(
@@ -83,6 +76,7 @@ export default class ValueSelector extends withStores(LitElement, [
                 }
               });
 
+              /*eslint-disable @typescript-eslint/no-unnecessary-condition */
               if (enable4) {
                 if (
                   !ps[3].localeCompare(constants.SpecialityLevelName.Enum.None)

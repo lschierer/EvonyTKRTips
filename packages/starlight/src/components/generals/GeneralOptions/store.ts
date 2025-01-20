@@ -2,7 +2,8 @@ import { z } from "zod";
 
 import * as constants from "@schemas/constants";
 
-const DEBUG = true;
+import debugFunction from "@lib/debug";
+const DEBUG = debugFunction("components/generals/GeneralOptions/store.ts");
 
 export const GeneralSpecialtyLevelArray = z
   .array(constants.SpecialityLevelName)

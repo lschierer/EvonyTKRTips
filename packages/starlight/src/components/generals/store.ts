@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { atom, batched, deepMap } from "nanostores";
+import { atom, batched, map } from "nanostores";
 
 import { GeneralAscending } from "@schemas/ascending";
 import { ConfictGroup } from "@schemas/generalConflictGroups";
@@ -13,8 +13,9 @@ import { GeneralPairStats } from "./general";
 
 import { EvAnsAttack, EvAnsDefense, EvAnsHP } from "./generics/EvAnsScore";
 
-const DEBUG = false;
-const DEBUG2 = false;
+import debugFunction from "@lib/debug";
+
+const DEBUG = debugFunction("components/generals/store.ts");
 
 interface SelectedValues {
   ascending: boolean;
@@ -24,7 +25,7 @@ interface SelectedValues {
   beast: boolean;
 }
 
-export const selectedValues = deepMap<SelectedValues>({
+export const selectedValues = map<SelectedValues>({
   ascending: false,
   stars: constants.AscendingLevel.Enum.red5,
   level: 44,
@@ -56,8 +57,8 @@ export const setPrimaryLevel = (
   primarySpecialityLevels.set(s);
 };
 
-primarySpecialityLevels.listen((v, o) => {
-  if (DEBUG2) {
+primarySpecialityLevels.listen((v) => {
+  if (DEBUG) {
     console.log(
       `primarySpecialityLevels debug listener sees values ${v.join(" ")}`
     );
@@ -80,8 +81,8 @@ export const setSecondaryLevel = (
   secondarySpecialityLevels.set(s);
 };
 
-secondarySpecialityLevels.listen((v, o) => {
-  if (DEBUG2) {
+secondarySpecialityLevels.listen((v) => {
+  if (DEBUG) {
     console.log(
       `secondarySpecialityLevels debug listener sees values ${v.join(" ")}`
     );
@@ -143,12 +144,7 @@ const initialPairs = batched(
         }
       })
       .map((g) => {
-        const l =
-          selectedValues.level != undefined
-            ? selectedValues.level > 0
-              ? selectedValues.level
-              : 1
-            : 1;
+        const l = selectedValues.level > 0 ? selectedValues.level : 1;
         if (DEBUG) {
           console.log(`detected l ${l}`);
         }
@@ -186,12 +182,7 @@ const initialPairs = batched(
         return false;
       })
       .map((g) => {
-        const l =
-          selectedValues.level != undefined
-            ? selectedValues.level > 0
-              ? selectedValues.level
-              : 1
-            : 1;
+        const l = selectedValues.level > 0 ? selectedValues.level : 1;
         const ss = secondarySpecialityLevels;
         const ng: General = {
           ascending: false,
@@ -245,8 +236,8 @@ const initialPairs = batched(
       })
       .filter((p) => {
         const conflicting = new Set<string>();
-        const cgs = conflictGroups.filter((cg) => {
-          return cg.members.includes(p.primary.id);
+        const cgs = cg.filter((cgInstance) => {
+          return cgInstance.members.includes(p.primary.id);
         });
         cgs.map((cg) => {
           cg.members.forEach((m) => {
