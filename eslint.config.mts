@@ -1,62 +1,54 @@
-
-import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint'; 
-import type { Linter } from "eslint";
+import eslint from "@eslint/js";
+import tseslint from "typescript-eslint";
 import globals from "globals";
 
-export default [
+export default tseslint.config(
   {
     ignores: [
-      ".sst"
+      "packages/starlight/.astro/**",
+      "packages/starlight/dist/**/*.[jt]s",
+      "packages/greenwood/.greenwood/*.[jt]s",
+      "packages/greenwood/public/**",
     ],
-  },
-  eslint.configs.recommended,
-  {
-    files: [
-      "**/*.ts",
-    ],
-    ignores: [
-      "packages/frontend/src/schemas/**/*.ts",
-    ],
-    languageOptions: {
-      // @ts-expect-error 
-      parser: tseslint.parser,
-      parserOptions: {
-        project: "./tsconfig.json",
-        tsconfigRootDir: ".",
-      },
-    },
-  },
-  {
-    files: [
-      "packages/frontend/src/schemas/**/*.ts",
+    extends: [
+      tseslint.configs.recommendedTypeChecked,
+      tseslint.configs.strictTypeChecked,
     ],
     rules: {
-      "no-redeclare": "off"
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/restrict-template-expressions": [
+        "error",
+        {
+          allowNumber: true,
+        },
+      ],
     },
     languageOptions: {
-      // @ts-expect-error 
-      parser: tseslint.parser,
+      ecmaVersion: "latest",
+      sourceType: "module",
+      globals: {
+        ...globals.browser,
+      },
       parserOptions: {
-        project: "./tsconfig.json",
-        tsconfigRootDir: ".",
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+        projectFolderIgnoreList: ["**/node_modules/**"],
       },
     },
+  },
+  {
+    files: ["**/*/*.js"],
+    ignores: ["packages/greenwood/public/**"],
+    extends: [eslint.configs.recommended, tseslint.configs.disableTypeChecked],
   },
   {
     files: [
-      "infrastructure/*.ts",
+      "packages/greenwood/src/schemas/*.ts",
+      "packages/starlight/src/schemas/*.ts",
     ],
-
-  },
-  {
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-      },
-    }
-  },
-] satisfies Linter.Config[];
-
-
+    rules: {
+      "@typescript-eslint/no-unused-vars": "off",
+    },
+  }
+);
