@@ -1,4 +1,3 @@
-import autoprefixer from "autoprefixer";
 import "postcss-import";
 import "postcss-nesting";
 import "postcss-extend";
@@ -9,6 +8,5 @@ export default {
     "postcss-import": {},
     "postcss-extend": {},
     "postcss-nesting": {},
-    autoprefixer: {},
   },
 };

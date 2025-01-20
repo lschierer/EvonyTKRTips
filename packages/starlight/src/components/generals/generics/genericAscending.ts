@@ -33,7 +33,7 @@ export class AscendingStats {
                 .get()
                 .localeCompare(constants.GeneralType.Enum.siege_specialist)
             ? constants.ClassEnum.Enum["Siege Machines"]
-            : constants.ClassEnum.Enum["All"];
+            : constants.ClassEnum.Enum.All;
 
     const aa = stores.ascendingAttributes.get();
     if (aa) {
@@ -445,8 +445,8 @@ const genericAscending = (
   level: constants.AscendingLevel,
   attribute: constants.Attribute,
   debuffAttribute: boolean,
-  pvm: boolean = false,
-  reinforcing: boolean = false,
+  pvm = false,
+  reinforcing = false,
   troopClass?: constants.ClassEnum
 ) => {
   let rValue = 0;
@@ -552,8 +552,8 @@ const evalSingleLevelBuffs = (
   b: Buff[],
   attribute: constants.Attribute,
   debuffAttribute: boolean,
-  pvm: boolean = false,
-  reinforcing: boolean = false,
+  pvm = false,
+  reinforcing = false,
   troopClass?: constants.ClassEnum
 ) => {
   let evalSingleLevelBuffsValue = 0;

@@ -34,7 +34,7 @@ export class BaseSkill {
                 .get()
                 .localeCompare(constants.GeneralType.Enum.siege_specialist)
             ? constants.ClassEnum.Enum["Siege Machines"]
-            : constants.ClassEnum.Enum["All"];
+            : constants.ClassEnum.Enum.All;
 
     if (stores.skillBooks.value.length > 0) {
       this._primary_skillBook =
@@ -328,9 +328,9 @@ export const genericBook = (
   primary_skillBook: SkillBook,
   secondary_skillBook: SkillBook | null,
   attribute: constants.Attribute,
-  debuffAttribute: boolean = false,
-  pvm: boolean = false,
-  reinforcing: boolean = false,
+  debuffAttribute = false,
+  pvm = false,
+  reinforcing = false,
   troopClass?: constants.ClassEnum
 ) => {
   const bookEval = (book: SkillBook) => {

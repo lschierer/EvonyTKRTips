@@ -188,14 +188,14 @@ export default class PairingTable extends withStores(LitElement, [
         );
       }
       if (Array.isArray(rows)) {
-        (tableElement as Table).items = rows.map((row) => {
+        tableElement.items = rows.map((row) => {
           return {
             [row.id]: row,
           } as Record<string, Row<GeneralPair>>;
         });
       }
 
-      (tableElement as Table).renderItem = (item, index) => {
+      tableElement.renderItem = (item, index) => {
         const row = Object.values(item)[0] as Row<GeneralPair>;
         return html`${row.getVisibleCells().map((cell) => {
           return html`
@@ -219,7 +219,7 @@ export default class PairingTable extends withStores(LitElement, [
           const newSorting: SortingState = [
             {
               id: sortKey,
-              desc: !(sortDirection as String).localeCompare("desc"),
+              desc: !(sortDirection as string).localeCompare("desc"),
             },
           ];
           sortingStore.set(newSorting);

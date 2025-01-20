@@ -38,7 +38,7 @@ export class StandardSkills {
                 .get()
                 .localeCompare(constants.GeneralType.Enum.siege_specialist)
             ? constants.ClassEnum.Enum["Siege Machines"]
-            : constants.ClassEnum.Enum["All"];
+            : constants.ClassEnum.Enum.All;
 
     const conflictGroups = stores.conflictGroups.get();
     if (conflictGroups.length > 0) {
@@ -380,9 +380,9 @@ export const genericStandardSkillBooksEval = (
   secondary: General,
   bookConflicts: BookConflict[],
   attribute: constants.Attribute,
-  debuffAttribute: boolean = false,
-  pvm: boolean = false,
-  reinforcing: boolean = false,
+  debuffAttribute = false,
+  pvm = false,
+  reinforcing = false,
   troopClass?: constants.ClassEnum
 ) => {
   let rValue = 0;

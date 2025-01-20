@@ -4,7 +4,7 @@ const DEBUG = true;
 
 async function getBody(compilation, route) {
   return `
-
+<generals-collection></generals-collection>
   `;
 }
 
@@ -21,7 +21,7 @@ async function getLayout(compilation, route) {
       </head>
       <body>
         <h1>Available Generals</h1>
-        <generals-collection></generals-collection>
+
         <content-outlet></content-outlet>
       </body>
     </html>

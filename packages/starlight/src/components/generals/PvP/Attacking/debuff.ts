@@ -37,7 +37,7 @@ export const PvPAttackingDebuff = (
   );
   let rValue = 0;
   if (!attribute.localeCompare(buff.attribute)) {
-    let badCondition: boolean = false;
+    let badCondition = false;
     if (buff.condition) {
       badCondition = buff.condition.find((c) => {
         if (validConditions.has(c)) {

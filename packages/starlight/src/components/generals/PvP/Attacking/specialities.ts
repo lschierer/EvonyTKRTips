@@ -33,7 +33,7 @@ export class PvPAtackingSpecialityStats {
                 .get()
                 .localeCompare(constants.GeneralType.Enum.siege_specialist)
             ? constants.ClassEnum.Enum["Siege Machines"]
-            : constants.ClassEnum.Enum["All"];
+            : constants.ClassEnum.Enum.All;
 
     if (stores.specialities.get().length > 0) {
       this._primary.specialities.forEach((specialityName, index) => {

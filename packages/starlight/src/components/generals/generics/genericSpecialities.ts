@@ -32,7 +32,7 @@ export class SpecialityStats {
                 .get()
                 .localeCompare(constants.GeneralType.Enum.siege_specialist)
             ? constants.ClassEnum.Enum["Siege Machines"]
-            : constants.ClassEnum.Enum["All"];
+            : constants.ClassEnum.Enum.All;
 
     if (stores.specialities.get().length > 0) {
       this._primary.specialities.forEach((specialityName, index) => {
@@ -349,8 +349,8 @@ export const genericSpeciality = (
   specialityNumber: 1 | 2 | 3 | 4,
   attribute: constants.Attribute,
   debuffAttribute: boolean,
-  pvm: boolean = false,
-  reinforcing: boolean = false,
+  pvm = false,
+  reinforcing = false,
   troopClass?: constants.ClassEnum
 ) => {
   let rValue = 0;
@@ -387,8 +387,8 @@ const specialityEval = (
   role: "primary" | "secondary",
   attribute: constants.Attribute,
   debuffAttribute: boolean,
-  pvm: boolean = false,
-  reinforcing: boolean = false,
+  pvm = false,
+  reinforcing = false,
   troopClass?: constants.ClassEnum
 ) => {
   let rValue = 0;

@@ -12,8 +12,8 @@ export const genericBuffEval = (
   buff: Buff,
   attribute: constants.Attribute,
   debuffAttribute: boolean,
-  pvm: boolean = false,
-  reinforcing: boolean = false,
+  pvm = false,
+  reinforcing = false,
   troopClass?: constants.ClassEnum
 ) => {
   const dragon = stores.selectedValues.get().dragon ?? false;
@@ -139,7 +139,7 @@ export const genericBuffEval = (
     if (DEBUG) {
       console.log(`${buff.attribute} matches ${buff.attribute}`);
     }
-    let badCondition: boolean = false;
+    let badCondition = false;
     if (buff.condition) {
       if (DEBUG) {
         console.log(`there are buff conditions.`);
@@ -219,7 +219,7 @@ const isDebuff = (buff: Buff) => {
     }
     return false;
   } else {
-    let match: constants.Condition | undefined = buff.condition.find((c) => {
+    const match: constants.Condition | undefined = buff.condition.find((c) => {
       const valid = constants.DebuffCondition.safeParse(c);
       if (valid.success) {
         if (DEBUG) {

@@ -3,8 +3,8 @@
 OPTS=$(getopt -o i:o: --long input:,output: -n 'createSchemas.sh' -- "$@")
 
 if [ $? -ne 0 ]; then
-        echo "Invalid usage: '$@'" >&2
-        exit 1
+  echo "Invalid usage: '$@'" >&2
+  exit 1
 fi
 
 # Note the quotes around "$TEMP": they are essential!
@@ -13,7 +13,6 @@ unset OPTS
 
 unset -v INPUTDIR
 unset -v OUTPUTDIR
-
 
 while true; do
   case "$1" in
@@ -58,7 +57,7 @@ else
   shopt -s nullglob
   shopt -s dotglob
   chk_files=("${OUTPUTDIR}"/*)
-  (( ${#chk_files[*]} )) && echo "OUTPUTDIR is '$OUTPUTDIR' is not empty " && exit 6
+  ((${#chk_files[*]})) && echo "OUTPUTDIR is '$OUTPUTDIR' is not empty " && exit 6
   shopt -u nullglob
   shopt -u dotglob
   echo "OUTPUTDIR is '$OUTPUTDIR'"

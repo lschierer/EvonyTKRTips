@@ -16,13 +16,13 @@ import { EvAnsAttack, EvAnsDefense, EvAnsHP } from "./generics/EvAnsScore";
 const DEBUG = false;
 const DEBUG2 = false;
 
-type SelectedValues = {
+interface SelectedValues {
   ascending: boolean;
   stars: constants.AscendingLevel;
   level: number;
   dragon: boolean;
   beast: boolean;
-};
+}
 
 export const selectedValues = deepMap<SelectedValues>({
   ascending: false,

@@ -53,7 +53,7 @@ export default class ValueSelector extends withStores(LitElement, [
 
       Array.from(Array(4).keys()).map((n, index) => {
         /*#primary-speciality-0 */
-        let specialityPicker = this.renderRoot?.querySelector(
+        const specialityPicker = this.renderRoot.querySelector(
           `#primary-speciality-${n}`
         );
         if (specialityPicker) {
@@ -115,7 +115,7 @@ export default class ValueSelector extends withStores(LitElement, [
           console.log(`getSetValues Array.from loop ${n}`);
         }
         /*secondary picker */
-        let specialityPicker = this.renderRoot?.querySelector(
+        const specialityPicker = this.renderRoot.querySelector(
           `#secondary-speciality-${n}`
         );
         if (specialityPicker) {
@@ -170,7 +170,7 @@ export default class ValueSelector extends withStores(LitElement, [
       });
 
       const ascendingSelector =
-        this.renderRoot?.querySelector("#primary-ascending");
+        this.renderRoot.querySelector("#primary-ascending");
       if (ascendingSelector) {
         if (DEBUG) {
           console.log(`ascendingSelector found`);
@@ -198,7 +198,7 @@ export default class ValueSelector extends withStores(LitElement, [
           console.log(`ascendingSelector not found`);
         }
       }
-      const typeSelector = this.renderRoot?.querySelector("#generalType");
+      const typeSelector = this.renderRoot.querySelector("#generalType");
       if (typeSelector) {
         if (DEBUG) {
           console.log(`typeSelector found`);
@@ -221,7 +221,7 @@ export default class ValueSelector extends withStores(LitElement, [
       if (DEBUG) {
         console.log(`ValueSelector getSetValues whenDefined sp-number-field`);
       }
-      const levelSelector = this.renderRoot?.querySelector("#level");
+      const levelSelector = this.renderRoot.querySelector("#level");
       if (levelSelector) {
         levelSelector.addEventListener("change", (event) => {
           if (DEBUG) {
