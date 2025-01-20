@@ -10,10 +10,10 @@
     "serve": "node --import @greenwood/cli/register ./node_modules/@greenwood/cli/src/index.js serve"
   },
   "devDependencies": {
-    "@greenwood/cli": "0.31.0-alpha.4",
-    "@greenwood/plugin-google-analytics": "0.31.0-alpha.4",
-    "@greenwood/plugin-postcss": "0.31.0-alpha.4",
-    "@greenwood/plugin-typescript": "0.31.0-alpha.4",
+    "@greenwood/cli": "0.31.0-alpha.5",
+    "@greenwood/plugin-google-analytics": "0.31.0-alpha.5",
+    "@greenwood/plugin-postcss": "0.31.0-alpha.5",
+    "@greenwood/plugin-typescript": "0.31.0-alpha.5",
     "@tsconfig/node22": "^22.0.0",
     "@types/node": "^22.10.2",
     "@types/trusted-types": "^2.0.7",
