@@ -7,12 +7,13 @@ import { General } from "../../schemas/generals.ts";
 import debugFunction from "../../lib/debug.ts";
 const DEBUG = debugFunction("components/collections/generals.ts");
 
-const generals = await Promise.all(
+const generals = new Array<General>();
+await Promise.all(
   collection.map(async (gf) => {
     if (DEBUG) {
       console.log(`gf is ${gf}`);
     }
-    return await import(`../../assets/collections/generals/${gf}`, {
+    await import(`../../assets/collections/generals/${gf}`, {
       with: { type: "json" },
     }).then((jsondata: object) => {
       const keys = Object.keys(jsondata);
@@ -21,7 +22,7 @@ const generals = await Promise.all(
           jsondata["default" as keyof typeof jsondata]
         );
         if (valid.success) {
-          return valid.data;
+          generals.push(valid.data);
         } else {
           if (DEBUG) {
             console.error(`error parsing ${gf}`, valid.error.message);
@@ -29,7 +30,6 @@ const generals = await Promise.all(
           }
         }
       }
-      return null;
     });
   })
 );
@@ -47,16 +47,7 @@ export default class GeneralsCollection extends HTMLElement {
         <ul>
           ${generals
             .sort((a, b) => {
-              if (a) {
-                if (b) {
-                  return a.id.localeCompare(b.id);
-                }
-                return -1;
-              }
-              if (b) {
-                return 1;
-              }
-              return 0;
+              return a.id.localeCompare(b.id);
             })
             .map((g) => `<li>${g.id}</li>`)
             .join(" ")}
