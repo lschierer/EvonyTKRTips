@@ -1,5 +1,5 @@
-import * as constants from "@schemas/constants";
-import { General, GeneralPair } from "@schemas/generals";
+import type * as constants from "@schemas/constants";
+import { type General, type GeneralPair } from "@schemas/generals";
 
 import * as stores from "./store";
 

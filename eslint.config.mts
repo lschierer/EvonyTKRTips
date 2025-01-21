@@ -6,10 +6,12 @@ export default tseslint.config(
   {
     ignores: [
       "packages/starlight/.astro/**",
-      "packages/starlight/dist/**/*.[jt]s",
-      "packages/greenwood/.greenwood/*.[jt]s",
+      "packages/starlight/dist/**",
+      "packages/greenwood/.greenwood/**",
       "packages/greenwood/public/**",
     ],
+  },
+  {
     extends: [
       tseslint.configs.recommendedTypeChecked,
       tseslint.configs.strictTypeChecked,
@@ -17,6 +19,13 @@ export default tseslint.config(
     rules: {
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          prefer: "type-imports",
+          fixStyle: "inline-type-imports",
+        },
+      ],
       "@typescript-eslint/restrict-template-expressions": [
         "error",
         {

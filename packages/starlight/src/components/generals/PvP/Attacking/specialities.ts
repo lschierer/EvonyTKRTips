@@ -1,6 +1,6 @@
 import * as constants from "@schemas/constants";
-import { Speciality } from "@schemas/specialities";
-import { GeneralPair, General } from "@schemas/generals";
+import { type Speciality } from "@schemas/specialities";
+import { type GeneralPair, type General } from "@schemas/generals";
 import { genericBuffEval } from "../../generics/genericBuff";
 import { PvPAttackingDebuff } from "./debuff";
 import * as stores from "../../store";

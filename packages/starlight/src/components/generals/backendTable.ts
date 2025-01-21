@@ -13,7 +13,7 @@ import { atom, computed } from "nanostores";
 import * as stores from "./store";
 
 import * as constants from "@schemas/constants";
-import { GeneralPair } from "@schemas/generals";
+import { type GeneralPair } from "@schemas/generals";
 
 import { DefaultColumns, PvMcolumns, PvPcolumns } from "./columns";
 

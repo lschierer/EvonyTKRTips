@@ -1,7 +1,7 @@
 import * as constants from "@schemas/constants";
-import { AscendingLevel } from "@schemas/ascending";
-import { Buff } from "@schemas/buff";
-import { General, GeneralPair } from "@schemas/generals";
+import { type AscendingLevel } from "@schemas/ascending";
+import { type Buff } from "@schemas/buff";
+import { type General, type GeneralPair } from "@schemas/generals";
 import { genericBuffEval } from "./genericBuff";
 import * as stores from "../store";
 

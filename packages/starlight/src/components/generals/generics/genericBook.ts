@@ -4,7 +4,7 @@ import { genericBuffEval } from "./genericBuff";
 
 import * as stores from "../store";
 
-import { General, GeneralPair } from "@schemas/generals";
+import { type General, type GeneralPair } from "@schemas/generals";
 
 import debugFunction from "@lib/debug";
 const DEBUG = debugFunction("components/generals/generics/genericBook.ts");

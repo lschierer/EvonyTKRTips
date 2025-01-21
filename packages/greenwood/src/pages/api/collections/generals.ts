@@ -1,6 +1,6 @@
 export const isolation = true;
 
-import { General } from "../../../schemas/generals.ts";
+import { type General } from "../../../schemas/generals.ts";
 
 import { getGeneral } from "../../../lib/collections/generals.ts";
 

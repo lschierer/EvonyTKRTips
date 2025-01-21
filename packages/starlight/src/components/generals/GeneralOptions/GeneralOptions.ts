@@ -18,7 +18,7 @@ import "iconify-icon";
 import * as constants from "@schemas/constants";
 
 import {
-  GeneralOptions,
+  type GeneralOptions,
   PairOptions,
   GeneralSpecialtyLevelArray,
 } from "./store";

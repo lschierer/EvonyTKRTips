@@ -23,7 +23,7 @@ import {
 import { withStores } from "@nanostores/lit";
 
 import "@spectrum-web-components/table/elements.js";
-import { Table } from "@spectrum-web-components/table";
+import { type Table } from "@spectrum-web-components/table";
 
 import SpectrumTableCSS from "@spectrum-css/table/dist/index.css?inline";
 import GeneralsCSS from "@styles/generals.css?inline";
@@ -34,7 +34,7 @@ import { PvMcolumns, PvPcolumns } from "./columns";
 import * as stores from "./store";
 import tableStore from "./backendTable";
 import { stateStore, sortingStore } from "./backendTable";
-import { GeneralPair } from "@schemas/generals";
+import { type GeneralPair } from "@schemas/generals";
 
 import * as constants from "@schemas/constants";
 

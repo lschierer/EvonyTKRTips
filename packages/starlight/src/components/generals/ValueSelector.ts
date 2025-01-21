@@ -15,8 +15,8 @@ import "@spectrum-web-components/menu/sp-menu-item.js";
 import "@spectrum-web-components/menu/sp-menu-divider.js";
 import "@spectrum-web-components/number-field/sp-number-field.js";
 import "@spectrum-web-components/picker/sp-picker.js";
-import { NumberField } from "@spectrum-web-components/number-field";
-import { Picker } from "@spectrum-web-components/picker";
+import { type NumberField } from "@spectrum-web-components/number-field";
+import { type Picker } from "@spectrum-web-components/picker";
 
 import * as stores from "./store";
 

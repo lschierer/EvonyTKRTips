@@ -1,7 +1,7 @@
 import * as constants from "@schemas/constants";
-import { BookConflict } from "@schemas/generalConflictGroups";
+import { type BookConflict } from "@schemas/generalConflictGroups";
 
-import { General, GeneralPair } from "@schemas/generals";
+import { type General, type GeneralPair } from "@schemas/generals";
 
 import * as stores from "../store";
 import AllStandardSkillBooks from "@lib/standardSkillBooks";

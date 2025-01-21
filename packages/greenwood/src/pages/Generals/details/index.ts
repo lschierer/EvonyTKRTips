@@ -1,6 +1,6 @@
 export const prerender = true;
 
-import * as greenwoodTypes from "../../../lib/greenwoodPages.ts";
+import type * as greenwoodTypes from "../../../lib/greenwoodPages.ts";
 
 import debugFunction from "../../../lib/debug.ts";
 const DEBUG = debugFunction("pages/Generals/details/index.ts");

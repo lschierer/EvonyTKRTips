@@ -2,7 +2,7 @@ import * as constants from "@schemas/constants";
 
 import rallySpotBaseMarch from "@lib/rallySpot";
 
-import { GeneralPair } from "@schemas/generals";
+import { type GeneralPair } from "@schemas/generals";
 
 import * as stores from "../store";
 

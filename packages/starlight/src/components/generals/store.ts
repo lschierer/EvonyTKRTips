@@ -1,11 +1,11 @@
 import * as d3 from "d3";
 import { atom, batched, map } from "nanostores";
 
-import { GeneralAscending } from "@schemas/ascending";
-import { ConfictGroup } from "@schemas/generalConflictGroups";
-import { General, GeneralPair } from "@schemas/generals";
-import { SkillBook } from "@schemas/skillBooks";
-import { Speciality } from "@schemas/specialities";
+import { type GeneralAscending } from "@schemas/ascending";
+import { type ConfictGroup } from "@schemas/generalConflictGroups";
+import { type General, type GeneralPair } from "@schemas/generals";
+import { type SkillBook } from "@schemas/skillBooks";
+import { type Speciality } from "@schemas/specialities";
 
 import * as constants from "@schemas/constants";
 

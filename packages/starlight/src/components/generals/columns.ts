@@ -2,7 +2,7 @@ import { type ColumnDef } from "@tanstack/table-core";
 
 import { html } from "lit";
 
-import { GeneralPair } from "@schemas/generals";
+import { type GeneralPair } from "@schemas/generals";
 
 export const DefaultColumns: ColumnDef<GeneralPair>[] = [
   {

@@ -1,6 +1,6 @@
 import * as constants from "../schemas/constants";
 
-import { SkillBook } from "../schemas/skillBooks";
+import { type SkillBook } from "../schemas/skillBooks";
 
 /*
  * when adding a new sset of skill books to this file
