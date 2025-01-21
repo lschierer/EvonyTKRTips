@@ -1,4 +1,4 @@
-import debugFunction from "./debug";
+import debugFunction from "./debug.ts";
 const DEBUG = debugFunction("lib/greenwoodpages.ts");
 
 export type Compilation = {
