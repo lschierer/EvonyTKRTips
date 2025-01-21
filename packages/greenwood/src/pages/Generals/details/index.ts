@@ -1,5 +1,7 @@
 export const prerender = true;
 
+import * as greenwoodTypes from "../../../lib/greenwoodPages.ts";
+
 import debugFunction from "../../../lib/debug.ts";
 const DEBUG = debugFunction("pages/Generals/details/index.ts");
 
@@ -9,7 +11,10 @@ function getBody() {
   `;
 }
 
-function getLayout(compilation, route) {
+function getLayout(
+  compilation: greenwoodTypes.Compilation,
+  route: greenwoodTypes.Route
+) {
   if (DEBUG) {
     console.log(`route is ${JSON.stringify(route)}`);
   }
