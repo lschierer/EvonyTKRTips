@@ -4,15 +4,20 @@
   "include": ["./**/*.ts", "./**/*.mts", "./**/*.tsx"],
   "exclude": ["public"],
   "compilerOptions": {
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "target": "es2020",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noEmit": true,
+
     "strict": true,
-    "verbatimModuleSyntax": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
 
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
 
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -25,11 +30,6 @@
     "noImplicitAny": true,
     "noImplicitOverride": true,
 
-    "noEmit": true,
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
-
     "baseUrl": ".",
     "paths": {
       "@assets/*": ["src/assets/*"],
@@ -38,7 +38,6 @@
       "@schemas/*": ["src/schemas/*"],
       "@styles/*": ["src/styles/*"],
       "@lib/*": ["src/lib/*"]
-    },
-    "plugins": []
+    }
   }
 }

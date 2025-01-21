@@ -160,9 +160,6 @@ importers:
       cssnano:
         specifier: ^7.0.6
         version: 7.0.6(postcss@8.5.1)
-      jiti:
-        specifier: ^2.4.2
-        version: 2.4.2
       postcss-extend:
         specifier: ^1.0.5
         version: 1.0.5
