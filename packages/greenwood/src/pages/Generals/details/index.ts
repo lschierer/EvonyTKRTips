@@ -1,6 +1,6 @@
 export const prerender = true;
 
-import debugFunction from "@lib/debug.ts";
+import debugFunction from "../../../lib/debug.ts";
 const DEBUG = debugFunction("pages/Generals/details/index.ts");
 
 function getBody() {
@@ -9,7 +9,7 @@ function getBody() {
   `;
 }
 
-function getLayout() {
+function getLayout(compilation, route) {
   if (DEBUG) {
     console.log(`route is ${JSON.stringify(route)}`);
   }

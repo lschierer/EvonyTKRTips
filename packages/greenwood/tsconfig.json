@@ -30,14 +30,6 @@
     "noImplicitAny": true,
     "noImplicitOverride": true,
 
-    "baseUrl": ".",
-    "paths": {
-      "@assets/*": ["src/assets/*"],
-      "@components/*": ["src/components/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@schemas/*": ["src/schemas/*"],
-      "@styles/*": ["src/styles/*"],
-      "@lib/*": ["src/lib/*"]
-    }
+    "baseUrl": "."
   }
 }

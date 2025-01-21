@@ -1,4 +1,4 @@
-import debugFunction from "@lib/debug.ts";
+import debugFunction from "../lib/debug.ts";
 const DEBUG = debugFunction("components/theme.ts");
 
 export default class ThemeComponent extends HTMLElement {

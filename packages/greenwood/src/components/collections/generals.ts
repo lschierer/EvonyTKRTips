@@ -4,7 +4,7 @@ import collection from "../../assets/collections/generals/collection.ts";
 
 import { General } from "../../schemas/generals.ts";
 
-import debugFunction from "@lib/debug.ts";
+import debugFunction from "../../lib/debug.ts";
 const DEBUG = debugFunction("components/collections/generals.ts");
 
 const generals = await Promise.all(
