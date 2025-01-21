@@ -1,39 +1,77 @@
 export const prerender = true;
 
-import type * as greenwoodTypes from "../../../lib/greenwoodPages.ts";
-
 import debugFunction from "../../../lib/debug.ts";
 const DEBUG = debugFunction("pages/Generals/details/index.ts");
 
-function getBody() {
-  return `
-    <generals-collection></generals-collection>
-  `;
-}
+import {
+  getGeneral,
+  getAllGenerals,
+} from "../../../lib/collections/generals.ts";
 
-function getLayout(
-  compilation: greenwoodTypes.Compilation,
-  route: greenwoodTypes.Route
-) {
-  if (DEBUG) {
-    console.log(`route is ${JSON.stringify(route)}`);
+export default class GeneralDetailsPage extends HTMLElement {
+  private _generalName: string = "";
+  constructor(request: Request) {
+    super();
+    if (DEBUG) {
+      console.log(
+        `GeneralDetailsPage constructor`,
+        `request is ${JSON.stringify(request)}`
+      );
+    }
+
+    const params = new URLSearchParams(
+      request.url.slice(request.url.indexOf("?"))
+    );
+    this._generalName = params.get("name") ?? "";
   }
 
-  return `
-    <!doctype html>
-    <html>
-      <head>
-        <script type="module"  src="../../../components/collections/generals.ts"></script>
-      </head>
-      <body>
-        <h1>Available Generals</h1>
+  connectedCallback() {
+    if (this._generalName.length == 0) {
+      const generals = getAllGenerals();
+      this.innerHTML = `
+        <!doctype html>
+        <html>
+          <head>
 
-        <content-outlet></content-outlet>
-      </body>
-    </html>
-  `;
+          </head>
+          <body>
+            <h1>Available Generals</h1>
+            <ul>
+              ${generals
+                .map((g) => {
+                  return `
+                  <li>
+                    <a href="./?name=${g.id}">${g.id}</a>
+                  </li>
+                `;
+                })
+                .join(" ")}
+            </ul>
+          </body>
+        </html>
+      `;
+    } else {
+      const general = getGeneral(this._generalName);
+      if (general) {
+        this.innerHTML = `
+          <!doctype html>
+          <html>
+            <head>
+              <title>${general.id}</title>
+            </head>
+            <body>
+              <p>
+                ${JSON.stringify(general)}
+              </p>
+            </body>
+          </html>
+        `;
+      } else {
+        this.innerHTML = `${this._generalName} Not Found`;
+      }
+    }
+  }
 }
-
 function getFrontmatter() {
   return {
     title: "General Details",
@@ -42,4 +80,4 @@ function getFrontmatter() {
   };
 }
 
-export { getFrontmatter, getBody, getLayout };
+export { getFrontmatter };

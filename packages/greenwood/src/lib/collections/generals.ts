@@ -38,7 +38,7 @@ await Promise.all(
   })
 );
 
-export const getAllGenerals = () => {
+export const getAllGenerals: () => General[] = () => {
   return [...generals];
 };
 
