@@ -1,6 +1,8 @@
 ---
 author: Luke Schierer
 layout: spash
+imports:
+  - /components/SplashCards.ts type="module"
 ---
 
 # Why Another Evony Tips Site
@@ -20,4 +22,4 @@ Much of the information here comes from other authors' work on other sites. In p
 
 ---
 
-<splash-cardgrid></splash-cardgrid>
+<spash-cards></spash-cards>

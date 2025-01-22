@@ -1,4 +1,4 @@
-async function getBody() {
+function getBody() {
   return `
     <script type="module" src="../../components/generalsSectionElements/tabulator-element.ts"></script>
     <p>picking pairs</p>
@@ -6,7 +6,7 @@ async function getBody() {
   `;
 }
 
-async function getFrontmatter() {
+function getFrontmatter() {
   return {
     title: "Evaluating Relative Strength of Pairs",
     collection: "Generals",
