@@ -3,6 +3,8 @@ export const prerender = true;
 import debugFunction from "../../../lib/debug.ts";
 const DEBUG = debugFunction("pages/Generals/details/index.ts");
 
+import { getLayout } from "../../../layouts/standard.ts";
+
 import {
   getGeneral,
   getAllGenerals,
@@ -29,12 +31,7 @@ export default class GeneralDetailsPage extends HTMLElement {
     if (this._generalName.length == 0) {
       const generals = getAllGenerals();
       this.innerHTML = `
-        <!doctype html>
-        <html>
-          <head>
 
-          </head>
-          <body>
             <h1>Available Generals</h1>
             <ul>
               ${generals
@@ -47,24 +44,16 @@ export default class GeneralDetailsPage extends HTMLElement {
                 })
                 .join(" ")}
             </ul>
-          </body>
-        </html>
+
       `;
     } else {
       const general = getGeneral(this._generalName);
       if (general) {
         this.innerHTML = `
-          <!doctype html>
-          <html>
-            <head>
-              <title>${general.id}</title>
-            </head>
-            <body>
+
               <p>
                 ${JSON.stringify(general)}
               </p>
-            </body>
-          </html>
         `;
       } else {
         this.innerHTML = `${this._generalName} Not Found`;
@@ -72,12 +61,14 @@ export default class GeneralDetailsPage extends HTMLElement {
     }
   }
 }
+
 function getFrontmatter() {
   return {
     title: "General Details",
     author: "Luke Schierer",
     tableOfContents: false,
+    layout: "standard",
   };
 }
 
-export { getFrontmatter };
+export { getFrontmatter, getLayout };
