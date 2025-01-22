@@ -97,32 +97,32 @@ importers:
         specifier: ^2.0.15
         version: 2.0.15
       '@spectrum-css/actionbutton':
-        specifier: ^6.2.0
-        version: 6.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
+        specifier: ^6.3.0
+        version: 6.3.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0)
       '@spectrum-css/button':
-        specifier: ^13.5.0
-        version: 13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
+        specifier: ^13.6.0
+        version: 13.6.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0)
       '@spectrum-css/icon':
-        specifier: ^7.2.0
-        version: 7.2.0(@spectrum-css/tokens@15.0.0)
+        specifier: ^8.0.0
+        version: 8.0.0(@spectrum-css/tokens@15.1.0)
       '@spectrum-css/link':
-        specifier: ^5.2.0
-        version: 5.2.0(@spectrum-css/tokens@15.0.0)
+        specifier: ^6.0.0
+        version: 6.0.0(@spectrum-css/tokens@15.1.0)
       '@spectrum-css/page':
         specifier: ^8.2.0
-        version: 8.2.0(@spectrum-css/tokens@15.0.0)
+        version: 8.2.0(@spectrum-css/tokens@15.1.0)
       '@spectrum-css/pagination':
-        specifier: ^8.2.0
-        version: 8.2.0(@spectrum-css/actionbutton@6.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/splitbutton@8.1.2(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/vars@9.0.8))(@spectrum-css/textfield@7.3.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
+        specifier: ^9.0.0
+        version: 9.0.0(@spectrum-css/actionbutton@6.3.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0))(@spectrum-css/button@13.6.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0))(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/splitbutton@8.1.2(@spectrum-css/button@13.6.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0))(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/vars@9.0.8))(@spectrum-css/textfield@7.3.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0)
       '@spectrum-css/table':
-        specifier: ^6.2.0
-        version: 6.2.0(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
+        specifier: ^7.0.0
+        version: 7.0.0(@spectrum-css/button@13.6.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0))(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0)
       '@spectrum-css/tokens':
-        specifier: ^15.0.0
-        version: 15.0.0
+        specifier: ^15.1.0
+        version: 15.1.0
       '@spectrum-css/typography':
-        specifier: ^6.2.0
-        version: 6.2.0(@spectrum-css/tokens@15.0.0)
+        specifier: ^7.0.0
+        version: 7.0.0(@spectrum-css/tokens@15.1.0)
       '@spectrum-web-components/card':
         specifier: ^1.0.3
         version: 1.0.3
@@ -1995,6 +1995,15 @@ packages:
       '@spectrum-css/icon':
         optional: true
 
+  '@spectrum-css/actionbutton@6.3.0':
+    resolution: {integrity: sha512-K7ChIw00ZA2N56SC0UoV7vonPCO2nU6rnmLlR8weAZSVl9dTSzWthBVsCU/hfuO/sAuOMuwNi0ZdNhWst5Kbag==}
+    peerDependencies:
+      '@spectrum-css/icon': '>=7'
+      '@spectrum-css/tokens': '>=14'
+    peerDependenciesMeta:
+      '@spectrum-css/icon':
+        optional: true
+
   '@spectrum-css/alertdialog@2.2.0':
     resolution: {integrity: sha512-jzKCxcQyr8ulV4QORaJiRH8UOdQW2uypjaLf0jrhRPcQTbrUMcFUQP0d2Px6+4+/893xey7b7G1/m+oszK5Jgg==}
     peerDependencies:
@@ -2012,6 +2021,18 @@ packages:
 
   '@spectrum-css/button@13.5.0':
     resolution: {integrity: sha512-0uKR1y3q/kI84vUXwAEl3SFUzNpd9+wJoRwJNx6F0m8mziJJknEhiEu077R0RuIU1eSZ+BOEkmaP0MLA49HRmg==}
+    peerDependencies:
+      '@spectrum-css/icon': '>=7'
+      '@spectrum-css/progresscircle': '>=3'
+      '@spectrum-css/tokens': '>=14'
+    peerDependenciesMeta:
+      '@spectrum-css/icon':
+        optional: true
+      '@spectrum-css/progresscircle':
+        optional: true
+
+  '@spectrum-css/button@13.6.0':
+    resolution: {integrity: sha512-A2BXYprT04mIqNbWSBDVa/RMv5pJ4PraFQXphciTTi7rO2GQsFSqgFFxyjtDAsQBXPZBvJYLTQs6ofX5C/L3Lg==}
     peerDependencies:
       '@spectrum-css/icon': '>=7'
       '@spectrum-css/progresscircle': '>=3'
@@ -2060,8 +2081,18 @@ packages:
     peerDependencies:
       '@spectrum-css/tokens': '>=14'
 
+  '@spectrum-css/icon@8.0.0':
+    resolution: {integrity: sha512-cg+FnuOn4U9qLUN2mEcSIExFW3uq+acErF4sq9xrctKEIFfRj7y57WHdaquxu9TBCvJ+XUy5Harel266Q88JMQ==}
+    peerDependencies:
+      '@spectrum-css/tokens': '>=14'
+
   '@spectrum-css/link@5.2.0':
     resolution: {integrity: sha512-v2jo3rejLOlQvIQrXFG/otmF3rLQlbbXPsB3zx62u8JXZa83MExRToEFZJ62BtO/h62cAW6EJ5zK4sN63YO47g==}
+    peerDependencies:
+      '@spectrum-css/tokens': '>=14'
+
+  '@spectrum-css/link@6.0.0':
+    resolution: {integrity: sha512-QJV+qPrejMzQUgHV6ibE33f785WZz5ybuHWsCD0Y4S/Pi65CspBHkwcXblKrOtP+PMRM+BQtz/Lega8jOb9Mtw==}
     peerDependencies:
       '@spectrum-css/tokens': '>=14'
 
@@ -2096,6 +2127,16 @@ packages:
 
   '@spectrum-css/pagination@8.2.0':
     resolution: {integrity: sha512-Hq6bsLC/U185+K8HuYOLxSEOdVlmmAhM7deH4TgNz9kMjRYwjTv+2EAa33k8XP37H6gRG4v6IvroBh7bs6LCDg==}
+    peerDependencies:
+      '@spectrum-css/actionbutton': '>=6'
+      '@spectrum-css/button': '>=13'
+      '@spectrum-css/icon': '>=7'
+      '@spectrum-css/splitbutton': '>=8'
+      '@spectrum-css/textfield': '>=7'
+      '@spectrum-css/tokens': '>=14'
+
+  '@spectrum-css/pagination@9.0.0':
+    resolution: {integrity: sha512-YKwb9n7Q/woWqbrJsK/K4Dhi2cUtNu6/Dt28o516SCg/RTg3cCdGwGp9gltjo1szACaU84uH1FFtOudyedhBDQ==}
     peerDependencies:
       '@spectrum-css/actionbutton': '>=6'
       '@spectrum-css/button': '>=13'
@@ -2172,6 +2213,22 @@ packages:
       '@spectrum-css/thumbnail':
         optional: true
 
+  '@spectrum-css/table@7.0.0':
+    resolution: {integrity: sha512-tsN84K/slnrCSZSmrr8yGAIMSxFUznX9XlwXjv4h2yWF/k3OheAZR7+f4sisFqBZffllf3f1/hAPSTNkVQGdhQ==}
+    peerDependencies:
+      '@spectrum-css/button': '>=13'
+      '@spectrum-css/checkbox': '>=9'
+      '@spectrum-css/icon': '>=7'
+      '@spectrum-css/thumbnail': '>=6'
+      '@spectrum-css/tokens': '>=14'
+    peerDependenciesMeta:
+      '@spectrum-css/button':
+        optional: true
+      '@spectrum-css/checkbox':
+        optional: true
+      '@spectrum-css/thumbnail':
+        optional: true
+
   '@spectrum-css/textfield@7.3.0':
     resolution: {integrity: sha512-I12DT7/u1O9EnC+YHrlkuHCEA+EYRM/fsy94ee+5UwJ5R3n1uVOOU9kivKv7hQUK2eF+MgO8ZcX2CEmO92H49w==}
     peerDependencies:
@@ -2184,8 +2241,16 @@ packages:
   '@spectrum-css/tokens@15.0.0':
     resolution: {integrity: sha512-K3fFPu29HG5fJ3gDu2kJElhEaZUxIhtWT3j8OoXdoJwcNhBNa9o2RB4A8cuzqlXclJhpzWDWC/tpK1DNP2Mlvg==}
 
+  '@spectrum-css/tokens@15.1.0':
+    resolution: {integrity: sha512-t4j6n2tOxgsoEVUL+01IfhirWm3EJiqBPWOD3xMc606Q0E0UWzCE0AKecD64sXVH8yesVFnuMY1RvBHXXqne1Q==}
+
   '@spectrum-css/typography@6.2.0':
     resolution: {integrity: sha512-yaqc4wFY3asUhh3zzdqRI5dVJow7xJ2nL2bo4AADDLT305Dtje5PYO89m+f3nTVf2utKE3H8nlJbWUG57QpFqw==}
+    peerDependencies:
+      '@spectrum-css/tokens': '>=14.5.0'
+
+  '@spectrum-css/typography@7.0.0':
+    resolution: {integrity: sha512-OVJdUgmMID0XcFYji9pEcKOFpe7HPrwjpzbIy61H0TeKVJTpeGNOJ5668xu3PlH64Y4kQc6ncHy/nwKsPKVyTw==}
     peerDependencies:
       '@spectrum-css/tokens': '>=14.5.0'
 
@@ -3783,8 +3848,8 @@ packages:
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
-  electron-to-chromium@1.5.83:
-    resolution: {integrity: sha512-LcUDPqSt+V0QmI47XLzZrz5OqILSMGsPFkDYus22rIbgorSvBYEFqq854ltTmUdHkY92FSdAAvsh4jWEULMdfQ==}
+  electron-to-chromium@1.5.85:
+    resolution: {integrity: sha512-UgTI7ZHxtSjOUwV0vZLpqT604U1Z8L3bq8mAtAKtuRPlMZ/6dLFMYgYnLdXSi/urbVTP2ykDb9EDDUrdIzw4Qg==}
 
   emmet@2.4.11:
     resolution: {integrity: sha512-23QPJB3moh/U9sT4rQzGgeyyGIrcM+GH5uVYg2C6wZIxAIJq7Ng3QLT79tl8FUwDXhyq9SusfknOrofAKqvgyQ==}
@@ -4278,6 +4343,9 @@ packages:
   get-symbol-description@1.1.0:
     resolution: {integrity: sha512-w9UMqWwJxHNOvoNzSJ2oPF5wvYcvP7jUvYzhp67yEhTi17ZDBBC1z9pTdGuzjD+EFIqLSYRweZjqfiPzQ06Ebg==}
     engines: {node: '>= 0.4'}
+
+  get-tsconfig@4.10.0:
+    resolution: {integrity: sha512-kGzZ3LWWQcGIAmg6iWvXn0ei6WDtV26wzHRMwDSzmAbcXrTEXxHy6IehI6/4eT6VRKyMP1eF1VqwrVUmE/LR7A==}
 
   get-tsconfig@4.9.0:
     resolution: {integrity: sha512-52n24W52sIueosRe0XZ8Ex5Yle+WbhfCKnV/gWXpbVR8FXNTfqdKEKUSypKso66VRHTvvcQxL44UTZbJRlCTnw==}
@@ -5451,8 +5519,8 @@ packages:
   micromark-util-sanitize-uri@2.0.1:
     resolution: {integrity: sha512-9N9IomZ/YuGGZZmQec1MbgxtlgougxTodVwDzzEouPKo3qFWvymFHWcnDi2vzV1ff6kas9ucW+o3yzJK9YB1AQ==}
 
-  micromark-util-subtokenize@2.0.3:
-    resolution: {integrity: sha512-VXJJuNxYWSoYL6AJ6OQECCFGhIU2GGHMw8tahogePBrjkG8aCCas3ibkp7RnVOSTClg2is05/R7maAhF1XyQMg==}
+  micromark-util-subtokenize@2.0.4:
+    resolution: {integrity: sha512-N6hXjrin2GTJDe3MVjf5FuXpm12PGm80BrUAeub9XFXca8JZbP+oIwY4LJSVwFUCL1IPm/WwSVUN7goFHmSGGQ==}
 
   micromark-util-symbol@2.0.1:
     resolution: {integrity: sha512-vs5t8Apaud9N28kgCrRUdEed4UJ+wWNvicHLPxCa9ENlYuAY31M0ETy5y1vA33YoNPDFTghEbnh6efaE8h4x0Q==}
@@ -9552,6 +9620,12 @@ snapshots:
     optionalDependencies:
       '@spectrum-css/icon': 7.2.0(@spectrum-css/tokens@15.0.0)
 
+  '@spectrum-css/actionbutton@6.3.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0)':
+    dependencies:
+      '@spectrum-css/tokens': 15.1.0
+    optionalDependencies:
+      '@spectrum-css/icon': 8.0.0(@spectrum-css/tokens@15.1.0)
+
   '@spectrum-css/alertdialog@2.2.0(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/modal@5.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)(@spectrum-css/underlay@4.2.0(@spectrum-css/tokens@15.0.0))':
     dependencies:
       '@spectrum-css/divider': 3.2.0(@spectrum-css/tokens@15.0.0)
@@ -9566,6 +9640,12 @@ snapshots:
       '@spectrum-css/tokens': 15.0.0
     optionalDependencies:
       '@spectrum-css/icon': 7.2.0(@spectrum-css/tokens@15.0.0)
+
+  '@spectrum-css/button@13.6.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0)':
+    dependencies:
+      '@spectrum-css/tokens': 15.1.0
+    optionalDependencies:
+      '@spectrum-css/icon': 8.0.0(@spectrum-css/tokens@15.1.0)
 
   '@spectrum-css/closebutton@5.3.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)':
     dependencies:
@@ -9594,9 +9674,17 @@ snapshots:
     dependencies:
       '@spectrum-css/tokens': 15.0.0
 
+  '@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0)':
+    dependencies:
+      '@spectrum-css/tokens': 15.1.0
+
   '@spectrum-css/link@5.2.0(@spectrum-css/tokens@15.0.0)':
     dependencies:
       '@spectrum-css/tokens': 15.0.0
+
+  '@spectrum-css/link@6.0.0(@spectrum-css/tokens@15.1.0)':
+    dependencies:
+      '@spectrum-css/tokens': 15.1.0
 
   '@spectrum-css/menu@7.2.0(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)':
     dependencies:
@@ -9613,6 +9701,10 @@ snapshots:
     dependencies:
       '@spectrum-css/tokens': 15.0.0
 
+  '@spectrum-css/page@8.2.0(@spectrum-css/tokens@15.1.0)':
+    dependencies:
+      '@spectrum-css/tokens': 15.1.0
+
   '@spectrum-css/pagination@8.2.0(@spectrum-css/actionbutton@6.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/splitbutton@8.1.2(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/vars@9.0.8))(@spectrum-css/textfield@7.3.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)':
     dependencies:
       '@spectrum-css/actionbutton': 6.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
@@ -9621,6 +9713,15 @@ snapshots:
       '@spectrum-css/splitbutton': 8.1.2(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/vars@9.0.8)
       '@spectrum-css/textfield': 7.3.0(@spectrum-css/tokens@15.0.0)
       '@spectrum-css/tokens': 15.0.0
+
+  '@spectrum-css/pagination@9.0.0(@spectrum-css/actionbutton@6.3.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0))(@spectrum-css/button@13.6.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0))(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/splitbutton@8.1.2(@spectrum-css/button@13.6.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0))(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/vars@9.0.8))(@spectrum-css/textfield@7.3.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0)':
+    dependencies:
+      '@spectrum-css/actionbutton': 6.3.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0)
+      '@spectrum-css/button': 13.6.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0)
+      '@spectrum-css/icon': 8.0.0(@spectrum-css/tokens@15.1.0)
+      '@spectrum-css/splitbutton': 8.1.2(@spectrum-css/button@13.6.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0))(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/vars@9.0.8)
+      '@spectrum-css/textfield': 7.3.0(@spectrum-css/tokens@15.1.0)
+      '@spectrum-css/tokens': 15.1.0
 
   '@spectrum-css/picker@8.3.0(affd8e39bd4eae57417c5762e041f305)':
     dependencies:
@@ -9645,6 +9746,13 @@ snapshots:
     optionalDependencies:
       '@spectrum-css/icon': 7.2.0(@spectrum-css/tokens@15.0.0)
 
+  '@spectrum-css/splitbutton@8.1.2(@spectrum-css/button@13.6.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0))(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/vars@9.0.8)':
+    dependencies:
+      '@spectrum-css/button': 13.6.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0)
+      '@spectrum-css/vars': 9.0.8
+    optionalDependencies:
+      '@spectrum-css/icon': 8.0.0(@spectrum-css/tokens@15.1.0)
+
   '@spectrum-css/stepper@6.3.0(@spectrum-css/actionbutton@6.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/textfield@7.3.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)':
     dependencies:
       '@spectrum-css/actionbutton': 6.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
@@ -9659,15 +9767,32 @@ snapshots:
     optionalDependencies:
       '@spectrum-css/button': 13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
 
+  '@spectrum-css/table@7.0.0(@spectrum-css/button@13.6.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0))(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0)':
+    dependencies:
+      '@spectrum-css/icon': 8.0.0(@spectrum-css/tokens@15.1.0)
+      '@spectrum-css/tokens': 15.1.0
+    optionalDependencies:
+      '@spectrum-css/button': 13.6.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0)
+
   '@spectrum-css/textfield@7.3.0(@spectrum-css/tokens@15.0.0)':
     dependencies:
       '@spectrum-css/tokens': 15.0.0
 
+  '@spectrum-css/textfield@7.3.0(@spectrum-css/tokens@15.1.0)':
+    dependencies:
+      '@spectrum-css/tokens': 15.1.0
+
   '@spectrum-css/tokens@15.0.0': {}
+
+  '@spectrum-css/tokens@15.1.0': {}
 
   '@spectrum-css/typography@6.2.0(@spectrum-css/tokens@15.0.0)':
     dependencies:
       '@spectrum-css/tokens': 15.0.0
+
+  '@spectrum-css/typography@7.0.0(@spectrum-css/tokens@15.1.0)':
+    dependencies:
+      '@spectrum-css/tokens': 15.1.0
 
   '@spectrum-css/underlay@4.2.0(@spectrum-css/tokens@15.0.0)':
     dependencies:
@@ -10801,7 +10926,7 @@ snapshots:
   browserslist@4.24.4:
     dependencies:
       caniuse-lite: 1.0.30001695
-      electron-to-chromium: 1.5.83
+      electron-to-chromium: 1.5.85
       node-releases: 2.0.19
       update-browserslist-db: 1.1.2(browserslist@4.24.4)
 
@@ -11637,7 +11762,7 @@ snapshots:
 
   ee-first@1.1.1: {}
 
-  electron-to-chromium@1.5.83: {}
+  electron-to-chromium@1.5.85: {}
 
   emmet@2.4.11:
     dependencies:
@@ -12294,6 +12419,10 @@ snapshots:
       call-bound: 1.0.3
       es-errors: 1.3.0
       get-intrinsic: 1.2.7
+
+  get-tsconfig@4.10.0:
+    dependencies:
+      resolve-pkg-maps: 1.0.0
 
   get-tsconfig@4.9.0:
     dependencies:
@@ -13664,7 +13793,7 @@ snapshots:
       micromark-util-html-tag-name: 2.0.1
       micromark-util-normalize-identifier: 2.0.1
       micromark-util-resolve-all: 2.0.1
-      micromark-util-subtokenize: 2.0.3
+      micromark-util-subtokenize: 2.0.4
       micromark-util-symbol: 2.0.1
       micromark-util-types: 2.0.1
 
@@ -13899,7 +14028,7 @@ snapshots:
       micromark-util-encode: 2.0.1
       micromark-util-symbol: 2.0.1
 
-  micromark-util-subtokenize@2.0.3:
+  micromark-util-subtokenize@2.0.4:
     dependencies:
       devlop: 1.1.0
       micromark-util-chunked: 2.0.1
@@ -13926,7 +14055,7 @@ snapshots:
       micromark-util-normalize-identifier: 2.0.1
       micromark-util-resolve-all: 2.0.1
       micromark-util-sanitize-uri: 2.0.1
-      micromark-util-subtokenize: 2.0.3
+      micromark-util-subtokenize: 2.0.4
       micromark-util-symbol: 2.0.1
       micromark-util-types: 2.0.1
     transitivePeerDependencies:
@@ -16223,7 +16352,7 @@ snapshots:
   tsx@4.19.2:
     dependencies:
       esbuild: 0.23.1
-      get-tsconfig: 4.9.0
+      get-tsconfig: 4.10.0
     optionalDependencies:
       fsevents: 2.3.3
 
