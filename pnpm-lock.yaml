@@ -93,6 +93,9 @@ importers:
 
   packages/greenwood:
     dependencies:
+      '@lit-labs/virtualizer':
+        specifier: ^2.0.15
+        version: 2.0.15
       '@spectrum-css/actionbutton':
         specifier: ^6.2.0
         version: 6.2.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
@@ -120,6 +123,12 @@ importers:
       '@spectrum-css/typography':
         specifier: ^6.2.0
         version: 6.2.0(@spectrum-css/tokens@15.0.0)
+      '@spectrum-web-components/card':
+        specifier: ^1.0.3
+        version: 1.0.3
+      '@spectrum-web-components/popover':
+        specifier: ^1.0.3
+        version: 1.0.3
       '@spectrum-web-components/theme':
         specifier: ^1.0.3
         version: 1.0.3
@@ -132,9 +141,15 @@ importers:
       jsonschema:
         specifier: ^1.5.0
         version: 1.5.0
+      lit:
+        specifier: ^3.2.1
+        version: 3.2.1
       node-gzip:
         specifier: ^1.1.2
         version: 1.1.2
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
       yaml:
         specifier: ^2.7.0
         version: 2.7.0
@@ -208,6 +223,9 @@ importers:
       remark-stringify:
         specifier: ^11.0.0
         version: 11.0.0
+      ts-lit-plugin:
+        specifier: ^2.0.2
+        version: 2.0.2
       tsx:
         specifier: ^4.19.2
         version: 4.19.2
@@ -2183,11 +2201,17 @@ packages:
   '@spectrum-web-components/action-button@1.0.3':
     resolution: {integrity: sha512-kX20OLTqcZjHRriVFcMBPuCy+G70hYeElX4B4C/7EeYVik39VNPYFJvcyKsngCEe/g8yfowVKVTKUpQdbOF/+g==}
 
+  '@spectrum-web-components/asset@1.0.3':
+    resolution: {integrity: sha512-D3VbJLOpRAeGQr/FZdPlthwN8CCMw5R9z/5JD4wxg7Qlo63IhoYJYpEgkx426ZnSm+9KoemXLM5ZbasUJLQPBA==}
+
   '@spectrum-web-components/base@1.0.3':
     resolution: {integrity: sha512-1PLQzQimYYgda6u9eFGWroznx4couGZy5fRNyDfWkdesCZZMyhOgpkcm2sUovdDkebR5qUNhQBWWALlV1czjkQ==}
 
   '@spectrum-web-components/button@1.0.3':
     resolution: {integrity: sha512-vqRjPjyFEH+rwt/B4d3AXhojb+/pPEGP72oWV0n7qQRrwq+fHyjimc/GdipENwJ0McQZQW7YsfOUVdSNGD84NA==}
+
+  '@spectrum-web-components/card@1.0.3':
+    resolution: {integrity: sha512-an8KEUxC3lI0/bLb37812AwsRaq0RKb2dk77JL5FdWSLnm2LfRo/hq1i8FVdSDI2ac2rgfIoliBCgafLv9xu7w==}
 
   '@spectrum-web-components/checkbox@1.0.3':
     resolution: {integrity: sha512-rHORC3zngF3a3miS7NgYolrAjjhx/DFXiVb0KVOKU4eQv0jT+tzJa0TGYA6MWwph9BpnCKSEocyLoeiPKgj54Q==}
@@ -9659,6 +9683,10 @@ snapshots:
       '@spectrum-web-components/icons-ui': 1.0.3
       '@spectrum-web-components/shared': 1.0.3
 
+  '@spectrum-web-components/asset@1.0.3':
+    dependencies:
+      '@spectrum-web-components/base': 1.0.3
+
   '@spectrum-web-components/base@1.0.3':
     dependencies:
       lit: 3.2.1
@@ -9673,6 +9701,16 @@ snapshots:
       '@spectrum-web-components/progress-circle': 1.0.3
       '@spectrum-web-components/reactive-controllers': 1.0.3
       '@spectrum-web-components/shared': 1.0.3
+
+  '@spectrum-web-components/card@1.0.3':
+    dependencies:
+      '@spectrum-web-components/asset': 1.0.3
+      '@spectrum-web-components/base': 1.0.3
+      '@spectrum-web-components/checkbox': 1.0.3
+      '@spectrum-web-components/divider': 1.0.3
+      '@spectrum-web-components/icons-workflow': 1.0.3
+      '@spectrum-web-components/shared': 1.0.3
+      '@spectrum-web-components/styles': 1.0.3
 
   '@spectrum-web-components/checkbox@1.0.3':
     dependencies:
