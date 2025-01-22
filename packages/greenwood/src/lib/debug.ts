@@ -8,6 +8,7 @@ const fileDebug: Record<string, boolean> = {
   "assets/collections/generals/collection.ts": false,
   "assets/collections/skillBooks/collection.ts": false,
   "assets/collections/specialities/collection.ts": false,
+  "components/CardGrid.ts": true,
   "components/collections/generals.ts": false,
   "components/sidebar.ts": true,
   "components/theme.ts": false,

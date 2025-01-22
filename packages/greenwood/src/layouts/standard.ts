@@ -2,13 +2,14 @@ import { type Compilation, type Route } from "../lib/greenwoodPages.ts";
 
 import "../components/sidebar.ts";
 
-const getLayout = async (compilation: Compilation, route: Route) => {
+const getLayout = (compilation: Compilation, route: Route) => {
   return `
   <!doctype html>
   <html lang="en" >
     <body>
       <header>
         <h1>${
+          /* eslint-disable @typescript-eslint/no-unsafe-member-access */
           globalThis.page
             ? globalThis.page.title
               ? globalThis.page.title
@@ -26,3 +27,5 @@ const getLayout = async (compilation: Compilation, route: Route) => {
 };
 
 export { getLayout };
+
+export default getLayout;
