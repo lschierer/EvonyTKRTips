@@ -1,6 +1,9 @@
 import debugFunction from "../lib/debug.ts";
 const DEBUG = debugFunction("components/theme.ts");
 
+import "@spectrum-web-components/theme/sp-theme.js";
+import "@spectrum-web-components/theme/src/themes.js";
+
 export default class ThemeComponent extends HTMLElement {
   protected connectedCallback() {
     const storedTheme =
@@ -38,6 +41,19 @@ export default class ThemeComponent extends HTMLElement {
           htmlTag.classList.add(scale);
         }
       }
+    });
+
+    document.querySelectorAll("sp-theme").forEach((spThemeTag) => {
+      if (!theme.localeCompare("light")) {
+        spThemeTag.color = "light";
+      } else if (!theme.localeCompare("dark")) {
+        spThemeTag.color = "dark";
+      } else {
+        if (DEBUG) {
+          console.warn(`unknown value for theme: ${theme}`);
+        }
+      }
+      spThemeTag.scale = "medium";
     });
   }
 }

@@ -67,7 +67,6 @@ function getFrontmatter() {
     title: "General Details",
     author: "Luke Schierer",
     tableOfContents: false,
-    layout: "standard",
   };
 }
 

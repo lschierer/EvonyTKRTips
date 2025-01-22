@@ -1,5 +1,5 @@
 ---
-title: Picking Your Monster Hunting Pairs
+title: Picking Monster Hunting Pairs
 author: Luke Schierer
 ---
 
