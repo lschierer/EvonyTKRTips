@@ -24,7 +24,7 @@ export default class SideBar extends HTMLElement {
       .map((p: Page) => this.pages.push(p));
   };
 
-  private buildTree = async (pages: string[]) => {
+  private buildTree = async (pages: Page[]) => {
     const routePage = (await getContentByRoute("/"))
       .sort((a: Page, b: Page) => {
         return a.route.localeCompare(b.route);
@@ -34,7 +34,7 @@ export default class SideBar extends HTMLElement {
     const name = routePage.title
       ? (routePage.title ?? routePage.label)
       : routePage.label;
-    console.log(`root name should be ${name}`);
+    console.log(`root name should be '${name}'`);
     const root: SideBarEntry = {
       name: name,
       route: "/",
@@ -42,37 +42,69 @@ export default class SideBar extends HTMLElement {
     };
 
     for (const page of pages) {
-      if (!page.localeCompare("/404/")) {
+      if (!page.route.localeCompare("/404/")) {
         continue;
+      }
+
+      const pageName = page.title ? page.title : page.label;
+      if (DEBUG) {
+        console.log(
+          `buildTree outer loop for '${pageName}' route ${page.route}`
+        );
       }
 
       //.filter(Boolean) is a concise way to remove falsy values from an array.
       // a split() will have false values if it doesn't find any matches
       // (and maybe if the split character is the last one?)
-      const segments = page.split("/").filter(Boolean);
+      const segments = page.route.split("/").filter(Boolean);
       let currentNode = root;
 
-      for (const segment of segments) {
+      segments.forEach((segment, index) => {
         if (DEBUG) {
-          console.log(`inspecting ${segment}`);
+          console.log(`segment is ${segment} at index ${index} `);
         }
-        let childNode = currentNode.children.find(
-          (node) => node.name === segment
-        );
+
+        const segmentRoute = `${currentNode.route}${segment}/`;
+        if (DEBUG) {
+          console.log(`segmentRoute is ${segmentRoute}`);
+        }
+        let childNode = currentNode.children.find((node) => {
+          if (!node.route.localeCompare(segmentRoute)) {
+            return true;
+          } else if (!node.name.localeCompare(segment)) {
+            return true;
+          }
+          return false;
+        });
 
         if (!childNode) {
-          childNode = { name: segment, route: page, children: [] };
-          currentNode.children.push(childNode);
-        } else {
           if (DEBUG) {
             console.log(
-              `childNode ${JSON.stringify(childNode)} is not a child`
+              `pushing route ${page.route} as child of ${currentNode.route} in segment loop ${segment}`
+            );
+          }
+          if (!page.route.localeCompare(segmentRoute)) {
+            childNode = { name: pageName, route: page.route, children: [] };
+          } else {
+            childNode = { name: segment, route: page.route, children: [] };
+          }
+
+          currentNode.children.push(childNode);
+        } else {
+          if (!childNode.route.localeCompare(page.route)) {
+            if (DEBUG) {
+              console.log(`replacing name for ${segment}`);
+            }
+            childNode.name = page.title ? page.title : page.label;
+          } else {
+            console.log(
+              `unmatched childnode route ${childNode.route} in loop ${index} for ${page.route}`
             );
           }
         }
 
         currentNode = childNode;
-      }
+      });
     }
 
     return root.children;
@@ -114,7 +146,7 @@ export default class SideBar extends HTMLElement {
           }
           this._route = attr.value;
           await this.getPages();
-          const sb = await this.buildTree(this.pages.map((p) => p.route));
+          const sb = await this.buildTree(this.pages);
           console.log(JSON.stringify(sb));
           this.innerHTML = `
             <nav>
