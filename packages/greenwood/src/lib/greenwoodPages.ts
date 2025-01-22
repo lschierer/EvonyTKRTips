@@ -1,6 +1,7 @@
 import debugFunction from "./debug.ts";
 const DEBUG = debugFunction("lib/greenwoodpages.ts");
 
+import { z } from "zod";
 export type Compilation = {
   graph: Page[];
   context: object;
@@ -37,23 +38,43 @@ export type Route = {
   servePage: string;
 };
 
-export type Page = {
-  id: string;
-  route: string;
-  label: string;
-  title?: string;
-  data?: {
-    sidebar?: {
-      order?: number;
-    };
-    author?: string;
-    description?: string;
-    tableOfContents?: {
-      minHeadingLevel?: number;
-      maxHeadingLevel?: number;
-    };
-  };
+export const Page = z.object({
+  id: z.string(),
+  route: z.string(),
+  label: z.string(),
+  title: z.string().optional(),
+  data: z
+    .object({
+      sidebar: z
+        .object({
+          order: z.number().optional(),
+        })
+        .optional(),
+      author: z.string().optional(),
+      description: z.string().optional(),
+      tableOfContents: z
+        .object({
+          minHeadingLevel: z.number().optional(),
+          maxHeadingLevel: z.number().optional(),
+        })
+        .optional(),
+    })
+    .optional(),
+});
+export type Page = z.infer<typeof Page>;
+
+const baseSideBarEntry = z.object({
+  name: z.string(),
+  route: z.string(),
+});
+
+type baseSideBarEntry = z.infer<typeof baseSideBarEntry>;
+export type SideBarEntry = z.infer<typeof baseSideBarEntry> & {
+  children: SideBarEntry[];
 };
+export const SideBarEntry: z.ZodType<SideBarEntry> = baseSideBarEntry.extend({
+  children: z.lazy(() => SideBarEntry.array()),
+});
 
 export const sortPages = (a: Page, b: Page) => {
   return sortbyfrontmatter(a, b)

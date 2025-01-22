@@ -1,37 +1,105 @@
-import { getContentByRoute } from "@greenwood/cli/src/data/client.js";
+import {
+  getContentByRoute,
+  getContent,
+} from "@greenwood/cli/src/data/client.js";
 // getContentByRoute takes a string.
 
 import debugFunction from "../lib/debug.ts";
 const DEBUG = debugFunction("components/sidebar.ts");
 
-import { type Page } from "../lib/greenwoodPages.ts";
+import { type Page, type SideBarEntry } from "../lib/greenwoodPages.ts";
 
 export default class SideBar extends HTMLElement {
-  /* eslint-disable @typescript-eslint/no-unsafe-call */
-  /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-  private pages: Page[] = new Array<Page>();
+  private pages = new Array<Page>();
 
   private _route: string = "";
 
   private getPages = async () => {
-    if (this._route.length > 0) {
-      if (DEBUG) {
-        console.log(`Sidebar component getPages route ${this._route}`);
-      }
-      (await getContentByRoute(this._route))
-        .sort((a: Page, b: Page) => {
-          return a.label.localeCompare(b.label);
-        })
-        .map((p: Page) => {
-          this.pages.push(p);
-        });
-    } else {
-      if (DEBUG) {
-        console.log(`Sidebar component getPages has no Route`);
-      }
-    }
+    /* eslint-disable @typescript-eslint/no-unsafe-call */
+    /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+    (await getContent())
+      .sort((a: Page, b: Page) => {
+        return a.route.localeCompare(b.route);
+      })
+      .map((p: Page) => this.pages.push(p));
   };
 
+  private buildTree = async (pages: string[]) => {
+    const routePage = (await getContentByRoute("/"))
+      .sort((a: Page, b: Page) => {
+        return a.route.localeCompare(b.route);
+      })
+      .find((p: Page) => !p.route.localeCompare("/")) as Page;
+
+    const name = routePage.title
+      ? (routePage.title ?? routePage.label)
+      : routePage.label;
+    console.log(`root name should be ${name}`);
+    const root: SideBarEntry = {
+      name: name,
+      route: "/",
+      children: new Array<SideBarEntry>(),
+    };
+
+    for (const page of pages) {
+      if (!page.localeCompare("/404/")) {
+        continue;
+      }
+
+      //.filter(Boolean) is a concise way to remove falsy values from an array.
+      // a split() will have false values if it doesn't find any matches
+      // (and maybe if the split character is the last one?)
+      const segments = page.split("/").filter(Boolean);
+      let currentNode = root;
+
+      for (const segment of segments) {
+        if (DEBUG) {
+          console.log(`inspecting ${segment}`);
+        }
+        let childNode = currentNode.children.find(
+          (node) => node.name === segment
+        );
+
+        if (!childNode) {
+          childNode = { name: segment, route: page, children: [] };
+          currentNode.children.push(childNode);
+        } else {
+          if (DEBUG) {
+            console.log(
+              `childNode ${JSON.stringify(childNode)} is not a child`
+            );
+          }
+        }
+
+        currentNode = childNode;
+      }
+    }
+
+    return root.children;
+  };
+
+  private renderTreeNode = (node: SideBarEntry) => {
+    let childtemplate = "";
+    if (node.children.length > 0) {
+      childtemplate = `
+        <ul>
+          ${node.children
+            .map((c) => {
+              return this.renderTreeNode(c);
+            })
+            .join("")}
+        </ul>
+      `;
+    }
+    return `
+        <li>
+          <a href="${node.route}">
+            ${node.name}
+          </a>
+          ${childtemplate}
+        </li>
+      `;
+  };
   public async connectedCallback() {
     for (const attr of this.attributes) {
       if (!attr.name.localeCompare("route")) {
@@ -46,19 +114,14 @@ export default class SideBar extends HTMLElement {
           }
           this._route = attr.value;
           await this.getPages();
+          const sb = await this.buildTree(this.pages.map((p) => p.route));
+          console.log(JSON.stringify(sb));
           this.innerHTML = `
             <nav>
               <ul>
-                ${this.pages
-                  .map((p) => {
-                    const { title, label, route } = p;
-                    return `
-                    <li>
-                      <a href="${route}">
-                        ${title ? title : label}
-                      </a>
-                    </li>
-                  `;
+                ${sb
+                  .map((e) => {
+                    return this.renderTreeNode(e);
                   })
                   .join("")}
               </ul>
