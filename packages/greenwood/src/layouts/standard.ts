@@ -1,46 +1,24 @@
-import { getContentByRoute } from "@greenwood/cli/src/data/client.js";
+import { type Compilation, type Route } from "../lib/greenwoodPages.ts";
 
-import {
-  type Compilation,
-  type Route,
-  type Page,
-} from "../lib/greenwoodPages.ts";
+import "../components/sidebar.ts";
 
 const getLayout = async (compilation: Compilation, route: Route) => {
-  /* eslint-disable @typescript-eslint/no-unsafe-call */
-  /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-  const pages: Page[] = new Array<Page>();
-  (await getContentByRoute(route.route))
-    .sort((a: Page, b: Page) => {
-      return a.label.localeCompare(b.label);
-    })
-    .map((p: Page) => {
-      pages.push(p);
-    });
   return `
   <!doctype html>
   <html lang="en" >
     <body>
       <header>
-        <h1>Welcome to my site!</h1>
+        <h1>${
+          globalThis.page
+            ? globalThis.page.title
+              ? globalThis.page.title
+              : globalThis.page.label
+            : "No Title Found"
+        }</h1>
+        <script type="module" src="../components/sidebar.ts"></script>
       </header>
-      <nav>
-        <ul>
-          ${pages
-            .map((p) => {
-              const { title, label, route } = p;
-              return `
-              <li>
-                <a href="${route}">
-                  ${title ? title : label}
-                </a>
-              </li>
-            `;
-            })
-            .join("")}
-        </ul>
-      </nav>
 
+      <side-bar route="${route.route}"></side-bar>
       <content-outlet></content-outlet>
     </body>
   </html>
