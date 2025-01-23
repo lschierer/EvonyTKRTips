@@ -7,7 +7,11 @@ import {
 import debugFunction from "../lib/debug.ts";
 const DEBUG = debugFunction("components/sidebar.ts");
 
-import { type Page, type SideBarEntry } from "../lib/greenwoodPages.ts";
+import {
+  type Page,
+  type SideBarEntry,
+  sortPages,
+} from "../lib/greenwoodPages.ts";
 
 export default class SideBar extends HTMLElement {
   private pages = new Array<Page>();
@@ -18,10 +22,13 @@ export default class SideBar extends HTMLElement {
     /* eslint-disable @typescript-eslint/no-unsafe-call */
     /* eslint-disable @typescript-eslint/no-unsafe-member-access */
     (await getContent())
-      .sort((a: Page, b: Page) => {
-        return a.route.localeCompare(b.route);
-      })
+      .sort((a: Page, b: Page) => sortPages(a, b))
       .map((p: Page) => this.pages.push(p));
+    if (DEBUG) {
+      console.log(
+        `sorted pages is: \n ${this.pages.map((p) => p.route).join("\n")}`
+      );
+    }
   };
 
   private buildTree = async (pages: Page[]) => {
@@ -122,6 +129,14 @@ export default class SideBar extends HTMLElement {
             .join("")}
         </ul>
       `;
+    }
+    if (!node.route.localeCompare(this._route)) {
+      return `
+          <li>
+              ${node.name}
+            ${childtemplate}
+          </li>
+        `;
     }
     return `
         <li>

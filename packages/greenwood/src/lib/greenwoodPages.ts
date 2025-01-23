@@ -77,11 +77,23 @@ export const SideBarEntry: z.ZodType<SideBarEntry> = baseSideBarEntry.extend({
 });
 
 export const sortPages = (a: Page, b: Page) => {
-  return sortbyfrontmatter(a, b)
-    ? sortbyfrontmatter(a, b)
-    : sortbyTitle(a, b)
-      ? sortbyTitle(a, b)
-      : sortbylabel(a, b);
+  return sortbyContainsRoute(a, b)
+    ? sortbyContainsRoute(a, b)
+    : sortbyfrontmatter(a, b)
+      ? sortbyfrontmatter(a, b)
+      : sortbyTitle(a, b)
+        ? sortbyTitle(a, b)
+        : sortbylabel(a, b);
+};
+
+const sortbyContainsRoute = (a: Page, b: Page) => {
+  if (b.route.startsWith(a.route)) {
+    return -1;
+  } else if (a.route.startsWith(b.route)) {
+    return 1;
+  } else {
+    return 0;
+  }
 };
 
 const sortbyfrontmatter = (a: Page, b: Page) => {
