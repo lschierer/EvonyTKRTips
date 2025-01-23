@@ -42,9 +42,16 @@
   --sl-color-white: var(--spectrum-gray-900);
 }
 
-header.header {
-  background-color: var(--sl-color-accent-high);
-  --spectrum-accent-content-color-default: var(--sl-color-accent-low);
+html {
+  width: auto;
+}
+body {
+  margin: 0px;
+  width: auto;
+}
+
+main {
+  margin: 8px;
 }
 
 .sidebar-pane {
