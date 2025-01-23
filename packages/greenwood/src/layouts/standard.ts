@@ -3,19 +3,19 @@ import { type Compilation, type Route } from "../lib/greenwoodPages.ts";
 import "../components/sidebar.ts";
 
 const getLayout = (compilation: Compilation, route: Route) => {
+  const page = compilation.graph.find((p) => {
+    return !p.route.localeCompare(route.route);
+  });
+  let title = "No Title Found";
+  if (page) {
+    title = page.title ? page.title : page.label;
+  }
   return `
   <!doctype html>
   <html lang="en" >
     <body>
       <header>
-        <h1>${
-          /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-          globalThis.page
-            ? globalThis.page.title
-              ? globalThis.page.title
-              : globalThis.page.label
-            : "No Title Found"
-        }</h1>
+        <h1>${title}</h1>
         <script type="module" src="../components/sidebar.ts"></script>
       </header>
 
