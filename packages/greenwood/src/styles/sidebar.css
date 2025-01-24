@@ -4,3 +4,8 @@
   --mod-sidenav-background-default: var(--sl-color-gray-4);
   --mod-sidenav-item-background-default-selected: var(--sl-color-gray-6);
 }
+
+nav {
+  max-width: 20vw;
+  padding-left: 0.3rem;
+}

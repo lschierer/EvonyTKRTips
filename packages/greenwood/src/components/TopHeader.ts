@@ -5,21 +5,34 @@ const gridColumns = TopLevelSections.options.length + 4;
 
 export default class TopHeader extends HTMLElement {
   connectedCallback() {
+    let route = "";
+    for (const attr of this.attributes) {
+      if (!attr.name.localeCompare("route")) {
+        route = attr.value;
+      }
+    }
     this.innerHTML = `
       <div class="header ">
         <div class="title-wrapper ">
-          <img src="/assets/TKRTipsLogo.svg" alt="Evony TKR Tips" class="logo"/>
-          <h1 class="logo spectrum-Heading spectrum-Heading--sizeXXXL">Evony TKR Tips</h1>
+          <a href='/' class="spectrum-Link spectrum-Link--quiet spectrum-Link--secondary">
+            <img src="/assets/TKRTipsLogo.svg" alt="Evony TKR Tips" class="logo"/>
+          </a><a href='/' class="spectrum-Link spectrum-Link--quiet spectrum-Link--secondary">
+            <h1 class="logo spectrum-Heading spectrum-Heading--sizeXXXL">Evony TKR Tips</h1>
+          </a> <!-- done as two links so that the page flows right -->
         </div>
         <div class="nav">
           ${TopLevelSections.options
             .sort()
             .map((section) => {
+              const urlString = "/" + section.replaceAll(" ", "") + "/";
+              const selected = route.startsWith(urlString);
+
+              const navItemClass = selected ? "navItem selected" : "navItem";
               return `
-              <div class="navItem">
+              <div class="${navItemClass}">
                 <a
-                  href=${"/" + section.replaceAll(" ", "") + "/"}
-                  class="spectrum-Link spectrum-Link--primary"
+                  href=${urlString}
+                  class="spectrum-Link spectrum-Link--quiet spectrum-Link--primary"
                 >
                   <span class="">${section.replaceAll("_", " ")}</span>
                 </a>
