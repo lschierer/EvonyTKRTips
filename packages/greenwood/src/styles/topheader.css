@@ -28,6 +28,12 @@ div.navItem.selected {
   border-bottom: 1px solid var(--sl-color-accent-low);
 }
 
+.micro-5-regular {
+  font-family: "Micro 5", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
 .title-wrapper {
   grid-column-start: 1;
   grid-column-end: 3;
@@ -44,9 +50,10 @@ div.navItem.selected {
 }
 
 img.logo {
+  font-size: 12px;
   height: 3rem;
   width: fit-content;
-  margin-right: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 h1.logo {

@@ -4,7 +4,7 @@
    version="1.1"
    id="svg1"
    xml:space="preserve"
-   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   inkscape:version="1.1.1 (c3084ef, 2021-09-22)"
    sodipodi:docname="TKRTipsLogo.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -19,14 +19,16 @@
    inkscape:pagecheckerboard="0"
    inkscape:deskcolor="#d1d1d1"
    inkscape:zoom="7.9997143"
-   inkscape:cx="40.188935"
-   inkscape:cy="61.064681"
+   inkscape:cx="40.251437"
+   inkscape:cy="61.127183"
    inkscape:window-width="1488"
-   inkscape:window-height="1356"
+   inkscape:window-height="1350"
    inkscape:window-x="1397"
-   inkscape:window-y="41"
+   inkscape:window-y="25"
    inkscape:window-maximized="0"
-   inkscape:current-layer="layer1" />
+   inkscape:current-layer="layer1"
+   inkscape:pageshadow="2"
+   showgrid="false" />
   <defs
    id="defs1">
     <inkscape:path-effect
@@ -212,19 +214,19 @@
    id="layer1"
    inkscape:label="Text"><text
      xml:space="preserve"
-     style="font-size:14.9311px;line-height:0.85;font-family:'Micro 5';-inkscape-font-specification:'Micro 5, ';writing-mode:lr-tb;stroke-width:0.32023;stroke-dasharray:none"
-     x="52.611572"
-     y="20.108845"
+     style="font-size:15.9905px;line-height:0.85;font-family:'Micro 5';-inkscape-font-specification:'Micro 5, ';writing-mode:lr-tb;stroke-width:0.342951;stroke-dasharray:none"
+     x="56.127701"
+     y="17.078016"
      id="text1"
-     transform="scale(0.96371173,1.0376547)"><tspan
+     transform="scale(0.9063243,1.1033578)"><tspan
        sodipodi:role="line"
-       style="font-size:14.9311px;line-height:0.85;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#019cc8;fill-opacity:1;stroke-width:0.32023;stroke-dasharray:none"
-       x="52.611572"
-       y="20.108845"
+       style="font-size:15.9905px;line-height:0.85;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#019cc8;fill-opacity:1;stroke-width:0.342951;stroke-dasharray:none"
+       x="56.127701"
+       y="17.078016"
        id="tspan7">Evony TKR</tspan><tspan
        sodipodi:role="line"
-       style="font-size:14.9311px;line-height:0.85;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#019cc8;fill-opacity:1;stroke-width:0.32023;stroke-dasharray:none"
-       x="52.611572"
-       y="32.800282"
+       style="font-size:15.9905px;line-height:0.85;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#019cc8;fill-opacity:1;stroke-width:0.342951;stroke-dasharray:none"
+       x="56.127701"
+       y="30.669939"
        id="tspan8">Tips</tspan></text></g>
 </svg>
