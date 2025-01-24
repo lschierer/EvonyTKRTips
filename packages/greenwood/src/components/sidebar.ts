@@ -13,6 +13,9 @@ import {
   sortPages,
 } from "../lib/greenwoodPages.ts";
 
+import SpectrumCSSSideNav from "@spectrum-css/sidenav/dist/index.css" with { type: "css" };
+import LocalSidebarCSS from "../styles/sidebar.css" with { type: "css" };
+
 export default class SideBar extends HTMLElement {
   private pages = new Array<Page>();
 
@@ -119,9 +122,10 @@ export default class SideBar extends HTMLElement {
 
   private renderTreeNode = (node: SideBarEntry) => {
     let childtemplate = "";
+
     if (node.children.length > 0) {
       childtemplate = `
-        <ul>
+        <ul class="spectrum-SideNav">
           ${node.children
             .map((c) => {
               return this.renderTreeNode(c);
@@ -132,22 +136,38 @@ export default class SideBar extends HTMLElement {
     }
     if (!node.route.localeCompare(this._route)) {
       return `
-          <li>
-              ${node.name}
+          <li class="spectrum-SideNav-item is-selected">
+            <a class="spectrum-SideNav-itemLink">
+              <span class="spectrum-SideNav-link-text">${node.name}</span>
+            </a>
             ${childtemplate}
           </li>
         `;
     }
     return `
-        <li>
-          <a href="${node.route}">
-            ${node.name}
+        <li class="spectrum-SideNav-item">
+          <a href="${node.route}" class="spectrum-SideNav-itemLink">
+            <span class="spectrum-SideNav-link-text">${node.name}</span>
           </a>
           ${childtemplate}
         </li>
       `;
   };
+
+  private _stylesLoaded: boolean = false;
+  private loadStyles = () => {
+    if (!this._stylesLoaded) {
+      /* eslint-disable  @typescript-eslint/no-unsafe-assignment */
+      document.adoptedStyleSheets = [
+        ...document.adoptedStyleSheets,
+        SpectrumCSSSideNav,
+        LocalSidebarCSS,
+      ];
+      this._stylesLoaded = true;
+    }
+  };
   public async connectedCallback() {
+    this.loadStyles();
     for (const attr of this.attributes) {
       if (!attr.name.localeCompare("route")) {
         if (DEBUG) {
@@ -165,7 +185,7 @@ export default class SideBar extends HTMLElement {
           console.log(JSON.stringify(sb));
           this.innerHTML = `
             <nav>
-              <ul>
+              <ul class="spectrum-SideNav spectrum-SideNav--multiLevel">
                 ${sb
                   .map((e) => {
                     return this.renderTreeNode(e);

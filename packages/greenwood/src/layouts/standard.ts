@@ -13,14 +13,21 @@ const getLayout = (compilation: Compilation, route: Route) => {
   return `
   <!doctype html>
   <html lang="en" >
+    <head>
+      <link rel="stylesheet" src="@spectrum-css/sidenav/dist/index.css" />
+    </head>
     <body>
       <header>
-        <h1>${title}</h1>
+        <h1 class="spectrum-Heading spectrum-Heading--sizeXXL">${title}</h1>
         <script type="module" src="../components/sidebar.ts"></script>
       </header>
 
-      <side-bar route="${route.route}"></side-bar>
-      <content-outlet></content-outlet>
+      <div class="main">
+        <side-bar route="${route.route}"></side-bar>
+        <main>
+          <content-outlet></content-outlet>
+        </main>
+      </div>
     </body>
   </html>
   `;

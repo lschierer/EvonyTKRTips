@@ -47,6 +47,7 @@
     "@spectrum-css/link": "^6.0.0",
     "@spectrum-css/page": "^8.2.0",
     "@spectrum-css/pagination": "^9.0.0",
+    "@spectrum-css/sidenav": "^6.0.0",
     "@spectrum-css/table": "^7.0.0",
     "@spectrum-css/tokens": "^15.1.0",
     "@spectrum-css/typography": "^7.0.0",

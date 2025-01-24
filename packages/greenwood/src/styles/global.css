@@ -27,7 +27,7 @@
 [data-theme="light"] ::backdrop {
   --sl-color-accent-high: var(--spectrum-cyan-1000);
   --sl-color-accent: var(--spectrum-cyan-700);
-  --sl-color-accent-low: var(--spectrum-cyan-200);
+  --sl-color-accent-low: var(--spectrum-cyan-400);
   --sl-color-bg: var(--spectrum-background-base-color);
 
   /* I do not understand why starlight color defintions are backwards, black is white and white is black */
@@ -48,12 +48,27 @@ html {
 body {
   margin: 0px;
   width: auto;
+  text: var(--sl-color-white);
+  --mod-body-font-color: var(--sl-color-white);
+  --mod-heading-font-color: var(--sl-color-accent);
 }
 
+sp-theme {
+  z-index: 0;
+}
+
+header h1.spectrum-Heading {
+  text-align: center;
+}
 main {
+  z-index: 1;
   margin: 8px;
 }
 
+body div.main {
+  display: flex;
+  flex-direction: row;
+}
 .sidebar-pane {
   scrollbar-color: var(--sl-color-accent-low) var(--sl-color-bg);
 }

@@ -114,6 +114,9 @@ importers:
       '@spectrum-css/pagination':
         specifier: ^9.0.0
         version: 9.0.0(@spectrum-css/actionbutton@6.3.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0))(@spectrum-css/button@13.6.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0))(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/splitbutton@8.1.2(@spectrum-css/button@13.6.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0))(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/vars@9.0.8))(@spectrum-css/textfield@7.3.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0)
+      '@spectrum-css/sidenav':
+        specifier: ^6.0.0
+        version: 6.0.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0)
       '@spectrum-css/table':
         specifier: ^7.0.0
         version: 7.0.0(@spectrum-css/button@13.6.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0))(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0)
@@ -2172,6 +2175,15 @@ packages:
       '@spectrum-css/divider':
         optional: true
       '@spectrum-css/menu':
+        optional: true
+
+  '@spectrum-css/sidenav@6.0.0':
+    resolution: {integrity: sha512-ATY68DZgMJcD+ufhPz3zAruB0Hv2Lb1ihb2snBtaN61AWcMQNGg+iQinzQZpUXKYU4kiDhvO0u553O9OwBoBsw==}
+    peerDependencies:
+      '@spectrum-css/icon': '>=7'
+      '@spectrum-css/tokens': '>=14'
+    peerDependenciesMeta:
+      '@spectrum-css/icon':
         optional: true
 
   '@spectrum-css/splitbutton@8.1.2':
@@ -9738,6 +9750,12 @@ snapshots:
     optionalDependencies:
       '@spectrum-css/divider': 3.2.0(@spectrum-css/tokens@15.0.0)
       '@spectrum-css/menu': 7.2.0(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0)
+
+  '@spectrum-css/sidenav@6.0.0(@spectrum-css/icon@8.0.0(@spectrum-css/tokens@15.1.0))(@spectrum-css/tokens@15.1.0)':
+    dependencies:
+      '@spectrum-css/tokens': 15.1.0
+    optionalDependencies:
+      '@spectrum-css/icon': 8.0.0(@spectrum-css/tokens@15.1.0)
 
   '@spectrum-css/splitbutton@8.1.2(@spectrum-css/button@13.5.0(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/tokens@15.0.0))(@spectrum-css/icon@7.2.0(@spectrum-css/tokens@15.0.0))(@spectrum-css/vars@9.0.8)':
     dependencies:
