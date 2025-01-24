@@ -2,6 +2,7 @@ import { TopLevelSections } from "../lib/topLevelSections.ts";
 
 /* 2 sections for the logo, 2 on the other side for balance. */
 const gridColumns = TopLevelSections.options.length + 4;
+import "iconify-icon";
 
 export default class TopHeader extends HTMLElement {
   connectedCallback() {
@@ -41,8 +42,22 @@ export default class TopHeader extends HTMLElement {
             })
             .join("")}
         </div>
-        <div class=" social-icons">
-          <SocialIcons {...Astro.props} />
+        <div class="rightside">
+          <div class="SocialIcons">
+            <a
+              class="spectrum-Link spectrum-Link--quiet spectrum-Link--secondary"
+              href="https://github.com/lschierer/EvonyTKRTips">
+              <iconify-icon
+                icon="ion:logo-github" role="img"
+                class="repoIcon"
+                height="1.75rem"
+                >
+              </iconify-icon>
+            </a>
+          </div>
+          <div class="themeSelector">
+            <!-- this will be filled in by the theme component -->
+          </div>
         </div>
       </div>
       <style>

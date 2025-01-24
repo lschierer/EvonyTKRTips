@@ -1,8 +1,8 @@
 top-header.topHeader {
   display: flex;
   flex-direction: column;
-  background-color: var(--sl-color-accent-low);
-  --spectrum-accent-content-color-default: var(--sl-color-accent-high);
+  background-color: var(--sl-color-accent-high);
+  --spectrum-accent-content-color-default: var(--sl-color-accent-low);
   height: 4rem;
 
   padding-top: 1.5px;
@@ -25,7 +25,7 @@ div.navItem {
   padding-left: 0.3rem;
 }
 div.navItem.selected {
-  border-bottom: 1px solid var(--sl-color-accent-high);
+  border-bottom: 1px solid var(--sl-color-accent-low);
 }
 
 .title-wrapper {
@@ -50,7 +50,7 @@ img.logo {
 }
 
 h1.logo {
-  color: var(--spectrum-accent-content-color-default);
+  color: var(--sl-color-accent);
   font-size: 1.6rem;
 }
 
@@ -65,13 +65,35 @@ h1.logo {
   align-items: center;
 }
 
-.social-icons {
+.rightside {
   grid-column-end: span 2;
-  gap: 1rem;
-  align-items: center;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  display: grid;
+  grid-template-columns: subgrid;
+  margin-top: 2px;
 }
-.social-icons::after {
-  content: "";
-  height: 2rem;
-  border-inline-end: 1px solid var(--sl-color-gray-5);
+
+.SocialIcons {
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  height: 100%;
+  margin: 1px;
+}
+
+div.SocialIcons iconify-icon.repoIcon {
+  color: var(--sl-color-accent);
+}
+
+.themeSelector {
+  grid-column-start: 2;
+}
+button#data-theme-toggle {
+  width: fit-content;
+  height: 1.5rem;
+}
+button#data-theme-toggle span.spectrum-ActionButton-label,
+button#data-theme-toggle iconify-icon {
+  color: var(--sl-color-accent-low);
 }

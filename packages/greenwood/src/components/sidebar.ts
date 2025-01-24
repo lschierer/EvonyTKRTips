@@ -44,7 +44,9 @@ export default class SideBar extends HTMLElement {
     const name = routePage.title
       ? (routePage.title ?? routePage.label)
       : routePage.label;
-    console.log(`root name should be '${name}'`);
+    if (DEBUG) {
+      console.log(`root name should be '${name}'`);
+    }
     const root: SideBarEntry = {
       name: name,
       route: "/",
@@ -107,9 +109,11 @@ export default class SideBar extends HTMLElement {
             }
             childNode.name = page.title ? page.title : page.label;
           } else {
-            console.log(
-              `unmatched childnode route ${childNode.route} in loop ${index} for ${page.route}`
-            );
+            if (DEBUG) {
+              console.log(
+                `unmatched childnode route ${childNode.route} in loop ${index} for ${page.route}`
+              );
+            }
           }
         }
 
@@ -182,7 +186,6 @@ export default class SideBar extends HTMLElement {
           this._route = attr.value;
           await this.getPages();
           const sb = await this.buildTree(this.pages);
-          console.log(JSON.stringify(sb));
           this.innerHTML = `
             <nav>
               <ul class="spectrum-SideNav spectrum-SideNav--multiLevel">

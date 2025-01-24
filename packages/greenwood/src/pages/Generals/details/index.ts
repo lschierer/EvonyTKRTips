@@ -32,7 +32,7 @@ export default class GeneralDetailsPage extends HTMLElement {
       const generals = getAllGenerals();
       this.innerHTML = `
 
-            <h1>Available Generals</h1>
+            <h2 class="spectrum-Heading spectrum-Heading--sizeXL">Available Generals</h2>
             <ul>
               ${generals
                 .map((g) => {
