@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+export const GeneralRole = z.union([
+  z.literal("primary"),
+  z.literal("secondary"),
+]);
+export type GeneralRole = z.infer<typeof GeneralRole>;
+
 export const AscendingLevel = z.enum([
   "None",
   "purple1",
@@ -74,6 +80,7 @@ export const ClassEnum = z.enum([
 export type ClassEnum = z.infer<typeof ClassEnum>;
 
 export const GeneralType = z.enum([
+  "officer",
   "mayor",
   "wall",
   "ground_specialist",
@@ -90,6 +97,7 @@ export const BuffActivation = z.enum([
   "Reinforcing",
   "Wall",
   "Mayor",
+  "Officer",
 ]);
 export type BuffActivation = z.infer<typeof BuffActivation>;
 

@@ -2,10 +2,10 @@
 title: Picking Attacking Pairs
 author: Luke Schierer
 imports:
-  - /components/generals/pairing/selector.ts type="module"
+  - /components/generals/pairing/GeneralPairing.ts type="module"
 ---
 
 ## Attacking Pairs
 
-<pair-selector></pair-selector>
+<general-pairing></general-pairing>
 <PairPickingTable generalUseCase="Attacking"/>

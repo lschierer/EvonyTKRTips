@@ -54,6 +54,7 @@ export default tseslint.config(
   {
     files: [
       "packages/greenwood/src/schemas/*.ts",
+      "packages/greenwood/src/schemas/*.mts",
       "packages/starlight/src/schemas/*.ts",
     ],
     rules: {
