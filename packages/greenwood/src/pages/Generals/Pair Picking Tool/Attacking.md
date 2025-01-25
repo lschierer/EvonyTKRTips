@@ -1,10 +1,11 @@
 ---
 title: Picking Attacking Pairs
 author: Luke Schierer
+imports:
+  - /components/generals/pairing/selector.ts type="module"
 ---
-
-import PairPickingTable from "@components/generals/pairpickingtable.astro";
 
 ## Attacking Pairs
 
+<pair-selector></pair-selector>
 <PairPickingTable generalUseCase="Attacking"/>
