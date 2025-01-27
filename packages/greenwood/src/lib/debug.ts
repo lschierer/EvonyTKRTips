@@ -10,6 +10,7 @@ const fileDebug: Record<string, boolean> = {
   "assets/collections/specialities/collection.ts": false,
   "components/CardGrid.ts": false,
   "components/collections/generals.ts": false,
+  "components/generals/pairing/pairingstores.ts": true,
   "/components/generals/pairing/selector.ts": true,
   "components/sidebar.ts": false,
   "components/theme.ts": false,
