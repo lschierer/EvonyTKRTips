@@ -27,8 +27,16 @@ div.BookBuffs {
   }
 }
 
+div.AscendingDetails {
+  margin-top: 1.5rem;
+}
+div.Specialities {
+  margin-top: 3rem;
+}
+
 div.AscendingDetails table,
 div.Specialities table {
+  margin-top: 1.5rem;
   border: 1px solid var(--sl-color-accent);
   border-collapse: collapse;
   width: 100%;
@@ -49,19 +57,19 @@ div.Specialities table {
     & tr {
     }
     & tr.Green {
-      background: var(--spectrum-green-background-color-default);
+      background: var(--spectrum-green-200);
     }
     & tr.Blue {
-      background-color: var(--spectrum-blue-background-color-default);
+      background-color: var(--spectrum-blue-200);
     }
     & tr.Purple {
-      background-color: var(--spectrum-purple-background-color-default);
+      background-color: var(--spectrum-purple-200);
     }
     & tr.Orange {
-      background-color: var(--spectrum-orange-background-color-default);
+      background-color: var(--spectrum-orange-200);
     }
     & tr.Gold {
-      background-color: var(--spectrum-yellow-background-color-default);
+      background-color: var(--spectrum-yellow-200);
     }
   }
 }

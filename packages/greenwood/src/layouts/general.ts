@@ -87,13 +87,13 @@ const printSpecialityColor = (
   color: constants.SpecialityLevelName
 ) => {
   return `
-    <tr >
+    <tr class="${color}">
       ${specialities
         .map((s) => {
           const level = s.levels.find((l) => l.level.localeCompare(color));
           if (level) {
             return `
-            <td>
+            <td >
               <ul>
                 ${level.buff
                   .map((b) => {
@@ -104,6 +104,30 @@ const printSpecialityColor = (
                           <span class="spectrum-Heading spectrum-Heading--sizeXS">Attribute: </span>
                           <span class="spectrum-Body spectrum-Body--sizeXS">${b.attribute}</span>
                         </li>
+                        <li>
+                          <span class="spectrum-Heading spectrum-Heading--sizeXS">Value: </span>
+                          <span class="spectrum-Body spectrum-Body--sizeXS">${b.value.number}${b.value.unit.localeCompare("percentage") ? "%" : ""}</span>
+                        </li>
+                        ${
+                          b.class
+                            ? `
+                          <li>
+                            <span class="spectrum-Heading spectrum-Heading--sizeXS">Affected Troops: </span>
+                            <span class="spectrum-Body spectrum-Body--sizeXS">${b.class}</span>
+                          </li>
+                        `
+                            : ""
+                        }
+                        ${
+                          Array.isArray(b.condition)
+                            ? `
+                          <li>
+                            <span class="spectrum-Heading spectrum-Heading--sizeXS">Condition(s): </span>
+                            <span class="spectrum-Body spectrum-Body--sizeXS">${b.condition.map((c) => c).join(", ")}</span>
+                          </li>
+                        `
+                            : ""
+                        }
                       </ul>
                     </li>
                   `;
