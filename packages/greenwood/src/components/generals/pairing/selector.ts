@@ -25,7 +25,7 @@ import SpectrumCSSpopover from "@spectrum-css/popover/dist/index.css" with { typ
 import "iconify-icon";
 
 import debugFunction from "../../../lib/debug.ts";
-const DEBUG = debugFunction("/components/generals/pairing/selector.ts");
+const DEBUG = debugFunction("components/generals/pairing/selector.ts");
 
 import {
   ascendingLevel,
