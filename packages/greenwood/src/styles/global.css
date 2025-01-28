@@ -44,8 +44,8 @@ html {
 body {
   margin: 0px;
   width: auto;
-  text: var(--sl-color-white);
-  --mod-body-font-color: var(--sl-color-white);
+  text: var(--sl-color-black);
+  --mod-body-font-color: var(--sl-color-black);
   --mod-heading-font-color: var(--sl-color-accent);
 }
 

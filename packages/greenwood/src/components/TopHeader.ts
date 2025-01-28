@@ -5,6 +5,7 @@ const gridColumns = TopLevelSections.options.length + 4;
 import "iconify-icon";
 
 export default class TopHeader extends HTMLElement {
+  private logo = new URL("/assets/TKRTipsLogo.svg", import.meta.url);
   connectedCallback() {
     let route = "";
     for (const attr of this.attributes) {
@@ -16,7 +17,7 @@ export default class TopHeader extends HTMLElement {
       <div class="header ">
         <div class="title-wrapper ">
           <a href='/' class="spectrum-Link spectrum-Link--quiet spectrum-Link--secondary">
-            <img src="/assets/TKRTipsLogo.svg" alt="Evony TKR Tips" class="logo micro-5-regular"/>
+            <img src="${this.logo.pathname.replace(window.location.pathname, "/")}" alt="Evony TKR Tips" class="logo micro-5-regular"/>
           </a><a href='/' class="spectrum-Link spectrum-Link--quiet spectrum-Link--secondary">
             <h1 class="logo spectrum-Heading spectrum-Heading--sizeXXXL">Evony TKR Tips</h1>
           </a> <!-- done as two links so that the page flows right -->

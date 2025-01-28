@@ -6,6 +6,7 @@ const getLayout = (compilation: Compilation, route: Route) => {
   const page = compilation.graph.find((p) => {
     return !p.route.localeCompare(route.route);
   });
+  console.log(`route is ${route.route}`);
   let title = "No Title Found";
   if (page) {
     title = page.title ? page.title : page.label;
@@ -14,6 +15,11 @@ const getLayout = (compilation: Compilation, route: Route) => {
   <!doctype html>
   <html lang="en" >
     <head>
+      ${
+        route.route.toLowerCase().startsWith("/generals/details/")
+          ? `<link rel="stylesheet" href="../styles/generalDetails.css" />`
+          : ""
+      }
       <link rel="stylesheet" src="@spectrum-css/sidenav/dist/index.css" />
     </head>
     <body>

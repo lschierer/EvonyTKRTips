@@ -5,6 +5,8 @@ const DEBUG = debugFunction("pages/Generals/details/index.ts");
 
 import { getLayout } from "../../../layouts/standard.ts";
 
+import { getMainSection } from "../../../layouts/general.ts";
+
 import {
   getGeneral,
   getAllGenerals,
@@ -49,12 +51,7 @@ export default class GeneralDetailsPage extends HTMLElement {
     } else {
       const general = getGeneral(this._generalName);
       if (general) {
-        this.innerHTML = `
-
-              <p>
-                ${JSON.stringify(general)}
-              </p>
-        `;
+        this.innerHTML = getMainSection(general);
       } else {
         this.innerHTML = `${this._generalName} Not Found`;
       }
