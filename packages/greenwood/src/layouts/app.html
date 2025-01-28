@@ -15,12 +15,18 @@
     />
     <script type="module" src="/components/theme.ts"></script>
     <script type="module" src="/components/TopHeader.ts"></script>
+    <script type="module" src="/components/GlobalFooter.ts"></script>
   </head>
   <body>
     <top-header class="topHeader" route="${globalThis.page.route}"></top-header>
     <theme-component></theme-component>
-    <sp-theme>
-      <page-outlet></page-outlet>
-    </sp-theme>
+    <main>
+      <sp-theme>
+        <page-outlet></page-outlet>
+      </sp-theme>
+    </main>
+    <footer>
+      <global-footer></global-footer>
+    </footer>
   </body>
 </html>

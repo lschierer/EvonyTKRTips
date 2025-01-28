@@ -30,9 +30,9 @@ const getLayout = (compilation: Compilation, route: Route) => {
 
       <div class="main">
         <side-bar route="${route.route}"></side-bar>
-        <main>
+        <div class="content">
           <content-outlet></content-outlet>
-        </main>
+        </div>
       </div>
     </body>
   </html>

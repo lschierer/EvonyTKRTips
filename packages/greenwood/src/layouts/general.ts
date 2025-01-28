@@ -39,11 +39,11 @@ const getLayout = (compilation: Compilation, route: Route) => {
 
       <div class="main">
         <side-bar route="${route.route}"></side-bar>
-        <main>
           {/*getMainSection(general) should go here,
           but I need to *get* the general */}
-          <content-outlet></content-outlet>
-        </main>
+          <div class="content">
+            <content-outlet></content-outlet>
+          </div>
       </div>
     </body>
   </html>

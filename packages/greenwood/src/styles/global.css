@@ -40,10 +40,15 @@
 
 html {
   width: auto;
+  height: auto;
 }
+
 body {
   margin: 0px;
   width: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   text: var(--sl-color-black);
   --mod-body-font-color: var(--sl-color-black);
   --mod-heading-font-color: var(--sl-color-accent);
@@ -51,6 +56,7 @@ body {
 
 sp-theme {
   z-index: 0;
+  position: relative;
 }
 
 header h1.spectrum-Heading {
@@ -58,17 +64,21 @@ header h1.spectrum-Heading {
 }
 main {
   z-index: 1;
-  margin: 8px;
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 body div.main {
   display: flex;
   flex-direction: row;
 }
-.sidebar-pane {
-  scrollbar-color: var(--sl-color-accent-low) var(--sl-color-bg);
-}
 
 main h1#_top {
   color: var(--sl-color-accent-low);
+}
+
+footer {
+  margin-top: auto;
+  left: 0;
+  width: 100%;
 }
