@@ -1,5 +1,6 @@
 import { greenwoodPluginTypeScript } from "@greenwood/plugin-typescript";
 import { greenwoodPluginPostCss } from "@greenwood/plugin-postcss";
+import { greenwoodPluginGoogleAnalytics } from "@greenwood/plugin-google-analytics";
 
 export default {
   activeContent: true,
@@ -19,6 +20,9 @@ export default {
     }),
     greenwoodPluginPostCss({
       extendConfig: true,
+    }),
+    greenwoodPluginGoogleAnalytics({
+      analyticsId: "G-98HFQWP71B",
     }),
   ],
 };
