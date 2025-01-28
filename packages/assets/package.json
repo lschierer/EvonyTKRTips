@@ -6,6 +6,6 @@
   "author": "Luke Schierer",
   "license": "ISC",
   "dependencies": {
-    "quicktype": "^23.0.170"
+    "quicktype": "^23.0.171"
   }
 }
