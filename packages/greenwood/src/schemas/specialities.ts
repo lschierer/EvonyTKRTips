@@ -14,3 +14,28 @@ export const Speciality = z.object({
   levels: z.array(SpecialityLevel),
 });
 export type Speciality = z.infer<typeof Speciality>;
+
+export const SpecialityLevelSelection = z
+  .array(constants.SpecialityLevelName)
+  .length(4)
+  .refine((value) => {
+    if (value[3].localeCompare(constants.SpecialityLevelName.Enum.None)) {
+      if (
+        value[0].localeCompare(constants.SpecialityLevelName.Enum.Gold) ||
+        value[1].localeCompare(constants.SpecialityLevelName.Enum.Gold) ||
+        value[2].localeCompare(constants.SpecialityLevelName.Enum.Gold)
+      ) {
+        return false;
+      } else if (
+        !value[0].localeCompare(constants.SpecialityLevelName.Enum.Gold) &&
+        !value[1].localeCompare(constants.SpecialityLevelName.Enum.Gold) &&
+        !value[2].localeCompare(constants.SpecialityLevelName.Enum.Gold)
+      ) {
+        if (!value[3].localeCompare(constants.SpecialityLevelName.Enum.None)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  });
+export type SpecialityLevelSelection = z.infer<typeof SpecialityLevelSelection>;

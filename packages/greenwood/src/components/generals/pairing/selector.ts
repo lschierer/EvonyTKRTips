@@ -27,19 +27,9 @@ import "iconify-icon";
 import debugFunction from "../../../lib/debug.ts";
 const DEBUG = debugFunction("components/generals/pairing/selector.ts");
 
-import {
-  ascendingLevel,
-  generalusecase,
-  generalSpeciality,
-  primarySpecialitySignals,
-  secondarySpecialitySignals,
-  primaryDragon,
-  primaryBeast,
-  secondaryDragon,
-  secondaryBeast,
-} from "./pairingstores.ts";
-
 import * as constants from "../../../schemas/constants.ts";
+
+import stores from "./pairingstores.ts";
 
 @customElement("pair-selector")
 export class PairSelectorForm extends SignalWatcher(LitElement) {
@@ -98,14 +88,14 @@ export class PairSelectorForm extends SignalWatcher(LitElement) {
           <select
             id="form-generalUseCase"
             class="spectrum-Picker spectrum-Picker--sizeM"
-            value=${generalusecase.get()}
+            value=${stores.pairUseCase}
             @change="${(e: Event) => {
               const target = (e as CustomEvent)
                 .target as HTMLSelectElement | null;
               if (target) {
                 const valid = constants.BuffActivation.safeParse(target.value);
                 if (valid.success) {
-                  generalusecase.set(valid.data);
+                  stores.pairUseCase = valid.data;
                 }
               }
             }}"
@@ -123,11 +113,11 @@ export class PairSelectorForm extends SignalWatcher(LitElement) {
               .map((ba, index) => {
                 const itemClasses = {
                   "spectrum-Menu-item": true,
-                  "is-selected": !generalusecase.get().localeCompare(ba),
+                  "is-selected": !stores.pairUseCase.localeCompare(ba),
                 };
                 return html`
                   <option
-                    ?selected=${!generalusecase.get().localeCompare(ba)}
+                    ?selected=${!stores.pairUseCase.localeCompare(ba)}
                     value="${ba}"
                     class="${classMap(itemClasses)}"
                     id="form-generalUseCase-menu-item-${index}"
@@ -160,14 +150,14 @@ export class PairSelectorForm extends SignalWatcher(LitElement) {
           <select
             id="form-generalSpeciality"
             class="spectrum-Picker spectrum-Picker--sizeM"
-            value=${generalSpeciality.get()}
+            value=${stores.pairSpeciality}
             @change="${(e: Event) => {
               const target = (e as CustomEvent)
                 .target as HTMLSelectElement | null;
               if (target) {
                 const valid = constants.GeneralType.safeParse(target.value);
                 if (valid.success) {
-                  generalSpeciality.set(valid.data);
+                  stores.pairSpeciality = valid.data;
                 }
               }
             }}"
@@ -185,11 +175,11 @@ export class PairSelectorForm extends SignalWatcher(LitElement) {
               .map((gt, index) => {
                 const itemClasses = {
                   "spectrum-Menu-item": true,
-                  "is-selected": !generalSpeciality.get().localeCompare(gt),
+                  "is-selected": !stores.pairSpeciality.localeCompare(gt),
                 };
                 return html`
                   <option
-                    ?selected=${!generalSpeciality.get().localeCompare(gt)}
+                    ?selected=${!stores.pairSpeciality.localeCompare(gt)}
                     value="${gt}"
                     class="${classMap(itemClasses)}"
                     id="form-generalSpeciality-menu-item-${index}"
@@ -226,14 +216,14 @@ export class PairSelectorForm extends SignalWatcher(LitElement) {
           <select
             id="form-ascendingLevel"
             class="spectrum-Picker spectrum-Picker--sizeM"
-            value=${ascendingLevel.get()}
+            value=${stores.primary.ascendingLevel}
             @change="${(e: Event) => {
               const target = (e as CustomEvent)
                 .target as HTMLSelectElement | null;
               if (target) {
                 const valid = constants.AscendingLevel.safeParse(target.value);
                 if (valid.success) {
-                  ascendingLevel.set(valid.data);
+                  stores.primary.ascendingLevel = valid.data;
                 }
               }
             }}"
@@ -241,12 +231,12 @@ export class PairSelectorForm extends SignalWatcher(LitElement) {
             ${constants.AscendingLevel.options.map((al, index) => {
               const itemClasses = {
                 "spectrum-Menu-item": true,
-                "is-selected": !ascendingLevel.get().localeCompare(al),
+                "is-selected": !stores.primary.ascendingLevel.localeCompare(al),
               };
 
               return html`
                 <option
-                  ?selected=${!ascendingLevel.get().localeCompare(al)}
+                  ?selected=${!stores.primary.ascendingLevel.localeCompare(al)}
                   value="${al}"
                   class="${classMap(itemClasses)}"
                   id="form-ascendingLevel-menu-item-${index}"
@@ -272,40 +262,70 @@ export class PairSelectorForm extends SignalWatcher(LitElement) {
     if (!role.localeCompare("primary")) {
       console.log(`role is primary`);
       if (
-        !primarySpecialitySignals[0]
-          .get()
-          .localeCompare(constants.SpecialityLevelName.Enum.Gold)
+        !stores.primary.specialities[0].localeCompare(
+          constants.SpecialityLevelName.Enum.Gold
+        )
       ) {
         console.log(`s0 is gold`);
         if (
-          !primarySpecialitySignals[1]
-            .get()
-            .localeCompare(constants.SpecialityLevelName.Enum.Gold)
+          !stores.primary.specialities[1].localeCompare(
+            constants.SpecialityLevelName.Enum.Gold
+          )
         ) {
           if (
-            !primarySpecialitySignals[2]
-              .get()
-              .localeCompare(constants.SpecialityLevelName.Enum.Gold)
+            !stores.primary.specialities[2].localeCompare(
+              constants.SpecialityLevelName.Enum.Gold
+            )
           ) {
             if (
-              primarySpecialitySignals[3]
-                .get()
-                .localeCompare(constants.SpecialityLevelName.Enum.None)
+              stores.primary.specialities[3].localeCompare(
+                constants.SpecialityLevelName.Enum.None
+              )
             ) {
-              return primarySpecialitySignals[3].get();
+              return stores.primary.specialities[3];
             } else {
-              primarySpecialitySignals[3].set(
-                constants.SpecialityLevelName.Enum.Green
-              );
+              stores.primary.specialities[3] =
+                constants.SpecialityLevelName.Enum.Green;
               return constants.SpecialityLevelName.Enum.Green;
             }
           }
         }
       }
-      primarySpecialitySignals[3].set(constants.SpecialityLevelName.Enum.None);
+      stores.primary.specialities[3] = constants.SpecialityLevelName.Enum.None;
       return constants.SpecialityLevelName.Enum.None;
     }
-    return secondarySpecialitySignals[3].get();
+    if (
+      !stores.secondary.specialities[0].localeCompare(
+        constants.SpecialityLevelName.Enum.Gold
+      )
+    ) {
+      console.log(`s0 is gold`);
+      if (
+        !stores.secondary.specialities[1].localeCompare(
+          constants.SpecialityLevelName.Enum.Gold
+        )
+      ) {
+        if (
+          !stores.secondary.specialities[2].localeCompare(
+            constants.SpecialityLevelName.Enum.Gold
+          )
+        ) {
+          if (
+            stores.secondary.specialities[3].localeCompare(
+              constants.SpecialityLevelName.Enum.None
+            )
+          ) {
+            return stores.secondary.specialities[3];
+          } else {
+            stores.secondary.specialities[3] =
+              constants.SpecialityLevelName.Enum.Green;
+            return constants.SpecialityLevelName.Enum.Green;
+          }
+        }
+      }
+    }
+    stores.secondary.specialities[3] = constants.SpecialityLevelName.Enum.None;
+    return constants.SpecialityLevelName.Enum.None;
   };
   protected renderSpecialityLevel = (
     role: constants.GeneralRole,
@@ -325,13 +345,38 @@ export class PairSelectorForm extends SignalWatcher(LitElement) {
           <select
             id="form-SpecialityLevelName-${index}"
             class="spectrum-Picker spectrum-Picker--sizeM"
+            ?disabled=${index == 3
+              ? !role.localeCompare("primary")
+                ? !stores.primary.specialities[0].localeCompare(
+                    constants.SpecialityLevelName.Enum.Gold
+                  ) &&
+                  !stores.primary.specialities[1].localeCompare(
+                    constants.SpecialityLevelName.Enum.Gold
+                  ) &&
+                  !stores.primary.specialities[2].localeCompare(
+                    constants.SpecialityLevelName.Enum.Gold
+                  )
+                  ? false
+                  : true
+                : !stores.secondary.specialities[0].localeCompare(
+                      constants.SpecialityLevelName.Enum.Gold
+                    ) &&
+                    !stores.secondary.specialities[1].localeCompare(
+                      constants.SpecialityLevelName.Enum.Gold
+                    ) &&
+                    !stores.secondary.specialities[2].localeCompare(
+                      constants.SpecialityLevelName.Enum.Gold
+                    )
+                  ? false
+                  : true
+              : false}
             value=${index === 3
               ? !role.localeCompare("primary")
                 ? this.FourthSpeciality("primary")
                 : this.FourthSpeciality("secondary")
               : !role.localeCompare("primary")
-                ? primarySpecialitySignals[index].get()
-                : secondarySpecialitySignals[index].get()}
+                ? stores.primary.specialities[index]
+                : stores.secondary.specialities[index]}
             @change="${(e: Event) => {
               if (DEBUG) {
                 console.log(`speciality level callback`, `role is ${role}`);
@@ -347,7 +392,7 @@ export class PairSelectorForm extends SignalWatcher(LitElement) {
                     console.log(`valid data: ${valid.data}`);
                   }
                   if (!role.localeCompare("primary")) {
-                    primarySpecialitySignals[index].set(valid.data);
+                    stores.primary.specialities[index] = valid.data;
 
                     if (DEBUG) {
                       console.log(
@@ -357,7 +402,7 @@ export class PairSelectorForm extends SignalWatcher(LitElement) {
                       );
                     }
                   } else {
-                    secondarySpecialitySignals[index].set(valid.data);
+                    stores.secondary.specialities[index] = valid.data;
                   }
                 }
               }
@@ -370,8 +415,8 @@ export class PairSelectorForm extends SignalWatcher(LitElement) {
                     ? this.FourthSpeciality("primary")
                     : this.FourthSpeciality("secondary")
                   : !role.localeCompare("primary")
-                    ? primarySpecialitySignals[index].get()
-                    : secondarySpecialitySignals[index].get();
+                    ? stores.primary.specialities[index]
+                    : stores.secondary.specialities[index];
               const itemClasses = {
                 "spectrum-Menu-item": true,
                 "is-selected": !sv.localeCompare(spln),
@@ -425,18 +470,18 @@ export class PairSelectorForm extends SignalWatcher(LitElement) {
                   id="form-dragon-${role}"
                   value="dragon"
                   ?checked=${!role.localeCompare("primary")
-                    ? primaryDragon.get()
-                    : secondaryDragon.get()}
+                    ? stores.primary.dragon
+                    : stores.secondary.dragon}
                   @change=${(e: Event) => {
                     const target = (e as CustomEvent)
                       .target as HTMLInputElement | null;
                     if (target && !target.value.localeCompare("dragon")) {
                       if (!role.localeCompare("primary")) {
-                        primaryDragon.set(true);
-                        primaryBeast.set(false);
+                        stores.primary.dragon = true;
+                        stores.primary.beast = false;
                       } else {
-                        secondaryDragon.set(true);
-                        secondaryBeast.set(false);
+                        stores.secondary.dragon = true;
+                        stores.secondary.beast = false;
                       }
                     }
                   }}
@@ -462,18 +507,18 @@ export class PairSelectorForm extends SignalWatcher(LitElement) {
                   id="form-beast-${role}"
                   value="beast"
                   ?checked=${!role.localeCompare("primary")
-                    ? primaryBeast.get()
-                    : secondaryBeast.get()}
+                    ? stores.primary.beast
+                    : stores.secondary.beast}
                   @change=${(e: Event) => {
                     const target = (e as CustomEvent)
                       .target as HTMLInputElement | null;
                     if (target && !target.value.localeCompare("beast")) {
                       if (!role.localeCompare("primary")) {
-                        primaryDragon.set(false);
-                        primaryBeast.set(true);
+                        stores.primary.dragon = false;
+                        stores.primary.beast = true;
                       } else {
-                        secondaryDragon.set(false);
-                        secondaryBeast.set(true);
+                        stores.secondary.dragon = false;
+                        stores.secondary.beast = true;
                       }
                     }
                   }}
@@ -499,18 +544,18 @@ export class PairSelectorForm extends SignalWatcher(LitElement) {
                   id="form-none-${role}"
                   value="none"
                   ?checked=${!role.localeCompare("primary")
-                    ? !primaryBeast.get() && !primaryDragon.get()
-                    : !secondaryBeast.get() && !secondaryDragon.get()}
+                    ? !stores.primary.beast && !stores.primary.dragon
+                    : !stores.secondary.beast && !stores.secondary.dragon}
                   @change=${(e: Event) => {
                     const target = (e as CustomEvent)
                       .target as HTMLInputElement | null;
                     if (target && !target.value.localeCompare("none")) {
                       if (!role.localeCompare("primary")) {
-                        primaryDragon.set(false);
-                        primaryBeast.set(false);
+                        stores.primary.dragon = false;
+                        stores.primary.beast = false;
                       } else {
-                        secondaryDragon.set(false);
-                        secondaryBeast.set(false);
+                        stores.secondary.dragon = false;
+                        stores.secondary.beast = false;
                       }
                     }
                   }}
