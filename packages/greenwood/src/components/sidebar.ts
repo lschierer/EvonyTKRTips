@@ -161,7 +161,7 @@ export default class SideBar extends HTMLElement {
   private _stylesLoaded: boolean = false;
   private loadStyles = () => {
     if (!this._stylesLoaded) {
-      /* eslint-disable  @typescript-eslint/no-unsafe-assignment */
+       
       document.adoptedStyleSheets = [
         ...document.adoptedStyleSheets,
         SpectrumCSSSideNav,
