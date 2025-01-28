@@ -603,11 +603,11 @@ export class PairSelectorForm extends SignalWatcher(LitElement) {
             <div class="primarySection">
               <h3 spectrum-Heading spectrum-Heading--sizeM>Primary General Options</h3>
               <div class="primaryOptions">
-                ${this.renderAscendingLevel()}
                 ${Array.from(Array(4)).map((_, i) =>
                   this.renderSpecialityLevel("primary", i)
                 )}
                 ${this.renderAnimalOptions("primary")}
+                ${this.renderAscendingLevel()}
               </div>
             </div>
             <div class="secondarySection">
