@@ -2,11 +2,16 @@ import { type Compilation, type Route } from "../lib/greenwoodPages.ts";
 
 import "../components/sidebar.ts";
 
+import debugFunction from "../lib/debug.ts";
+const DEBUG = debugFunction("layouts/standard.ts");
+
 const getLayout = (compilation: Compilation, route: Route) => {
   const page = compilation.graph.find((p) => {
     return !p.route.localeCompare(route.route);
   });
-  console.log(`route is ${route.route}`);
+  if (DEBUG) {
+    console.log(`route is ${route.route}`);
+  }
   let title = "No Title Found";
   if (page) {
     title = page.title ? page.title : page.label;
