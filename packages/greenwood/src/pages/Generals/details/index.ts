@@ -41,7 +41,7 @@ export default class GeneralDetailsPage extends HTMLElement {
               .map((g) => {
                 return `
                   <li>
-                    <a href="./?name=${g.id}">${g.id}</a>
+                    <a href="./?name=${g.id}" class="spectrum-Link spectrum-Link--quiet spectrum-Link--primary">${g.id}</a>
                   </li>
                 `;
               })
