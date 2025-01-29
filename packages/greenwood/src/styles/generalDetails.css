@@ -8,6 +8,20 @@ div.basicInfo {
   gap: 5rem;
 }
 
+div.indexListing {
+  width: 100%;
+}
+ul.indexListing {
+  max-height: minmax(60vh, fit-content);
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  grid-auto-flow: dense;
+  & li {
+    padding-bottom: 0.5rem;
+  }
+}
+
 ul.baseStats,
 ul.baseStats ul,
 ul.baseInfo,

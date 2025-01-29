@@ -33,20 +33,21 @@ export default class GeneralDetailsPage extends HTMLElement {
     if (this._generalName.length == 0) {
       const generals = getAllGenerals();
       this.innerHTML = `
-
-            <h2 class="spectrum-Heading spectrum-Heading--sizeXL">Available Generals</h2>
-            <ul>
-              ${generals
-                .map((g) => {
-                  return `
+        <div class="indexListing">
+          <h2 class="spectrum-Heading spectrum-Heading--sizeXL">Available Generals</h2>
+          <ul class="indexListing">
+            ${generals
+              .sort((a, b) => a.id.localeCompare(b.id))
+              .map((g) => {
+                return `
                   <li>
                     <a href="./?name=${g.id}">${g.id}</a>
                   </li>
                 `;
-                })
-                .join(" ")}
-            </ul>
-
+              })
+              .join(" ")}
+          </ul>
+        </div>
       `;
     } else {
       const general = getGeneral(this._generalName);
