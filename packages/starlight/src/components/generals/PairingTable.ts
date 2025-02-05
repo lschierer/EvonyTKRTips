@@ -11,14 +11,12 @@ import { customElement, state } from "lit/decorators.js";
 
 import {
   type ColumnDef,
-  createTable,
   type Row,
-  type RowData,
   type SortingState,
   type Table as tanstackTable,
-  type TableOptions,
-  type TableOptionsResolved,
-} from "@tanstack/table-core";
+  TableController,
+  flexRender,
+} from "@tanstack/lit-table";
 
 import { withStores } from "@nanostores/lit";
 
@@ -33,7 +31,7 @@ import { PvMcolumns, PvPcolumns } from "./columns";
 
 import * as stores from "./store";
 import tableStore from "./backendTable";
-import { stateStore, sortingStore } from "./backendTable";
+import { sortingStore } from "./backendTable";
 import { type GeneralPair } from "@schemas/generals";
 
 import * as constants from "@schemas/constants";
@@ -59,6 +57,10 @@ export default class PairingTable extends withStores(LitElement, [
   protected tanstackData: GeneralPair[] = new Array<GeneralPair>();
 
   protected tableRef: Ref<Table> = createRef<Table>();
+
+  @state()
+  private tableController = new TableController<GeneralPair>(this);
+
   constructor() {
     super();
 
@@ -131,6 +133,7 @@ export default class PairingTable extends withStores(LitElement, [
       }
     });
   }
+
   protected override firstUpdated(_changedProperties: PropertyValues): void {
     super.firstUpdated(_changedProperties);
     if (this.table) {
@@ -149,16 +152,6 @@ export default class PairingTable extends withStores(LitElement, [
       unsafeCSS(PairTableCSS),
     ];
   }
-
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  protected flexRender = (comp: any, props: object) => {
-    if (typeof comp === "function") {
-      /*eslint-disable @typescript-eslint/no-unsafe-call */
-      /*eslint-disable @typescript-eslint/no-unsafe-return */
-      return comp(props);
-    }
-    return comp;
-  };
 
   protected spTable = (table: tanstackTable<GeneralPair>) => {
     if (DEBUG) {
@@ -192,7 +185,7 @@ export default class PairingTable extends withStores(LitElement, [
         return html`${row.getVisibleCells().map((cell) => {
           return html`
             <sp-table-cell>
-              ${this.flexRender(cell.column.columnDef.cell, cell.getContext())}
+              ${flexRender(cell.column.columnDef.cell, cell.getContext())}
             </sp-table-cell>
           `;
         })}`;
@@ -223,9 +216,7 @@ export default class PairingTable extends withStores(LitElement, [
 
   protected table: tanstackTable<GeneralPair> | null = null;
   protected override render(): TemplateResult {
-    if (this.table == undefined) {
-      this.table = useTable<GeneralPair>(tableStore.get());
-    }
+    this.table = this.tableController.table(tableStore.get());
 
     return html`
       <table-sorting></table-sorting>
@@ -246,7 +237,7 @@ export default class PairingTable extends withStores(LitElement, [
                   sort-direction=${sortDirection}
                   sort-key=${header.id}
                 >
-                  ${this.flexRender(
+                  ${flexRender(
                     header.column.columnDef.header,
                     header.getContext()
                   )}${header.column.getCanSort()
@@ -272,45 +263,3 @@ export default class PairingTable extends withStores(LitElement, [
     `;
   }
 }
-
-const useTable = <TData extends RowData>(options: TableOptions<TData>) => {
-  // Compose in the generic options to the user options
-  const resolvedOptions: TableOptionsResolved<TData> = {
-    state: {}, // Dummy state
-    onStateChange: () => {}, // noop
-    renderFallbackValue: null,
-    ...options,
-  };
-
-  // Create a new table
-  const table = createTable<TData>(resolvedOptions);
-
-  // By default, manage table state here using the table's initial state
-  stateStore.set(table.initialState);
-
-  // Subscribe to state changes
-  stateStore.subscribe((currentState) => {
-    table.setOptions((prev) => ({
-      ...prev,
-      ...options,
-      state: {
-        ...currentState,
-        ...options.state,
-      },
-      // Similarly, we'll maintain both our internal state and any user-provided state
-      onStateChange: (updater) => {
-        if (typeof updater === "function") {
-          if (currentState) {
-            const newState = updater(currentState);
-            stateStore.set(newState);
-          }
-        } else {
-          stateStore.set(updater);
-        }
-        options.onStateChange?.(updater);
-      },
-    }));
-  });
-
-  return table;
-};

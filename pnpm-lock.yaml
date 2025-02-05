@@ -335,49 +335,49 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2(lit@3.2.1)(nanostores@0.11.3)
       '@spectrum-css/actionbutton':
-        specifier: ^7.0.0
+        specifier: ^7.0.1
         version: 7.0.1(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0)
       '@spectrum-css/button':
-        specifier: ^14.0.0
+        specifier: ^14.0.1
         version: 14.0.1(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0)
       '@spectrum-css/fieldlabel':
-        specifier: ^10.0.0
+        specifier: ^10.0.1
         version: 10.0.1(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0)
       '@spectrum-css/icon':
-        specifier: ^9.0.0
+        specifier: ^9.0.1
         version: 9.0.1(@spectrum-css/tokens@16.0.0)
       '@spectrum-css/link':
-        specifier: ^7.0.0
+        specifier: ^7.0.1
         version: 7.0.1(@spectrum-css/tokens@16.0.0)
       '@spectrum-css/menu':
-        specifier: ^9.0.0
+        specifier: ^9.0.1
         version: 9.0.1(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@16.0.0))(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0)
       '@spectrum-css/page':
-        specifier: ^9.0.0
+        specifier: ^9.0.1
         version: 9.0.1(@spectrum-css/tokens@16.0.0)
       '@spectrum-css/pagination':
-        specifier: ^10.0.0
+        specifier: ^10.0.1
         version: 10.0.1(@spectrum-css/actionbutton@7.0.1(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0))(@spectrum-css/button@14.0.1(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0))(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/textfield@8.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0)
       '@spectrum-css/picker':
-        specifier: ^9.0.0
+        specifier: ^9.0.1
         version: 9.0.1(994e3f31fc87f1d7d1dafc2a62b80fbd)
       '@spectrum-css/popover':
-        specifier: ^8.0.0
+        specifier: ^8.0.1
         version: 8.0.1(@spectrum-css/alertdialog@2.2.0(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@16.0.0))(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/modal@5.2.0(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0)(@spectrum-css/underlay@4.2.0(@spectrum-css/tokens@16.0.0)))(@spectrum-css/dialog@10.2.0(@spectrum-css/closebutton@5.3.0(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0))(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@16.0.0))(@spectrum-css/modal@5.2.0(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0)(@spectrum-css/underlay@4.2.0(@spectrum-css/tokens@16.0.0)))(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@16.0.0))(@spectrum-css/menu@9.0.1(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@16.0.0))(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0)
       '@spectrum-css/stepper':
-        specifier: ^7.0.0
+        specifier: ^7.0.1
         version: 7.0.1(@spectrum-css/actionbutton@7.0.1(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0))(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/textfield@8.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0)
       '@spectrum-css/table':
-        specifier: ^8.0.0
+        specifier: ^8.0.1
         version: 8.0.1(@spectrum-css/button@14.0.1(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0))(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0)
       '@spectrum-css/textfield':
-        specifier: ^8.0.0
+        specifier: ^8.0.1
         version: 8.0.1(@spectrum-css/tokens@16.0.0)
       '@spectrum-css/tokens':
         specifier: ^16.0.0
         version: 16.0.0
       '@spectrum-css/typography':
-        specifier: ^8.0.0
+        specifier: ^8.0.1
         version: 8.0.1(@spectrum-css/tokens@16.0.0)
       '@spectrum-web-components/combobox':
         specifier: ^1.1.1
@@ -406,11 +406,14 @@ importers:
       '@tanstack/lit-form':
         specifier: ^0.41.3
         version: 0.41.3(lit@3.2.1)
+      '@tanstack/lit-table':
+        specifier: ^8.21.1
+        version: 8.21.1(lit@3.2.1)
       '@tanstack/table-core':
         specifier: ^8.20.5
         version: 8.20.5
       astro:
-        specifier: ^5.2.3
+        specifier: ^5.2.5
         version: 5.2.5(@types/node@22.13.1)(jiti@2.4.2)(less@4.2.2)(rollup@4.34.2)(sass@1.83.4)(stylus@0.62.0)(terser@5.37.0)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0)
       d3:
         specifier: ^7.9.0
@@ -453,7 +456,7 @@ importers:
         specifier: ^3.4.2
         version: 3.4.2
       '@types/node':
-        specifier: ^22.13.0
+        specifier: ^22.13.1
         version: 22.13.1
       '@types/postcss-import':
         specifier: ^14.0.3
