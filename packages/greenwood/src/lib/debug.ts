@@ -15,6 +15,7 @@ const fileDebug: Record<string, boolean> = {
   "components/generals/pairing/generalPairing.ts": false,
   "components/generals/pairing/pairingstores.ts": false,
   "components/generals/pairing/selector.ts": false,
+  "components/Monsters/Simulator/MarchTable.ts": true,
   "components/sidebar.ts": false,
   "components/theme.ts": false,
   "layouts/general.ts": false,

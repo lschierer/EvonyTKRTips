@@ -18,36 +18,24 @@ import {
 import { customElement, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
 import { styleMap } from "lit/directives/style-map.js";
+import { watch } from "@lit-labs/signals";
+
+import { SignalWatcher, signal, Signal, withWatch } from "@lit-labs/signals";
 
 import { z } from "zod";
+
+import * as constants from "../../../schemas/constants.ts";
 
 import SpectrumCSSTable from "@spectrum-css/table/dist/index.css" with { type: "css" };
 import SpectrumCSStextfield from "@spectrum-css/textfield/dist/index.css" with { type: "css" };
 import SpectrumCSSstepper from "@spectrum-css/stepper/dist/index.css" with { type: "css" };
 
-export const SimulatorBuff = z.object({
-  attack: z.number().min(0).default(0),
-  defense: z.number().min(0).default(0),
-  hp: z.number().min(0).default(0),
-});
-export type SimulatorBuff = z.infer<typeof SimulatorBuff>;
+import simulatorState from "./state.ts";
 
-export const SimulatorBuffGroup = z.object({
-  ground: SimulatorBuff,
-  archer: SimulatorBuff,
-  mounted: SimulatorBuff,
-  siege: SimulatorBuff,
-});
-export type SimulatorBuffGroup = z.infer<typeof SimulatorBuffGroup>;
-
-export const SimulatorDebuff = SimulatorBuff.pick({
-  attack: true,
-  defense: true,
-});
-export type SimulatorDebuff = z.infer<typeof SimulatorDebuff>;
+import { type SimulatorBuffGroup, type SimulatorDebuff } from "./state.ts";
 
 @customElement("buff-table")
-export default class BuffTable extends LitElement {
+export default class BuffTable extends SignalWatcher(LitElement) {
   private BuffController = new TableController<SimulatorBuffGroup>(this);
 
   private getRowTwoValue = (index: number) => {
@@ -70,7 +58,9 @@ export default class BuffTable extends LitElement {
     }
   };
 
-  private renderCell = (props: CellContext<SimulatorBuffGroup, unknown>) => {
+  private renderBuffTableCell = (
+    props: CellContext<SimulatorBuffGroup, unknown>
+  ) => {
     if (props.row.index <= 6) {
       const cellValue = props.getValue() as number;
 
@@ -93,7 +83,13 @@ export default class BuffTable extends LitElement {
                   const key1 = props.column.id.split("_").shift();
                   const key2 = props.column.id.split("_").pop();
                   if (key1 != undefined && key2 != undefined) {
-                    this.BuffData[props.row.index][key1][key2] = valid.data;
+                    const i = props.row.index;
+                    const BDe = this.BuffData[i];
+                    const b = BDe[key1 as keyof typeof BDe];
+                    b[key2 as keyof typeof b] = valid.data;
+                    BDe[key1 as keyof typeof BDe] = b;
+                    this.BuffData[i] = BDe;
+
                     this.requestUpdate("BuffData");
                   }
                 } else {
@@ -145,7 +141,12 @@ export default class BuffTable extends LitElement {
       const key1 = props.column.id.split("_").shift();
       const key2 = props.column.id.split("_").pop();
       if (key1 != undefined && key2 != undefined) {
-        this.BuffData[props.row.index][key1][key2] = sum;
+        const i = props.row.index;
+        const BDe = this.BuffData[i];
+        const b = BDe[key1 as keyof typeof BDe];
+        b[key2 as keyof typeof b] = sum;
+        BDe[key1 as keyof typeof BDe] = b;
+        this.BuffData[i] = BDe;
       }
 
       return html`
@@ -197,17 +198,17 @@ export default class BuffTable extends LitElement {
           accessorKey: "ground.attack",
           header: "Attack",
 
-          cell: (props) => this.renderCell(props),
+          cell: (props) => this.renderBuffTableCell(props),
         },
         {
           accessorKey: "ground.defense",
           header: "Defense",
-          cell: (props) => this.renderCell(props),
+          cell: (props) => this.renderBuffTableCell(props),
         },
         {
           accessorKey: "ground.hp",
           header: "HP",
-          cell: (props) => this.renderCell(props),
+          cell: (props) => this.renderBuffTableCell(props),
         },
       ],
     },
@@ -219,17 +220,17 @@ export default class BuffTable extends LitElement {
         {
           accessorKey: "archer.attack",
           header: "Attack",
-          cell: (props) => this.renderCell(props),
+          cell: (props) => this.renderBuffTableCell(props),
         },
         {
           accessorKey: "archer.defense",
           header: "Defense",
-          cell: (props) => this.renderCell(props),
+          cell: (props) => this.renderBuffTableCell(props),
         },
         {
           accessorKey: "archer.hp",
           header: "HP",
-          cell: (props) => this.renderCell(props),
+          cell: (props) => this.renderBuffTableCell(props),
         },
       ],
     },
@@ -241,17 +242,17 @@ export default class BuffTable extends LitElement {
         {
           accessorKey: "mounted.attack",
           header: "Attack",
-          cell: (props) => this.renderCell(props),
+          cell: (props) => this.renderBuffTableCell(props),
         },
         {
           accessorKey: "mounted.defense",
           header: "Defense",
-          cell: (props) => this.renderCell(props),
+          cell: (props) => this.renderBuffTableCell(props),
         },
         {
           accessorKey: "mounted.hp",
           header: "HP",
-          cell: (props) => this.renderCell(props),
+          cell: (props) => this.renderBuffTableCell(props),
         },
       ],
     },
@@ -263,30 +264,103 @@ export default class BuffTable extends LitElement {
         {
           header: "Attack",
           accessorKey: "siege.attack",
-          cell: (props) => this.renderCell(props),
+          cell: (props) => this.renderBuffTableCell(props),
         },
         {
           accessorKey: "siege.defense",
           header: "Defense",
-          cell: (props) => this.renderCell(props),
+          cell: (props) => this.renderBuffTableCell(props),
         },
         {
           accessorKey: "siege.hp",
           header: "HP",
-          cell: (props) => this.renderCell(props),
+          cell: (props) => this.renderBuffTableCell(props),
         },
       ],
     },
   ];
 
   @state()
-  private BuffData: SimulatorBuffGroup[] = new Array<SimulatorBuffGroup>();
+  private BuffData: SimulatorBuffGroup[];
+
+  @state()
+  private DebuffData: SimulatorDebuff = {
+    attack: 0,
+    defense: 0,
+  };
 
   constructor() {
     super();
     this.BuffData = createData();
   }
 
+  private printResults = () => {
+    const PercentTotalAttack = new Signal.Computed(() => {
+      //TODO: right now the 1 is static below. It should be variable based on the
+      // alliance boss modifier.
+      return 1 +
+        simulatorState.troopType
+          .get()
+          .localeCompare(constants.ClassEnum.Enum["Mounted Troops"])
+        ? simulatorState.troopType
+            .get()
+            .localeCompare(constants.ClassEnum.Enum["Ground Troops"])
+          ? simulatorState.troopType
+              .get()
+              .localeCompare(constants.ClassEnum.Enum["Ranged Troops"])
+            ? simulatorState.troopType
+                .get()
+                .localeCompare(constants.ClassEnum.Enum["Siege Machines"])
+              ? -1
+              : simulatorState.solo.get()
+                ? this.BuffData[7].siege.attack
+                : this.BuffData[8].siege.attack
+            : simulatorState.solo.get()
+              ? this.BuffData[7].archer.attack
+              : this.BuffData[8].archer.attack
+          : simulatorState.solo.get()
+            ? this.BuffData[7].ground.attack
+            : this.BuffData[8].ground.attack
+        : simulatorState.solo.get()
+          ? this.BuffData[7].mounted.attack
+          : this.BuffData[8].mounted.attack;
+    });
+    return html`
+      <div class="PlayerBuffResults">
+        <table
+          id="PlayerBuffResults"
+          class=" spectrum-Table spectrum-Table--sizeM spectrum-Table--compact spectrum-Table--quiet spectrum-Table--emphasized "
+        >
+          <thead class="spectrum-Table-head">
+            <th class="spectrum-Table-headCell">Player</th>
+            <th class="spectrum-Table-headCell">Buffs %</th>
+            <th class="spectrum-Table-headCell">BuffS Flat</th>
+            <th class="spectrum-Table-headCell">Final</th>
+          </thead>
+          <tbody class="spectrum-Table-body">
+            <tr class="spectrum-Table-row">
+              <th class="spectrum-Table-headCell">
+                <span>Attack</span>
+              </th>
+              <td class="spectrum-Table-cell">
+                <span> ${PercentTotalAttack.get()} </span>
+              </td>
+            </tr>
+            <tr class="spectrum-Table-row">
+              <th class="spectrum-Table-headCell">
+                <span>Defense</span>
+              </th>
+            </tr>
+            <tr class="spectrum-Table-row">
+              <th class="spectrum-Table-headCell">
+                <span>HP</span>
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `;
+  };
   static override styles: CSSResultGroup = [
     unsafeCSS(SpectrumCSSTable),
     unsafeCSS(SpectrumCSStextfield),
@@ -311,18 +385,105 @@ export default class BuffTable extends LitElement {
           display: grid;
           grid-template-columns: subgrid;
         }
+
+        & tr {
+          grid-column: 1/ -1;
+          grid-row-end: span 1;
+          display: grid;
+          grid-template-columns: subgrid;
+        }
       }
-      tr {
-        grid-column: 1/ -1;
-        grid-row-end: span 1;
-        display: grid;
-        grid-template-columns: subgrid;
-      }
+
       input.spectrum-Textfield-input.spectrum-Stepper-input {
         width: 4rem;
       }
+
+      div.secondaryTables {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+      }
     `,
   ];
+
+  protected renderDebuffTable = () => {
+    return html`
+      <div class="debuffTable">
+        <table id="DebuffTable"
+          class=" spectrum-Table spectrum-Table--sizeM spectrum-Table--compact spectrum-Table--quiet spectrum-Table--emphasized "
+        >
+          <thead
+            class="spectrum-Table-head)"
+          >
+            <th colspan="3"> &nbsp; </th>
+            <th class="spectrum-Table-headCell">
+              Attack
+            </th>
+            <th class="spectrum-Table-headCell">
+              Defense
+            </th>
+          </thead>
+          <tbody class="spectrum-Table-body" ">
+            <tr class="spectrum-Table-row">
+              <td class="spectrum-Table-cell">
+                <span class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Debuff</span>
+              </td>
+              <td class="spectrum-Table-cell">
+                <span class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Monster</span>
+              </td>
+              <td class="spectrum-Table-cell">
+                <span class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">%</span>
+              </td>
+              <td class="spectrum-Table-cell">
+                <input
+                  id="MonsterDebuffAttack"
+                  class="spectrum-Textfield-input spectrum-Stepper-input"
+                  type="number"
+                  min="0"
+                  @change="${(e: Event) => {
+                    const target = (e as CustomEvent)
+                      .target as HTMLInputElement | null;
+                    if (target) {
+                      const valid = z.number().min(0).safeParse(+target.value);
+                      if (valid.success) {
+                        this.DebuffData.attack = valid.data;
+                        this.requestUpdate("DebuffData");
+                      } else {
+                        console.error(`error parsing, ${valid.error.message}`);
+                      }
+                    }
+                  }}"
+                  value="${this.DebuffData.attack}"
+                />
+              </td>
+              <td class="spectrum-Table-cell">
+                <input
+                  id="MonsterDebuffDefense"
+                  class="spectrum-Textfield-input spectrum-Stepper-input"
+                  type="number"
+                  min="0"
+                  @change="${(e: Event) => {
+                    const target = (e as CustomEvent)
+                      .target as HTMLInputElement | null;
+                    if (target) {
+                      const valid = z.number().min(0).safeParse(+target.value);
+                      if (valid.success) {
+                        this.DebuffData.defense = valid.data;
+                        this.requestUpdate("DebuffData");
+                      } else {
+                        console.error(`error parsing, ${valid.error.message}`);
+                      }
+                    }
+                  }}"
+                  value="${this.DebuffData.defense}"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `;
+  };
 
   protected override render() {
     const buffTable = this.BuffController.table({
@@ -402,20 +563,34 @@ export default class BuffTable extends LitElement {
                   ${repeat(
                     row.getVisibleCells(),
                     (cell) => cell.id,
-                    (cell) => html`
-                      <td
-                        id="${cell.column.id}-${cell.row.index}"
-                        role="gridcell"
-                        class="spectrum-Table-cell"
-                      >
-                        ${cell.getIsPlaceholder()
-                          ? null
-                          : flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
-                      </td>
-                    `
+                    (cell) => {
+                      const cellStyle = {
+                        "grid-column-end":
+                          row.index >= 7
+                            ? cell.column.getIndex() == 0
+                              ? "span 2"
+                              : "span 1"
+                            : "span 1",
+                      };
+                      if (row.index >= 7 && cell.column.getIndex() == 1) {
+                        return nothing;
+                      }
+                      return html`
+                        <td
+                          id="${cell.column.id}-${cell.row.index}"
+                          role="gridcell"
+                          class="spectrum-Table-cell"
+                          style="${styleMap(cellStyle)}"
+                        >
+                          ${cell.getIsPlaceholder()
+                            ? null
+                            : flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                        </td>
+                      `;
+                    }
                   )}
                 </tr>
               `;
@@ -423,6 +598,9 @@ export default class BuffTable extends LitElement {
           )}
         </tbody>
       </table>
+      <div class="secondaryTables">
+        ${this.renderDebuffTable()} ${this.printResults()}
+      </div>
     `;
   }
 }

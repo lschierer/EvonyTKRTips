@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit";
 
 import "./BuffTable.ts";
+import "./MarchTable.ts";
 
 export default class MonsterSimulator extends LitElement {
   override render() {
@@ -59,6 +60,7 @@ export default class MonsterSimulator extends LitElement {
         <section class="simulator">
           <div>
             <buff-table></buff-table>
+            <march-table></march-table>
           </div>
         </section>
       </article>
