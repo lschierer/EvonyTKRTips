@@ -1,10 +1,10 @@
-@import "@spectrum-css/tokens/dist/index.css";
-@import "@spectrum-css/typography/dist/index.css";
-@import "@spectrum-css/icon/dist/index.css";
-@import "@spectrum-css/page/dist/index.css";
-@import "@spectrum-css/link/dist/index.css";
-@import "@spectrum-css/actionbutton/dist/index.css";
-@import "@spectrum-css/button/dist/index.css";
+@import "@spectrum-css/tokens";
+@import "@spectrum-css/typography";
+@import "@spectrum-css/icon";
+@import "@spectrum-css/page";
+@import "@spectrum-css/link";
+@import "@spectrum-css/actionbutton";
+@import "@spectrum-css/button";
 
 /*  Default Colors*/
 :root,
