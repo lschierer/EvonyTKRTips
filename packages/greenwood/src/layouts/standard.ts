@@ -25,7 +25,17 @@ const getLayout = (compilation: Compilation, route: Route) => {
           ? `<link rel="stylesheet" href="../styles/generalDetails.css" />`
           : ""
       }
+      ${
+        route.route.toLowerCase().startsWith("/monsters/monstersimulator/")
+          ? `
+            <link rel="stylesheet" href="../styles/MonsterSimulator.css" />
+
+          `
+          : ""
+      }
+
       <link rel="stylesheet" src="@spectrum-css/sidenav/dist/index.css" />
+
     </head>
     <body>
       <header>
