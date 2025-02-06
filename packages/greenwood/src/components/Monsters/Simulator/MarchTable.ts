@@ -59,19 +59,19 @@ export default class MarchTable extends LitElement {
                       .boolean()
                       .safeParse(!target.value.localeCompare("true"));
                     if (valid.success) {
-                      simulatorState.solo = valid.data;
+                      simulatorState.solo.set(valid.data);
                       this.requestUpdate();
                     } else {
                       console.error(`error parsing, ${valid.error.message}`);
                     }
                   }
                 }}"
-                value="${simulatorState.solo}"
+                value="${simulatorState.solo.get()}"
               >
                 <option
                   class="spectrum-Menu-item"
                   role="menuitem"
-                  ?selected=${simulatorState.solo}
+                  ?selected=${simulatorState.solo.get()}
                   value="true"
                 >
                   Solo
@@ -79,7 +79,7 @@ export default class MarchTable extends LitElement {
                 <option
                   class="spectrum-Menu-item"
                   role="menuitem"
-                  ?selected=${!simulatorState.solo}
+                  ?selected=${!simulatorState.solo.get()}
                   value="false"
                 >
                   Rally
@@ -137,7 +137,9 @@ export default class MarchTable extends LitElement {
                     const valid = constants.ClassEnum.safeParse(target.value);
                     if (valid.success) {
                       if (DEBUG) {
-                        console.log(`valid parse, value is ${valid.data}`);
+                        console.log(
+                          `TroopType valid parse, value is ${valid.data}`
+                        );
                       }
                       simulatorState.troopType.set(valid.data);
                       this.requestUpdate();

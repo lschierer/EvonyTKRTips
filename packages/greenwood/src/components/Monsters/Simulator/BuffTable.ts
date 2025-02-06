@@ -18,9 +18,8 @@ import {
 import { customElement, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
 import { styleMap } from "lit/directives/style-map.js";
-import { watch } from "@lit-labs/signals";
 
-import { SignalWatcher, signal, Signal, withWatch } from "@lit-labs/signals";
+import { SignalWatcher } from "@lit-labs/signals";
 
 import { z } from "zod";
 
@@ -32,132 +31,19 @@ import SpectrumCSSstepper from "@spectrum-css/stepper/dist/index.css" with { typ
 
 import simulatorState from "./state.ts";
 
-import { type SimulatorBuffGroup, type SimulatorDebuff } from "./state.ts";
+import { type BuffTableRow } from "./state.ts";
+
+import debugFunction from "../../../lib/debug.ts";
+const DEBUG = debugFunction("components/Monsters/Simulator/BuffTable.ts");
 
 @customElement("buff-table")
 export default class BuffTable extends SignalWatcher(LitElement) {
-  private BuffController = new TableController<SimulatorBuffGroup>(this);
+  private BuffController = new TableController<BuffTableRow>(this);
 
-  private getRowTwoValue = (index: number) => {
-    if (index == 0) {
-      return "Basic";
-    } else if (index == 1) {
-      return "March";
-    } else if (index == 2) {
-      return "Monster";
-    } else if (index == 3) {
-      return "Misc";
-    } else if (index == 4) {
-      return "Rally";
-    } else if (index == 5) {
-      return "Flat";
-    } else if (index == 6) {
-      return "Troop";
-    } else {
-      return nothing;
-    }
-  };
+  @state()
+  private _data;
 
-  private renderBuffTableCell = (
-    props: CellContext<SimulatorBuffGroup, unknown>
-  ) => {
-    if (props.row.index <= 6) {
-      const cellValue = props.getValue() as number;
-
-      return html`
-        <div
-          id="${props.column.id}-${props.row.index}"
-          class="spectrum-Textfield spectrumText-field--sizeM spectrum-Stepper-textfield"
-        >
-          <input
-            id="${props.column.id}-${props.row.id}"
-            class="spectrum-Textfield-input spectrum-Stepper-input"
-            type="number"
-            min="0"
-            @change="${(e: Event) => {
-              const target = (e as CustomEvent)
-                .target as HTMLInputElement | null;
-              if (target) {
-                const valid = z.number().min(0).safeParse(+target.value);
-                if (valid.success) {
-                  const key1 = props.column.id.split("_").shift();
-                  const key2 = props.column.id.split("_").pop();
-                  if (key1 != undefined && key2 != undefined) {
-                    const i = props.row.index;
-                    const BDe = this.BuffData[i];
-                    const b = BDe[key1 as keyof typeof BDe];
-                    b[key2 as keyof typeof b] = valid.data;
-                    BDe[key1 as keyof typeof BDe] = b;
-                    this.BuffData[i] = BDe;
-
-                    this.requestUpdate("BuffData");
-                  }
-                } else {
-                  console.error(`error parsing, ${valid.error.message}`);
-                }
-              }
-            }}"
-            ?disabled=${props.row.index >= 7 ||
-            (props.row.index == 6 &&
-              props.column.id.toLowerCase().endsWith("hp"))}
-            value="${props.row.index == 6 &&
-            props.column.id.toLowerCase().endsWith("hp")
-              ? ""
-              : cellValue}"
-          />
-        </div>
-      `;
-    } else {
-      let sum = 0;
-      if (props.row.index == 7) {
-        sum = props.table.getRowModel().rows.reduce((a: number, c) => {
-          if (c.index <= 3) {
-            if (props.column.accessorFn) {
-              const v = props.column.accessorFn(c.original, c.index) as number;
-              a = a + v;
-            } else {
-              a = a;
-            }
-          } else {
-            a = a;
-          }
-          return a;
-        }, 0);
-      } else if (props.row.index == 8) {
-        sum = props.table.getRowModel().rows.reduce((a: number, c) => {
-          if (c.index <= 4) {
-            if (props.column.accessorFn) {
-              const v = props.column.accessorFn(c.original, c.index) as number;
-              a = a + v;
-            } else {
-              a = a;
-            }
-          } else {
-            a = a;
-          }
-          return a;
-        }, 0);
-      }
-      const key1 = props.column.id.split("_").shift();
-      const key2 = props.column.id.split("_").pop();
-      if (key1 != undefined && key2 != undefined) {
-        const i = props.row.index;
-        const BDe = this.BuffData[i];
-        const b = BDe[key1 as keyof typeof BDe];
-        b[key2 as keyof typeof b] = sum;
-        BDe[key1 as keyof typeof BDe] = b;
-        this.BuffData[i] = BDe;
-      }
-
-      return html`
-        <div class="aggregate">
-          <span>${sum}</span>
-        </div>
-      `;
-    }
-  };
-
-  private BuffColumns: ColumnDef<SimulatorBuffGroup>[] = [
+  private BuffColumns: ColumnDef<BuffTableRow>[] = [
     {
       id: "pivot",
       columns: [
@@ -280,51 +166,153 @@ export default class BuffTable extends SignalWatcher(LitElement) {
     },
   ];
 
-  @state()
-  private BuffData: SimulatorBuffGroup[];
-
-  @state()
-  private DebuffData: SimulatorDebuff = {
-    attack: 0,
-    defense: 0,
+  private getRowTwoValue = (index: number) => {
+    if (index == 0) {
+      return "Basic";
+    } else if (index == 1) {
+      return "March";
+    } else if (index == 2) {
+      return "Monster";
+    } else if (index == 3) {
+      return "Misc";
+    } else if (index == 4) {
+      return "Rally";
+    } else if (index == 5) {
+      return "Flat";
+    } else if (index == 6) {
+      return "Troop";
+    } else {
+      return nothing;
+    }
   };
 
   constructor() {
     super();
-    this.BuffData = createData();
+    this._data = simulatorState.getAsTableData.get();
   }
 
+  private renderBuffTableCell = (props: CellContext<BuffTableRow, unknown>) => {
+    if (props.row.index <= 6) {
+      const cellValue = props.getValue() as number;
+
+      return html`
+        <div
+          id="${props.column.id}-${props.row.index}"
+          class="spectrum-Textfield spectrumText-field--sizeM spectrum-Stepper-textfield"
+        >
+          <input
+            id="${props.column.id}-${props.row.id}"
+            class="spectrum-Textfield-input spectrum-Stepper-input"
+            type="number"
+            min="0"
+            @change="${(e: Event) => {
+              const target = (e as CustomEvent)
+                .target as HTMLInputElement | null;
+              if (target) {
+                const valid = z.number().min(0).safeParse(+target.value);
+                if (valid.success) {
+                  const key1 = props.column.id.split("_").shift() ?? "";
+                  const key2 = props.column.id.split("_").pop();
+                  const key3 = key1.localeCompare("ground")
+                    ? key1.localeCompare("mounted")
+                      ? key1.localeCompare("archer")
+                        ? key1.localeCompare("siege")
+                          ? constants.ClassEnum.Enum.All
+                          : constants.ClassEnum.Enum["Siege Machines"]
+                        : constants.ClassEnum.Enum["Ranged Troops"]
+                      : constants.ClassEnum.Enum["Mounted Troops"]
+                    : constants.ClassEnum.Enum["Ground Troops"];
+                  if (
+                    key3.localeCompare(constants.ClassEnum.Enum.All) &&
+                    key2 != undefined
+                  ) {
+                    if (DEBUG) {
+                      console.log(
+                        `key1 is ${key1}`,
+                        `key2 is ${key2}`,
+                        `index is ${props.row.index}`
+                      );
+                    }
+
+                    if (!key2.toLowerCase().localeCompare("attack")) {
+                      simulatorState.setAttackBuff(
+                        key3,
+                        props.row.index,
+                        valid.data
+                      );
+                    }
+                    if (!key2.toLowerCase().localeCompare("defense")) {
+                      simulatorState.setDefenseBuff(
+                        key3,
+                        props.row.index,
+                        valid.data
+                      );
+                    }
+                    if (!key2.toLowerCase().localeCompare("hp")) {
+                      simulatorState.setHPBuff(
+                        key3,
+                        props.row.index,
+                        valid.data
+                      );
+                    }
+                    this.requestUpdate("BuffData");
+                  }
+                } else {
+                  console.error(`error parsing, ${valid.error.message}`);
+                }
+              }
+            }}"
+            ?disabled=${props.row.index >= 7 ||
+            (props.row.index == 6 &&
+              props.column.id.toLowerCase().endsWith("hp"))}
+            value="${props.row.index == 6 &&
+            props.column.id.toLowerCase().endsWith("hp")
+              ? ""
+              : cellValue}"
+          />
+        </div>
+      `;
+    } else {
+      let sum = 0;
+      if (props.row.index == 7) {
+        sum = props.table.getRowModel().rows.reduce((a: number, c) => {
+          if (c.index <= 3) {
+            if (props.column.accessorFn) {
+              const v = props.column.accessorFn(c.original, c.index) as number;
+              a = a + v;
+            } else {
+              a = a;
+            }
+          } else {
+            a = a;
+          }
+          return a;
+        }, 0);
+      } else if (props.row.index == 8) {
+        sum = props.table.getRowModel().rows.reduce((a: number, c) => {
+          if (c.index <= 4) {
+            if (props.column.accessorFn) {
+              const v = props.column.accessorFn(c.original, c.index) as number;
+              a = a + v;
+            } else {
+              a = a;
+            }
+          } else {
+            a = a;
+          }
+          return a;
+        }, 0);
+      }
+
+      return html`
+        <div class="aggregate">
+          <span>${sum}</span>
+        </div>
+      `;
+    }
+  };
+
   private printResults = () => {
-    const PercentTotalAttack = new Signal.Computed(() => {
-      //TODO: right now the 1 is static below. It should be variable based on the
-      // alliance boss modifier.
-      return 1 +
-        simulatorState.troopType
-          .get()
-          .localeCompare(constants.ClassEnum.Enum["Mounted Troops"])
-        ? simulatorState.troopType
-            .get()
-            .localeCompare(constants.ClassEnum.Enum["Ground Troops"])
-          ? simulatorState.troopType
-              .get()
-              .localeCompare(constants.ClassEnum.Enum["Ranged Troops"])
-            ? simulatorState.troopType
-                .get()
-                .localeCompare(constants.ClassEnum.Enum["Siege Machines"])
-              ? -1
-              : simulatorState.solo.get()
-                ? this.BuffData[7].siege.attack
-                : this.BuffData[8].siege.attack
-            : simulatorState.solo.get()
-              ? this.BuffData[7].archer.attack
-              : this.BuffData[8].archer.attack
-          : simulatorState.solo.get()
-            ? this.BuffData[7].ground.attack
-            : this.BuffData[8].ground.attack
-        : simulatorState.solo.get()
-          ? this.BuffData[7].mounted.attack
-          : this.BuffData[8].mounted.attack;
-    });
     return html`
       <div class="PlayerBuffResults">
         <table
@@ -343,7 +331,7 @@ export default class BuffTable extends SignalWatcher(LitElement) {
                 <span>Attack</span>
               </th>
               <td class="spectrum-Table-cell">
-                <span> ${PercentTotalAttack.get()} </span>
+                <span> ${simulatorState.TotalAtack.get()} </span>
               </td>
             </tr>
             <tr class="spectrum-Table-row">
@@ -446,14 +434,17 @@ export default class BuffTable extends SignalWatcher(LitElement) {
                     if (target) {
                       const valid = z.number().min(0).safeParse(+target.value);
                       if (valid.success) {
-                        this.DebuffData.attack = valid.data;
+                        simulatorState.setAttackDebuff(
+                          simulatorState.troopType.get(),
+                          valid.data
+                        );
                         this.requestUpdate("DebuffData");
                       } else {
                         console.error(`error parsing, ${valid.error.message}`);
                       }
                     }
                   }}"
-                  value="${this.DebuffData.attack}"
+                  value="${simulatorState.getAttackDebuff(simulatorState.troopType.get())}"
                 />
               </td>
               <td class="spectrum-Table-cell">
@@ -468,14 +459,17 @@ export default class BuffTable extends SignalWatcher(LitElement) {
                     if (target) {
                       const valid = z.number().min(0).safeParse(+target.value);
                       if (valid.success) {
-                        this.DebuffData.defense = valid.data;
+                        simulatorState.setDefenseDebuff(
+                          simulatorState.troopType.get(),
+                          valid.data
+                        );
                         this.requestUpdate("DebuffData");
                       } else {
                         console.error(`error parsing, ${valid.error.message}`);
                       }
                     }
                   }}"
-                  value="${this.DebuffData.defense}"
+                  value="${simulatorState.getDefenseDebuff(simulatorState.troopType.get())}"
                 />
               </td>
             </tr>
@@ -489,7 +483,7 @@ export default class BuffTable extends SignalWatcher(LitElement) {
     const buffTable = this.BuffController.table({
       columns: this.BuffColumns,
 
-      data: this.BuffData,
+      data: simulatorState.getAsTableData.get(),
 
       getGroupedRowModel: getGroupedRowModel(),
       getCoreRowModel: getCoreRowModel(),
@@ -604,142 +598,3 @@ export default class BuffTable extends SignalWatcher(LitElement) {
     `;
   }
 }
-
-const createData = () => {
-  const data = new Array<SimulatorBuffGroup>();
-  for (let i = 0; i < 4; i++) {
-    data.push({
-      ground: {
-        attack: 0,
-        defense: 0,
-        hp: 0,
-      },
-      archer: {
-        attack: 0,
-        defense: 0,
-        hp: 0,
-      },
-      mounted: {
-        attack: 0,
-        defense: 0,
-        hp: 0,
-      },
-      siege: {
-        attack: 0,
-        defense: 0,
-        hp: 0,
-      },
-    });
-  }
-  data.push({
-    ground: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-    archer: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-    mounted: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-    siege: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-  });
-  data.push({
-    ground: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-    archer: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-    mounted: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-    siege: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-  });
-  data.push({
-    ground: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-    archer: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-    mounted: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-    siege: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-  });
-  data.push({
-    ground: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-    archer: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-    mounted: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-    siege: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-  });
-  data.push({
-    ground: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-    archer: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-    mounted: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-    siege: {
-      attack: 0,
-      defense: 0,
-      hp: 0,
-    },
-  });
-  return data;
-};
