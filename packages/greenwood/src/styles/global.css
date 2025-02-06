@@ -6,12 +6,11 @@
 @import "@spectrum-css/actionbutton";
 @import "@spectrum-css/button";
 
-/*  Default Colors*/
+/*  Default Colors */
 :root,
 ::backdrop {
   --sl-color-accent: var(--spectrum-cyan-700);
   --sl-color-bg: var(--spectrum-background-base-color);
-
   --sl-color-white: var(--spectrum-gray-50);
   --sl-color-gray-1: var(--spectrum-gray-200);
   --sl-color-gray-2: var(--spectrum-gray-300);
@@ -23,7 +22,7 @@
   --sl-color-black: var(--spectrum-gray-900);
 }
 
-/* I find I prefer less color range between high and low in dark mode*/
+/* I find I prefer less color range between high and low in dark mode */
 
 /* Light mode colors. */
 :root[data-theme="light"],
@@ -44,12 +43,13 @@ html {
 }
 
 body {
-  margin: 0px;
+  margin: 0;
   width: auto;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  text: var(--sl-color-black);
+  color: var(--sl-color-black);
+
   --mod-body-font-color: var(--sl-color-black);
   --mod-heading-font-color: var(--sl-color-accent);
 }
