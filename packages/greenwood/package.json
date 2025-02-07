@@ -13,6 +13,7 @@
   "devDependencies": {
     "@greenwood/cli": "0.31.0",
     "@greenwood/plugin-google-analytics": "0.31.0",
+    "@greenwood/plugin-import-raw": "^0.31.0",
     "@greenwood/plugin-postcss": "0.31.0",
     "@greenwood/plugin-typescript": "0.31.0",
     "@tsconfig/node22": "^22.0.0",

@@ -78,6 +78,10 @@ export class SimulatorBuff extends Object {
 }
 
 class SimulatorState extends Object {
+  accessor orderNumber: Signal.State<number> = signal(0);
+
+  accessor modifier: Signal.State<number> = signal(1);
+
   accessor solo: Signal.State<boolean> = signal(false);
 
   accessor troopTier: Signal.State<number> = signal(1);

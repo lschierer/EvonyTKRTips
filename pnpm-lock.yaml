@@ -220,6 +220,9 @@ importers:
       '@greenwood/plugin-google-analytics':
         specifier: 0.31.0
         version: 0.31.0(@greenwood/cli@0.31.0)
+      '@greenwood/plugin-import-raw':
+        specifier: ^0.31.0
+        version: 0.31.0(@greenwood/cli@0.31.0)
       '@greenwood/plugin-postcss':
         specifier: 0.31.0
         version: 0.31.0(@greenwood/cli@0.31.0)
@@ -1531,6 +1534,11 @@ packages:
 
   '@greenwood/plugin-google-analytics@0.31.0':
     resolution: {integrity: sha512-CVElJMf+wzU0Q3Wo6Pl1dAPZAgzyf4dmfyPLJL9B1giOzhMoNmijY9gSU1VYF6U8PW8LMyzz6KXiAj98QMtstA==}
+    peerDependencies:
+      '@greenwood/cli': ^0.31.0
+
+  '@greenwood/plugin-import-raw@0.31.0':
+    resolution: {integrity: sha512-KTZt6Htg6ccPrnr4R6gnRvHorkVxauswK6b37BdSAQGOMTxOAOBLPxlfo4qk2LukMl0NaU1pHllMXcJDl1Bmhw==}
     peerDependencies:
       '@greenwood/cli': ^0.31.0
 
@@ -9524,6 +9532,10 @@ snapshots:
       - utf-8-validate
 
   '@greenwood/plugin-google-analytics@0.31.0(@greenwood/cli@0.31.0)':
+    dependencies:
+      '@greenwood/cli': 0.31.0
+
+  '@greenwood/plugin-import-raw@0.31.0(@greenwood/cli@0.31.0)':
     dependencies:
       '@greenwood/cli': 0.31.0
 
