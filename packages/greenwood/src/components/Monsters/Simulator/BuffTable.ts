@@ -333,16 +333,31 @@ export default class BuffTable extends SignalWatcher(LitElement) {
               <td class="spectrum-Table-cell">
                 <span> ${simulatorState.TotalAtack.get()} </span>
               </td>
+              <td class="spectrum-Table-cell">
+                <span> ${simulatorState.FlatAttack.get()} </span>
+              </td>
             </tr>
             <tr class="spectrum-Table-row">
               <th class="spectrum-Table-headCell">
                 <span>Defense</span>
               </th>
+              <td class="spectrum-Table-cell">
+                <span> ${simulatorState.TotalDefense.get()} </span>
+              </td>
+              <td class="spectrum-Table-cell">
+                <span> ${simulatorState.FlatDefense.get()} </span>
+              </td>
             </tr>
             <tr class="spectrum-Table-row">
               <th class="spectrum-Table-headCell">
                 <span>HP</span>
               </th>
+              <td class="spectrum-Table-cell">
+                <span> ${simulatorState.TotalHP.get()} </span>
+              </td>
+              <td class="spectrum-Table-cell">
+                <span> ${simulatorState.FlatHP.get()} </span>
+              </td>
             </tr>
           </tbody>
         </table>

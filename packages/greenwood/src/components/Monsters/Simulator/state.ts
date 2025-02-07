@@ -139,6 +139,26 @@ class SimulatorState extends Object {
     return 1 + attack;
   });
 
+  public FlatAttack = new Signal.Computed(() => {
+    return this.troopType
+      .get()
+      .localeCompare(constants.ClassEnum.Enum["Ground Troops"])
+      ? this.troopType
+          .get()
+          .localeCompare(constants.ClassEnum.Enum["Mounted Troops"])
+        ? this.troopType
+            .get()
+            .localeCompare(constants.ClassEnum.Enum["Ranged Troops"])
+          ? this.troopType
+              .get()
+              .localeCompare(constants.ClassEnum.Enum["Siege Machines"])
+            ? 0
+            : this.siegeBuffs[5].AttackBuffs.get()
+          : this.archerBuffs[5].AttackBuffs.get()
+        : this.mountedBuffs[5].AttackBuffs.get()
+      : this.groundBuffs[5].AttackBuffs.get();
+  });
+
   public TotalDefense = new Signal.Computed(() => {
     let defense = 0;
     const stop = this.solo.get() ? 4 : 5;
@@ -165,6 +185,26 @@ class SimulatorState extends Object {
     return defense;
   });
 
+  public FlatDefense = new Signal.Computed(() => {
+    return this.troopType
+      .get()
+      .localeCompare(constants.ClassEnum.Enum["Ground Troops"])
+      ? this.troopType
+          .get()
+          .localeCompare(constants.ClassEnum.Enum["Mounted Troops"])
+        ? this.troopType
+            .get()
+            .localeCompare(constants.ClassEnum.Enum["Ranged Troops"])
+          ? this.troopType
+              .get()
+              .localeCompare(constants.ClassEnum.Enum["Siege Machines"])
+            ? 0
+            : this.siegeBuffs[5].DefenseBuffs.get()
+          : this.archerBuffs[5].DefenseBuffs.get()
+        : this.mountedBuffs[5].DefenseBuffs.get()
+      : this.groundBuffs[5].DefenseBuffs.get();
+  });
+
   public TotalHP = new Signal.Computed(() => {
     let hp = 0;
     const stop = this.solo.get() ? 4 : 5;
@@ -188,6 +228,26 @@ class SimulatorState extends Object {
         : this.groundBuffs[i].HPBuffs.get();
     }
     return hp;
+  });
+
+  public FlatHP = new Signal.Computed(() => {
+    return this.troopType
+      .get()
+      .localeCompare(constants.ClassEnum.Enum["Ground Troops"])
+      ? this.troopType
+          .get()
+          .localeCompare(constants.ClassEnum.Enum["Mounted Troops"])
+        ? this.troopType
+            .get()
+            .localeCompare(constants.ClassEnum.Enum["Ranged Troops"])
+          ? this.troopType
+              .get()
+              .localeCompare(constants.ClassEnum.Enum["Siege Machines"])
+            ? 0
+            : this.siegeBuffs[5].HPBuffs.get()
+          : this.archerBuffs[5].HPBuffs.get()
+        : this.mountedBuffs[5].HPBuffs.get()
+      : this.groundBuffs[5].HPBuffs.get();
   });
 
   public setAttackBuff = (
