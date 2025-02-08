@@ -1,7 +1,6 @@
 import { greenwoodPluginTypeScript } from "@greenwood/plugin-typescript";
 import { greenwoodPluginPostCss } from "@greenwood/plugin-postcss";
 import { greenwoodPluginGoogleAnalytics } from "@greenwood/plugin-google-analytics";
-import { greenwoodPluginImportRaw } from "@greenwood/plugin-import-raw";
 
 //begin work around for https://github.com/TanStack/table/pull/5373
 import { ResourceInterface } from "@greenwood/cli/src/lib/resource-interface.js";
@@ -53,7 +52,6 @@ export default {
       name: "process-env-replace",
       provider: (compilation) => new ProcessEnvReplaceResource(compilation),
     },
-    greenwoodPluginImportRaw(),
     greenwoodPluginTypeScript({
       extendConfig: true,
     }),
