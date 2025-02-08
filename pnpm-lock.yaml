@@ -156,6 +156,9 @@ importers:
       '@spectrum-css/table':
         specifier: ^8.0.1
         version: 8.0.1(@spectrum-css/button@14.0.1(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0))(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0)
+      '@spectrum-css/tabs':
+        specifier: ^6.0.1
+        version: 6.0.1(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/menu@9.0.1(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@16.0.0))(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0))(@spectrum-css/picker@9.0.1(994e3f31fc87f1d7d1dafc2a62b80fbd))(@spectrum-css/tokens@16.0.0)
       '@spectrum-css/textfield':
         specifier: ^8.0.1
         version: 8.0.1(@spectrum-css/tokens@16.0.0)
@@ -2460,6 +2463,17 @@ packages:
       '@spectrum-css/checkbox':
         optional: true
       '@spectrum-css/thumbnail':
+        optional: true
+
+  '@spectrum-css/tabs@6.0.1':
+    resolution: {integrity: sha512-y58vPBCk1bu4F/0+oJsLy/eCsZllNLg6+qkSm4ghbjS5ipZa6HUr5UIyzQrbM2LVT6+WkiGOmoMPGP1KJZO8Kw==}
+    peerDependencies:
+      '@spectrum-css/icon': '>=7'
+      '@spectrum-css/menu': '>=7'
+      '@spectrum-css/picker': '>=8'
+      '@spectrum-css/tokens': '>=14 || >=15'
+    peerDependenciesMeta:
+      '@spectrum-css/icon':
         optional: true
 
   '@spectrum-css/textfield@8.0.1':
@@ -10337,6 +10351,14 @@ snapshots:
       '@spectrum-css/tokens': 16.0.0
     optionalDependencies:
       '@spectrum-css/button': 14.0.1(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0)
+
+  '@spectrum-css/tabs@6.0.1(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/menu@9.0.1(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@16.0.0))(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0))(@spectrum-css/picker@9.0.1(994e3f31fc87f1d7d1dafc2a62b80fbd))(@spectrum-css/tokens@16.0.0)':
+    dependencies:
+      '@spectrum-css/menu': 9.0.1(@spectrum-css/divider@3.2.0(@spectrum-css/tokens@16.0.0))(@spectrum-css/icon@9.0.1(@spectrum-css/tokens@16.0.0))(@spectrum-css/tokens@16.0.0)
+      '@spectrum-css/picker': 9.0.1(994e3f31fc87f1d7d1dafc2a62b80fbd)
+      '@spectrum-css/tokens': 16.0.0
+    optionalDependencies:
+      '@spectrum-css/icon': 9.0.1(@spectrum-css/tokens@16.0.0)
 
   '@spectrum-css/textfield@8.0.1(@spectrum-css/tokens@16.0.0)':
     dependencies:

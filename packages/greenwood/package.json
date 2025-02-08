@@ -68,6 +68,7 @@
     "@spectrum-css/sidenav": "^7.0.1",
     "@spectrum-css/stepper": "^7.0.1",
     "@spectrum-css/table": "^8.0.1",
+    "@spectrum-css/tabs": "^6.0.1",
     "@spectrum-css/textfield": "^8.0.1",
     "@spectrum-css/tokens": "^16.0.0",
     "@spectrum-css/typography": "^8.0.1",
