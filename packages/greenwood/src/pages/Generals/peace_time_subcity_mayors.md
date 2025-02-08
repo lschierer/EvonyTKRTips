@@ -7,9 +7,6 @@ sidebar:
   order: 100
 ---
 
-import { CardGrid } from '@astrojs/starlight/components';
-import { Card } from '@astrojs/starlight/components';
-
 Periodically someone asks about Catherine II, or another of the peace time
 subcity mayors. To answer this question, we need to compare the two following
 generals.

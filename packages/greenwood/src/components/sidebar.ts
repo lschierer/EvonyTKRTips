@@ -13,7 +13,7 @@ import {
   sortPages,
 } from "../lib/greenwoodPages.ts";
 
-import SpectrumCSSSideNav from "@spectrum-css/sidenav/dist/index.css" with { type: "css" };
+import SpectrumCSSSideNav from "@spectrum-css/sidenav/index.css" with { type: "css" };
 import LocalSidebarCSS from "../styles/sidebar.css" with { type: "css" };
 
 export default class SideBar extends HTMLElement {
@@ -161,7 +161,6 @@ export default class SideBar extends HTMLElement {
   private _stylesLoaded: boolean = false;
   private loadStyles = () => {
     if (!this._stylesLoaded) {
-       
       document.adoptedStyleSheets = [
         ...document.adoptedStyleSheets,
         SpectrumCSSSideNav,

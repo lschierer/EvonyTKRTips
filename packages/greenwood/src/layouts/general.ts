@@ -28,7 +28,7 @@ const getLayout = (compilation: Compilation, route: Route) => {
   <!doctype html>
   <html lang="en" >
     <head>
-      <link rel="stylesheet" src="@spectrum-css/sidenav/dist/index.css" />
+      <link rel="stylesheet" src="@spectrum-css/sidenav/index.css" />
     </head>
     <body>
 

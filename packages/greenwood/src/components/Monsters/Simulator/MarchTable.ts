@@ -3,11 +3,11 @@ import { customElement } from "lit/decorators.js";
 
 import { z } from "zod";
 
-import SpectrumCSSTable from "@spectrum-css/table/dist/index.css" with { type: "css" };
-import SpectrumCSStextfield from "@spectrum-css/textfield/dist/index.css" with { type: "css" };
-import SpectrumCSSstepper from "@spectrum-css/stepper/dist/index.css" with { type: "css" };
-import SpectrumCSSpicker from "@spectrum-css/picker/dist/index.css" with { type: "css" };
-import SpectrumCSSmenu from "@spectrum-css/menu/dist/index.css" with { type: "css" };
+import SpectrumCSSTable from "@spectrum-css/table/index.css" with { type: "css" };
+import SpectrumCSStextfield from "@spectrum-css/textfield/index.css" with { type: "css" };
+import SpectrumCSSstepper from "@spectrum-css/stepper/index.css" with { type: "css" };
+import SpectrumCSSpicker from "@spectrum-css/picker/index.css" with { type: "css" };
+import SpectrumCSSmenu from "@spectrum-css/menu/index.css" with { type: "css" };
 
 import * as constants from "../../../schemas/constants.ts";
 

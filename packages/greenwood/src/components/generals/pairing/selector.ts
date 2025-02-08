@@ -11,16 +11,16 @@ import { classMap } from "lit/directives/class-map.js";
 
 import { SignalWatcher, html } from "@lit-labs/signals";
 
-import SpectrumCSSfieldlabel from "@spectrum-css/fieldlabel/dist/index.css" with { type: "css" };
-import SpectrumCssfieldgroup from "@spectrum-css/fieldgroup/dist/index.css" with { type: "css" };
-import SpectrumCSSform from "@spectrum-css/form/dist/index.css" with { type: "css" };
-import SpectrumCSSmenu from "@spectrum-css/menu/dist/index.css" with { type: "css" };
-import SpectrumCSSpagination from "@spectrum-css/pagination/dist/index.css" with { type: "css" };
-import SpectrumCSSpicker from "@spectrum-css/picker/dist/index.css" with { type: "css" };
-import SpectrumCSSstepper from "@spectrum-css/stepper/dist/index.css" with { type: "css" };
-import SpectrumCSStextfield from "@spectrum-css/textfield/dist/index.css" with { type: "css" };
-import SpectrumCSSradio from "@spectrum-css/radio/dist/index.css" with { type: "css" };
-import SpectrumCSSpopover from "@spectrum-css/popover/dist/index.css" with { type: "css" };
+import SpectrumCSSfieldlabel from "@spectrum-css/fieldlabel/index.css" with { type: "css" };
+import SpectrumCssfieldgroup from "@spectrum-css/fieldgroup/index.css" with { type: "css" };
+import SpectrumCSSform from "@spectrum-css/form/index.css" with { type: "css" };
+import SpectrumCSSmenu from "@spectrum-css/menu/index.css" with { type: "css" };
+import SpectrumCSSpagination from "@spectrum-css/pagination/index.css" with { type: "css" };
+import SpectrumCSSpicker from "@spectrum-css/picker/index.css" with { type: "css" };
+import SpectrumCSSstepper from "@spectrum-css/stepper/index.css" with { type: "css" };
+import SpectrumCSStextfield from "@spectrum-css/textfield/index.css" with { type: "css" };
+import SpectrumCSSradio from "@spectrum-css/radio/index.css" with { type: "css" };
+import SpectrumCSSpopover from "@spectrum-css/popover/index.css" with { type: "css" };
 
 import "iconify-icon";
 

@@ -1,5 +1,5 @@
-import SpectrumCSStextfield from "@spectrum-css/textfield/dist/index.css" with { type: "css" };
-import SpectrumCSSstepper from "@spectrum-css/stepper/dist/index.css" with { type: "css" };
+import SpectrumCSStextfield from "@spectrum-css/textfield/index.css" with { type: "css" };
+import SpectrumCSSstepper from "@spectrum-css/stepper/index.css" with { type: "css" };
 
 import { z } from "zod";
 
