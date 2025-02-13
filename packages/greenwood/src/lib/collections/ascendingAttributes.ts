@@ -1,3 +1,5 @@
+import fs from "node:fs/promises";
+
 import { GeneralAscending } from "../../schemas/ascending.ts";
 import collection from "../../assets/collections/ascendingAttributes/collection.ts";
 
@@ -10,24 +12,13 @@ await Promise.all(
     if (DEBUG) {
       console.log(`item is ${item}`);
     }
-    await import(`@evonytkrtips/assets/ascendingAttributes/${item}`, {
-      with: { type: "json" },
-    })
-      .then((jsondata: object) => {
-        const keys = Object.keys(jsondata);
-        if (keys.includes("default")) {
-          const valid = GeneralAscending.safeParse(
-            jsondata["default" as keyof typeof jsondata]
-          );
-          if (valid.success) {
-            ascendingAttributes.push(valid.data);
-          } else {
-            if (DEBUG) {
-              console.error(`error parsing ${item}`, valid.error.message);
-              console.error(JSON.stringify(jsondata));
-            }
-          }
-        }
+    const filePath = new URL(
+      `../../assets/collections/ascendingAttributes/${item}`,
+      import.meta.url
+    );
+    const jsondata = await fs
+      .readFile(filePath, {
+        encoding: "utf-8",
       })
       .catch((error: unknown) => {
         console.error(
@@ -35,6 +26,21 @@ await Promise.all(
           `error is ${JSON.stringify(error)}`
         );
       });
+    if (jsondata) {
+      const valid = GeneralAscending.safeParse(JSON.parse(jsondata));
+      if (valid.success) {
+        ascendingAttributes.push(valid.data);
+      } else {
+        if (DEBUG) {
+          console.error(`error parsing ${item}`, valid.error.message);
+          console.error(JSON.stringify(jsondata));
+        }
+      }
+    } else {
+      if (DEBUG) {
+        console.error(`fs.readFile returned '${JSON.stringify(jsondata)}`);
+      }
+    }
   })
 );
 

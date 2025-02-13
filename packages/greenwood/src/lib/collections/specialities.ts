@@ -1,3 +1,5 @@
+import fs from "node:fs/promises";
+
 import { Speciality } from "../../schemas/specialities.ts";
 import collection from "../../assets/collections/specialities/collection.ts";
 
@@ -10,31 +12,32 @@ await Promise.all(
     if (DEBUG) {
       console.log(`item is ${item}`);
     }
-    await import(`@evonytkrtips/assets/specialities/${item}`, {
-      with: { type: "json" },
-    })
-      .then((jsondata: object) => {
-        const keys = Object.keys(jsondata);
-        if (keys.includes("default")) {
-          const valid = Speciality.safeParse(
-            jsondata["default" as keyof typeof jsondata]
-          );
-          if (valid.success) {
-            specialities.push(valid.data);
-          } else {
-            if (DEBUG) {
-              console.error(`error parsing ${item}`, valid.error.message);
-              console.error(JSON.stringify(jsondata));
-            }
-          }
-        }
+    const filePath = new URL(
+      `../../assets/collections/specialities/${item}`,
+      import.meta.url
+    );
+    const jsondata = await fs
+      .readFile(filePath, {
+        encoding: "utf8",
       })
       .catch((error: unknown) => {
-        console.error(
-          `failed to load file for ${item}`,
-          `error is ${JSON.stringify(error)}`
-        );
+        if (DEBUG) {
+          console.error(
+            `error reading file ${filePath.toString()} for ${item} with error ${JSON.stringify(error)}`
+          );
+        }
       });
+    if (jsondata) {
+      const valid = Speciality.safeParse(JSON.parse(jsondata));
+      if (valid.success) {
+        specialities.push(valid.data);
+      } else {
+        if (DEBUG) {
+          console.error(`error parsing ${item}`, valid.error.message);
+          console.error(JSON.stringify(jsondata));
+        }
+      }
+    }
   })
 );
 

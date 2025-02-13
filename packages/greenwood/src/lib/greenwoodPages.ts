@@ -4,8 +4,7 @@ const DEBUG = debugFunction("lib/greenwoodpages.ts");
 import { z } from "zod";
 export type Compilation = {
   graph: Page[];
-  context: object;
-  config: object;
+  context: unknown;
   // TODO put resources into manifest
   /* eslint-disable  @typescript-eslint/no-explicit-any */
   resources: Map<any, any>;

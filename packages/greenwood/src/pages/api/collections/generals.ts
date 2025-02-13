@@ -2,7 +2,7 @@ export const isolation = true;
 
 import { type General } from "../../../schemas/generals.ts";
 
-import { getGeneral } from "../../../lib/collections/generals.ts";
+import GeneralsCollection from "../../../lib/collections/generals.ts";
 
 //import debugFunction from "../../../lib/debug.ts";
 //const DEBUG = debugFunction("pages/api/collections/generals.ts");
@@ -10,14 +10,17 @@ import { getGeneral } from "../../../lib/collections/generals.ts";
 interface GeneralResponseBody {
   message: string | General;
 }
-export function handler(request: Request) {
+export const handler = async (request: Request) => {
   const params = new URLSearchParams(
     request.url.slice(request.url.indexOf("?"))
   );
+  const generalsCollection = new GeneralsCollection();
+  await generalsCollection.initialize();
+
   const name = params.has("name") ? params.get("name") : "Unnamed";
   let body: GeneralResponseBody = { message: "General Not Found" };
   if (name) {
-    const general = getGeneral(name);
+    const general = generalsCollection.getGeneral(name);
     if (general) {
       body = { message: general };
     }
@@ -28,4 +31,4 @@ export function handler(request: Request) {
       "Content-Type": "application/json",
     }),
   });
-}
+};

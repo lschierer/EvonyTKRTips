@@ -1,4 +1,5 @@
 export const prerender = false;
+export const isolation = true;
 
 import debugFunction from "../../../lib/debug.ts";
 const DEBUG = debugFunction("pages/Generals/details/index.ts");
@@ -7,37 +8,58 @@ import { getLayout } from "../../../layouts/standard.ts";
 
 import { getMainSection } from "../../../layouts/general.ts";
 
-import {
-  getGeneral,
-  getAllGenerals,
-} from "../../../lib/collections/generals.ts";
+import GeneralsCollection from "../../../lib/collections/generals.ts";
 
 export default class GeneralDetailsPage extends HTMLElement {
   private _generalName: string = "";
+  private generalsCollection = new GeneralsCollection();
+  private myRoot = "./";
   constructor(request: Request) {
     super();
-    if (DEBUG) {
-      console.log(
-        `GeneralDetailsPage constructor`,
-        `request is ${JSON.stringify(request)}`
-      );
-    }
 
-    const params = new URLSearchParams(
-      request.url.slice(request.url.indexOf("?"))
-    );
-    if (DEBUG) {
-      console.log(`found params ${params}`);
-    }
-    this._generalName = params.get("name") ?? "";
-    if (DEBUG) {
-      console.log(`generalName is ${this._generalName}`);
+    if (request.url.includes("?")) {
+      const params = new URLSearchParams(
+        request.url.slice(request.url.indexOf("?"))
+      );
+      if (DEBUG) {
+        console.log(`found params ${params}`);
+      }
+      this._generalName = params.has("name")
+        ? (params.get("name") ?? "Unnamed General")
+        : "";
+      if (DEBUG) {
+        console.log(`generalName is ${this._generalName}`);
+      }
+    } else {
+      if (DEBUG) {
+        console.log(`_generalName has length ${this._generalName.length}`);
+      }
     }
   }
 
-  connectedCallback() {
+  connectedCallback = async () => {
+    let parent = this.parentNode;
+    while (parent && parent.nodeType !== Node.DOCUMENT_NODE) {
+      if (DEBUG) {
+        console.log(`found parent node type ${parent.nodeType}`);
+      }
+      parent = parent.parentNode;
+    }
+    if (parent) {
+      if (DEBUG) {
+        console.log(`found parent!`);
+      }
+      this.myRoot = (parent as Document).location.pathname;
+    } else {
+      console.log(`no parent`);
+    }
+    if (DEBUG) {
+      console.log(`myRoot is '${this.myRoot}'`);
+    }
+    await this.generalsCollection.initialize();
+
     if (this._generalName.length == 0) {
-      const generals = getAllGenerals();
+      const generals = this.generalsCollection.generals;
       this.innerHTML = `
         <div class="indexListing">
           <h2 class="spectrum-Heading spectrum-Heading--sizeXL">Available Generals</h2>
@@ -56,14 +78,14 @@ export default class GeneralDetailsPage extends HTMLElement {
         </div>
       `;
     } else {
-      const general = getGeneral(this._generalName);
+      const general = this.generalsCollection.getGeneral(this._generalName);
       if (general) {
         this.innerHTML = getMainSection(general);
       } else {
         this.innerHTML = `${this._generalName} Not Found`;
       }
     }
-  }
+  };
 }
 
 function getFrontmatter() {

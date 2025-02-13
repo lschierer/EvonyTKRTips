@@ -27,5 +27,5 @@ parse: install
   ./bin/createCollections.sh -o "../greenwood/src/assets/collections"
 
 [working-directory: 'packages/infrastructure']
-deploy: build
+deploy: parse build
   pulumi up

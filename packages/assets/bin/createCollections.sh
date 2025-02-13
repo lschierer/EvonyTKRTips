@@ -46,17 +46,12 @@ for line in ${collections[@]}; do
   c=$(basename "$line")
   echo $c
 
-  if [ -d "$OUTPUTDIR/$c" ]; then
-    rm -rf rm -rf "$OUTPUTDIR/$c"
-  fi
-  mkdir "$OUTPUTDIR/$c"
   mkdir "$EXPORTDIR/$c"
 
   find ./$c -type f -iname '*.yaml' -print0 | while read -r -d '' file; do
     j=$(basename "$file" .yaml)
     $YQ eval -o=json "$file" > "$EXPORTDIR/$c/$j.json"
   done
-  find "$EXPORTDIR/$c/" -iname "*.json" -exec basename {} \+ | gsed -E 's/(.*)/"\1",/; /./{H;$!d} ; x ; s/^/const collection=[/; s/$/]; export default collection;/' > "$OUTPUTDIR/$c/collection.ts"
   find "$EXPORTDIR/$c/" -iname "*.json" -exec basename {} \+ | gsed -E 's/(.*)/"\1",/; /./{H;$!d} ; x ; s/^/const collection=[/; s/$/]; export default collection;/' > "$EXPORTDIR/$c/collection.ts"
 done
 
@@ -66,3 +61,5 @@ find "$EXPORTDIR" -iname '*.ts' | while read -r line; do
   DIR=`basename $FULLDIR`
   echo "export * as $DIR from './$DIR/$BASE.ts'" >> "$EXPORTDIR/index.ts"
 done
+
+rsync -a --delete "$EXPORTDIR/" "$OUTPUTDIR/"
