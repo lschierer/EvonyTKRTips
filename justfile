@@ -22,6 +22,7 @@ build: install parse
 [working-directory: 'packages/assets']
 parse: install
   ./bin/createCollections.sh -o "../starlight/src/content"
+  ./bin/createCollections.sh -o "../greenwood/src/assets/collections"
 
 
 deploy: build
