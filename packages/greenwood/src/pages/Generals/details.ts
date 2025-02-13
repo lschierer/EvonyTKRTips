@@ -1,22 +1,22 @@
 export const prerender = false;
 export const isolation = true;
 
-import { type General } from "../../../schemas/generals.ts";
-import { type SkillBook } from "../../../schemas/skillBooks.ts";
-import { type GeneralAscending } from "../../../schemas/ascending.ts";
-import { type Speciality } from "../../../schemas/specialities.ts";
-import { type Buff } from "../../../schemas/buff.ts";
+import { type General } from "../../schemas/generals.ts";
+import { type SkillBook } from "../../schemas/skillBooks.ts";
+import { type GeneralAscending } from "../../schemas/ascending.ts";
+import { type Speciality } from "../../schemas/specialities.ts";
+import { type Buff } from "../../schemas/buff.ts";
 
-import SkillBooksCollection from "../../../lib/collections/skillBooks.ts";
-import SpecialitiesCollection from "../../../lib/collections/specialities.ts";
-import AscendingAttributesCollection from "../../../lib/collections/ascendingAttributes.ts";
+import SkillBooksCollection from "../../lib/collections/skillBooks.ts";
+import SpecialitiesCollection from "../../lib/collections/specialities.ts";
+import AscendingAttributesCollection from "../../lib/collections/ascendingAttributes.ts";
 
-import * as constants from "../../../schemas/constants.ts";
+import * as constants from "../../schemas/constants.ts";
 
-import debugFunction from "../../../lib/debug.ts";
+import debugFunction from "../../lib/debug.ts";
 const DEBUG = debugFunction("pages/Generals/details/index.ts");
 
-import GeneralsCollection from "../../../lib/collections/generals.ts";
+import GeneralsCollection from "../../lib/collections/generals.ts";
 
 export const getMainSection = async (general: General, depth: number = 1) => {
   return `
