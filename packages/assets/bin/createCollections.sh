@@ -35,16 +35,17 @@ EXPORTDIR='./exports';
 
 if [ -d "$EXPORTDIR" ]; then
   rm -rf "$EXPORTDIR";
-  mkdir "$EXPORTDIR";
 fi
+mkdir "$EXPORTDIR";
 
 export YQ=$(which yq)
 
-export collections="generals generalConflictGroups covenants specialities ascending art skillBooks blazons buff"
+export collections="generals generalConflictGroups covenants specialities ascendingAttributes art skillBooks blazons buff"
 
-find . -type d -mindepth 1 -maxdepth 1 ! -name 'bin' ! -name 'node_modules' ! -name 'exports' ! -name 'monster_reports' | while read -r line; do
+for line in ${collections[@]}; do
   c=$(basename "$line")
   echo $c
+
   if [ -d "$OUTPUTDIR/$c" ]; then
     rm -rf rm -rf "$OUTPUTDIR/$c"
   fi

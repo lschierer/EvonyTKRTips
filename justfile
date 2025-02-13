@@ -10,20 +10,22 @@ export ROOT := `pwd`
 install:
   ${PNPM} install
 
+[working-directory: 'packages/greenwood']
 dev: install parse
-  cd packages/starlight && ${PNPM} run dev
+  ${PNPM} run dev
 
 check: install
   cd packages/starlight && ${NPX} tsc --noEmit -p .;
 
+[working-directory: 'packages/greenwood']
 build: install parse
-  cd packages/starlight && ${PNPM} run build
+  ${PNPM} run build
 
 [working-directory: 'packages/assets']
 parse: install
   ./bin/createCollections.sh -o "../starlight/src/content"
   ./bin/createCollections.sh -o "../greenwood/src/assets/collections"
 
-
+[working-directory: 'packages/infrastructure']
 deploy: build
-  cd infrastructure && pulumi up
+  pulumi up
