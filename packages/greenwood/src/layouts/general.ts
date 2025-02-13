@@ -6,9 +6,9 @@ import { type GeneralAscending } from "../schemas/ascending.ts";
 import { type Speciality } from "../schemas/specialities.ts";
 import { type Buff } from "../schemas/buff.ts";
 
-import { getSkillBook } from "../lib/collections/skillBooks.ts";
-import { getAscendingAttributes } from "../lib/collections/ascendingAttributes.ts";
-import { getSpeciality } from "../lib/collections/specialities.ts";
+import SkillBooksCollection from "../lib/collections/skillBooks.ts";
+import SpecialitiesCollection from "../lib/collections/specialities.ts";
+import AscendingAttributesCollection from "../lib/collections/ascendingAttributes.ts";
 import "../components/sidebar.ts";
 
 import * as constants from "../schemas/constants.ts";
@@ -50,7 +50,7 @@ const getLayout = (compilation: Compilation, route: Route) => {
   `;
 };
 
-export const getMainSection = (general: General) => {
+export const getMainSection = async (general: General, depth: number = 1) => {
   return `
     <div class="general">
       <h2 class="spectrum-Heading spectrum-Heading--sizeXL">
@@ -76,8 +76,8 @@ export const getMainSection = (general: General) => {
           </ul>
         </div>
       </div>
-      ${getSpecialSkill(general)}
-      ${getSpecialities(general)}
+      ${await getSpecialSkill(general, depth)}
+      ${await getSpecialities(general, depth)}
     </div>
   `;
 };
@@ -149,11 +149,14 @@ const printSpecialityColor = (
   `;
 };
 
-const getSpecialities = (general: General) => {
+const getSpecialities = async (general: General, depth: number) => {
+  const specialitiesCollection = new SpecialitiesCollection();
+  await specialitiesCollection.initialize(depth);
+
   const specialities = new Array<Speciality>();
   let hasUnknown: boolean = false;
   general.specialities.map((specialName) => {
-    const s = getSpeciality(specialName);
+    const s = specialitiesCollection.getSpeciality(specialName);
     if (s) {
       specialities.push(s);
     } else {
@@ -262,10 +265,11 @@ const printAscendingRows = (acendingDetails: GeneralAscending, index = 0) => {
   return template;
 };
 
-const getAscendingDetails = (general: General) => {
-  const ascendingDetails: GeneralAscending | undefined = getAscendingAttributes(
-    general.id
-  );
+const getAscendingDetails = async (general: General, depth: number) => {
+  const ascendingAttributesCollection = new AscendingAttributesCollection();
+  await ascendingAttributesCollection.initialize(depth);
+  const ascendingDetails: GeneralAscending | undefined =
+    ascendingAttributesCollection.getAscendingAttributes(general.id);
   if (ascendingDetails) {
     return `
       <div class="AscendingDetails">
@@ -296,8 +300,12 @@ const getAscendingDetails = (general: General) => {
   }
 };
 
-const getSpecialSkill = (general: General) => {
-  const skillbook: SkillBook | undefined = getSkillBook(general.book);
+const getSpecialSkill = async (general: General, depth: number) => {
+  const skillBooksCollection = new SkillBooksCollection();
+  await skillBooksCollection.initialize(depth);
+  const skillbook: SkillBook | undefined = skillBooksCollection.getSkillBook(
+    general.book
+  );
   if (skillbook) {
     const buffs = new Array<Buff>();
     if (Array.isArray(skillbook.buff)) {
@@ -356,7 +364,7 @@ const getSpecialSkill = (general: General) => {
           <h4 class="spectrum-Heading spectrum-Heading--sizeM">
             ${skillbook.name} - Ascended:
           </h4>
-          ${getAscendingDetails(general)}
+          ${await getAscendingDetails(general, depth)}
         </div>
       `;
     }

@@ -27,10 +27,7 @@ const getLayout = (compilation: Compilation, route: Route) => {
       }
       ${
         route.route.toLowerCase().startsWith("/monsters/monstersimulator/")
-          ? `
-            <link rel="stylesheet" href="../styles/MonsterSimulator.css" />
-
-          `
+          ? `<link rel="stylesheet" href="../styles/MonsterSimulator.css" />`
           : ""
       }
 
