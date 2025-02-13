@@ -1,4 +1,4 @@
-export const prerender = true;
+export const prerender = false;
 
 import debugFunction from "../../../lib/debug.ts";
 const DEBUG = debugFunction("pages/Generals/details/index.ts");
@@ -26,7 +26,13 @@ export default class GeneralDetailsPage extends HTMLElement {
     const params = new URLSearchParams(
       request.url.slice(request.url.indexOf("?"))
     );
+    if (DEBUG) {
+      console.log(`found params ${params}`);
+    }
     this._generalName = params.get("name") ?? "";
+    if (DEBUG) {
+      console.log(`generalName is ${this._generalName}`);
+    }
   }
 
   connectedCallback() {
