@@ -1,0 +1,12 @@
+name: EvonyTKRTips
+description: Infrastructure for the Evony TKR Tips website
+runtime:
+  name: nodejs
+  options:
+    packagemanager: pnpm
+    typescript: false
+    nodeargs: --import tsx/esm
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: aws-typescript

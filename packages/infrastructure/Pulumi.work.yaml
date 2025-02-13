@@ -1,0 +1,9 @@
+config:
+  aws:region: us-east-2
+  aws:profile: home
+  EvonyTKRTips:certificateArn: "true"
+  EvonyTKRTips:includeWWW: "true"
+  EvonyTKRTips:targetDomain: work.evonytkrtips.net
+  EvonyTKRTips:hostedZoneId: Z02705452UES0AYN9485J
+  EvonyTKRTips:hostedZoneID: Z02705452UES0AYN9485J
+  EvonyTKRTips:pathToWebsiteContents: ../greenwood/public/
