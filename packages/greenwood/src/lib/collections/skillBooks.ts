@@ -10,7 +10,7 @@ await Promise.all(
     if (DEBUG) {
       console.log(`item is ${item}`);
     }
-    await import(`../../assets/collections/skillBooks/${item}`, {
+    await import(`@evonytkrtips/assets/skillBooks/${item}`, {
       with: { type: "json" },
     })
       .then((jsondata: object) => {

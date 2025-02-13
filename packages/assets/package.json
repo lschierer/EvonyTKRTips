@@ -1,10 +1,23 @@
 {
-  "name": "assets",
-  "version": "1.0.0",
+  "name": "@evonytkrtips/assets",
+  "version": "1.0.1",
   "description": "",
   "type": "module",
   "author": "Luke Schierer",
   "license": "ISC",
+  "main": "./exports/index.ts",
+  "exports": {
+    ".": "./exports/index.ts",
+    "./art/*.json": "./exports/art/*.json",
+    "./ascendingAttributes/*.json": "./exports/ascendingAttributes/*.json",
+    "./blazons/*.json": "./exports/blazons/*.json",
+    "./buff/*.json": "./exports/buff/*.json",
+    "./covenants/*.json": "./exports/covenants/*.json",
+    "./generalConflictGroups/*.json": "./exports/generalConflictGroups/*.json",
+    "./generals/*.json": "./exports/generals/*.json",
+    "./skillBooks/*.json": "./exports/skillBooks/*.json",
+    "./specialities/*.json": "./exports/specialities/*.json"
+  },
   "dependencies": {
     "quicktype": "^23.0.171"
   }

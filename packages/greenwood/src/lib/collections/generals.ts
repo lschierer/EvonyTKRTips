@@ -10,7 +10,12 @@ await Promise.all(
     if (DEBUG) {
       console.log(`gf is ${gf}`);
     }
-    await import(`../../assets/collections/generals/${gf}`, {
+
+    const filepath = `@evonytkrtips/assets/generals/${gf}`;
+    if (DEBUG) {
+      console.log(`filepath is ${filepath.toString()}`);
+    }
+    await import(filepath.toString(), {
       with: { type: "json" },
     })
       .then((jsondata: object) => {
@@ -43,5 +48,10 @@ export const getAllGenerals: () => General[] = () => {
 };
 
 export const getGeneral = (name: string) => {
+  if (DEBUG) {
+    console.log(
+      `searching for general ${name} from amoung ${generals.length} generals`
+    );
+  }
   return generals.find((g) => !g.id.localeCompare(name));
 };

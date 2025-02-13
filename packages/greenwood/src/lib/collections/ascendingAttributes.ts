@@ -10,7 +10,7 @@ await Promise.all(
     if (DEBUG) {
       console.log(`item is ${item}`);
     }
-    await import(`../../assets/collections/ascendingAttributes/${item}`, {
+    await import(`@evonytkrtips/assets/ascendingAttributes/${item}`, {
       with: { type: "json" },
     })
       .then((jsondata: object) => {
