@@ -1,10 +1,10 @@
 import {
   LitElement,
   css,
-  unsafeCSS,
   type TemplateResult,
-  type CSSResultGroup,
   type PropertyValues,
+  type CSSResultArray,
+  ,
 } from "lit";
 import { customElement } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
@@ -33,45 +33,47 @@ import stores from "./pairingstores.ts";
 
 @customElement("pair-selector")
 export class PairSelectorForm extends SignalWatcher(LitElement) {
-  static override styles?: CSSResultGroup = [
-    unsafeCSS(SpectrumCSSpopover),
-    unsafeCSS(SpectrumCSSfieldlabel),
-    unsafeCSS(SpectrumCssfieldgroup),
-    unsafeCSS(SpectrumCSSform),
-    unsafeCSS(SpectrumCSSmenu),
-    unsafeCSS(SpectrumCSSpagination),
-    unsafeCSS(SpectrumCSSpicker),
-    unsafeCSS(SpectrumCSSstepper),
-    unsafeCSS(SpectrumCSStextfield),
-    unsafeCSS(SpectrumCSSradio),
-    css`
-      .pairSelectionValuesForm {
-        border: 1px solid var(--sl-color-accent);
-        padding: 1rem;
-        margin: 0.5rem;
-      }
+  static override get styles(): CSSResultArray {
+    return [
+      SpectrumCSSpopover,
+      SpectrumCSSfieldlabel,
+      SpectrumCssfieldgroup,
+      SpectrumCSSform,
+      SpectrumCSSmenu,
+      SpectrumCSSpagination,
+      SpectrumCSSpicker,
+      SpectrumCSSstepper,
+      SpectrumCSStextfield,
+      SpectrumCSSradio,
+      css`
+        .pairSelectionValuesForm {
+          border: 1px solid var(--sl-color-accent);
+          padding: 1rem;
+          margin: 0.5rem;
+        }
 
-      .overallOptions {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        width: fit-content;
-      }
+        .overallOptions {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          width: fit-content;
+        }
 
-      .primaryOptions,
-      .secondaryOptions {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        width: fit-content;
-      }
+        .primaryOptions,
+        .secondaryOptions {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          width: fit-content;
+        }
 
-      div.spectrum-Form-item {
-        padding-left: 2px;
-        padding-right: 0.5rem;
-      }
-    `,
-  ];
+        div.spectrum-Form-item {
+          padding-left: 2px;
+          padding-right: 0.5rem;
+        }
+      `,
+    ];
+  }
 
   protected renderUseCase = () => {
     return html`

@@ -1,4 +1,4 @@
-import { LitElement, html, unsafeCSS, css, type PropertyValues } from "lit";
+import { LitElement, html, css, type PropertyValues } from "lit";
 import { createRef, ref, type Ref } from "lit/directives/ref.js";
 
 import "./BuffTable.ts";
@@ -12,7 +12,7 @@ export default class MonsterSimulator extends LitElement {
   private tab1Ref: Ref<HTMLDivElement> = createRef();
   private tab2Ref: Ref<HTMLDivElement> = createRef();
   static override styles = [
-    unsafeCSS(SpectrumCSStabs),
+    SpectrumCSStabs,
     css`
       div.spectrum-Tabs {
         background-color: var(--spectrum-green-background-color-default);

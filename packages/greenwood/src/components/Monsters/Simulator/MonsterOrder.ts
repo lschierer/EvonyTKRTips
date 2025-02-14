@@ -3,14 +3,8 @@ import SpectrumCSSstepper from "@spectrum-css/stepper/index.css" with { type: "c
 
 import { z } from "zod";
 
-import {
-  LitElement,
-  html,
-  unsafeCSS,
-  css,
-  type CSSResultGroup,
-  nothing,
-} from "lit";
+import { LitElement, html, css, nothing } from "lit";
+
 import { customElement } from "lit/decorators.js";
 
 import { SignalWatcher } from "@lit-labs/signals";
@@ -40,9 +34,9 @@ export default class MonsterOrder extends SignalWatcher(LitElement) {
     }
   };
 
-  static override styles: CSSResultGroup = [
-    unsafeCSS(SpectrumCSStextfield),
-    unsafeCSS(SpectrumCSSstepper),
+  static override styles = [
+    SpectrumCSStextfield,
+    SpectrumCSSstepper,
     css`
       input.spectrum-Textfield-input.spectrum-Stepper-input {
         width: 4rem;

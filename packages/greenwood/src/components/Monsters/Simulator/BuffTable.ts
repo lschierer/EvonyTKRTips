@@ -7,14 +7,7 @@ import {
   TableController,
 } from "@tanstack/lit-table";
 
-import {
-  LitElement,
-  html,
-  unsafeCSS,
-  css,
-  type CSSResultGroup,
-  nothing,
-} from "lit";
+import { LitElement, html, css, type CSSResultGroup, nothing } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
 import { styleMap } from "lit/directives/style-map.js";
@@ -365,9 +358,9 @@ export default class BuffTable extends SignalWatcher(LitElement) {
     `;
   };
   static override styles: CSSResultGroup = [
-    unsafeCSS(SpectrumCSSTable),
-    unsafeCSS(SpectrumCSStextfield),
-    unsafeCSS(SpectrumCSSstepper),
+    SpectrumCSSTable,
+    SpectrumCSStextfield,
+    SpectrumCSSstepper,
     css`
       table#BuffTable {
         display: grid;

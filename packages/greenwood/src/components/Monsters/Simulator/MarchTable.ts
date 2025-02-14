@@ -1,4 +1,4 @@
-import { LitElement, html, unsafeCSS, css, type CSSResultGroup } from "lit";
+import { LitElement, html, css, type CSSResultGroup } from "lit";
 import { customElement } from "lit/decorators.js";
 
 import { z } from "zod";
@@ -19,11 +19,11 @@ import simulatorState from "./state.ts";
 @customElement("march-table")
 export default class MarchTable extends LitElement {
   static override styles: CSSResultGroup = [
-    unsafeCSS(SpectrumCSSTable),
-    unsafeCSS(SpectrumCSStextfield),
-    unsafeCSS(SpectrumCSSstepper),
-    unsafeCSS(SpectrumCSSpicker),
-    unsafeCSS(SpectrumCSSmenu),
+    SpectrumCSSTable,
+    SpectrumCSStextfield,
+    SpectrumCSSstepper,
+    SpectrumCSSpicker,
+    SpectrumCSSmenu,
     css`
       input.spectrum-Textfield-input.spectrum-Stepper-input {
         width: 4rem;
