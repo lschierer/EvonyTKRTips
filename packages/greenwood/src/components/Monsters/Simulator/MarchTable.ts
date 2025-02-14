@@ -8,6 +8,7 @@ import SpectrumCSStextfield from "@spectrum-css/textfield/index.css" with { type
 import SpectrumCSSstepper from "@spectrum-css/stepper/index.css" with { type: "css" };
 import SpectrumCSSpicker from "@spectrum-css/picker/index.css" with { type: "css" };
 import SpectrumCSSmenu from "@spectrum-css/menu/index.css" with { type: "css" };
+import SpectrumCSSinfieldbutton from "@spectrum-css/infieldbutton/index.css" with { type: "css" };
 
 import * as constants from "../../../schemas/constants.ts";
 
@@ -24,6 +25,7 @@ export default class MarchTable extends LitElement {
     SpectrumCSSstepper,
     SpectrumCSSpicker,
     SpectrumCSSmenu,
+    SpectrumCSSinfieldbutton,
     css`
       input.spectrum-Textfield-input.spectrum-Stepper-input {
         width: 4rem;
@@ -169,26 +171,79 @@ export default class MarchTable extends LitElement {
               </select>
             </td>
             <td class="spectrum-Table-cell">
-              <input
-                id="marchSize"
-                class="spectrum-Textfield-input spectrum-Stepper-input"
-                type="number"
-                min="0"
-                @change="${(e: Event) => {
-                  const target = (e as CustomEvent)
-                    .target as HTMLInputElement | null;
-                  if (target) {
-                    const valid = z.number().min(0).safeParse(+target.value);
-                    if (valid.success) {
-                      simulatorState.marchSize.set(valid.data);
-                      this.requestUpdate();
-                    } else {
-                      console.error(`error parsing, ${valid.error.message}`);
-                    }
-                  }
-                }}"
-                value="${simulatorState.marchSize.get()}"
-              />
+              <div
+                class=" spectrum-Stepper spectrum-Stepper--sizeM "
+                id="stepper-vpbqf"
+                style="--mod-actionbutton-icon-size:10px;"
+              >
+                <div
+                  class="spectrum-Textfield spectrum-Textfield--sizeM spectrum-Stepper-textfield"
+                  style=""
+                  id="stepper-vpbqf-input"
+                >
+                  <input
+                    type="number"
+                    id="marchSize"
+                    class=" spectrum-Textfield-input spectrum-Stepper-input "
+                    min="0"
+                    @change="${(e: Event) => {
+                      const target = (e as CustomEvent)
+                        .target as HTMLInputElement | null;
+                      if (target) {
+                        const valid = z
+                          .number()
+                          .min(0)
+                          .safeParse(+target.value);
+                        if (valid.success) {
+                          simulatorState.marchSize.set(valid.data);
+                          this.requestUpdate();
+                        } else {
+                          console.error(
+                            `error parsing, ${valid.error.message}`
+                          );
+                        }
+                      }
+                    }}"
+                    value="${simulatorState.marchSize.get()}"
+                  />
+                </div>
+                <span class="spectrum-Stepper-buttons">
+                  <button
+                    aria-haspopup="listbox"
+                    type="button"
+                    class=" spectrum-InfieldButton spectrum-InfieldButton--sizeM spectrum-InfieldButton--top spectrum-Stepper-button "
+                    tabindex="-1"
+                  >
+                    <div class="spectrum-InfieldButton-fill">
+                      <iconify-icon
+                        icon="ion:chevron-up"
+                        width="1rem"
+                        focusable="false"
+                        aria-hidden="true"
+                        role="img"
+                        class=" spectrum-Icon spectrum-Icon--medium spectrum-InfieldButton-icon"
+                      ></iconify-icon>
+                    </div>
+                  </button>
+                  <button
+                    aria-haspopup="listbox"
+                    type="button"
+                    class=" spectrum-InfieldButton spectrum-InfieldButton--sizeM spectrum-InfieldButton--bottom spectrum-Stepper-button "
+                    tabindex="-1"
+                  >
+                    <div class="spectrum-InfieldButton-fill">
+                      <iconify-icon
+                        icon="ion:chevron-down"
+                        width="1rem"
+                        focusable="false"
+                        aria-hidden="true"
+                        role="img"
+                        class=" spectrum-Icon spectrum-Icon--medium spectrum-InfieldButton-icon"
+                      ></iconify-icon>
+                    </div>
+                  </button>
+                </span>
+              </div>
             </td>
           </tbody>
         </table>
