@@ -21,6 +21,9 @@ import * as constants from "../../../schemas/constants.ts";
 import SpectrumCSSTable from "@spectrum-css/table/index.css" with { type: "css" };
 import SpectrumCSStextfield from "@spectrum-css/textfield/index.css" with { type: "css" };
 import SpectrumCSSstepper from "@spectrum-css/stepper/index.css" with { type: "css" };
+import SpectrumCSSinfieldbutton from "@spectrum-css/infieldbutton/index.css" with { type: "css" };
+
+import "iconify-icon";
 
 import simulatorState from "./state.ts";
 
@@ -64,7 +67,7 @@ export default class BuffTable extends SignalWatcher(LitElement) {
         {
           id: "three",
           cell: (props) => {
-            return props.row.index == 6 ? "#" : "%";
+            return props.row.index == 5 ? "#" : "%";
           },
         },
       ],
@@ -190,79 +193,128 @@ export default class BuffTable extends SignalWatcher(LitElement) {
 
       return html`
         <div
-          id="${props.column.id}-${props.row.index}"
-          class="spectrum-Textfield spectrumText-field--sizeM spectrum-Stepper-textfield"
+          class=" spectrum-Stepper spectrum-Stepper--sizeM "
+          id="stepper-vpbqf"
+          style="--mod-actionbutton-icon-size:10px;"
         >
-          <input
-            id="${props.column.id}-${props.row.id}"
-            class="spectrum-Textfield-input spectrum-Stepper-input"
-            type="number"
-            min="0"
-            @change="${(e: Event) => {
-              const target = (e as CustomEvent)
-                .target as HTMLInputElement | null;
-              if (target) {
-                const valid = z.number().min(0).safeParse(+target.value);
-                if (valid.success) {
-                  const key1 = props.column.id.split("_").shift() ?? "";
-                  const key2 = props.column.id.split("_").pop();
-                  const key3 = key1.localeCompare("ground")
-                    ? key1.localeCompare("mounted")
-                      ? key1.localeCompare("archer")
-                        ? key1.localeCompare("siege")
-                          ? constants.ClassEnum.Enum.All
-                          : constants.ClassEnum.Enum["Siege Machines"]
-                        : constants.ClassEnum.Enum["Ranged Troops"]
-                      : constants.ClassEnum.Enum["Mounted Troops"]
-                    : constants.ClassEnum.Enum["Ground Troops"];
-                  if (
-                    key3.localeCompare(constants.ClassEnum.Enum.All) &&
-                    key2 != undefined
-                  ) {
-                    if (DEBUG) {
-                      console.log(
-                        `key1 is ${key1}`,
-                        `key2 is ${key2}`,
-                        `index is ${props.row.index}`
-                      );
-                    }
+          <div
+            class="spectrum-Textfield spectrum-Textfield--sizeM spectrum-Stepper-textfield"
+            style=""
+            id="stepper-vpbqf-input"
+          >
+            <input
+              type="number"
+              id="${props.column.id}-${props.row.id}"
+              class=" spectrum-Textfield-input spectrum-Stepper-input "
+              min="0"
+              @change="${(e: Event) => {
+                const target = (e as CustomEvent)
+                  .target as HTMLInputElement | null;
+                if (target) {
+                  const valid = z.number().min(0).safeParse(+target.value);
+                  if (valid.success) {
+                    const key1 = props.column.id.split("_").shift() ?? "";
+                    const key2 = props.column.id.split("_").pop();
+                    const key3 = key1.localeCompare("ground")
+                      ? key1.localeCompare("mounted")
+                        ? key1.localeCompare("archer")
+                          ? key1.localeCompare("siege")
+                            ? constants.ClassEnum.Enum.All
+                            : constants.ClassEnum.Enum["Siege Machines"]
+                          : constants.ClassEnum.Enum["Ranged Troops"]
+                        : constants.ClassEnum.Enum["Mounted Troops"]
+                      : constants.ClassEnum.Enum["Ground Troops"];
+                    if (
+                      key3.localeCompare(constants.ClassEnum.Enum.All) &&
+                      key2 != undefined
+                    ) {
+                      if (DEBUG) {
+                        console.log(
+                          `key1 is ${key1}`,
+                          `key2 is ${key2}`,
+                          `index is ${props.row.index}`
+                        );
+                      }
 
-                    if (!key2.toLowerCase().localeCompare("attack")) {
-                      simulatorState.setAttackBuff(
-                        key3,
-                        props.row.index,
-                        valid.data
-                      );
+                      if (!key2.toLowerCase().localeCompare("attack")) {
+                        simulatorState.setAttackBuff(
+                          key3,
+                          props.row.index,
+                          valid.data
+                        );
+                      }
+                      if (!key2.toLowerCase().localeCompare("defense")) {
+                        simulatorState.setDefenseBuff(
+                          key3,
+                          props.row.index,
+                          valid.data
+                        );
+                      }
+                      if (!key2.toLowerCase().localeCompare("hp")) {
+                        simulatorState.setHPBuff(
+                          key3,
+                          props.row.index,
+                          valid.data
+                        );
+                      }
+                      this.requestUpdate("BuffData");
                     }
-                    if (!key2.toLowerCase().localeCompare("defense")) {
-                      simulatorState.setDefenseBuff(
-                        key3,
-                        props.row.index,
-                        valid.data
-                      );
-                    }
-                    if (!key2.toLowerCase().localeCompare("hp")) {
-                      simulatorState.setHPBuff(
-                        key3,
-                        props.row.index,
-                        valid.data
-                      );
-                    }
-                    this.requestUpdate("BuffData");
+                  } else {
+                    console.error(`error parsing, ${valid.error.message}`);
                   }
-                } else {
-                  console.error(`error parsing, ${valid.error.message}`);
                 }
-              }
-            }}"
-            ?disabled=${props.row.index >= 7 ||
-            (props.row.index == 6 &&
-              props.column.id.toLowerCase().endsWith("hp"))}
-            value="${props.row.index == 6 &&
-            props.column.id.toLowerCase().endsWith("hp")
-              ? ""
-              : cellValue}"
-          />
+              }}"
+              ?disabled=${props.row.index >= 7 ||
+              (props.row.index == 6 &&
+                props.column.id.toLowerCase().endsWith("hp"))}
+              value="${props.row.index == 6 &&
+              props.column.id.toLowerCase().endsWith("hp")
+                ? ""
+                : cellValue}"
+            />
+          </div>
+          <span class="spectrum-Stepper-buttons">
+            <button
+              aria-haspopup="listbox"
+              type="button"
+              class=" spectrum-InfieldButton spectrum-InfieldButton--sizeM spectrum-InfieldButton--top spectrum-Stepper-button "
+              tabindex="-1"
+              ?disabled=${props.row.index >= 7 ||
+              (props.row.index == 6 &&
+                props.column.id.toLowerCase().endsWith("hp"))}
+            >
+              <div class="spectrum-InfieldButton-fill">
+                <iconify-icon
+                  icon="ion:chevron-up"
+                  width="1rem"
+                  focusable="false"
+                  aria-hidden="true"
+                  role="img"
+                  class=" spectrum-Icon spectrum-Icon--medium spectrum-InfieldButton-icon"
+                ></iconify-icon>
+              </div>
+            </button>
+            <button
+              aria-haspopup="listbox"
+              type="button"
+              class=" spectrum-InfieldButton spectrum-InfieldButton--sizeM spectrum-InfieldButton--bottom spectrum-Stepper-button "
+              tabindex="-1"
+              ?disabled=${props.row.index >= 7 ||
+              (props.row.index == 6 &&
+                props.column.id.toLowerCase().endsWith("hp"))}
+            >
+              <div class="spectrum-InfieldButton-fill">
+                <iconify-icon
+                  icon="ion:chevron-down"
+                  width="1rem"
+                  focusable="false"
+                  aria-hidden="true"
+                  role="img"
+                  class=" spectrum-Icon spectrum-Icon--medium spectrum-InfieldButton-icon"
+                ></iconify-icon>
+              </div>
+            </button>
+          </span>
         </div>
       `;
     } else {
@@ -361,6 +413,7 @@ export default class BuffTable extends SignalWatcher(LitElement) {
     SpectrumCSSTable,
     SpectrumCSStextfield,
     SpectrumCSSstepper,
+    SpectrumCSSinfieldbutton,
     css`
       table#BuffTable {
         display: grid;
@@ -387,11 +440,22 @@ export default class BuffTable extends SignalWatcher(LitElement) {
           grid-row-end: span 1;
           display: grid;
           grid-template-columns: subgrid;
+          grid-template-rows: subgrid;
         }
+
+        & td {
+          height: 100%;
+          width: 100%;
+        }
+      }
+
+      div.spectrum-Textfield.spectrum-Textfield--sizeM {
+        width: 4.5rem;
       }
 
       input.spectrum-Textfield-input.spectrum-Stepper-input {
         width: 4rem;
+        height: 2rem;
       }
 
       div.secondaryTables {
@@ -431,54 +495,167 @@ export default class BuffTable extends SignalWatcher(LitElement) {
                 <span class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">%</span>
               </td>
               <td class="spectrum-Table-cell">
-                <input
-                  id="MonsterDebuffAttack"
-                  class="spectrum-Textfield-input spectrum-Stepper-input"
-                  type="number"
-                  min="0"
-                  @change="${(e: Event) => {
-                    const target = (e as CustomEvent)
-                      .target as HTMLInputElement | null;
-                    if (target) {
-                      const valid = z.number().min(0).safeParse(+target.value);
-                      if (valid.success) {
-                        simulatorState.setAttackDebuff(
-                          simulatorState.troopType.get(),
-                          valid.data
-                        );
-                        this.requestUpdate("DebuffData");
-                      } else {
-                        console.error(`error parsing, ${valid.error.message}`);
-                      }
-                    }
-                  }}"
-                  value="${simulatorState.getAttackDebuff(simulatorState.troopType.get())}"
-                />
+                <div
+                  class=" spectrum-Stepper spectrum-Stepper--sizeM "
+                  id="stepper-vpbqf"
+                  style="--mod-actionbutton-icon-size:10px;"
+                >
+                  <div
+                    class="spectrum-Textfield spectrum-Textfield--sizeM spectrum-Stepper-textfield"
+                    style=""
+                    id="stepper-vpbqf-input"
+                  >
+                    <input
+                      type="number"
+                      id="MonsterDebuffAttack"
+                      class=" spectrum-Textfield-input spectrum-Stepper-input "
+                      min="0"
+                      @change="${(e: Event) => {
+                        const target = (e as CustomEvent)
+                          .target as HTMLInputElement | null;
+                        if (target) {
+                          const valid = z
+                            .number()
+                            .min(0)
+                            .safeParse(+target.value);
+                          if (valid.success) {
+                            simulatorState.setAttackDebuff(
+                              simulatorState.troopType.get(),
+                              valid.data
+                            );
+                            this.requestUpdate("DebuffData");
+                          } else {
+                            console.error(
+                              `error parsing, ${valid.error.message}`
+                            );
+                          }
+                        }
+                      }}"
+                      value="${simulatorState.getAttackDebuff(simulatorState.troopType.get())}"
+                    />
+                  </div>
+                  <span class="spectrum-Stepper-buttons">
+                    <button
+                      aria-haspopup="listbox"
+                      type="button"
+                      class=" spectrum-InfieldButton spectrum-InfieldButton--sizeM spectrum-InfieldButton--top spectrum-Stepper-button "
+                      tabindex="-1"
+
+                    >
+                      <div class="spectrum-InfieldButton-fill">
+                        <iconify-icon
+                          icon="ion:chevron-up"
+                          width="1rem"
+                          focusable="false"
+                          aria-hidden="true"
+                          role="img"
+                          class=" spectrum-Icon spectrum-Icon--medium spectrum-InfieldButton-icon"
+                        ></iconify-icon>
+                      </div>
+                    </button>
+                    <button
+                      aria-haspopup="listbox"
+                      type="button"
+                      class=" spectrum-InfieldButton spectrum-InfieldButton--sizeM spectrum-InfieldButton--bottom spectrum-Stepper-button "
+                      tabindex="-1"
+
+                    >
+                      <div class="spectrum-InfieldButton-fill">
+                        <iconify-icon
+                          icon="ion:chevron-down"
+                          width="1rem"
+                          focusable="false"
+                          aria-hidden="true"
+                          role="img"
+                          class=" spectrum-Icon spectrum-Icon--medium spectrum-InfieldButton-icon"
+                        ></iconify-icon>
+                      </div>
+                    </button>
+                  </span>
+                </div>
+
               </td>
               <td class="spectrum-Table-cell">
-                <input
-                  id="MonsterDebuffDefense"
-                  class="spectrum-Textfield-input spectrum-Stepper-input"
-                  type="number"
-                  min="0"
-                  @change="${(e: Event) => {
-                    const target = (e as CustomEvent)
-                      .target as HTMLInputElement | null;
-                    if (target) {
-                      const valid = z.number().min(0).safeParse(+target.value);
-                      if (valid.success) {
-                        simulatorState.setDefenseDebuff(
-                          simulatorState.troopType.get(),
-                          valid.data
-                        );
-                        this.requestUpdate("DebuffData");
-                      } else {
-                        console.error(`error parsing, ${valid.error.message}`);
-                      }
-                    }
-                  }}"
-                  value="${simulatorState.getDefenseDebuff(simulatorState.troopType.get())}"
-                />
+                <div
+                  class=" spectrum-Stepper spectrum-Stepper--sizeM "
+                  id="stepper-vpbqf"
+                  style="--mod-actionbutton-icon-size:10px;"
+                >
+                  <div
+                    class="spectrum-Textfield spectrum-Textfield--sizeM spectrum-Stepper-textfield"
+                    style=""
+                    id="stepper-vpbqf-input"
+                  >
+                    <input
+                      type="number"
+                      id="MonsterDebuffDefense"
+                      class=" spectrum-Textfield-input spectrum-Stepper-input "
+                      min="0"
+                      @change="${(e: Event) => {
+                        const target = (e as CustomEvent)
+                          .target as HTMLInputElement | null;
+                        if (target) {
+                          const valid = z
+                            .number()
+                            .min(0)
+                            .safeParse(+target.value);
+                          if (valid.success) {
+                            simulatorState.setDefenseDebuff(
+                              simulatorState.troopType.get(),
+                              valid.data
+                            );
+                            this.requestUpdate("DebuffData");
+                          } else {
+                            console.error(
+                              `error parsing, ${valid.error.message}`
+                            );
+                          }
+                        }
+                      }}"
+
+                      value="${simulatorState.getDefenseDebuff(simulatorState.troopType.get())}"
+                    />
+                  </div>
+                  <span class="spectrum-Stepper-buttons">
+                    <button
+                      aria-haspopup="listbox"
+                      type="button"
+                      class=" spectrum-InfieldButton spectrum-InfieldButton--sizeM spectrum-InfieldButton--top spectrum-Stepper-button "
+                      tabindex="-1"
+
+                    >
+                      <div class="spectrum-InfieldButton-fill">
+                        <iconify-icon
+                          icon="ion:chevron-up"
+                          width="1rem"
+                          focusable="false"
+                          aria-hidden="true"
+                          role="img"
+                          class=" spectrum-Icon spectrum-Icon--medium spectrum-InfieldButton-icon"
+                        ></iconify-icon>
+                      </div>
+                    </button>
+                    <button
+                      aria-haspopup="listbox"
+                      type="button"
+                      class=" spectrum-InfieldButton spectrum-InfieldButton--sizeM spectrum-InfieldButton--bottom spectrum-Stepper-button "
+                      tabindex="-1"
+
+                    >
+                      <div class="spectrum-InfieldButton-fill">
+                        <iconify-icon
+                          icon="ion:chevron-down"
+                          width="1rem"
+                          focusable="false"
+                          aria-hidden="true"
+                          role="img"
+                          class=" spectrum-Icon spectrum-Icon--medium spectrum-InfieldButton-icon"
+                        ></iconify-icon>
+                      </div>
+                    </button>
+                  </span>
+                </div>
+
               </td>
             </tr>
           </tbody>
@@ -499,10 +676,10 @@ export default class BuffTable extends SignalWatcher(LitElement) {
     const tableHeaderRowCount = buffTable.getHeaderGroups().length + 1;
     const tableStyle = {};
     const tableHeaderStyle = {
-      "grid-template-rows": `repeat(${tableHeaderRowCount}, 1.5rem)`,
+      "grid-template-rows": `repeat(${tableHeaderRowCount - 1}, 1.5rem)`,
     };
     const tableBodyStyle = {
-      "grid-template-rows": `repeat(${buffTable.getRowModel().rows.length + 1}, 1.5rem)`,
+      "grid-template-rows": `repeat(${buffTable.getRowModel().rows.length}, 2.5rem)`,
     };
     return html`
       <table

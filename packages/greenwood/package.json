@@ -58,6 +58,7 @@
     "@spectrum-css/fieldlabel": "^10.1.0",
     "@spectrum-css/form": "^1.1.0",
     "@spectrum-css/icon": "^9.1.0",
+    "@spectrum-css/infieldbutton": "^6.1.0",
     "@spectrum-css/link": "^7.1.0",
     "@spectrum-css/menu": "^9.1.0",
     "@spectrum-css/page": "^9.1.0",
