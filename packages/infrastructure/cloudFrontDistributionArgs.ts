@@ -6,6 +6,7 @@ import * as path from "path";
 import { tenMinutes } from "./utils";
 
 import { type Config } from "./index";
+import { GreenWoodCacheBehaviors } from "./greenwoodAdapter";
 
 export function createDistributionArgs(
   contentBucket: aws.s3.BucketV2,
@@ -14,7 +15,7 @@ export function createDistributionArgs(
   logsBucket: aws.s3.BucketV2,
   certificateArn: string | pulumi.OutputInstance<string>,
   distributionAliases: string[],
-  config: Config,
+  config: Config
 ) {
   // distributionArgs configures the CloudFront distribution. Relevant documentation:
   // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html
@@ -64,6 +65,7 @@ export function createDistributionArgs(
       defaultTtl: tenMinutes,
       maxTtl: tenMinutes,
     },
+    orderedCacheBehaviors: GreenWoodCacheBehaviors,
 
     // "All" is the most broad distribution, and also the most expensive.
     // "100" is the least broad, and also the least expensive.

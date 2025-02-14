@@ -1,18 +1,21 @@
 // Copyright 2016-2019, Pulumi Corporation.  All rights reserved.
 // Copyright 2024, Luke Schierer. All rights reserved.
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import * as aws from "@pulumi/aws";
 import * as pulumi from "@pulumi/pulumi";
-import * as fs from "fs";
 import mime from "mime";
 import * as path from "path";
 import {
   configureACL,
-  crawlDirectory,
   getDomainAndSubdomain,
+  crawlDirectory,
   createAliasRecord,
   tenMinutes,
 } from "./utils";
+
+import greenwoodSSRAdapter from "./greenwoodAdapter";
 
 import { createDistributionArgs } from "./cloudFrontDistributionArgs";
 
@@ -57,7 +60,7 @@ const contentBucketVersioning = new aws.s3.BucketVersioningV2(
     versioningConfiguration: {
       status: "Enabled",
     },
-  },
+  }
 );
 const bucketEncrpytion = new aws.s3.BucketServerSideEncryptionConfigurationV2(
   "bucketEncryption",
@@ -70,7 +73,7 @@ const bucketEncrpytion = new aws.s3.BucketServerSideEncryptionConfigurationV2(
         },
       },
     ],
-  },
+  }
 );
 
 const contentBucketLifeCycle = new aws.s3.BucketLifecycleConfigurationV2(
@@ -110,7 +113,7 @@ const contentBucketLifeCycle = new aws.s3.BucketLifecycleConfigurationV2(
         status: "Enabled",
       },
     ],
-  },
+  }
 );
 
 const shortName: string | pulumi.Output<string> = contentBucket.bucket.apply(
@@ -118,7 +121,7 @@ const shortName: string | pulumi.Output<string> = contentBucket.bucket.apply(
     const short: string = id.replace(/schierer.org.*$/, "-content");
     console.log(`short is ${short}`);
     return short;
-  },
+  }
 );
 
 // Generate Origin Access Identity to access the private s3 bucket.
@@ -126,7 +129,7 @@ const originAccessIdentity = new aws.cloudfront.OriginAccessIdentity(
   "originAccessIdentity",
   {
     comment: shortName.apply((shortName) => `${shortName}`),
-  },
+  }
 );
 
 // Enable CORS on the S3 bucket
@@ -163,12 +166,12 @@ const bucketPolicy = new aws.s3.BucketPolicy("bucketPolicy", {
 // Sync the contents of the source directory with the S3 bucket, which will in-turn show up on the CDN.
 const webContentsRootPath = path.join(
   process.cwd(),
-  config.pathToWebsiteContents,
+  config.pathToWebsiteContents
 );
 
 console.log("Syncing contents from local disk at", webContentsRootPath);
 
-crawlDirectory(webContentsRootPath, (filePath: string) => {
+const crawlCallback = (filePath: string) => {
   const relativeFilePath = filePath.replace(webContentsRootPath + "/", "");
   const contentFile = new aws.s3.BucketObject(
     relativeFilePath,
@@ -180,9 +183,12 @@ crawlDirectory(webContentsRootPath, (filePath: string) => {
     },
     {
       parent: contentBucket,
-    },
+    }
   );
-});
+};
+
+crawlDirectory(webContentsRootPath, crawlCallback);
+greenwoodSSRAdapter(webContentsRootPath);
 
 // logsBucket is an S3 bucket that will contain the CDN's request logs.
 const logsBucket = new aws.s3.BucketV2(`${config.targetDomain}-logs`);
@@ -214,7 +220,7 @@ if (
   const certificate = new aws.acm.Certificate(
     "certificate",
     certificateConfig,
-    { provider: eastRegion },
+    { provider: eastRegion }
   );
 
   const domainParts = getDomainAndSubdomain(config.targetDomain);
@@ -232,7 +238,7 @@ if (
       type: certificate.domainValidationOptions[0].resourceRecordType,
       records: [certificate.domainValidationOptions[0].resourceRecordValue],
       ttl: tenMinutes,
-    },
+    }
   );
 
   // if config.includeWWW ensure we validate the www subdomain as well
@@ -246,7 +252,7 @@ if (
         type: certificate.domainValidationOptions[1].resourceRecordType,
         records: [certificate.domainValidationOptions[1].resourceRecordValue],
         ttl: tenMinutes,
-      },
+      }
     );
   }
 
@@ -274,7 +280,7 @@ if (
       certificateArn: certificate.arn,
       validationRecordFqdns: validationRecordFqdns,
     },
-    { provider: eastRegion },
+    { provider: eastRegion }
   );
 
   certificateArn = certificateValidation.certificateArn;
@@ -288,7 +294,7 @@ const cloudFrontFunction = new aws.cloudfront.Function(
     code: handler.toString(),
     runtime: "cloudfront-js-2.0",
     name: cfFunctionName,
-  },
+  }
 );
 
 // if config.includeWWW include an alias for the www subdomain
@@ -303,7 +309,7 @@ const distributionArgs = createDistributionArgs(
   logsBucket,
   certificateArn,
   distributionAliases,
-  config,
+  config
 );
 
 const cdn = new aws.cloudfront.Distribution("cdn", distributionArgs);
