@@ -48,7 +48,6 @@
     "unified": "^11.0.5"
   },
   "dependencies": {
-    "@evonytkrtips/assets": "workspace:../assets",
     "@lit-labs/signals": "^0.1.2",
     "@lit/context": "^1.1.4",
     "@nanostores/lit": "^0.2.2",
