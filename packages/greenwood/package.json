@@ -17,7 +17,6 @@
     "@greenwood/plugin-postcss": "0.31.1",
     "@greenwood/plugin-typescript": "0.31.1",
     "@tsconfig/node22": "^22.0.0",
-    "@types/css": "^0.0.38",
     "@types/node": "^22.13.4",
     "@types/trusted-types": "^2.0.7",
     "autoprefixer": "^10.4.20",
