@@ -1,8 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "@tsconfig/node22/tsconfig.json",
-  "include": ["*.ts", "*.mts", "./stylelint.config.js"],
+  "include": ["*.ts", "*.mts", "./stylelint.config.js", "./globals.d.ts"],
   "compilerOptions": {
+    "types": ["node", "./globals.d.ts"],
     "strict": true,
     "strictNullChecks": true
   }

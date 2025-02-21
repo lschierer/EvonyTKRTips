@@ -1,4 +1,10 @@
-import { LitElement, html, css, type PropertyValues } from "lit";
+import {
+  LitElement,
+  html,
+  css,
+  type PropertyValues,
+  type CSSResultArray,
+} from "lit";
 import { createRef, ref, type Ref } from "lit/directives/ref.js";
 
 import "./BuffTable.ts";
@@ -11,14 +17,16 @@ import "iconify-icon";
 export default class MonsterSimulator extends LitElement {
   private tab1Ref: Ref<HTMLDivElement> = createRef();
   private tab2Ref: Ref<HTMLDivElement> = createRef();
-  static override styles = [
-    SpectrumCSStabs,
-    css`
-      div.spectrum-Tabs {
-        background-color: var(--spectrum-green-background-color-default);
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      SpectrumCSStabs,
+      css`
+        div.spectrum-Tabs {
+          background-color: var(--spectrum-green-background-color-default);
+        }
+      `,
+    ] as CSSResultArray;
+  }
 
   private changeTab = (event: Event, tab: string) => {
     this.renderRoot

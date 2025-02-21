@@ -238,9 +238,6 @@ importers:
       '@tsconfig/node22':
         specifier: ^22.0.0
         version: 22.0.0
-      '@types/css':
-        specifier: ^0.0.38
-        version: 0.0.38
       '@types/node':
         specifier: ^22.13.4
         version: 22.13.4
@@ -3593,9 +3590,6 @@ packages:
 
   '@types/cookies@0.9.0':
     resolution: {integrity: sha512-40Zk8qR147RABiQ7NQnBzWzDcjKzNrntB5BAmeGCb2p/MIyOE+4BVvc17wumsUqUw00bJYqoXFHYygQnEFh4/Q==}
-
-  '@types/css@0.0.38':
-    resolution: {integrity: sha512-FsAy4pBnrJb8qdKmIyDy582o4Xt8pHwpCwYRmIvXw4dslA7C4436oOM+8XNnMEsV/LSculbFNaZsBZmycDjARw==}
 
   '@types/d3-array@3.2.1':
     resolution: {integrity: sha512-Y2Jn2idRrLzUfAKV2LyRImR+y4oa2AntrgID95SHJxuMUrkNXmanDSed71sRNZysveJVt1hLLemQZIady0FpEg==}
@@ -13314,8 +13308,6 @@ snapshots:
       '@types/express': 5.0.0
       '@types/keygrip': 1.0.6
       '@types/node': 22.13.1
-
-  '@types/css@0.0.38': {}
 
   '@types/d3-array@3.2.1': {}
 

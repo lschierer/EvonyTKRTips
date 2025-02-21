@@ -1,9 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@tsconfig/node22/tsconfig.json",
-  "include": ["./**/*.ts", "./**/*.mts", "./**/*.tsx"],
+  "extends": "../../tsconfig.json",
+  "include": ["./**/*.ts", "./**/*.mts", "./**/*.tsx", "../../globals.d.ts"],
   "exclude": ["public"],
   "compilerOptions": {
+    "types": ["node", "../../globals.d.ts"],
     "lib": ["ES2023", "DOM", "DOM.Iterable"],
     "target": "ES2023",
     "module": "ESNext",

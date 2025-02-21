@@ -64,7 +64,7 @@ function getBody() {
   `;
 }
 
-async function getFrontmatter(
+function getFrontmatter(
   compilation: Compilation,
   route: Route,
   label: string,
