@@ -1,48 +1,45 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "../../tsconfig.json",
-  "include": ["./**/*.ts", "./**/*.mts", "./**/*.tsx", "../../globals.d.ts"],
-  "exclude": ["public"],
   "compilerOptions": {
-    "types": ["node", "../../globals.d.ts"],
+    "allowArbitraryExtensions": true,
+    "allowImportingTsExtensions": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "composite": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "isolatedModules": true,
     "lib": ["ES2023", "DOM", "DOM.Iterable"],
-    "target": "ES2023",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "isolatedModules": true,
-    "verbatimModuleSyntax": true,
     "noEmit": true,
-    "incremental": true,
-    "composite": true,
-
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
-    "noImplicitThis": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
     "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "plugins": [
       {
         "name": "ts-lit-plugin",
-        "strict": true,
         "rules": {
           "no-unknown-attribute": "off"
-        }
+        },
+        "strict": true
       }
     ],
-    "allowJs": true,
-    "allowImportingTsExtensions": true,
-    "allowArbitraryExtensions": true,
-    "experimentalDecorators": true,
-
-    "esModuleInterop": true,
     "skipLibCheck": true,
+    "strict": true,
+    "target": "ES2023",
+    "types": ["node", "../../globals.d.ts"],
     "useDefineForClassFields": false,
-
-    "baseUrl": "."
-  }
+    "verbatimModuleSyntax": true
+  },
+  "exclude": ["public"],
+  "include": ["./**/*.ts", "./**/*.mts", "./**/*.tsx", "../../globals.d.ts"]
 }

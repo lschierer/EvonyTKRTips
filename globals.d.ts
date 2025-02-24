@@ -1,5 +1,7 @@
+// ./src/globals.d.ts
+
+// Recognize all CSS files as module imports.
 declare module "*.css" {
-  import { type CSSResult } from "lit";
-  const content: CSSResult;
-  export default content;
+  const stylesheet: CSSStyleSheet;
+  export default stylesheet;
 }

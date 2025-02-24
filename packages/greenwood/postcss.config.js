@@ -1,20 +1,27 @@
 import path from "path";
-import postcssImport from "postcss-import";
-import postcssExtend from "postcss-extend";
-import nesting from "postcss-nesting";
-import cssnano from "cssnano";
-import autoprefixer from "autoprefixer";
 
+const plugins = {
+  "postcss-import": {
+    path: [
+      path.resolve(new URL(import.meta.url).pathname, "..", "node_modules"),
+    ],
+  },
+  "postcss-extend": {},
+  "postcss-nesting": {},
+  "postcss-sorting": {
+    order: ["custom-properties", "declarations", "at-rules", "rules"],
+    "properties-order": "alphabetical",
+  },
+  autoprefixer: {},
+};
+
+// Conditional plugin inclusion based on environment
+/*if (!process.env.__GWD_COMMAND__ === "serve") {
+  plugins["cssnano"] = {
+    preset: "default",
+  };
+}*/
+console.log(`postcss plugins are ${JSON.stringify(plugins)}`);
 export default {
-  plugins: [
-    postcssImport({
-      path: [
-        path.resolve(new URL(import.meta.url).pathname, "..", "node_modules"),
-      ],
-    }),
-    postcssExtend(),
-    nesting(),
-    autoprefixer,
-    // Add other PostCSS plugins here if needed
-  ],
+  plugins: plugins,
 };
