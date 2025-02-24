@@ -41,10 +41,15 @@ div.navItem.selected {
 
   /* Avoid clipping focus ring around link inside title wrapper. */
   padding: 0.25rem;
-  margin: -0.25rem;
+  margin: 0 -0.25rem;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: left;
+
+  & span {
+    height: fit-content;
+  }
 }
 
 img.logo {
@@ -56,7 +61,10 @@ img.logo {
 
 h1.logo {
   color: var(--sl-color-accent);
-  font-size: 1.6rem;
+  --mod-heading-margin-end: 0;
+  --mod-heading-margin-start: 0;
+  width: fit-content;
+  text-wrap: nowrap;
 }
 
 .nav {

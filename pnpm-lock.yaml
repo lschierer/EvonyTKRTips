@@ -277,6 +277,9 @@ importers:
       postcss-reporter:
         specifier: ^7.1.0
         version: 7.1.0(postcss@8.5.2)
+      postcss-sorting:
+        specifier: ^9.1.0
+        version: 9.1.0(postcss@8.5.2)
       rehype-autolink-headings:
         specifier: ^7.1.0
         version: 7.1.0
@@ -292,6 +295,9 @@ importers:
       remark:
         specifier: ^15.0.1
         version: 15.0.1
+      remark-alerts:
+        specifier: ^0.0.1
+        version: 0.0.1(@types/mdast@4.0.4)(unified@11.0.5)
       remark-frontmatter:
         specifier: ^5.0.0
         version: 5.0.0
@@ -8087,6 +8093,11 @@ packages:
     resolution: {integrity: sha512-8sLjZwK0R+JlxlYcTuVnyT2v+htpdrjDOKuMcOVdYjt52Lh8hWRYpxBPoKx/Zg+bcjc3wx6fmQevMmUztS/ccA==}
     engines: {node: '>=4'}
 
+  postcss-sorting@9.1.0:
+    resolution: {integrity: sha512-Mn8KJ45HNNG6JBpBizXcyf6LqY/qyqetGcou/nprDnFwBFBLGj0j/sNKV2lj2KMOVOwdXu14aEzqJv8CIV6e8g==}
+    peerDependencies:
+      postcss: ^8.4.20
+
   postcss-svgo@7.0.1:
     resolution: {integrity: sha512-0WBUlSL4lhD9rA5k1e5D8EN5wCEyZD6HJk0jIvRxl+FDVOMlJ7DePHYWGGVc5QRqrJ3/06FTXM0bxjmJpmTPSA==}
     engines: {node: ^18.12.0 || ^20.9.0 || >= 18}
@@ -8403,6 +8414,12 @@ packages:
     resolution: {integrity: sha512-HOVRcicehCgoCsPFOu0iCBlEC8GDOoKS5s6ICkWmqomGEoZtRQ88D3RCsI5MciSU8vAQU+aWZW2z57NQNNb74w==}
     engines: {node: ^20.9.0 || >=22.0.0}
     hasBin: true
+
+  remark-alerts@0.0.1:
+    resolution: {integrity: sha512-xDUy3FqgYu3rUsYovZKLXZwHuM7M/XUFxsTDAMeEKoHsg9hiEHR59FkRqeGtzZDg8ThEJYnFiJJW49n9ruvVLw==}
+    peerDependencies:
+      '@types/mdast': ^4.0.3
+      unified: ^11.0.4
 
   remark-directive@3.0.1:
     resolution: {integrity: sha512-gwglrEQEZcZYgVyG1tQuA+h58EZfq5CSULw7J90AFuCTyib1thgHPoqQ+h9iFvU6R+vnZ5oNFQR5QKgGpk741A==}
@@ -18757,6 +18774,10 @@ snapshots:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
 
+  postcss-sorting@9.1.0(postcss@8.5.2):
+    dependencies:
+      postcss: 8.5.2
+
   postcss-svgo@7.0.1(postcss@8.5.2):
     dependencies:
       postcss: 8.5.2
@@ -19241,6 +19262,12 @@ snapshots:
       - '@types/node'
       - supports-color
       - typescript
+
+  remark-alerts@0.0.1(@types/mdast@4.0.4)(unified@11.0.5):
+    dependencies:
+      '@types/mdast': 4.0.4
+      unified: 11.0.5
+      unist-util-visit: 5.0.0
 
   remark-directive@3.0.1:
     dependencies:

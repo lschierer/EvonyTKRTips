@@ -16,11 +16,16 @@ export default class TopHeader extends HTMLElement {
     this.innerHTML = `
       <div class="header ">
         <div class="title-wrapper ">
-          <a href='/' class="spectrum-Link spectrum-Link--quiet spectrum-Link--secondary">
-            <img src="${this.logo}" alt="Evony TKR Tips" class="logo micro-5-regular"/>
-          </a><a href='/' class="spectrum-Link spectrum-Link--quiet spectrum-Link--secondary">
-            <h1 class="logo spectrum-Heading spectrum-Heading--sizeXXXL">Evony TKR Tips</h1>
-          </a> <!-- done as two links so that the page flows right -->
+          <span>
+            <a href='/' class="spectrum-Link spectrum-Link--quiet spectrum-Link--secondary">
+              <img src="${this.logo}" alt="Evony TKR Tips" class="logo micro-5-regular"/>
+            </a>
+          </span>
+          <span>
+            <a href='/' class="spectrum-Link spectrum-Link--quiet spectrum-Link--secondary">
+              <h1 class="logo spectrum-Heading spectrum-Heading--sizeXL"> Evony TKR Tips </h1>
+            </a> <!-- done as two links so that the page flows right -->
+          </span>
         </div>
         <div class="nav">
           ${TopLevelSections.options
@@ -32,12 +37,14 @@ export default class TopHeader extends HTMLElement {
               const navItemClass = selected ? "navItem selected" : "navItem";
               return `
               <div class="${navItemClass}">
-                <a
-                  href=${urlString}
-                  class="spectrum-Link spectrum-Link--quiet spectrum-Link--primary"
-                >
-                  <span class="">${section.replaceAll("_", " ")}</span>
-                </a>
+                <span>
+                  <a
+                    href=${urlString}
+                    class="spectrum-Link spectrum-Link--quiet spectrum-Link--primary"
+                    >
+                      <span class=""> ${section.replaceAll("_", " ")} </span>
+                  </a>
+                </span>
               </div>
               `;
             })
