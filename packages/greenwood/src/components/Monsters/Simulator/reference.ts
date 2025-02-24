@@ -4,12 +4,12 @@ import * as constants from "../../../schemas/constants.ts";
 
 import simulatorState from "./state.ts";
 
-const AllianceBossModifiers =
+export const AllianceBossModifiers =
   "../../../assets/modifierFiles/TroopAllianceBossModifiers.csv";
-const WorldBossModifiers =
+export const WorldBossModifiers =
   "../../../assets/modifierFiles/WorldBossModifiers.csv";
-const PanModifiers = "../../../assets/modifierFiles/PanModifiers.csv";
-const StandardModifiers =
+export const PanModifiers = "../../../assets/modifierFiles/PanModifiers.csv";
+export const StandardModifiers =
   "../../../assets/modifierFiles/TroopMonsterModifiers.csv";
 
 import debugFunction from "../../../lib/debug.ts";

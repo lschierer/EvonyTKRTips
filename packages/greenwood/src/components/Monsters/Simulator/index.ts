@@ -7,14 +7,17 @@ import {
 } from "lit";
 import { createRef, ref, type Ref } from "lit/directives/ref.js";
 
+import { SignalWatcher } from "@lit-labs/signals";
+
 import "./BuffTable.ts";
 import "./MarchTable.ts";
 import "./MonsterOrder.ts";
+import "./ReferenceTables.ts";
 
 import SpectrumCSStabs from "@spectrum-css/tabs/index.css" with { type: "css" };
 import "iconify-icon";
 
-export default class MonsterSimulator extends LitElement {
+export default class MonsterSimulator extends SignalWatcher(LitElement) {
   private tab1Ref: Ref<HTMLDivElement> = createRef();
   private tab2Ref: Ref<HTMLDivElement> = createRef();
   static override get styles() {
@@ -22,7 +25,11 @@ export default class MonsterSimulator extends LitElement {
       SpectrumCSStabs,
       css`
         div.spectrum-Tabs {
-          background-color: var(--spectrum-green-background-color-default);
+          padding: 12px;
+          column-gap: 80px;
+        }
+        div.hidden {
+          display: none;
         }
       `,
     ] as CSSResultArray;
@@ -40,9 +47,9 @@ export default class MonsterSimulator extends LitElement {
       });
     this.renderRoot.querySelectorAll(".tab-content").forEach((tabDiv) => {
       if (!tabDiv.id.localeCompare(tab)) {
-        (tabDiv as HTMLElement).style.display = "";
+        (tabDiv as HTMLElement).classList.remove("hidden");
       } else {
-        (tabDiv as HTMLElement).style.display = "none";
+        (tabDiv as HTMLElement).classList.add("hidden");
       }
     });
   };
@@ -61,13 +68,12 @@ export default class MonsterSimulator extends LitElement {
     }
   }
 
-  private generateRandomNumber = () => {
-    return Math.floor(Math.random() * 10);
-  };
   override render() {
     return html`
       <div>
-        <div class="spectrum-Tabs spectrum-Tabs--horizontal">
+        <div
+          class="spectrum-Tabs spectrum-Tabs--sizeM spectrum-Tabs--horizontal"
+        >
           <div
             tabindex="0"
             class="spectrum-Tabs-item is-selected"
@@ -110,9 +116,8 @@ export default class MonsterSimulator extends LitElement {
           <march-table></march-table>
           <monster-order></monster-order>
         </div>
-        <div id="tab-item-2" class="tab-content ">
-          <span>div 2 content</span>
-          <span>Peter's Random Number: ${this.generateRandomNumber()}</span>
+        <div id="tab-item-2" class="tab-content hidden">
+          <reference-tables></reference-tables>
         </div>
       </div>
     `;
