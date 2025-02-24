@@ -1,31 +1,13 @@
-import {
-  LitElement,
-  html,
-  css,
-  type CSSResultGroup,
-  nothing,
-  type CSSResultArray,
-} from "lit";
-import { customElement, state } from "lit/decorators.js";
-import { repeat } from "lit/directives/repeat.js";
-import { styleMap } from "lit/directives/style-map.js";
+import { LitElement, html, css, nothing, type CSSResultArray } from "lit";
+import { customElement } from "lit/decorators.js";
 
 import { SignalWatcher } from "@lit-labs/signals";
-
-import { z } from "zod";
 
 import * as constants from "../../../schemas/constants.ts";
 
 import SpectrumCSSTable from "@spectrum-css/table/index.css" with { type: "css" };
-import SpectrumCSStextfield from "@spectrum-css/textfield/index.css" with { type: "css" };
-import SpectrumCSSstepper from "@spectrum-css/stepper/index.css" with { type: "css" };
-import SpectrumCSSinfieldbutton from "@spectrum-css/infieldbutton/index.css" with { type: "css" };
 
 import "iconify-icon";
-
-import simulatorState from "./state.ts";
-
-import { type BuffTableRow } from "./state.ts";
 
 import * as reference from "./reference.ts";
 
@@ -210,6 +192,9 @@ export default class ReferenceTables extends SignalWatcher(LitElement) {
   };
 
   protected override render() {
+    if (DEBUG) {
+      console.log(`starting render for ReferenceTables`);
+    }
     return html`
       <div>
         ${this.renderBaseAttack()} ${this.renderBaseDefense()}
