@@ -7,11 +7,9 @@ import {
 import debugFunction from "../lib/debug.ts";
 const DEBUG = debugFunction("components/sidebar.ts");
 
-import {
-  type Page,
-  type SideBarEntry,
-  sortPages,
-} from "../lib/greenwoodPages.ts";
+import type { Page } from "@greenwood/cli";
+
+import { type SideBarEntry, sortPages } from "../lib/greenwoodPages.ts";
 
 import SpectrumCSSSideNav from "@spectrum-css/sidenav/index.css" with { type: "css" };
 import LocalSidebarCSS from "../styles/sidebar.css" with { type: "css" };
@@ -41,14 +39,11 @@ export default class SideBar extends HTMLElement {
       })
       .find((p: Page) => !p.route.localeCompare("/")) as Page;
 
-    const name = routePage.title
-      ? (routePage.title ?? routePage.label)
-      : routePage.label;
     if (DEBUG) {
-      console.log(`root name should be '${name}'`);
+      console.log(`root name should be '${routePage.title}'`);
     }
     const root: SideBarEntry = {
-      name: name,
+      name: routePage.title,
       route: "/",
       children: new Array<SideBarEntry>(),
     };

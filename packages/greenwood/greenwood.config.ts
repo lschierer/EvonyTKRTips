@@ -1,16 +1,15 @@
-import { greenwoodPluginTypeScript } from "@greenwood/plugin-typescript";
 import { greenwoodPluginPostCss } from "@greenwood/plugin-postcss";
 import { greenwoodPluginGoogleAnalytics } from "@greenwood/plugin-google-analytics";
 
 import process from "node:process";
 
+import { GedcomGeneralSourcePlugin } from "./src/plugins/collections/generals.ts";
+
 //begin work around for https://github.com/TanStack/table/pull/5373
-import { ResourceInterface } from "@greenwood/cli/src/lib/resource-interface.js";
 
-class ProcessEnvReplaceResource extends ResourceInterface {
-  constructor(compilation) {
-    super();
-
+class ProcessEnvReplaceResource {
+  constructor(compilation, options) {
+    this.options = options;
     this.compilation = compilation;
   }
 
@@ -36,6 +35,7 @@ class ProcessEnvReplaceResource extends ResourceInterface {
 //end workaround
 
 export default {
+  useTsc: true,
   activeContent: true,
   isolation: true,
   optimization: "default",
@@ -59,14 +59,12 @@ export default {
       name: "process-env-replace",
       provider: (compilation) => new ProcessEnvReplaceResource(compilation),
     },
-    greenwoodPluginTypeScript({
-      extendConfig: true,
-    }),
     greenwoodPluginPostCss({
       extendConfig: true,
     }),
     greenwoodPluginGoogleAnalytics({
       analyticsId: "G-98HFQWP71B",
     }),
+    GedcomGeneralSourcePlugin(),
   ],
 };

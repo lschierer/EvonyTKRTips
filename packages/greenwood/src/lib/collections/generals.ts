@@ -29,6 +29,7 @@ export default class GeneralsCollection {
     }
     return bp;
   };
+
   public initialize = async (depth: number = 2) => {
     await Promise.all(
       collection.map(async (gf) => {
