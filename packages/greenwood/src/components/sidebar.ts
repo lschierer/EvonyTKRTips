@@ -9,7 +9,7 @@ const DEBUG = debugFunction("components/sidebar.ts");
 
 import type { Page } from "@greenwood/cli";
 
-import { type SideBarEntry, sortPages } from "../lib/greenwoodPages.ts";
+import { type SideBarEntry } from "../lib/greenwoodPages.ts";
 
 import SpectrumCSSSideNav from "@spectrum-css/sidenav/index.css" with { type: "css" };
 import LocalSidebarCSS from "../styles/sidebar.css" with { type: "css" };
@@ -23,7 +23,9 @@ export default class SideBar extends HTMLElement {
     /* eslint-disable @typescript-eslint/no-unsafe-call */
     /* eslint-disable @typescript-eslint/no-unsafe-member-access */
     (await getContent())
-      .sort((a: Page, b: Page) => sortPages(a, b))
+      .sort((a: Page, b: Page) => {
+        return a.title.localeCompare(b.title);
+      })
       .map((p: Page) => this.pages.push(p));
     if (DEBUG) {
       console.log(
