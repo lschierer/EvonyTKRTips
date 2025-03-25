@@ -2,6 +2,7 @@
 title: About Monsters
 author: Luke Schierer
 layout: standard
+order: 2
 ---
 
 

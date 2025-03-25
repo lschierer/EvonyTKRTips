@@ -1,8 +1,8 @@
 ---
-title: 'Svs'
+title: 'PvP'
 author:
   - 'Luke Schierer'
-order: 1
+order: 3
 ---
 
 The pages in this section will attempt to provide what advice I can about
