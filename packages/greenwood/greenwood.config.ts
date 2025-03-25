@@ -3,22 +3,28 @@ import { greenwoodPluginGoogleAnalytics } from "@greenwood/plugin-google-analyti
 
 import process from "node:process";
 
-import { GedcomGeneralSourcePlugin } from "./src/plugins/collections/generals.ts";
+import type { Compilation } from "@greenwood/cli";
+
+import { GeneralSourcePlugin } from "./src/plugins/collections/generals.ts";
+import { SpecialitySourcePlugin } from "./src/plugins/collections/specialities.ts";
 
 //begin work around for https://github.com/TanStack/table/pull/5373
 
 class ProcessEnvReplaceResource {
-  constructor(compilation, options) {
-    this.options = options;
+  public compilation: Compilation;
+  public options: object;
+
+  constructor(compilation: Compilation, options?: object) {
+    this.options = options ? options : {};
     this.compilation = compilation;
   }
 
-  async shouldIntercept(url) {
+  shouldIntercept(url: URL) {
     // your custom condition goes here
     return url.pathname.includes("tanstack");
   }
 
-  async intercept(url, request, response) {
+  async intercept(url: URL | string, request: Request, response: Response) {
     const body = await response.text();
     const env =
       process.env.__GWD_COMMAND__ === "develop" ? "development" : "production";
@@ -57,7 +63,8 @@ export default {
       //include the workaround from above.
       type: "resource",
       name: "process-env-replace",
-      provider: (compilation) => new ProcessEnvReplaceResource(compilation),
+      provider: (compilation: Compilation) =>
+        new ProcessEnvReplaceResource(compilation),
     },
     greenwoodPluginPostCss({
       extendConfig: true,
@@ -65,6 +72,7 @@ export default {
     greenwoodPluginGoogleAnalytics({
       analyticsId: "G-98HFQWP71B",
     }),
-    GedcomGeneralSourcePlugin(),
+    GeneralSourcePlugin(),
+    SpecialitySourcePlugin(),
   ],
 };
