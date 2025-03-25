@@ -13,23 +13,28 @@ if (DEBUG) {
   console.log(`DEBUG enabled for ${new URL(import.meta.url).pathname}`);
 }
 
-export const GedcomGeneralSourcePlugin = (): SourcePlugin => {
+export const GeneralSourcePlugin = (): SourcePlugin => {
+  const pluginKeySinglular = "General";
+  const pluginKeyPlural = "Generals";
   return {
     type: "source",
-    name: "source-plugin-external-general-page",
+    name: `source-plugin-external-${pluginKeySinglular.toLowerCase()}-page`,
     provider: (): (() => Promise<ExternalSourcePage[]>) => {
       return async function () {
         const returnPages = new Array<ExternalSourcePage>();
-        const allGenerals = new Array<General>();
+        const allItems = new Array<General>();
         await Promise.all(
-          collection.map(async (gf) => {
+          collection.map(async (item_file) => {
             if (DEBUG) {
-              console.log(`general file gf is ${gf}`);
+              console.log(`item file item_file is ${item_file}`);
             }
 
-            const basePath = "../../assets/collections/generals/";
+            const basePath = `../../assets/collections/${pluginKeyPlural.toLowerCase()}/`;
 
-            const filePath = new URL(path.join(basePath, gf), import.meta.url);
+            const filePath = new URL(
+              path.join(basePath, item_file),
+              import.meta.url
+            );
             if (DEBUG) {
               console.log(`filePath is ${filePath.pathname}`);
             }
@@ -41,18 +46,18 @@ export const GedcomGeneralSourcePlugin = (): SourcePlugin => {
               .catch((error: unknown) => {
                 if (DEBUG) {
                   console.error(
-                    `error reading file ${filePath.pathname} for ${gf} with error ${JSON.stringify(error)}`
+                    `error reading file ${filePath.pathname} for ${item_file} with error ${JSON.stringify(error)}`
                   );
                 }
               });
             if (data) {
               const valid = General.safeParse(JSON.parse(data));
               if (valid.success) {
-                allGenerals.push(valid.data);
+                allItems.push(valid.data);
               } else {
                 if (DEBUG) {
                   console.error(
-                    `failed to parse general data for ${gf}`,
+                    `failed to parse ${pluginKeySinglular} data for ${item_file}`,
                     valid.error.message
                   );
                 }
@@ -60,23 +65,25 @@ export const GedcomGeneralSourcePlugin = (): SourcePlugin => {
             }
           })
         );
-        for (const general of allGenerals) {
+        for (const item of allItems) {
+          const route = encodeURI(`/${pluginKeyPlural}/details/${item.name}/`);
+          const jsonText = JSON.stringify(item);
           const page: ExternalSourcePage = {
-            title: `Details for ${general.id}`,
-            route: `/Generals/details/${encodeURIComponent(general.id)}/`,
-            layout: "generals",
-            collection: ["generals"],
-            imports: ["/components/generals/DetailsDisplay.ts type=module"],
+            title: `Details for ${item.name}`,
+            route,
+            collection: [pluginKeyPlural.toLowerCase()],
+            imports: [
+              `/components/${pluginKeyPlural.toLowerCase()}/DetailsDisplay.ts type=module`,
+            ],
             data: {
-              general: JSON.stringify(general),
+              general: jsonText,
             },
             body: `
-              <h2>${general.id}</h2>
-
+              <details-display ${pluginKeySinglular.toLowerCase()}="${encodeURIComponent(jsonText)}"></details-display>
             `,
           };
           if (DEBUG) {
-            console.log(`created page ${page.title}`);
+            console.log(`created ${pluginKeySinglular} page ${page.title}`);
           }
           returnPages.push(page);
         }

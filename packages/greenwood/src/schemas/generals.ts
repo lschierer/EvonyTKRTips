@@ -30,7 +30,7 @@ export const General = z.object({
   basic_attributes: BasicAttributes,
   book: z.string(),
   display: Display.optional(),
-  id: z.string(),
+  name: z.string(),
   note: z.array(Note).optional(),
   specialities: z.array(z.string()),
   specialityLevels: z.array(constants.SpecialityLevelName).optional(),

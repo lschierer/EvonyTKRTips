@@ -53,9 +53,6 @@ const getLayout = (compilation: Compilation, route: Route) => {
 export const getMainSection = async (general: General, depth: number = 1) => {
   return `
     <div class="general">
-      <h2 class="spectrum-Heading spectrum-Heading--sizeXL">
-       ${general.id}
-      </h2>
       <div class="basicInfo">
         ${getBaseStats(general)}
         <div class="ExtraBaseInfo">
@@ -269,7 +266,7 @@ const getAscendingDetails = async (general: General, depth: number) => {
   const ascendingAttributesCollection = new AscendingAttributesCollection();
   await ascendingAttributesCollection.initialize(depth);
   const ascendingDetails: GeneralAscending | undefined =
-    ascendingAttributesCollection.getAscendingAttributes(general.id);
+    ascendingAttributesCollection.getAscendingAttributes(general.name);
   if (ascendingDetails) {
     return `
       <div class="AscendingDetails">
@@ -295,7 +292,7 @@ const getAscendingDetails = async (general: General, depth: number) => {
     `;
   } else {
     return `
-      <span class="spectrum-Body spectrum-Body--sizeS">Ascending Details for ${general.id} are not available.</span>
+      <span class="spectrum-Body spectrum-Body--sizeS">Ascending Details for ${general.name} are not available.</span>
     `;
   }
 };
@@ -373,7 +370,7 @@ const getSpecialSkill = async (general: General, depth: number) => {
         <h3 class="spectrum-Heading spectrum-Heading--sizeL">
           Special Skill
         <h3>
-        <span class="spectrum-Body spectrum-Body--sizeL">${general.id}'s special skill is ${skillbook.name}.</span>
+        <span class="spectrum-Body spectrum-Body--sizeL">${general.name}'s special skill is ${skillbook.name}.</span>
         <h4 class="spectrum-Heading spectrum-Heading--sizeM">
           Buffs Provided:
         </h4>
@@ -391,7 +388,7 @@ const getSpecialSkill = async (general: General, depth: number) => {
       <h3 class="spectrum-Heading spectrum-Heading--sizeL">
         Special Skill
       <h3>
-      <span class="spectrum-Body spectrum-Body--sizeM">${general.id}'s special skill, ${general.book}, is unknown.</span>
+      <span class="spectrum-Body spectrum-Body--sizeM">${general.name}'s special skill, ${general.book}, is unknown.</span>
     </div>
     `;
   }
