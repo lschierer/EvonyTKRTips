@@ -4,8 +4,7 @@ layout: generals
 title: 'Picking your first mounted pair'
 author:
   - 'Luke Schierer'
-sidebar:
-  order: 4
+order: 4
 ---
 
 In the [Overview], I explain my thinking. This is a fairly long article, but

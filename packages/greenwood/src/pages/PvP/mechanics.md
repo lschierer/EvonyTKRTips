@@ -3,6 +3,7 @@ title: game mechanics
 author: Luke Schierer
 ---
 
+
 - battle field size is fixed despite the many sites.
 - traps have priorities, but will target anything
 - no troop actually acts differently.

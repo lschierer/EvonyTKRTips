@@ -6,6 +6,7 @@ author:
 sortOrder: 6
 ---
 
+
 At some point, as an alliance if not as an individual, you will want to build what is known as a "trap keep." This is not an account that you will use for regular play, rather it is dedicated to SvS play, and in particular is configured to be attacked by the enemy.
 
 The goal of this account is that when (not if) it is attacked, you want to cost the enemy more in points than they gain in killing your troops. Thus you want to be a tempting target, but not actually give up much. This is why you will not be getting much normal use from this account - the need to keep the points you give up small precludes having _anything_ extra in this account.

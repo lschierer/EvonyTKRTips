@@ -3,6 +3,7 @@ title: March Presets
 author: Luke Schierer
 ---
 
+
 ## Initial setup
 
 When creating a PvP march preset, you first create your layers. The size of your layers will depend on the size of your march. Always set up a PvP march with the same march size buff active that you will use during either SvS or battle field. Changing the size of your march buff will cause the game to do very bad things to your layers. For the same reason, a march preset will be specific to a single pair of generals. This is because as you develop your generals, each pair of generals will have a unique march size.

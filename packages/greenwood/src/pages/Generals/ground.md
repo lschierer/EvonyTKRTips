@@ -4,8 +4,7 @@ layout: generals
 title: 'Picking your first ground pair'
 author:
   - 'Luke Schierer'
-sidebar:
-  order: 8
+order: 8
 ---
 
 :::note

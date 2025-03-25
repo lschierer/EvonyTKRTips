@@ -4,8 +4,7 @@ layout: generals
 title: 'Miscellaneous Generals You Ought to Have'
 author:
   - 'Luke Schierer'
-sidebar:
-  order: 9
+order: 9
 ---
 
 :::note

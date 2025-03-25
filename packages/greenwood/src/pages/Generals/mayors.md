@@ -3,8 +3,7 @@ collection: Generals
 layout: generals
 title: 'Picking Sub-City Mayors'
 author: 'Luke Schierer'
-sidebar:
-  order: 8
+order: 8
 ---
 
 :::note

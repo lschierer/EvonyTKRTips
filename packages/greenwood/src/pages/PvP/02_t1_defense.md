@@ -3,8 +3,7 @@ title: 'The T1 Defense'
 author:
   - 'Luke Schierer'
   - 'Redwood'
-sidebar:
-  order: 3
+order: 3
 ---
 
 This article leans heavily on a set of king's mails that another

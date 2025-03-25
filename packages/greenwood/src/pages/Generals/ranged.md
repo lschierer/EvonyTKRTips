@@ -4,8 +4,7 @@ layout: generals
 title: 'Picking your first ranged pair'
 author:
   - 'Luke Schierer'
-sidebar:
-  order: 7
+order: 7
 ---
 
 :::note

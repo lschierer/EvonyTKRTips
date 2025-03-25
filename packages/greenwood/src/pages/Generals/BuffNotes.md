@@ -5,6 +5,7 @@ title: Notes on General's Buffs
 author: Luke Schierer
 ---
 
+
 Much of this data is based on the videos from [Derrick Defies], who claims to have figured out more about Evony's internal mechanics, with greater proof, than anyone other source I have seen.
 
 ### Skill Books

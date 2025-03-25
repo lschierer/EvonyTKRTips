@@ -4,8 +4,7 @@ layout: generals
 title: 'Picking your wall generals'
 author:
   - 'Luke Schierer'
-sidebar:
-  order: 7
+order: 7
 ---
 
 :::note

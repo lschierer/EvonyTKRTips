@@ -1,7 +1,6 @@
 ---
 title: 'SvS for Small Keeps'
-sidebar:
-  order: 2
+order: 2
 ---
 
 ## Introduction

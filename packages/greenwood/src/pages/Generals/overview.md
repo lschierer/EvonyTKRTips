@@ -3,8 +3,7 @@ collection: Generals
 layout: generals
 title: 'Overview of Picking Generals'
 author: 'Luke Schierer'
-sidebar:
-  order: 2
+order: 2
 ---
 
 Knowing what generals to keep and what generals to get rid of is an important

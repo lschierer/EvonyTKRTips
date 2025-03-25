@@ -5,6 +5,7 @@ imports:
   - /components/SplashCards.ts type="module"
 ---
 
+
 # Why Another Evony Tips Site
 
 ## Tips for Budget Gamers

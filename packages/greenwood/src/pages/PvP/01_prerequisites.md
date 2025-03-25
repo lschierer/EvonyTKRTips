@@ -1,8 +1,7 @@
 ---
 title: 'Prerequisites'
 author: 'Luke Schierer'
-sidebar:
-  order: 3
+order: 3
 ---
 
 First off there are two types of participation, [minimal][], and active player

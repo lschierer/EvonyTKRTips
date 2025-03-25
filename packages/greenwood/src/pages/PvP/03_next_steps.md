@@ -2,10 +2,9 @@
 title: 'Layer Estimates Before You Start'
 author:
   - 'Luke Schierer'
-sidebar:
-  order: 4
 tags:
   - 'guide'
+order: 4
 ---
 
 The following is based on the recommendations of bigger players, I have not tested this myself yet.

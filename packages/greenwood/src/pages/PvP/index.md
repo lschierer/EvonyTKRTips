@@ -2,8 +2,7 @@
 title: 'Svs'
 author:
   - 'Luke Schierer'
-sidebar:
-  order: 1
+order: 1
 ---
 
 The pages in this section will attempt to provide what advice I can about

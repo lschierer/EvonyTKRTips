@@ -4,6 +4,7 @@ author: Luke Schierer
 layout: standard
 ---
 
+
 ## Introduction
 
 Monster hunting is one of the most important activities in Evony. You will get

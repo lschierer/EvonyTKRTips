@@ -3,8 +3,7 @@ collection: Generals
 layout: generals
 title: 'Fifth Books'
 author: 'Luke Schierer'
-sidebar:
-  order: 100
+order: 100
 ---
 
 Using the Flexible Specialty books is going to get complicated really fast. You will need to pay attention to the buff activation conditions.

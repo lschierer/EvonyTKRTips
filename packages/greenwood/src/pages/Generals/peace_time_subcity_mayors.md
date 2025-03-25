@@ -3,8 +3,7 @@ collection: Generals
 layout: generals
 title: 'Peace Time Sub-City Mayors'
 author: 'Luke Schierer'
-sidebar:
-  order: 100
+order: 100
 ---
 
 Periodically someone asks about Catherine II, or another of the peace time

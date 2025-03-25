@@ -4,8 +4,7 @@ layout: generals
 title: 'Picking your first siege pair'
 author:
   - 'Luke Schierer'
-sidebar:
-  order: 9
+order: 9
 ---
 
 :::note
