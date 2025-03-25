@@ -66,7 +66,9 @@ export const SpecialitySourcePlugin = (): SourcePlugin => {
           })
         );
         for (const item of allItems) {
-          const route = encodeURI(`/${pluginKeyPlural}/details/${item.name}/`);
+          const route = encodeURI(
+            `/Reference/${pluginKeyPlural}/${item.name}/`
+          );
           const jsonText = JSON.stringify(item);
           const page: ExternalSourcePage = {
             title: `Details for ${item.name}`,
