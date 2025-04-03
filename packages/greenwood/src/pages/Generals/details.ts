@@ -35,13 +35,11 @@ const getFrontmatter: GetFrontmatter = async () => {
   return {
     title: "Available Generals",
     author: "Luke Schierer",
-    imports: ["/components/generals/GeneralsList.ts type=module"],
+    layout: "standard",
     data: {
       tableOfContents: "false",
     },
   };
 };
 
-import getLayout from "../../layouts/standard.ts";
-
-export { getFrontmatter, getBody, getLayout };
+export { getFrontmatter, getBody };

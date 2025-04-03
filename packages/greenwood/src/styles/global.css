@@ -10,16 +10,6 @@
 :root,
 ::backdrop {
   --sl-color-accent: var(--spectrum-cyan-700);
-  --sl-color-bg: var(--spectrum-background-base-color);
-  --sl-color-white: var(--spectrum-gray-50);
-  --sl-color-gray-1: var(--spectrum-gray-200);
-  --sl-color-gray-2: var(--spectrum-gray-300);
-  --sl-color-gray-3: var(--spectrum-gray-400);
-  --sl-color-gray-4: var(--spectrum-gray-500);
-  --sl-color-gray-5: var(--spectrum-gray-600);
-  --sl-color-gray-6: var(--spectrum-gray-700);
-  --sl-color-gray-7: var(--spectrum-gray-800);
-  --sl-color-black: var(--spectrum-gray-900);
 }
 
 /* I find I prefer less color range between high and low in dark mode */
@@ -43,47 +33,16 @@ html {
 }
 
 body {
-  margin: 0;
-  width: auto;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   color: var(--sl-color-black);
 
   --mod-body-font-color: var(--sl-color-black);
   --mod-heading-font-color: var(--sl-color-accent);
 }
 
-sp-theme {
-  z-index: 0;
-  position: relative;
-}
-
 header h1.spectrum-Heading {
   text-align: center;
-}
-main {
-  z-index: 1;
-  margin-left: 8px;
-  margin-right: 8px;
-}
-
-body div.main {
-  display: flex;
-  flex-direction: row;
 }
 
 main h1#_top {
   color: var(--sl-color-accent-low);
-}
-
-footer {
-  margin-top: auto;
-  left: 0;
-  width: 100%;
-}
-
-div.content {
-  width: 100%;
-  margin-left: 1rem;
 }

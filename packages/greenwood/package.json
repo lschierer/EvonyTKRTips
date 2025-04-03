@@ -11,9 +11,9 @@
     "serve": "NODE_OPTIONS='--import @greenwood/cli/register' greenwood serve"
   },
   "devDependencies": {
-    "@greenwood/cli": "0.32.0-alpha.7",
-    "@greenwood/plugin-google-analytics": "0.32.0-alpha.7",
-    "@greenwood/plugin-postcss": "0.32.0-alpha.7",
+    "@greenwood/cli": "0.32.0-alpha.8",
+    "@greenwood/plugin-google-analytics": "0.32.0-alpha.8",
+    "@greenwood/plugin-postcss": "0.32.0-alpha.8",
     "@tsconfig/node22": "^22.0.1",
     "@types/node": "^22.13.13",
     "@types/trusted-types": "^2.0.7",
@@ -78,6 +78,7 @@
     "@tanstack/lit-table": "^8.21.2",
     "@tanstack/table-core": "^8.21.2",
     "dotenv": "^16.4.7",
+    "greenwoodspectrumtheme": "^0.9.1",
     "iconify-icon": "^2.3.0",
     "jsonschema": "^1.5.0",
     "lit": "^3.2.1",

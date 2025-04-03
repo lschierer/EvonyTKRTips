@@ -3,8 +3,6 @@ import type { Frontmatter, GetBody, GetFrontmatter } from "@greenwood/cli";
 import { setTimeout } from "node:timers/promises";
 import pTimeout from "p-timeout";
 
-import getLayout from "../../layouts/standard.ts";
-
 const getFrontmatter: GetFrontmatter = async () => {
   /*start work around for GetFrontmatter requiring async */
   const delayedPromise = setTimeout(1);
@@ -37,4 +35,4 @@ const getBody: GetBody = async () => {
 
   return returnable;
 };
-export { getBody, getFrontmatter, getLayout };
+export { getBody, getFrontmatter };

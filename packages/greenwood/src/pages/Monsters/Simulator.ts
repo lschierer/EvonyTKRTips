@@ -1,6 +1,10 @@
-import getLayout from "../../layouts/standard.ts";
+import type { GetFrontmatter, Frontmatter } from "@greenwood/cli";
 
-import { type Compilation, type Route } from "../../lib/greenwoodPages.ts";
+type ExtendedFrontmatter = Omit<Frontmatter, "data"> & {
+  data?: {
+    [key: string]: string | string[];
+  };
+};
 
 function getBody() {
   return `
@@ -64,21 +68,20 @@ function getBody() {
   `;
 }
 
-function getFrontmatter(
-  compilation: Compilation,
-  route: Route,
-  label: string,
-  id: string
-) {
-  return {
-    label,
-    id,
-    layout: "standard",
-    imports: ["/components/Monsters/Simulator/index.ts type=module"],
-    title: "Monster Simulator",
-    authors: ["Luke Schierer", "Derrick Defies"],
-    route,
-  };
-}
+const getFrontmatter: GetFrontmatter = async () => {
+  /*start work around for GetFrontmatter requiring async */
+  await new Promise((resolve) => setTimeout(resolve, 1));
+  /* end workaround */
 
-export { getFrontmatter, getBody, getLayout };
+  const title = "Monster Simulator";
+  const fm: ExtendedFrontmatter = {
+    title,
+    layout: "standard",
+    data: {
+      authors: ["Luke Schierer", "Derrick Defies"],
+    },
+  };
+  return fm as Frontmatter;
+};
+
+export { getFrontmatter, getBody };

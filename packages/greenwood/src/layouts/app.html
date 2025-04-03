@@ -1,12 +1,11 @@
 <!doctype html>
-<html lang="en" class="spectrum" prefix="og:http://ogp.me/ns#">
+<html lang="en" class="spectrum spectrum-Typography">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Evony TKR Tips - ${globalThis.page.title}</title>
     <meta name="description" content="Tips for Budget Gamers" />
     <link rel="stylesheet" href="/styles/global.css" />
-    <link rel="stylesheet" href="/styles/topheader.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -18,20 +17,10 @@
       src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8360834774752607"
     ></script>
     <meta name="google-adsense-account" content="ca-pub-8360834774752607" />
-    <script type="module" src="/components/theme.ts"></script>
-    <script type="module" src="/components/TopHeader.ts"></script>
-    <script type="module" src="/components/GlobalFooter.ts"></script>
   </head>
   <body>
-    <top-header class="topHeader" route="${globalThis.page.route}"></top-header>
-    <theme-component></theme-component>
-    <main>
-      <sp-theme>
-        <page-outlet></page-outlet>
-      </sp-theme>
-    </main>
-    <footer>
-      <global-footer></global-footer>
-    </footer>
+    <sp-theme class="spectrum-Typography">
+      <page-outlet></page-outlet>
+    </sp-theme>
   </body>
 </html>

@@ -3,10 +3,20 @@ import { greenwoodPluginGoogleAnalytics } from "@greenwood/plugin-google-analyti
 
 import process from "node:process";
 
-import type { Compilation } from "@greenwood/cli";
+import type { Compilation, Config } from "@greenwood/cli";
 
 import { GeneralSourcePlugin } from "./src/plugins/collections/generals.ts";
 import { SpecialitySourcePlugin } from "./src/plugins/collections/specialities.ts";
+
+import { greenwoodSpectrumThemePack } from "greenwoodspectrumtheme";
+
+import {
+  loadConfig,
+  type Config as PackConfig,
+} from "greenwoodspectrumtheme/config";
+import localConfig from "./src/spectrum-theme.config.ts";
+
+const config = loadConfig(localConfig) as PackConfig;
 
 //begin work around for https://github.com/TanStack/table/pull/5373
 
@@ -40,7 +50,7 @@ class ProcessEnvReplaceResource {
 
 //end workaround
 
-export default {
+const gc: Config = {
   useTsc: true,
   activeContent: true,
   isolation: true,
@@ -66,6 +76,7 @@ export default {
       provider: (compilation: Compilation) =>
         new ProcessEnvReplaceResource(compilation),
     },
+    ...greenwoodSpectrumThemePack(config),
     greenwoodPluginPostCss({
       extendConfig: true,
     }),
@@ -76,3 +87,4 @@ export default {
     SpecialitySourcePlugin(),
   ],
 };
+export default gc;
