@@ -2,6 +2,7 @@ import { greenwoodPluginPostCss } from "@greenwood/plugin-postcss";
 import { greenwoodPluginGoogleAnalytics } from "@greenwood/plugin-google-analytics";
 
 import process from "node:process";
+import { exit } from "node:process";
 
 import type { Compilation, Config } from "@greenwood/cli";
 
@@ -10,13 +11,15 @@ import { SpecialitySourcePlugin } from "./src/plugins/collections/specialities.t
 
 import { greenwoodSpectrumThemePack } from "greenwoodspectrumtheme";
 
-import {
-  loadConfig,
-  type Config as PackConfig,
-} from "greenwoodspectrumtheme/config";
+import { Config as PackConfig } from "greenwoodspectrumtheme/config";
 import localConfig from "./src/spectrum-theme.config.ts";
 
-const config = loadConfig(localConfig) as PackConfig;
+const valid = PackConfig.safeParse(localConfig);
+if (!valid.success) {
+  throw new Error(valid.error.message);
+  exit(1);
+}
+const validConfig = valid.data;
 
 //begin work around for https://github.com/TanStack/table/pull/5373
 
@@ -76,7 +79,7 @@ const gc: Config = {
       provider: (compilation: Compilation) =>
         new ProcessEnvReplaceResource(compilation),
     },
-    ...greenwoodSpectrumThemePack(config),
+    ...greenwoodSpectrumThemePack(validConfig),
     greenwoodPluginPostCss({
       extendConfig: true,
     }),

@@ -1,5 +1,7 @@
 import { type Config } from "greenwoodspectrumtheme/config";
 
+const repoPath = new URL(`file://${process.cwd()}/../../`).href;
+
 const config: Config = {
   moduleName: "evonytkrtips",
   siteTitle: "Evony TKR Tips",
@@ -7,7 +9,7 @@ const config: Config = {
   topLevelSections: ["Generals", "Monsters", "PvP", "Reference"],
   privacyPolicy: "/policy/privacy/",
   authors: "git",
-  repo: "https://github.com/lschierer/EvonyTKRTips.git",
+  repo: repoPath,
 };
 
 export default config;
