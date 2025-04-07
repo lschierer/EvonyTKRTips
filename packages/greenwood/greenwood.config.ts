@@ -4,7 +4,7 @@ import { greenwoodPluginGoogleAnalytics } from "@greenwood/plugin-google-analyti
 import process from "node:process";
 import { exit } from "node:process";
 
-import type { Compilation, Config } from "@greenwood/cli";
+import type { Compilation, Config, Resource } from "@greenwood/cli";
 
 import { GeneralSourcePlugin } from "./src/plugins/collections/generals.ts";
 import { SpecialitySourcePlugin } from "./src/plugins/collections/specialities.ts";
@@ -23,7 +23,7 @@ const validConfig = valid.data;
 
 //begin work around for https://github.com/TanStack/table/pull/5373
 
-class ProcessEnvReplaceResource {
+class ProcessEnvReplaceResource implements Resource {
   public compilation: Compilation;
   public options: object;
 
@@ -32,7 +32,11 @@ class ProcessEnvReplaceResource {
     this.compilation = compilation;
   }
 
-  shouldIntercept(url: URL) {
+  async shouldIntercept(url: URL) {
+    /*start work around for GetFrontmatter requiring async */
+    await new Promise((resolve) => setTimeout(resolve, 1));
+    /* end workaround */
+
     // your custom condition goes here
     return url.pathname.includes("tanstack");
   }
@@ -62,14 +66,22 @@ const gc: Config = {
   staticRouter: false,
   markdown: {
     plugins: [
+      {
+        name: "rehype-class-names",
+        options: {
+          "h1,h2,h3,h4,h5":
+            "spectrum-Heading spectrum-Heading--serif spectrum-Heading--heavy",
+          a: "spectrum-Link  spectrum-Link--primary",
+          "p,li": "spectrum-Body spectrum-Body--serif spectrum-Body--sizeM",
+          "blockquote,blockquote paragraph":
+            "spectrum-Detail spectrum-Detail--serif spectrum-Detail--sizeM",
+        },
+      },
       "rehype-autolink-headings",
       "remark-alerts",
       "remark-gfm",
       "remark-rehype",
     ],
-    settings: {
-      commonmark: true,
-    },
   },
   plugins: [
     {
