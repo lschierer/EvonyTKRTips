@@ -26,6 +26,7 @@
     "lint-staged": "^15.5.0",
     "postcss-lit": "^1.2.0",
     "prettier": "^3.5.3",
+    "rehype-class-names": "^2.0.0",
     "release-it": "^18.1.2",
     "stylelint-config-standard": "^37.0.0",
     "typescript": "^5.8.3",
