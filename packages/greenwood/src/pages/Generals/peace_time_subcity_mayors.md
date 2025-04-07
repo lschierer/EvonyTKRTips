@@ -1,7 +1,6 @@
 ---
-collection: Generals
-layout: generals
 title: 'Peace Time Sub-City Mayors'
+layout: standard
 author: 'Luke Schierer'
 order: 100
 ---

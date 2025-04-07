@@ -1,6 +1,5 @@
 ---
-collection: Generals
-layout: generals
+layout: standard
 title: 'Picking your duty generals'
 author:
   - 'Luke Schierer'

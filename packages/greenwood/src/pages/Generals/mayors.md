@@ -1,6 +1,5 @@
 ---
-collection: Generals
-layout: generals
+layout: standard
 title: 'Picking Sub-City Mayors'
 author: 'Luke Schierer'
 order: 8

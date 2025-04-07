@@ -1,6 +1,5 @@
 ---
-collection: Generals
-layout: generals
+layout: standard
 title: 'Picking your first siege pair'
 author:
   - 'Luke Schierer'

@@ -1,6 +1,5 @@
 ---
-collection: Generals
-layout: generals
+layout: standard
 title: Evaluating Generals
 author: Luke Schierer
 order: 100
@@ -23,7 +22,7 @@ adverb on his/her buff unless being evaluated for a specialty role.
   at people who need to be able to use their generals
   in all PvP use cases. Having separate PvP and PvM
   generals will be difficult enough.
-- Rally capacity is an interesting buff for members of well organized alliances. It can help with World Boss, very large monsters you are (as an alliance) willing to accept wounded on, and of course both SvS and  
+- Rally capacity is an interesting buff for members of well organized alliances. It can help with World Boss, very large monsters you are (as an alliance) willing to accept wounded on, and of course both SvS and
   Battlefield. However, while it might be nice to know, I do not think it can or should truly do more than tip the balance between two otherwise very close pairs. I am not currently displaying it, though I may
   do so in the future. I certainly _won't_ use it to compute scores as I look at that aspect of ranking pairs.
 - I am counting an attack debuff towards a general's defense buffs on the understanding that if the opposing general can attack less, my defense is that much stronger.

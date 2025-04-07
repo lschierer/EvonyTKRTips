@@ -1,19 +1,17 @@
 export const prerender = false;
 export const isolation = true;
 
-import { setTimeout } from "node:timers/promises";
-import pTimeout from "p-timeout";
-
 import type { GetBody, GetFrontmatter } from "@greenwood/cli";
+
 import debugFunction from "../../lib/debug.ts";
-const DEBUG = debugFunction("pages/Generals/details/index.ts");
+const DEBUG = debugFunction(new URL(import.meta.url).pathname);
+if (DEBUG) {
+  console.log(`DEBUG enabled for ${new URL(import.meta.url).pathname}`);
+}
 
 const getBody: GetBody = async () => {
   /*start work around for GetFrontmatter requiring async */
-  const delayedPromise = setTimeout(1);
-  await pTimeout(delayedPromise, {
-    milliseconds: 1,
-  });
+  await new Promise((resolve) => setTimeout(resolve, 1));
   /* end workaround */
 
   if (DEBUG) {
@@ -26,10 +24,7 @@ const getBody: GetBody = async () => {
 
 const getFrontmatter: GetFrontmatter = async () => {
   /*start work around for GetFrontmatter requiring async */
-  const delayedPromise = setTimeout(1);
-  await pTimeout(delayedPromise, {
-    milliseconds: 1,
-  });
+  await new Promise((resolve) => setTimeout(resolve, 1));
   /* end workaround */
 
   return {
@@ -39,6 +34,7 @@ const getFrontmatter: GetFrontmatter = async () => {
     data: {
       tableOfContents: "false",
     },
+    imports: ['/components/generals/GeneralsList.ts type="module"'],
   };
 };
 

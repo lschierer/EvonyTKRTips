@@ -1,6 +1,5 @@
 ---
-collection: Generals
-layout: generals
+layout: standard
 title: 'Miscellaneous Generals You Ought to Have'
 author:
   - 'Luke Schierer'

@@ -1,5 +1,4 @@
 ---
-title: Generals
 collection: TopLevels
 author: Luke Schierer
 layout: standard

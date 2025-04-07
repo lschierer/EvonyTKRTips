@@ -1,6 +1,5 @@
 ---
-collection: Generals
-layout: generals
+layout: standard
 title: Notes on General's Buffs
 author: Luke Schierer
 ---

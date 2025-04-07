@@ -9,9 +9,8 @@ function getBody() {
 function getFrontmatter() {
   return {
     title: "Evaluating Relative Strength of Pairs",
-    collection: "Generals",
     author: "Luke Schierer",
-    layout: "generals",
+    layout: "standard",
   };
 }
 

@@ -1,6 +1,5 @@
 ---
-collection: Generals
-layout: generals
+layout: standard
 title: 'Picking your wall generals'
 author:
   - 'Luke Schierer'
@@ -57,7 +56,7 @@ ought to question if you are ready to engage in PvP yet.
 
 If you see any of the following, they are superior choices for assistants available only as part of paid events:
 
-- Leo III - specializes in siege troops. Use him if you plan on building a  
+- Leo III - specializes in siege troops. Use him if you plan on building a
   _**lot**_ of siege type troops.
 - Lautaro - specializes in ground troops with a secondary effect on mounted
   troops. You can use him in place of either Queen Boudica or Robert the Bruce.

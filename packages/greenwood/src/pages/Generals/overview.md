@@ -1,6 +1,5 @@
 ---
-collection: Generals
-layout: generals
+layout: standard
 title: 'Overview of Picking Generals'
 author: 'Luke Schierer'
 order: 2

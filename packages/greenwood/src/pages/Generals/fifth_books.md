@@ -1,6 +1,5 @@
 ---
-collection: Generals
-layout: generals
+layout: standard
 title: 'Fifth Books'
 author: 'Luke Schierer'
 order: 100
