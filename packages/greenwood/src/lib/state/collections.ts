@@ -5,6 +5,9 @@ import { type General } from "../../schemas/generals.ts";
 import type { SkillBook } from "src/schemas/skillBooks.ts";
 import type { Speciality } from "src/schemas/specialities.ts";
 
+import debugFunction from "../../lib/debug.ts";
+const DEBUG = debugFunction(new URL(import.meta.url).pathname);
+
 class GeneralCollection {
   private _generalCollection = new SignalMap<string, General>();
 
@@ -35,6 +38,9 @@ class GeneralCollection {
   public initialize = async () => {
     const generals = (await getContentByCollection("generals"))
       .map((generalPage) => {
+        if (DEBUG) {
+          console.log(`initialize inspecting page ${generalPage.title}`);
+        }
         if (generalPage.data) {
           if (Object.keys(generalPage.data).includes("general")) {
             return JSON.parse(

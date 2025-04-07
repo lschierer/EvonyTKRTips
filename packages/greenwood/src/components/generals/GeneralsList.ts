@@ -17,11 +17,11 @@ export default class GeneralsList extends HTMLElement {
       <div class="indexListing">
         <ol class="indexListing">
           ${generals
-            .sort((a, b) => a.id.localeCompare(b.id))
+            .sort((a, b) => a.name.localeCompare(b.name))
             .map((g) => {
               return `
                 <li>
-                  <a href="./${g.id}/" class="spectrum-Link spectrum-Link--quiet spectrum-Link--primary">${g.id}</a>
+                  <a href="./${g.name}/" class="spectrum-Link spectrum-Link--quiet spectrum-Link--primary">${g.name}</a>
                 </li>
               `;
             })

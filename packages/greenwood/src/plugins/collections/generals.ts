@@ -69,6 +69,7 @@ export const GeneralSourcePlugin = (): SourcePlugin => {
           const route = encodeURI(`/${pluginKeyPlural}/details/${item.name}/`);
           const jsonText = JSON.stringify(item);
           const page: ExternalSourcePage = {
+            layout: "standard",
             title: `Details for ${item.name}`,
             route,
             collection: [pluginKeyPlural.toLowerCase()],
