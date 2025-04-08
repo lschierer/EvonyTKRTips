@@ -46,5 +46,16 @@
     "*.ts": [
       "prettier --write"
     ]
+  },
+  "pnpm": {
+    "overrides": {
+      "greenwoodspectrumtheme": "link:../GreenwoodSpectrumTheme"
+    },
+    "onlyBuiltDependencies": [
+      "@pulumi/docker",
+      "@pulumi/docker-build",
+      "esbuild",
+      "unrs-resolver"
+    ]
   }
 }
