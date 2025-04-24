@@ -19,6 +19,6 @@
     "./specialities/*.json": "./exports/specialities/*.json"
   },
   "dependencies": {
-    "quicktype": "^23.0.171"
+    "quicktype": "^23.0.175"
   }
 }
