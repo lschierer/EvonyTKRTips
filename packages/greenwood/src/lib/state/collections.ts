@@ -1,17 +1,15 @@
 import { SignalMap } from "signal-utils/map";
 import { getContentByCollection } from "@greenwood/cli/src/data/client.js";
 
-import { type General } from "../../schemas/generals.ts";
-import type { SkillBook } from "src/schemas/skillBooks.ts";
-import type { Speciality } from "src/schemas/specialities.ts";
+import type { Generals, SkillBooks, Specialities } from "@evonytkrtips/schemas";
 
 import debugFunction from "../../lib/debug.ts";
 const DEBUG = debugFunction(new URL(import.meta.url).pathname);
 
 class GeneralCollection {
-  private _generalCollection = new SignalMap<string, General>();
+  private _generalCollection = new SignalMap<string, Generals.General>();
 
-  public get_general: (arg0: string) => General | undefined = (
+  public get_general: (arg0: string) => Generals.General | undefined = (
     generalId: string
   ) => {
     if (this._generalCollection.has(generalId)) {
@@ -21,7 +19,7 @@ class GeneralCollection {
     }
   };
 
-  public set_general = (general: General) => {
+  public set_general = (general: Generals.General) => {
     if (!this._generalCollection.has(general.name)) {
       this._generalCollection.set(general.name, general);
     }
@@ -45,12 +43,12 @@ class GeneralCollection {
           if (Object.keys(generalPage.data).includes("general")) {
             return JSON.parse(
               generalPage.data["general" as keyof typeof generalPage.data]
-            ) as General;
+            ) as Generals.General;
           }
         }
         return null;
       })
-      .filter((general): general is General => general !== null)
+      .filter((general): general is Generals.General => general !== null)
       .sort((a, b) => {
         return a.name.localeCompare(b.name);
       });
@@ -63,11 +61,11 @@ class GeneralCollection {
 }
 
 class SkillBookCollection {
-  private _collection = new SignalMap<string, SkillBook>();
+  private _collection = new SignalMap<string, SkillBooks.SkillBook>();
   private collection_key = "skillbooks";
   private data_key = "skillbook";
 
-  public get_book: (arg0: string) => SkillBook | undefined = (
+  public get_book: (arg0: string) => SkillBooks.SkillBook | undefined = (
     itemId: string
   ) => {
     if (this._collection.has(itemId)) {
@@ -77,7 +75,7 @@ class SkillBookCollection {
     }
   };
 
-  public set_book = (item: SkillBook) => {
+  public set_book = (item: SkillBooks.SkillBook) => {
     if (!this._collection.has(item.name)) {
       this._collection.set(item.name, item);
     }
@@ -98,12 +96,12 @@ class SkillBookCollection {
           if (Object.keys(itemPage.data).includes(this.data_key)) {
             return JSON.parse(
               itemPage.data[this.data_key as keyof typeof itemPage.data]
-            ) as SkillBook;
+            ) as SkillBooks.SkillBook;
           }
         }
         return null;
       })
-      .filter((item): item is SkillBook => item !== null)
+      .filter((item): item is SkillBooks.SkillBook => item !== null)
       .sort((a, b) => {
         return a.name.localeCompare(b.name);
       });
@@ -116,21 +114,20 @@ class SkillBookCollection {
 }
 
 class SpecialitiesCollection {
-  private _collection = new SignalMap<string, Speciality>();
+  private _collection = new SignalMap<string, Specialities.Speciality>();
   private collection_key = "specialities";
   private data_key = "speciality";
 
-  public get_speciality: (arg0: string) => Speciality | undefined = (
-    itemId: string
-  ) => {
-    if (this._collection.has(itemId)) {
-      return this._collection.get(itemId);
-    } else {
-      return undefined;
-    }
-  };
+  public get_speciality: (arg0: string) => Specialities.Speciality | undefined =
+    (itemId: string) => {
+      if (this._collection.has(itemId)) {
+        return this._collection.get(itemId);
+      } else {
+        return undefined;
+      }
+    };
 
-  public set_book = (item: Speciality) => {
+  public set_book = (item: Specialities.Speciality) => {
     if (!this._collection.has(item.name)) {
       this._collection.set(item.name, item);
     }
@@ -151,12 +148,12 @@ class SpecialitiesCollection {
           if (Object.keys(itemPage.data).includes(this.data_key)) {
             return JSON.parse(
               itemPage.data[this.data_key as keyof typeof itemPage.data]
-            ) as Speciality;
+            ) as Specialities.Speciality;
           }
         }
         return null;
       })
-      .filter((item): item is Speciality => item !== null)
+      .filter((item): item is Specialities.Speciality => item !== null)
       .sort((a, b) => {
         return a.name.localeCompare(b.name);
       });

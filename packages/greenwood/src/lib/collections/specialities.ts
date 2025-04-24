@@ -1,14 +1,14 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import { Speciality } from "../../schemas/specialities.ts";
+import { Specialities } from "@evonytkrtips/schemas";
 import collection from "../../assets/collections/specialities/collection.ts";
 
 import debugFunction from "../debug.ts";
 const DEBUG = debugFunction("lib/collections/ascendingAttributes.ts");
 
 export default class SpecialitiesCollection {
-  accessor specialities = new Array<Speciality>();
+  accessor specialities = new Array<Specialities.Speciality>();
 
   private computeBasePath = (depth: number) => {
     let bp = "";
@@ -54,7 +54,7 @@ export default class SpecialitiesCollection {
             }
           });
         if (jsondata) {
-          const valid = Speciality.safeParse(JSON.parse(jsondata));
+          const valid = Specialities.Speciality.safeParse(JSON.parse(jsondata));
           if (valid.success) {
             this.specialities.push(valid.data);
           } else {

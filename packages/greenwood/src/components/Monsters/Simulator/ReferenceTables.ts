@@ -3,7 +3,7 @@ import { customElement } from "lit/decorators.js";
 
 import { SignalWatcher } from "@lit-labs/signals";
 
-import * as constants from "../../../schemas/constants.ts";
+import { Constants as constants } from "@evonytkrtips/schemas";
 
 import SpectrumCSSTable from "@spectrum-css/table/index.css" with { type: "css" };
 

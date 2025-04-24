@@ -1,17 +1,18 @@
 import { type Compilation, type Route } from "../lib/greenwoodPages.ts";
 
-import { type General } from "../schemas/generals.ts";
-import { type SkillBook } from "../schemas/skillBooks.ts";
-import { type GeneralAscending } from "../schemas/ascending.ts";
-import { type Speciality } from "../schemas/specialities.ts";
-import { type Buff } from "../schemas/buff.ts";
+import {
+  type Generals,
+  type Specialities,
+  type SkillBooks,
+  type Ascending,
+  type Buff,
+  Constants,
+} from "@evonytkrtips/schemas";
 
 import SkillBooksCollection from "../lib/collections/skillBooks.ts";
 import SpecialitiesCollection from "../lib/collections/specialities.ts";
 import AscendingAttributesCollection from "../lib/collections/ascendingAttributes.ts";
 import "../components/sidebar.ts";
-
-import * as constants from "../schemas/constants.ts";
 
 import debugFunction from "../lib/debug.ts";
 const DEBUG = debugFunction("layouts/general.ts");
@@ -50,7 +51,10 @@ const getLayout = (compilation: Compilation, route: Route) => {
   `;
 };
 
-export const getMainSection = async (general: General, depth: number = 1) => {
+export const getMainSection = async (
+  general: Generals.General,
+  depth: number = 1
+) => {
   return `
     <div class="general">
       <div class="basicInfo">
@@ -80,8 +84,8 @@ export const getMainSection = async (general: General, depth: number = 1) => {
 };
 
 const printSpecialityColor = (
-  specialities: Speciality[],
-  color: constants.SpecialityLevelName
+  specialities: Specialities.Speciality[],
+  color: Constants.SpecialityLevelName
 ) => {
   return `
     <tr class="${color}">
@@ -146,11 +150,11 @@ const printSpecialityColor = (
   `;
 };
 
-const getSpecialities = async (general: General, depth: number) => {
+const getSpecialities = async (general: Generals.General, depth: number) => {
   const specialitiesCollection = new SpecialitiesCollection();
   await specialitiesCollection.initialize(depth);
 
-  const specialities = new Array<Speciality>();
+  const specialities = new Array<Specialities.Speciality>();
   let hasUnknown: boolean = false;
   general.specialities.map((specialName) => {
     const s = specialitiesCollection.getSpeciality(specialName);
@@ -189,9 +193,9 @@ const getSpecialities = async (general: General, depth: number) => {
               .join("\n")}
           </thead>
           <tbody>
-            ${constants.SpecialityLevelName.options
+            ${Constants.SpecialityLevelName.options
               .filter((sln) =>
-                sln.localeCompare(constants.SpecialityLevelName.Enum.None)
+                sln.localeCompare(Constants.SpecialityLevelName.Enum.None)
               )
               .map((sln) => {
                 return printSpecialityColor(specialities, sln);
@@ -204,7 +208,10 @@ const getSpecialities = async (general: General, depth: number) => {
   }
 };
 
-const printAscendingRows = (acendingDetails: GeneralAscending, index = 0) => {
+const printAscendingRows = (
+  acendingDetails: Ascending.GeneralAscending,
+  index = 0
+) => {
   let recursionRequired = false;
   const template: string =
     `
@@ -262,10 +269,13 @@ const printAscendingRows = (acendingDetails: GeneralAscending, index = 0) => {
   return template;
 };
 
-const getAscendingDetails = async (general: General, depth: number) => {
+const getAscendingDetails = async (
+  general: Generals.General,
+  depth: number
+) => {
   const ascendingAttributesCollection = new AscendingAttributesCollection();
   await ascendingAttributesCollection.initialize(depth);
-  const ascendingDetails: GeneralAscending | undefined =
+  const ascendingDetails: Ascending.GeneralAscending | undefined =
     ascendingAttributesCollection.getAscendingAttributes(general.name);
   if (ascendingDetails) {
     return `
@@ -297,21 +307,20 @@ const getAscendingDetails = async (general: General, depth: number) => {
   }
 };
 
-const getSpecialSkill = async (general: General, depth: number) => {
+const getSpecialSkill = async (general: Generals.General, depth: number) => {
   const skillBooksCollection = new SkillBooksCollection();
   await skillBooksCollection.initialize(depth);
-  const skillbook: SkillBook | undefined = skillBooksCollection.getSkillBook(
-    general.book
-  );
+  const skillbook: SkillBooks.SkillBook | undefined =
+    skillBooksCollection.getSkillBook(general.book);
   if (skillbook) {
-    const buffs = new Array<Buff>();
+    const buffs = new Array<Buff.Buff>();
     if (Array.isArray(skillbook.buff)) {
       skillbook.buff.map((buff) => buffs.push(buff));
     } else {
       buffs.push(skillbook.buff);
     }
     const bookbuffTemplate = buffs
-      .map((buff: Buff) => {
+      .map((buff: Buff.Buff) => {
         return `
           <li>
             <ul class="buffDisplay">
@@ -394,7 +403,7 @@ const getSpecialSkill = async (general: General, depth: number) => {
   }
 };
 
-const getBaseStats = (general: General) => {
+const getBaseStats = (general: Generals.General) => {
   return `
   <div class="baseStats">
     <h3 class="spectrum-Heading spectrum-Heading--sizeL">

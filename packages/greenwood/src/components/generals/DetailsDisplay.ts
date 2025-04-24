@@ -1,7 +1,14 @@
-import { General } from "../../schemas/generals.ts";
-
-import { GeneralAscending } from "../../schemas/ascending.ts";
-import { type Buff } from "../../schemas/buff.ts";
+import {
+  Generals,
+  type Ascending,
+  type Buff as BuffImport,
+  type SkillBooks,
+} from "@evonytkrtips/schemas";
+type GeneralAscending = Ascending.GeneralAscending;
+type Buff = BuffImport.Buff;
+const General = Generals.General;
+type General = Generals.General;
+type SkillBook = SkillBooks.SkillBook;
 
 import debugFunction from "../../lib/debug.ts";
 const DEBUG = debugFunction("pages/Generals/details/index.ts");
@@ -308,7 +315,7 @@ export default class GeneralDetailsPage extends HTMLElement {
         if (valid.success) {
           this.general = valid.data;
           // Update the DOM when the general changes
-          void this.render();
+          this.render();
         }
       } catch (e) {
         console.error("Error parsing general data:", e);
@@ -336,7 +343,7 @@ export default class GeneralDetailsPage extends HTMLElement {
     specialitiesContainer.innerHTML = "";
   }
 
-  private async render() {
+  private render() {
     this.innerHTML = "<!--GeneralDetailsPage-->";
 
     if (!this.general) {

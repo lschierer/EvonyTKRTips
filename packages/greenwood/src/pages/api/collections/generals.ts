@@ -1,14 +1,13 @@
 export const isolation = true;
 
-import { type General } from "../../../schemas/generals.ts";
-
+import { type Generals } from "@evonytkrtips/schemas";
 import GeneralsCollection from "../../../lib/collections/generals.ts";
 
 import debugFunction from "../../../lib/debug.ts";
 const DEBUG = debugFunction("pages/api/collections/generals.ts");
 
 interface GeneralResponseBody {
-  message: string | General;
+  message: string | Generals.General;
 }
 export const handler = async (request: Request) => {
   const params = new URLSearchParams(

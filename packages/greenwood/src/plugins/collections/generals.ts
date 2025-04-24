@@ -3,7 +3,7 @@ import type { SourcePlugin, ExternalSourcePage } from "@greenwood/cli";
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import { General } from "../../schemas/generals.ts";
+import { Generals } from "@evonytkrtips/schemas";
 
 import collection from "../../assets/collections/generals/collection.ts";
 
@@ -22,7 +22,7 @@ export const GeneralSourcePlugin = (): SourcePlugin => {
     provider: (): (() => Promise<ExternalSourcePage[]>) => {
       return async function () {
         const returnPages = new Array<ExternalSourcePage>();
-        const allItems = new Array<General>();
+        const allItems = new Array<Generals.General>();
         await Promise.all(
           collection.map(async (item_file) => {
             if (DEBUG) {
@@ -51,7 +51,7 @@ export const GeneralSourcePlugin = (): SourcePlugin => {
                 }
               });
             if (data) {
-              const valid = General.safeParse(JSON.parse(data));
+              const valid = Generals.General.safeParse(JSON.parse(data));
               if (valid.success) {
                 allItems.push(valid.data);
               } else {

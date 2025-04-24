@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import * as constants from "../../../schemas/constants.ts";
+import { Constants as constants } from "@evonytkrtips/schemas";
 
 import simulatorState from "./state.ts";
 

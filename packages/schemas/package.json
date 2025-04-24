@@ -1,0 +1,38 @@
+{
+  "name": "@evonytkrtips/schemas",
+  "version": "1.0.0",
+  "description": "zod schemas for Evony TKR Tips",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "node build.js",
+    "build:tsc": "tsc",
+    "clean": "rimraf dist tsconfig.tsbuildinfo",
+    "dev": "tsc --watch",
+    "prebuild": "pnpm run clean",
+    "lint": "eslint .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Luke Schierer",
+  "license": "ISC",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "devDependencies": {
+    "esbuild": "^0.25.2",
+    "glob": "^11.0.1",
+    "rimraf": "^5.0.10",
+    "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "zod": "^3.0.0"
+  }
+}

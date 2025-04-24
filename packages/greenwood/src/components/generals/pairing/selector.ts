@@ -26,7 +26,7 @@ import "iconify-icon";
 import debugFunction from "../../../lib/debug.ts";
 const DEBUG = debugFunction("components/generals/pairing/selector.ts");
 
-import * as constants from "../../../schemas/constants.ts";
+import { Constants as constants } from "@evonytkrtips/schemas";
 
 import stores from "./pairingstores.ts";
 

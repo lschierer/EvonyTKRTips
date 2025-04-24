@@ -16,7 +16,7 @@ const BuffTypes = z.enum([
 ]);
 type BuffTypes = z.infer<typeof BuffTypes>;
 
-import * as constants from "../../../schemas/constants.ts";
+import { Constants as constants } from "@evonytkrtips/schemas";
 
 export const BuffTableRowUnit = z.object({
   attack: z.number().min(0).default(0),

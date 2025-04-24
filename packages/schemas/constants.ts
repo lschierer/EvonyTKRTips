@@ -152,8 +152,8 @@ export type CovenantCategory = z.infer<typeof CovenantCategory>;
 export const Unit = z.enum(["flat", "percentage"]);
 export type Unit = z.infer<typeof Unit>;
 
-const AESAdjustment = z.record(AscendingLevel, z.number());
-type AESAdjustment = z.infer<typeof AESAdjustment>;
+export const AESAdjustment = z.record(AscendingLevel, z.number());
+export type AESAdjustment = z.infer<typeof AESAdjustment>;
 
 export const BasicAESAdjustment = {
   [AscendingLevel.Enum.None]: 0,

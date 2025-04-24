@@ -16,7 +16,7 @@ import { SignalWatcher } from "@lit-labs/signals";
 
 import { z } from "zod";
 
-import * as constants from "../../../schemas/constants.ts";
+import { Constants } from "@evonytkrtips/schemas";
 
 import SpectrumCSSTable from "@spectrum-css/table/index.css" with { type: "css" };
 import SpectrumCSStextfield from "@spectrum-css/textfield/index.css" with { type: "css" };
@@ -219,13 +219,13 @@ export default class BuffTable extends SignalWatcher(LitElement) {
                       ? key1.localeCompare("mounted")
                         ? key1.localeCompare("archer")
                           ? key1.localeCompare("siege")
-                            ? constants.ClassEnum.Enum.All
-                            : constants.ClassEnum.Enum["Siege Machines"]
-                          : constants.ClassEnum.Enum["Ranged Troops"]
-                        : constants.ClassEnum.Enum["Mounted Troops"]
-                      : constants.ClassEnum.Enum["Ground Troops"];
+                            ? Constants.ClassEnum.Enum.All
+                            : Constants.ClassEnum.Enum["Siege Machines"]
+                          : Constants.ClassEnum.Enum["Ranged Troops"]
+                        : Constants.ClassEnum.Enum["Mounted Troops"]
+                      : Constants.ClassEnum.Enum["Ground Troops"];
                     if (
-                      key3.localeCompare(constants.ClassEnum.Enum.All) &&
+                      key3.localeCompare(Constants.ClassEnum.Enum.All) &&
                       key2 != undefined
                     ) {
                       if (DEBUG) {

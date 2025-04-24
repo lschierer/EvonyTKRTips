@@ -3,7 +3,7 @@ import type { SourcePlugin, ExternalSourcePage } from "@greenwood/cli";
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import { Speciality } from "../../schemas/specialities.ts";
+import { Specialities } from "@evonytkrtips/schemas";
 
 import collection from "../../assets/collections/specialities/collection.ts";
 
@@ -22,7 +22,7 @@ export const SpecialitySourcePlugin = (): SourcePlugin => {
     provider: (): (() => Promise<ExternalSourcePage[]>) => {
       return async function () {
         const returnPages = new Array<ExternalSourcePage>();
-        const allItems = new Array<Speciality>();
+        const allItems = new Array<Specialities.Speciality>();
         await Promise.all(
           collection.map(async (item_file) => {
             if (DEBUG) {
@@ -51,7 +51,7 @@ export const SpecialitySourcePlugin = (): SourcePlugin => {
                 }
               });
             if (data) {
-              const valid = Speciality.safeParse(JSON.parse(data));
+              const valid = Specialities.Speciality.safeParse(JSON.parse(data));
               if (valid.success) {
                 allItems.push(valid.data);
               } else {
@@ -81,7 +81,7 @@ export const SpecialitySourcePlugin = (): SourcePlugin => {
               speciality: jsonText,
             },
             body: `
-              <details-display ${pluginKeySinglular.toLowerCase()}="${encodeURIComponent(jsonText)}"></details-display>
+              <speciality-details ${pluginKeySinglular.toLowerCase()}="${encodeURIComponent(jsonText)}"></speciality-details>
             `,
           };
           if (DEBUG) {

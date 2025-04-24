@@ -1,14 +1,14 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import { SkillBook } from "../../schemas/skillBooks.ts";
+import { SkillBooks } from "@evonytkrtips/schemas";
 import collection from "../../assets/collections/skillBooks/collection.ts";
 
 import debugFunction from "../debug.ts";
 const DEBUG = debugFunction("lib/collections/skillBooks.ts");
 
 export default class SkillBooksCollection {
-  accessor skillbooks = new Array<SkillBook>();
+  accessor skillbooks = new Array<SkillBooks.SkillBook>();
 
   private computeBasePath = (depth: number) => {
     let bp = "";
@@ -55,7 +55,7 @@ export default class SkillBooksCollection {
           });
 
         if (jsondata) {
-          const valid = SkillBook.safeParse(JSON.parse(jsondata));
+          const valid = SkillBooks.SkillBook.safeParse(JSON.parse(jsondata));
           if (valid.success) {
             this.skillbooks.push(valid.data);
           } else {

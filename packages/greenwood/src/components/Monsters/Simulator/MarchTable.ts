@@ -10,7 +10,7 @@ import SpectrumCSSpicker from "@spectrum-css/picker/index.css" with { type: "css
 import SpectrumCSSmenu from "@spectrum-css/menu/index.css" with { type: "css" };
 import SpectrumCSSinfieldbutton from "@spectrum-css/infieldbutton/index.css" with { type: "css" };
 
-import * as constants from "../../../schemas/constants.ts";
+import { Constants as constants } from "@evonytkrtips/schemas";
 
 import debugFunction from "../../../lib/debug.ts";
 const DEBUG = debugFunction("components/Monsters/Simulator/MarchTable.ts");

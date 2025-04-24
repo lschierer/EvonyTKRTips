@@ -1,6 +1,6 @@
 export const isolation = true;
 
-import { type SkillBook } from "../../../schemas/skillBooks.ts";
+import { type SkillBooks } from "@evonytkrtips/schemas";
 
 import SkillBooksCollection from "../../../lib/collections/skillBooks.ts";
 
@@ -8,7 +8,7 @@ import SkillBooksCollection from "../../../lib/collections/skillBooks.ts";
 //const DEBUG = debugFunction("pages/api/collections/generals.ts");
 
 interface ResponseBody {
-  message: string | SkillBook;
+  message: string | SkillBooks.SkillBook;
 }
 export const handler = async (request: Request) => {
   const params = new URLSearchParams(

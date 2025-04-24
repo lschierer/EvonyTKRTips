@@ -4,7 +4,8 @@ const DEBUG = debugFunction("components/CardGrid.ts");
 import { html, css, LitElement, nothing, type TemplateResult } from "lit";
 import { customElement } from "lit/decorators.js";
 
-import { type CardMeta } from "../schemas/cardMetaData.ts";
+import { type CardMetaData } from "@evonytkrtips/schemas";
+type CardMeta = CardMetaData.CardMeta;
 
 import "@spectrum-web-components/card/sp-card.js";
 import "@spectrum-web-components/popover/sp-popover.js";

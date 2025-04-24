@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import * as constants from "./constants.ts";
+import * as constants from "./constants";
 
 export const Display = z.enum(["summary"]);
 export type Display = z.infer<typeof Display>;

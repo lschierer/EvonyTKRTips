@@ -1,14 +1,14 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import { GeneralAscending } from "../../schemas/ascending.ts";
+import { Ascending } from "@evonytkrtips/schemas";
 import collection from "../../assets/collections/ascendingAttributes/collection.ts";
 
 import debugFunction from "../debug.ts";
 const DEBUG = debugFunction("lib/collections/ascendingAttributes.ts");
 
 export default class AscendingAttributesCollection {
-  accessor ascendingAttributes = new Array<GeneralAscending>();
+  accessor ascendingAttributes = new Array<Ascending.GeneralAscending>();
 
   private computeBasePath = (depth: number) => {
     let bp = "";
@@ -57,7 +57,9 @@ export default class AscendingAttributesCollection {
             );
           });
         if (jsondata) {
-          const valid = GeneralAscending.safeParse(JSON.parse(jsondata));
+          const valid = Ascending.GeneralAscending.safeParse(
+            JSON.parse(jsondata)
+          );
           if (valid.success) {
             this.ascendingAttributes.push(valid.data);
           } else {

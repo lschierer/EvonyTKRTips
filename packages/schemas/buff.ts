@@ -1,5 +1,5 @@
 import { z } from "zod";
-import * as constants from "./constants.ts";
+import * as constants from "./constants";
 
 export const Buff = z.object({
   attribute: constants.Attribute,

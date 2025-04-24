@@ -1,14 +1,15 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import { General } from "../../schemas/generals.ts";
+import { Generals } from "@evonytkrtips/schemas";
+
 import collection from "../../assets/collections/generals/collection.ts";
 
 import debugFunction from "../debug.ts";
 const DEBUG = debugFunction("lib/collections/generals.ts");
 
 export default class GeneralsCollection {
-  accessor generals = new Array<General>();
+  accessor generals = new Array<Generals.General>();
 
   private computeBasePath = (depth: number) => {
     let bp = "";
@@ -59,7 +60,7 @@ export default class GeneralsCollection {
             }
           });
         if (jsondata) {
-          const valid = General.safeParse(JSON.parse(jsondata));
+          const valid = Generals.General.safeParse(JSON.parse(jsondata));
           if (valid.success) {
             this.generals.push(valid.data);
           } else {
@@ -80,6 +81,6 @@ export default class GeneralsCollection {
   };
 
   public getGeneral = (searchName: string) => {
-    return this.generals.find((g) => !g.id.localeCompare(searchName));
+    return this.generals.find((g) => !g.name.localeCompare(searchName));
   };
 }

@@ -3,8 +3,7 @@ import { SignalObject } from "signal-utils/object";
 
 import { z } from "zod";
 
-import * as constants from "../../../schemas/constants.ts";
-import { SpecialityLevelSelection } from "../../../schemas/specialities.ts";
+import { Constants as constants, Specialities } from "@evonytkrtips/schemas";
 
 import debugFunction from "../../../lib/debug.ts";
 /*eslint-disable @typescript-eslint/no-unused-vars */
@@ -14,7 +13,7 @@ const DEBUG = debugFunction("components/generals/pairing/pairingstores.ts");
 const GeneralOptions = z.object({
   dragon: z.boolean(),
   beast: z.boolean(),
-  specialities: SpecialityLevelSelection,
+  specialities: Specialities.SpecialityLevelSelection,
 });
 type GeneralOptions = z.infer<typeof GeneralOptions>;
 

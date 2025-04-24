@@ -1,11 +1,10 @@
-import { Speciality } from "../../schemas/specialities.ts";
-import * as constants from "../../schemas/constants.ts";
+import { Specialities, Constants } from "@evonytkrtips/schemas";
 
 import debugFunction from "../../lib/debug.ts";
 const DEBUG = debugFunction("pages/Generals/details/index.ts");
 
 export default class SpecialityDetailsPage extends HTMLElement {
-  private speciality: Speciality | null;
+  private speciality: Specialities.Speciality | null;
   private static templateElement: HTMLTemplateElement;
   private static levelTemplate: HTMLTemplateElement;
   private static buffTemplate: HTMLTemplateElement;
@@ -83,7 +82,7 @@ export default class SpecialityDetailsPage extends HTMLElement {
     }
     if (!name.localeCompare("speciality")) {
       try {
-        const valid = Speciality.safeParse(
+        const valid = Specialities.Speciality.safeParse(
           JSON.parse(decodeURIComponent(newValue))
         );
         if (valid.success) {
@@ -122,7 +121,7 @@ export default class SpecialityDetailsPage extends HTMLElement {
           ) as DocumentFragment;
         const container2 = levelContent.querySelector(".specialityLevel");
         if (container2) {
-          if (constants.SpecialityLevelName.options.includes(level.level)) {
+          if (Constants.SpecialityLevelName.options.includes(level.level)) {
             container2.classList.add(level.level);
           }
           const ba = level.buff;
@@ -141,7 +140,7 @@ export default class SpecialityDetailsPage extends HTMLElement {
               }
               const value = container3.querySelector(".specialityValue");
               if (value) {
-                value.textContent = `${buff.value.number} ${!buff.value.unit.localeCompare(constants.Unit.Enum.flat) ? "" : "%"}`;
+                value.textContent = `${buff.value.number} ${!buff.value.unit.localeCompare(Constants.Unit.Enum.flat) ? "" : "%"}`;
               }
               if (buff.class) {
                 container3.appendChild(

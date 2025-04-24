@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import * as constants from "./constants.ts";
+import * as constants from "./constants";
 
 export const MetaBook = z.object({
   name: z.string(),
