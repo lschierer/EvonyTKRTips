@@ -14,7 +14,7 @@
     "@commitlint/types": "^19.8.0",
     "@eslint/js": "^9.25.1",
     "@release-it/conventional-changelog": "^10.0.1",
-    "@types/node": "^22.14.1",
+    "@types/node": "^22.15.1",
     "@types/postcss-import": "^14.0.3",
     "@typescript-eslint/parser": "^8.31.0",
     "eslint": "^9.25.1",
@@ -27,8 +27,8 @@
     "postcss-lit": "^1.2.0",
     "prettier": "^3.5.3",
     "rehype-class-names": "^2.0.0",
-    "release-it": "^18.1.2",
-    "stylelint-config-standard": "^37.0.0",
+    "release-it": "^19.0.1",
+    "stylelint-config-standard": "^38.0.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.31.0"
   },
@@ -36,7 +36,7 @@
     "eslint-plugin-import": "^2.31.0",
     "jiti": "^2.4.2",
     "prettier-plugin-astro": "^0.14.1",
-    "prettier-plugin-sh": "^0.16.1",
+    "prettier-plugin-sh": "^0.17.2",
     "tsx": "^4.19.3"
   },
   "lint-staged": {
