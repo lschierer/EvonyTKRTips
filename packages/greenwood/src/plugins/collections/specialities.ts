@@ -1,11 +1,8 @@
 import type { SourcePlugin, ExternalSourcePage } from "@greenwood/cli";
 
-import fs from "node:fs/promises";
-import path from "node:path";
-
 import { Specialities } from "@evonytkrtips/schemas";
 
-import collection from "../../assets/collections/specialities/collection.ts";
+import collection from "@evonytkrtips/assets/collections/specialities";
 
 import debugFunction from "../../lib/debug.ts";
 const DEBUG = debugFunction(new URL(import.meta.url).pathname);
@@ -29,53 +26,41 @@ export const SpecialitySourcePlugin = (): SourcePlugin => {
               console.log(`item file item_file is ${item_file}`);
             }
 
-            const basePath = `../../assets/collections/${pluginKeyPlural.toLowerCase()}/`;
+            const filePath = `@evonytkrtips/assets/collections/${pluginKeyPlural.toLowerCase()}/${item_file}`;
 
-            const filePath = new URL(
-              path.join(basePath, item_file),
-              import.meta.url
-            );
             if (DEBUG) {
-              console.log(`filePath is ${filePath.pathname}`);
+              console.log(`filePath is ${filePath}`);
             }
+            let data = (await import(filePath, {
+              with: { type: "json" },
+            })) as object;
 
-            const data = await fs
-              .readFile(filePath, {
-                encoding: "utf8",
-              })
-              .catch((error: unknown) => {
-                if (DEBUG) {
-                  console.error(
-                    `error reading file ${filePath.pathname} for ${item_file} with error ${JSON.stringify(error)}`
-                  );
-                }
-              });
-            if (data) {
-              const valid = Specialities.Speciality.safeParse(JSON.parse(data));
-              if (valid.success) {
-                allItems.push(valid.data);
-              } else {
-                if (DEBUG) {
-                  console.error(
-                    `failed to parse ${pluginKeySinglular} data for ${item_file}`,
-                    valid.error.message
-                  );
-                }
+            if ("default" in data) {
+              data = data.default as object;
+            }
+            const valid = Specialities.Speciality.safeParse(data);
+            if (valid.success) {
+              allItems.push(valid.data);
+            } else {
+              if (DEBUG) {
+                console.error(
+                  `failed to parse ${pluginKeySinglular} data for ${item_file}`,
+                  valid.error.message
+                );
               }
             }
           })
         );
         for (const item of allItems) {
-          const route = encodeURI(
-            `/Reference/${pluginKeyPlural}/${item.name}/`
-          );
+          // Use a simple string without encoding for the route
+          const route = `/Reference/${pluginKeyPlural}/${item.name}/`;
           const jsonText = JSON.stringify(item);
           const page: ExternalSourcePage = {
             title: `Details for ${item.name}`,
             route,
             collection: [pluginKeyPlural.toLowerCase()],
             imports: [
-              `/components/${pluginKeyPlural.toLowerCase()}/DetailsDisplay.ts type=module`,
+              `/components/${pluginKeyPlural.toLowerCase()}/DetailsDisplay.ts type="module"`,
             ],
             data: {
               speciality: jsonText,

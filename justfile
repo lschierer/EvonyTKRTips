@@ -23,8 +23,8 @@ build: install parse
 
 [working-directory: 'packages/assets']
 parse: install
-  ${PNPM} build
   ./bin/createCollections.sh
+  ${PNPM} build
 
 
 [working-directory: 'packages/infrastructure']

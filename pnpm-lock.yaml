@@ -156,9 +156,6 @@ importers:
       postcss:
         specifier: ^8.5.3
         version: 8.5.3
-      postcss-cli:
-        specifier: ^11.0.1
-        version: 11.0.1(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)
       postcss-extend:
         specifier: ^1.0.5
         version: 1.0.5
@@ -208,9 +205,21 @@ importers:
       '@types/postcss-sorting':
         specifier: ^8.0.2
         version: 8.0.2
+      esbuild:
+        specifier: ^0.25.3
+        version: 0.25.3
+      glob:
+        specifier: ^11.0.2
+        version: 11.0.2
       jiti:
         specifier: ^2.4.2
         version: 2.4.2
+      postcss-cli:
+        specifier: ^11.0.1
+        version: 11.0.1(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)
+      zod:
+        specifier: ^3.24.3
+        version: 3.24.3
 
   packages/greenwood:
     dependencies:

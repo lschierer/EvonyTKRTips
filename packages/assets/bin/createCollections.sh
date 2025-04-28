@@ -1,11 +1,14 @@
 #!/bin/bash
 
 EXPORTDIR='./dist/collections';
+SRCDIR='./src/collections';
 
 if [ -d "$EXPORTDIR" ]; then
   rm -rf "$EXPORTDIR";
+  rm -rf "$SRCDIR";
 fi
 mkdir -p "$EXPORTDIR";
+mkdir -p "$SRCDIR";
 
 export YQ=$(which yq)
 
@@ -16,17 +19,18 @@ for line in ${collections[@]}; do
   echo $c
 
   mkdir "$EXPORTDIR/$c"
+  mkdir "$SRCDIR/$c"
 
   find ./$c -type f -iname '*.yaml' -print0 | while read -r -d '' file; do
     j=$(basename "$file" .yaml)
     $YQ eval -o=json "$file" > "$EXPORTDIR/$c/$j.json"
   done
-  find "$EXPORTDIR/$c/" -iname "*.json" -exec basename {} \+ | gsed -E 's/(.*)/"\1",/; /./{H;$!d} ; x ; s/^/const collection=[/; s/$/]; export default collection;/' > "$EXPORTDIR/$c/collection.ts"
+  find "$EXPORTDIR/$c/" -iname "*.json" -exec basename {} \+ | gsed -E 's/(.*)/"\1",/; /./{H;$!d} ; x ; s/^/const collection=[/; s/$/]; export default collection;/' > "$SRCDIR/$c/collection.ts"
 done
 
-find "$EXPORTDIR" -iname '*.ts' | while read -r line; do
+find "$SRCDIR" -iname '*.ts' | while read -r line; do
   BASE=`basename "$line" .ts`
   FULLDIR=`dirname "$line"`
   DIR=`basename $FULLDIR`
-  echo "export * as $DIR from './$DIR/$BASE.ts'" >> "$EXPORTDIR/index.ts"
+  echo "export * as $DIR from './$DIR/$BASE'" >> "$SRCDIR/index.ts"
 done

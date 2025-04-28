@@ -17,7 +17,6 @@ import { TopHeaderSectionPlugin } from "topheader-plugin";
 import { ExternalPluginFooterSection } from "footersection-plugin";
 import { SiteConfig } from "@evonytkrtips/schemas";
 
-import { GeneralSourcePlugin } from "./src/plugins/collections/generals.ts";
 import { SpecialitySourcePlugin } from "./src/plugins/collections/specialities.ts";
 
 const loadConfig = async () => {
@@ -180,7 +179,6 @@ const gc: GreenwoodConfig = {
     greenwoodPluginGoogleAnalytics({
       analyticsId: "G-98HFQWP71B",
     }),
-    GeneralSourcePlugin(),
     SpecialitySourcePlugin(),
     greenwoodPluginAdapterAws(),
     TopHeaderSectionPlugin(LocalConfig),

@@ -1,3 +1,4 @@
 **/*.json
 exports
 dist
+src/collections

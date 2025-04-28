@@ -11,6 +11,7 @@ import postcssSorting from "postcss-sorting";
 import autoprefixer from "autoprefixer";
 import cssnano from "cssnano";
 import stylelint from "stylelint";
+import { type CssSyntaxError } from "postcss";
 import { exit } from "node:process";
 
 interface CliArgs {
@@ -48,7 +49,7 @@ async function buildCSS({ outDir, minify }: CliArgs) {
     }
   } catch (err) {
     // do things with err e.g.
-    console.error(err.stack);
+    console.error((err as object)["stack" as keyof typeof err]);
   }
 
   const plugins = [
@@ -93,8 +94,7 @@ async function buildCSS({ outDir, minify }: CliArgs) {
           console.warn(`⚠️  Failed to build ${file}: ${err.message}`);
         }
         if ("name" in err && err.name === "CssSyntaxError") {
-          //@ts-expect-error unknown type
-          console.warn(err.showSourceCode()); //eslint-disable-line  @typescript-eslint/no-unsafe-call
+          console.warn((err as CssSyntaxError).showSourceCode());
         }
       }
     }
