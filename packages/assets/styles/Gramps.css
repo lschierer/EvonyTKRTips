@@ -1,0 +1,77 @@
+@import url("@spectrum-css/typography");
+@import url("@spectrum-css/card");
+
+:root {
+  --color-male: var(--spectrum-green-900);
+  --color-female: var(--spectrum-purple-900);
+  --timeline-height: 47vh;
+  --mod-heading-margin-start: 0px;
+}
+
+person-section {
+  display: block;
+  margin-bottom: 1rem;
+  width: auto;
+  max-width: 100%;
+}
+
+gramps-individual {
+  min-height: calc(var(--timeline-height) + 20vh);
+  display: block;
+  flex: 1;
+  width: auto;
+  max-width: 100%;
+}
+
+div.gramps-individual {
+  min-width: 0;
+  width: auto;
+  max-width: 100%;
+  min-height: 0;
+  height: auto;
+  flex: 1;
+}
+
+div > div.CardContainer > div.CardBody > div.Card-content {
+  --mod-heading-margin-start: 0px;
+}
+
+.color-male {
+  color: var(--color-male);
+}
+
+.color-female {
+  color: var(--color-female);
+}
+
+ul.bio {
+  padding-left: 2rem;
+
+  --mod-body-margin-end: 1px;
+}
+
+.TimelineCard {
+  margin: 1px 0;
+  min-width: 1vw;
+  width: auto;
+  max-width: 100%;
+  height: calc(var(--timeline-height) + 2em);
+  border-style: solid;
+  border-color: var(--spectrum-blue-400);
+  border-radius: 4px;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+div > div.TimelineCard > ancestors-tree {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: var(--timeline-height);
+  overflow: auto hidden;
+}
+
+p.spectrum-Body.spectrum-Body--sizeXXS {
+  margin: 0.1px;
+  margin-block: 0.1px;
+}

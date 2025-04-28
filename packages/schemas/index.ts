@@ -9,4 +9,11 @@ export * as GeneralConflictGroups from "./generalConflictGroups";
 export * as Generals from "./generals";
 export * as SkillBooks from "./skillBooks";
 export * as Specialities from "./specialities";
-export * as Table from "./table";
+export { SiteConfig } from "./config";
+export {
+  FrontMatter,
+  ParsedResult,
+  ExternalPage,
+  NavigationItem,
+  ClientNavItem,
+} from "./page";

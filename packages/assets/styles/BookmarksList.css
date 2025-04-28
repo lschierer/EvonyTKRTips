@@ -1,0 +1,7 @@
+ul.dateList {
+  margin-block: 2px 1px;
+}
+
+li.spectrum-Detail.spectrum-Detail--sizeM {
+  --mod-detail-margin-start: 1px;
+}

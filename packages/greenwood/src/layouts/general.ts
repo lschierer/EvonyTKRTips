@@ -12,7 +12,7 @@ import {
 import SkillBooksCollection from "../lib/collections/skillBooks.ts";
 import SpecialitiesCollection from "../lib/collections/specialities.ts";
 import AscendingAttributesCollection from "../lib/collections/ascendingAttributes.ts";
-import "../components/sidebar.ts";
+import "../components/SideBar.ts";
 
 import debugFunction from "../lib/debug.ts";
 const DEBUG = debugFunction("layouts/general.ts");
@@ -39,7 +39,7 @@ const getLayout = (compilation: Compilation, route: Route) => {
       </header>
 
       <div class="main">
-        <side-bar route="${route.route}"></side-bar>
+        <side-bar ></side-bar>
           {/*getMainSection(general) should go here,
           but I need to *get* the general */}
           <div class="content">

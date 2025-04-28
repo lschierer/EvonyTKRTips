@@ -1,6 +1,7 @@
 div.general h2 {
   text-align: center;
 }
+
 div.basicInfo {
   display: flex;
   flex-direction: row;
@@ -11,12 +12,15 @@ div.basicInfo {
 div.indexListing {
   width: 100%;
 }
+
 ul.indexListing {
-  max-height: minmax(60vh, fit-content);
+  max-height: 60vh;
+  height: fit-content;
   list-style-type: none;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
   grid-auto-flow: dense;
+
   & li {
     padding-bottom: 0.5rem;
   }
@@ -29,21 +33,10 @@ ul.baseInfo ul {
   padding-inline-start: 1rem;
 }
 
-div.BookBuffs {
-  & ul.buffList {
-    padding-inline-start: 1rem;
-    column-count: 2;
-
-    & ul {
-      padding-inline-start: 0px;
-      list-style: none;
-    }
-  }
-}
-
 div.AscendingDetails {
   margin-top: 1.5rem;
 }
+
 div.Specialities {
   margin-top: 3rem;
 }
@@ -57,33 +50,48 @@ div.Specialities table {
 
   & tbody {
     border-top: 1px solid var(--sl-color-accent);
+
     & td {
       border-left: 1px solid var(--sl-color-accent);
       vertical-align: top;
+
       & ul {
-        margin-block-start: 0.5rem;
-        margin-block-end: 0px;
+        margin-block: 0.5rem 0;
         padding-inline-start: 0.5rem;
         list-style: none;
       }
     }
 
-    & tr {
-    }
     & tr.Green {
       background: var(--spectrum-green-200);
     }
+
     & tr.Blue {
       background-color: var(--spectrum-blue-200);
     }
+
     & tr.Purple {
       background-color: var(--spectrum-purple-200);
     }
+
     & tr.Orange {
       background-color: var(--spectrum-orange-200);
     }
+
     & tr.Gold {
       background-color: var(--spectrum-yellow-200);
+    }
+  }
+}
+
+div.BookBuffs {
+  & ul.buffList {
+    padding-inline-start: 1rem;
+    column-count: 2;
+
+    & ul {
+      padding-inline-start: 0;
+      list-style: none;
     }
   }
 }

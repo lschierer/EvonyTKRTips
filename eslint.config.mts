@@ -5,13 +5,16 @@ import globals from "globals";
 export default tseslint.config(
   {
     ignores: [
+      "**/dist/**",
+      "**/public/**",
+      "packages/infrastructure/.sst/**",
       "packages/starlight/.astro/**",
-      "packages/starlight/dist/**",
       "packages/greenwood/.greenwood/**",
-      "packages/greenwood/public/**",
+      "packages/greenwood/node_modules/greenwoodspectrumtheme/dist/**",
     ],
   },
   {
+    ignores: ["packages/greenwood/node_modules/greenwoodspectrumtheme/dist/**"],
     extends: [
       tseslint.configs.recommendedTypeChecked,
       tseslint.configs.strictTypeChecked,
@@ -40,14 +43,16 @@ export default tseslint.config(
         ...globals.browser,
       },
       parserOptions: {
-        projectService: true,
+        projectService: {
+          allowDefaultProject: ["eslint.config.mts"],
+        },
         tsconfigRootDir: import.meta.dirname,
         projectFolderIgnoreList: ["**/node_modules/**"],
       },
     },
   },
   {
-    files: ["**/*/*.js"],
+    files: ["**/*/*.js", "**/*/*.mjs"],
     ignores: ["packages/greenwood/public/**"],
     extends: [eslint.configs.recommended, tseslint.configs.disableTypeChecked],
   },
@@ -59,6 +64,22 @@ export default tseslint.config(
     ],
     rules: {
       "@typescript-eslint/no-unused-vars": "off",
+    },
+  },
+  // Add a new configuration specifically for packages/infrastructure
+  {
+    files: [
+      "packages/infrastructure/**/*.ts",
+      "packages/infrastructure/**/*.mts",
+    ],
+    rules: {
+      "@typescript-eslint/no-unused-vars": "off",
+    },
+  },
+  {
+    files: ["packages/infrastructure/sst.config.ts"],
+    rules: {
+      "@typescript-eslint/triple-slash-reference": "off",
     },
   }
 );

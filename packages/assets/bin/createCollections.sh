@@ -1,42 +1,11 @@
 #!/bin/bash
 
-while getopts ":o:" opt; do
-  case "$opt" in
-    o)
-      OUTPUTDIR="$OPTARG"
-      shift 2
-      continue
-      ;;
-    \?)
-      echo "Unrecognized option '$1'"
-      exit 2
-      ;;
-    :)
-      echo "Option -$OPTARG requires an argument." >&2
-      exit 1
-      ;;
-  esac
-done
-
-shift $((OPTIND - 1))
-
-if [ -z OUTPUTDIR ]; then
-  echo '-o is required' >&2
-  exit 3
-elif [ ! -d "$OUTPUTDIR" ]; then
-  echo "OUTPUTDIR '$OUTPUTDIR' must exist"
-  echo $(pwd)
-  exit 4
-else
-  echo "OUTPUTDIR is '$OUTPUTDIR'"
-fi
-
-EXPORTDIR='./exports';
+EXPORTDIR='./dist/collections';
 
 if [ -d "$EXPORTDIR" ]; then
   rm -rf "$EXPORTDIR";
 fi
-mkdir "$EXPORTDIR";
+mkdir -p "$EXPORTDIR";
 
 export YQ=$(which yq)
 
@@ -61,5 +30,3 @@ find "$EXPORTDIR" -iname '*.ts' | while read -r line; do
   DIR=`basename $FULLDIR`
   echo "export * as $DIR from './$DIR/$BASE.ts'" >> "$EXPORTDIR/index.ts"
 done
-
-rsync -a --delete "$EXPORTDIR/" "$OUTPUTDIR/"

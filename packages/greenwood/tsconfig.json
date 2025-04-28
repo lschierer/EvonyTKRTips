@@ -2,6 +2,7 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "types": ["node", "../../myGlobals.d.ts"],
     "allowArbitraryExtensions": true,
     "allowImportingTsExtensions": true,
     "allowJs": true,
@@ -14,7 +15,7 @@
     "incremental": true,
     "isolatedModules": true,
     "lib": ["ES2023", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
+    "module": "Preserve",
     "moduleResolution": "bundler",
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
@@ -33,12 +34,12 @@
         "strict": true
       }
     ],
+    "rewriteRelativeImportExtensions": false,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES2023",
-    "types": ["node", "../../globals.d.ts"],
+    "target": "ESNext",
     "useDefineForClassFields": false,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": false
   },
   "exclude": ["public"],
   "include": ["./**/*.ts", "./**/*.mts", "./**/*.tsx", "../../globals.d.ts"]

@@ -1,6 +1,9 @@
 import * as z from "zod";
 
 import * as constants from "./constants";
+import { Speciality } from "./specialities";
+import { AscendingLevel } from "./ascending";
+import { SkillBook } from "./skillBooks";
 
 export const Display = z.enum(["summary"]);
 export type Display = z.infer<typeof Display>;
@@ -64,3 +67,17 @@ export const GeneralPair = z.object({
   ScoreSet: constants.EvAnsScoreSet.optional(),
 });
 export type GeneralPair = z.infer<typeof GeneralPair>;
+
+export const CompleteGeneral = General.omit({
+  ascending: true,
+  book: true,
+  specialities: true,
+}).extend({
+  ascending: z.union([
+    z.boolean().refine((val) => !val),
+    AscendingLevel.array(),
+  ]),
+  book: SkillBook,
+  specialities: Speciality.array(),
+});
+export type CompleteGeneral = z.infer<typeof CompleteGeneral>;

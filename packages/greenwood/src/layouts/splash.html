@@ -1,25 +1,29 @@
-<body>
+<head>
+  <link rel="stylesheet" href="/styles/global.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Micro+5&display=swap"
+    rel="stylesheet"
+  />
+
   <script type="module">
     import "/node_modules/@spectrum-web-components/theme/sp-theme.js";
     import "/node_modules/@spectrum-web-components/theme/src/themes.js";
   </script>
-  <script src="/node_modules/greenwoodspectrumtheme/components/theme.js"
-  <script
-    type="module"
-    data-gwd-opt="default"
-    src="/components/card-grid.ts"
-  ></script>
-  <script
-    type="module"
-    data-gwd-opt="default"
-    src="/components/SplashCards.ts"
-  ></script>
-
+</head>
+<body>
   <sp-theme class="spectrum-Typography">
     <header>
       <div class="topHeader" route="${globalThis.page.route}"></div>
       <theme-component></theme-component>
     </header>
+    <div class="title-section">
+      <h1 class="spectrum-Heading spectrum-Heading--sizeXXL">
+        ${globalThis.page.title}
+      </h1>
+    </div>
+
     <main>
       <content-outlet></content-outlet>
     </main>

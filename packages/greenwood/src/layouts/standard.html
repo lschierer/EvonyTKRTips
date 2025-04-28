@@ -1,0 +1,47 @@
+<head>
+  <link
+    rel="stylesheet"
+    href="/node_modules/@evonytkrtips/assets/dist/styles/standard.css"
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Micro+5&display=swap"
+    rel="stylesheet"
+  />
+
+  <script type="module" src="/components/Spectrum/Base.ts"></script>
+  <script type="module" src="/components/Spectrum/SplitView.ts"></script>
+  <script type="module" src="/components/SideBar.ts"></script>
+</head>
+<body>
+  <sp-theme class="spectrum-Typography">
+    <header>
+      <div class="topHeader" route="${globalThis.page.route}"></div>
+
+      <theme-component></theme-component>
+    </header>
+    <div class="title-section">
+      <h1 class="spectrum-Heading spectrum-Heading--sizeXXL">
+        ${globalThis.page.title}
+      </h1>
+    </div>
+
+    <sp-split-view resizable primary-size="20%">
+      <div class="nav"><side-bar></side-bar></div>
+      <div class="main">
+        <main>
+          <content-outlet></content-outlet>
+        </main>
+      </div>
+    </sp-split-view>
+    <footer class="footer">
+      <span
+        id="copyright"
+        class="copyright spectrum-Detail spectrum-Detail--serif spectrum-Detail--sizeM spectrum-Detail--light"
+      >
+        COPYRIGHTPLACEHOLDER
+      </span>
+    </footer>
+  </sp-theme>
+</body>

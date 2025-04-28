@@ -1,0 +1,20 @@
+sp-theme {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow: auto;
+}
+
+body {
+  display: block;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  padding: var(--mod-spacing-400);
+}
+
+footer {
+  padding: var(--mod-spacing-200);
+}

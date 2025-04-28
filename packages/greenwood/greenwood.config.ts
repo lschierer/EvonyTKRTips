@@ -1,25 +1,105 @@
-import { greenwoodPluginPostCss } from "@greenwood/plugin-postcss";
 import { greenwoodPluginGoogleAnalytics } from "@greenwood/plugin-google-analytics";
+import { greenwoodPluginAdapterAws } from "@greenwood/plugin-adapter-aws";
+import type {
+  Compilation,
+  Config as GreenwoodConfig,
+  Resource,
+} from "@greenwood/cli";
+
+import yaml from "js-yaml";
+import { cosmiconfig } from "cosmiconfig";
+import * as fs from "node:fs";
 
 import process from "node:process";
 import { exit } from "node:process";
 
-import type { Compilation, Config, Resource } from "@greenwood/cli";
+import { TopHeaderSectionPlugin } from "topheader-plugin";
+import { ExternalPluginFooterSection } from "footersection-plugin";
+import { SiteConfig } from "@evonytkrtips/schemas";
 
 import { GeneralSourcePlugin } from "./src/plugins/collections/generals.ts";
 import { SpecialitySourcePlugin } from "./src/plugins/collections/specialities.ts";
 
-import { greenwoodSpectrumThemePack } from "greenwoodspectrumtheme";
+const loadConfig = async () => {
+  console.log(`loadConfig running`);
 
-import { Config as PackConfig } from "greenwoodspectrumtheme/config";
-import localConfig from "./src/spectrum-theme.config.ts";
+  const explorer = cosmiconfig("evonytkrtips", {
+    mergeSearchPlaces: true,
+    searchStrategy: "global",
+    loaders: {
+      ".yaml": (filepath) => {
+        console.log(`checking ${filepath}`);
 
-const valid = PackConfig.safeParse(localConfig);
-if (!valid.success) {
-  throw new Error(valid.error.message);
+        const valid = SiteConfig.safeParse(
+          yaml.load(fs.readFileSync(filepath, "utf-8"))
+        );
+        if (valid.success) {
+          console.log(`successful parse`);
+          return valid.data;
+        }
+
+        console.error(
+          `staticConfig could not parse ${filepath}: ${valid.error.message}`
+        );
+
+        return false;
+      },
+      ".yml": (filepath) => {
+        const valid = SiteConfig.safeParse(
+          yaml.load(fs.readFileSync(filepath, "utf-8"))
+        );
+        if (valid.success) {
+          return valid.data;
+        }
+        return false;
+      },
+    },
+  });
+
+  const result = await explorer.search().catch((error: unknown) => {
+    console.error(
+      `failed to find result for config `,
+      error instanceof Error ? error.message : JSON.stringify(error)
+    );
+  });
+  console.log(`result is ${typeof result}`);
+  if (result && !result.isEmpty) {
+    return result;
+  } else {
+    console.log(`returning false for config`, JSON.stringify(result));
+    return false;
+  }
+};
+
+let config:
+  | false
+  | {
+      config: object;
+      filepath: string;
+      isEmpty?: boolean;
+    }
+  | object = await loadConfig();
+
+if (typeof config === "object") {
+  if ("config" in config) {
+    console.log(
+      `local config is ${JSON.stringify(config["config" as keyof typeof config])}`
+    );
+
+    config = config.config;
+  } else {
+    console.error(
+      `recieved config object with no config key: ${JSON.stringify(config)}`
+    );
+  }
+} else {
+  console.warn(`No config available.`);
+}
+
+export const LocalConfig = config;
+if (!LocalConfig) {
   exit(1);
 }
-const validConfig = valid.data;
 
 //begin work around for https://github.com/TanStack/table/pull/5373
 
@@ -57,7 +137,7 @@ class ProcessEnvReplaceResource implements Resource {
 
 //end workaround
 
-const gc: Config = {
+const gc: GreenwoodConfig = {
   useTsc: true,
   activeContent: true,
   isolation: true,
@@ -71,10 +151,15 @@ const gc: Config = {
         options: {
           "h1,h2,h3,h4,h5":
             "spectrum-Heading spectrum-Heading--serif spectrum-Heading--heavy",
+          h1: "spectrum-Heading--sizeXXL",
+          h2: "spectrum-Heading--sizeXL",
+          h3: "spectrum-Heading--sizeL",
+          h4: "spectrum-Heading--sizeM",
+          h5: "spectrum-Heading--sizeS",
           a: "spectrum-Link  spectrum-Link--primary",
           "p,li": "spectrum-Body spectrum-Body--serif spectrum-Body--sizeM",
           "blockquote,blockquote paragraph":
-            "spectrum-Detail spectrum-Detail--serif spectrum-Detail--sizeM",
+            "spectrum-Body spectrum-Body--serif spectrum-Body--sizeS",
         },
       },
       "rehype-autolink-headings",
@@ -91,15 +176,15 @@ const gc: Config = {
       provider: (compilation: Compilation) =>
         new ProcessEnvReplaceResource(compilation),
     },
-    ...greenwoodSpectrumThemePack(validConfig),
-    greenwoodPluginPostCss({
-      extendConfig: true,
-    }),
+
     greenwoodPluginGoogleAnalytics({
       analyticsId: "G-98HFQWP71B",
     }),
     GeneralSourcePlugin(),
     SpecialitySourcePlugin(),
+    greenwoodPluginAdapterAws(),
+    TopHeaderSectionPlugin(LocalConfig),
+    ExternalPluginFooterSection(LocalConfig),
   ],
 };
 export default gc;

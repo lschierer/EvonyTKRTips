@@ -1,6 +1,6 @@
 ---
 author: Luke Schierer
-layout: spash
+layout: splash
 imports:
   - /components/SplashCards.ts type="module"
 ---

@@ -1,0 +1,12 @@
+a.spectrum-Card {
+  width: 100%;
+}
+
+div.spectrum-Card {
+  border: 0.5px solid var(--sl-color-accent-low);
+}
+
+div.spectrum-Card-body {
+  width: 80%;
+  flex-grow: 2;
+}

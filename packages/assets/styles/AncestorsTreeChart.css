@@ -1,0 +1,62 @@
+@import url("@spectrum-css/typography");
+
+.cluster {
+  color: var(--mod-background-base-color);
+  fill: var(--mod-background-base-color);
+}
+
+.node {
+  stroke: var(--sl-color-accent-high);
+  fill: var(--mod-background-base-color);
+}
+
+.familyNode.junction.edge {
+  stroke: var(--sl-color-accent-high);
+  fill: none;
+}
+
+.familyNode.father.edge {
+  stroke: var(--color-male);
+  color: var(--color-male);
+  fill: none;
+}
+
+.familyNode.mother.edge {
+  stroke: var(--color-female);
+  color: var(--color-female);
+  fill: none;
+}
+
+.familyNode.node {
+  stroke: var(--spectrum-green-600);
+  fill: var(--mod-background-base-color);
+}
+
+.familyNode.father.node {
+  stroke: var(--color-male);
+  fill: var(--mod-background-base-color);
+}
+
+.familyNode.mother.node {
+  stroke: var(--color-female);
+  fill: var(--mod-background-base-color);
+}
+
+.color-male {
+  color: var(--color-male);
+}
+
+.color-female {
+  color: var(--color-female);
+}
+
+.svg-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+iconify-icon {
+  display: block;
+  height: 2em;
+}

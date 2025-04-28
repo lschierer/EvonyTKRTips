@@ -1,0 +1,115 @@
+@import url("@spectrum-css/tokens");
+@import url("@spectrum-css/page");
+@import url("@spectrum-css/typography");
+@import url("@spectrum-css/alertbanner");
+@import url("@spectrum-css/button");
+@import url("@spectrum-css/divider");
+
+iconify-icon {
+  margin-right: 1.5rem;
+  font-size: 2rem;
+}
+
+li p {
+  margin-top: 0;
+}
+
+li > .magical {
+  background-color: var(--spectrum-purple-100);
+}
+
+li > .mundane {
+  background-color: var(--spectrum-gray-200);
+}
+
+li > .mundane.england {
+  background-color: transparent;
+  background-image: linear-gradient(
+    175deg,
+    var(--spectrum-gray-200) 15%,
+    var(--spectrum-red-100) 90%
+  );
+}
+
+li > .mundane.scotland {
+  background-color: transparent;
+  background-image: linear-gradient(
+    175deg,
+    var(--spectrum-gray-200) 15%,
+    var(--spectrum-blue-100) 90%
+  );
+}
+
+li > .mundane.ireland {
+  background-color: transparent;
+  background-image: linear-gradient(
+    175deg,
+    var(--spectrum-gray-200) 15%,
+    var(--spectrum-green-100) 90%
+  );
+}
+
+li > .mundane.gb {
+  background-color: transparent;
+  background-image: linear-gradient(
+    175deg,
+    var(--spectrum-gray-200) 15%,
+    var(--spectrum-red-100),
+    var(--spectrum-blue-100)
+  );
+}
+
+li > .religious {
+  background-color: var(--spectrum-orange-100);
+}
+
+ul.timeline {
+  list-style-type: none;
+  position: relative;
+}
+
+ul.timeline::before {
+  content: " ";
+  background: #bebebe;
+  display: inline-block;
+  position: absolute;
+  left: 0.5em;
+  width: 0.2em;
+  height: 100%;
+}
+
+ul.timeline > li {
+  margin: 0.75em 0;
+  padding-left: 0.2em;
+}
+
+ul.timeline > li:first-child {
+  padding-top: 0.03em;
+}
+
+ul.timeline > li::before {
+  content: " ";
+  background: white;
+  display: inline-block;
+  position: absolute;
+  border-radius: 50%;
+  border: solid 0.2em #bebebe;
+  left: 0.1em;
+  width: 1em;
+  height: 1em;
+  margin-top: 0.25em;
+}
+
+section {
+  margin-bottom: 4rem;
+}
+
+ol.footnotes {
+  list-style-position: outside;
+}
+
+ol.footnotes li.footnote {
+  padding-left: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px dotted var(--spectrum-gray-200);
+}

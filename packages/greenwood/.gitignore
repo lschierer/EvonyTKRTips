@@ -5,3 +5,4 @@ public/
 .greenwood/
 
 src/assets/collections
+.footer-section-plugin.cache.json
