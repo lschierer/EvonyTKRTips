@@ -316,6 +316,9 @@ importers:
       '@tanstack/lit-table':
         specifier: ^8.21.3
         version: 8.21.3(lit@3.3.0)
+      '@tanstack/lit-virtual':
+        specifier: ^3.13.6
+        version: 3.13.6(lit@3.3.0)
       '@tanstack/table-core':
         specifier: ^8.21.3
         version: 8.21.3
@@ -3456,12 +3459,20 @@ packages:
     peerDependencies:
       lit: ^3.1.3
 
+  '@tanstack/lit-virtual@3.13.6':
+    resolution: {integrity: sha512-oBHyx+21JKad3DNkSjWkDmcp+j2Wm+DJTT3rX3jpPN9f2I5hvm3mW7w1ZPi74BShhe9qCZwZPk0nmuUxlAozrg==}
+    peerDependencies:
+      lit: ^3.1.0
+
   '@tanstack/store@0.7.0':
     resolution: {integrity: sha512-CNIhdoUsmD2NolYuaIs8VfWM467RK6oIBAW4nPEKZhg1smZ+/CwtCdpURgp7nxSqOaV9oKkzdWD80+bC66F/Jg==}
 
   '@tanstack/table-core@8.21.3':
     resolution: {integrity: sha512-ldZXEhOBb8Is7xLs01fR3YEc3DERiz5silj8tnGkFZytt1abEvl/GhUmCE0PMLaMPTa3Jk4HbKmRlHmu+gCftg==}
     engines: {node: '>=12'}
+
+  '@tanstack/virtual-core@3.13.6':
+    resolution: {integrity: sha512-cnQUeWnhNP8tJ4WsGcYiX24Gjkc9ALstLbHcBj1t3E7EimN6n6kHH+DPV4PpDnuw00NApQp+ViojMj1GRdwYQg==}
 
   '@tootallnate/quickjs-emscripten@0.23.0':
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
@@ -13077,9 +13088,16 @@ snapshots:
       '@tanstack/table-core': 8.21.3
       lit: 3.3.0
 
+  '@tanstack/lit-virtual@3.13.6(lit@3.3.0)':
+    dependencies:
+      '@tanstack/virtual-core': 3.13.6
+      lit: 3.3.0
+
   '@tanstack/store@0.7.0': {}
 
   '@tanstack/table-core@8.21.3': {}
+
+  '@tanstack/virtual-core@3.13.6': {}
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
 
