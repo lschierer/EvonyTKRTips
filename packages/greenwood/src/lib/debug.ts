@@ -26,6 +26,7 @@ const fileDebug: Record<string, boolean> = {
   "/components/covenants/DetailsDisplay.ts": false,
   "/components/generals/DetailsDisplay.ts": false,
   "/components/generals/GeneralsList.ts": false,
+  "/components/generals/GeneralsTable.ts": true,
   "/components/generals/pairing/debugStores.ts": false,
   "/components/generals/pairing/generalPairing.ts": false,
   "/components/generals/pairing/pairingstores.ts": false,

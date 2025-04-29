@@ -21,20 +21,20 @@ import { SpecialitySourcePlugin } from "./src/plugins/collections/specialities.t
 import { AscendingSourcePlugin } from "./src/plugins/collections/ascendingAttributes.ts";
 
 const loadConfig = async () => {
-  console.log(`loadConfig running`);
+  //console.log(`loadConfig running`);
 
   const explorer = cosmiconfig("evonytkrtips", {
     mergeSearchPlaces: true,
     searchStrategy: "global",
     loaders: {
       ".yaml": (filepath) => {
-        console.log(`checking ${filepath}`);
+        //console.log(`checking ${filepath}`);
 
         const valid = SiteConfig.safeParse(
           yaml.load(fs.readFileSync(filepath, "utf-8"))
         );
         if (valid.success) {
-          console.log(`successful parse`);
+          //console.log(`successful parse`);
           return valid.data;
         }
 
@@ -62,11 +62,11 @@ const loadConfig = async () => {
       error instanceof Error ? error.message : JSON.stringify(error)
     );
   });
-  console.log(`result is ${typeof result}`);
+  //console.log(`result is ${typeof result}`);
   if (result && !result.isEmpty) {
     return result;
   } else {
-    console.log(`returning false for config`, JSON.stringify(result));
+    //console.log(`returning false for config`, JSON.stringify(result));
     return false;
   }
 };
@@ -82,7 +82,7 @@ let config:
 
 if (typeof config === "object") {
   if ("config" in config) {
-    console.log(
+    //console.log(
       `local config is ${JSON.stringify(config["config" as keyof typeof config])}`
     );
 

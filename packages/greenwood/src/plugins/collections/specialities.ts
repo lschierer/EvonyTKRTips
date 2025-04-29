@@ -1,3 +1,5 @@
+export const isolation = true;
+
 import type { SourcePlugin, ExternalSourcePage } from "@greenwood/cli";
 
 import { Specialities } from "@evonytkrtips/schemas";

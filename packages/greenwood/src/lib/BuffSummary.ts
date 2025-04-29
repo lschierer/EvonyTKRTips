@@ -1,19 +1,16 @@
 import type { Buff } from "@evonytkrtips/schemas";
+import { Constants } from "@evonytkrtips/schemas";
 
 import debugFunction from "./debug.ts";
 const DEBUG = debugFunction(new URL(import.meta.url).pathname);
 
-export interface SummarizedBuff {
-  attribute: string;
-  class?: string;
-  condition?: string[];
-  totalValue: number;
-  unit: string;
-  sources: {
-    id: string;
-    level: string;
-    value: number;
-  }[];
+/**
+ * Determines if a condition is a debuff condition
+ * @param condition The condition to check
+ * @returns True if the condition is a debuff condition
+ */
+function isDebuffCondition(condition: string): boolean {
+  return (Constants.DebuffCondition.options as string[]).includes(condition);
 }
 
 /**
@@ -27,14 +24,14 @@ export const mapBuffs = (
   buffs: Buff.Buff[],
   id: string,
   level: string
-): Map<string, SummarizedBuff> => {
+): Map<string, Buff.SummarizedBuff> => {
   if (DEBUG) {
     console.log(
       `mapBuffs called with ${buffs.length} buffs for ${id} level ${level}`
     );
   }
 
-  const buffMap = new Map<string, SummarizedBuff>();
+  const buffMap = new Map<string, Buff.SummarizedBuff>();
 
   for (const buff of buffs) {
     // Create a unique key for this buff combination
@@ -47,9 +44,25 @@ export const mapBuffs = (
       : "";
     const key = `${buff.attribute}|${buff.class || ""}|${conditionKey}|${buff.value.unit}`;
 
+    // Determine if this is a debuff (negative effect)
+    let isDebuff = false;
+    if (buff.condition) {
+      for (const condition of buff.condition) {
+        if (isDebuffCondition(condition)) {
+          isDebuff = true;
+          break;
+        }
+      }
+    }
+
+    // Calculate the value to add (or subtract for debuffs)
+    const valueToAdd = isDebuff
+      ? -Math.abs(buff.value.number)
+      : Math.abs(buff.value.number);
+
     if (DEBUG) {
       console.log(
-        `Processing buff: ${buff.attribute}, value: ${buff.value.number}, key: ${key}`
+        `Processing buff: ${buff.attribute}, raw value: ${buff.value.number}, adjusted value: ${valueToAdd}, key: ${key}, isDebuff: ${isDebuff}`
       );
     }
 
@@ -66,11 +79,11 @@ export const mapBuffs = (
 
     const summary = buffMap.get(key);
     if (summary) {
-      summary.totalValue += buff.value.number;
+      summary.totalValue += valueToAdd;
       summary.sources.push({
         id: id,
         level: level,
-        value: buff.value.number,
+        value: valueToAdd,
       });
     }
   }
@@ -85,11 +98,11 @@ export const mapBuffs = (
 /**
  * Converts a Map of SummarizedBuff objects to a sorted array
  * @param buffMap Map of summarized buffs
- * @returns Sorted array of SummarizedBuff objects
+ * @returns Sorted array of Buff.SummarizedBuff objects
  */
 export const summarizeBuffs = (
-  buffMap: Map<string, SummarizedBuff>
-): SummarizedBuff[] => {
+  buffMap: Map<string, Buff.SummarizedBuff>
+): Buff.SummarizedBuff[] => {
   if (DEBUG) {
     console.log(`summarizeBuffs called with map of size ${buffMap.size}`);
   }

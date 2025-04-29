@@ -4,6 +4,7 @@ import * as constants from "./constants";
 import { Speciality } from "./specialities";
 import { AscendingLevel } from "./ascending";
 import { SkillBook } from "./skillBooks";
+import { BuffSummaryResponse } from "./buff";
 
 export const Display = z.enum(["summary"]);
 export type Display = z.infer<typeof Display>;
@@ -68,6 +69,11 @@ export const GeneralPair = z.object({
 });
 export type GeneralPair = z.infer<typeof GeneralPair>;
 
+export const GeneralWithBuffs = General.extend({
+  buffSummary: BuffSummaryResponse,
+});
+export type GeneralWithBuffs = z.infer<typeof GeneralWithBuffs>;
+
 export const CompleteGeneral = General.omit({
   ascending: true,
   book: true,
@@ -81,3 +87,14 @@ export const CompleteGeneral = General.omit({
   specialities: Speciality.array(),
 });
 export type CompleteGeneral = z.infer<typeof CompleteGeneral>;
+
+export const GeneralTableData = z.object({
+  name: z.string(),
+  attack: z.number(),
+  defense: z.number(),
+  hp: z.number(),
+  attackDebuff: z.number(),
+  defenseDebuff: z.number(),
+  hpDebuff: z.number(),
+});
+export type GeneralTableData = z.infer<typeof GeneralTableData>;
