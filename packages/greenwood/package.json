@@ -41,7 +41,7 @@
     "remark-rehype": "^11.1.2",
     "remark-stringify": "^11.0.0",
     "ts-lit-plugin": "^2.0.2",
-    "tsx": "^4.19.3",
+    "tsx": "^4.19.4",
     "typescript": "^5.8.3",
     "typescript-plugin-css-modules": "^5.1.0",
     "unified": "^11.0.5"
@@ -76,7 +76,7 @@
     "@spectrum-web-components/card": "^1.5.0",
     "@spectrum-web-components/popover": "^1.5.0",
     "@spectrum-web-components/theme": "^1.5.0",
-    "@tanstack/lit-form": "^1.8.0",
+    "@tanstack/lit-form": "^1.9.0",
     "@tanstack/lit-table": "^8.21.3",
     "@tanstack/table-core": "^8.21.3",
     "cosmiconfig": "^9.0.0",
