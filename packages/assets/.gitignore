@@ -2,3 +2,4 @@
 exports
 dist
 src/collections
+tsconfig.build.tsbuildinfo
