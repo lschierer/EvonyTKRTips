@@ -61,6 +61,7 @@ export const SpecialitySourcePlugin = (): SourcePlugin => {
             collection: [pluginKeyPlural.toLowerCase()],
             imports: [
               `/components/${pluginKeyPlural.toLowerCase()}/DetailsDisplay.ts type="module"`,
+              '/components/common/BaseDetailsDisplay.ts type="module"',
             ],
             data: {
               speciality: jsonText,
