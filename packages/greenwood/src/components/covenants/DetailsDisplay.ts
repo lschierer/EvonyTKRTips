@@ -1,5 +1,5 @@
 import type { CustomElement } from "typed-custom-elements";
-import { Ascending, Constants } from "@evonytkrtips/schemas";
+import { Covenants, Constants } from "@evonytkrtips/schemas";
 import BaseDetailsDisplay from "../common/BaseDetailsDisplay.ts";
 
 import debugFunction from "../../lib/debug.ts";
@@ -7,35 +7,35 @@ const DEBUG = debugFunction(new URL(import.meta.url).pathname);
 console.log(`DEBUG is ${DEBUG} for ${new URL(import.meta.url).pathname}`);
 
 /**
- * Component for displaying Ascending Attribute details
+ * Component for displaying Covenant details
  */
-export default class AscendingDetailsDisplay
-  extends BaseDetailsDisplay<Ascending.GeneralAscending>
+export default class CovenantDetailsDisplay
+  extends BaseDetailsDisplay<Covenants.Covenant>
   implements CustomElement
 {
   constructor() {
     super({
-      elementName: "AscendingAttribute",
-      attributeName: "ascendingattribute",
-      cssPrefix: "ascending-attribute",
-      titleField: "general",
-      levelField: "ascending",
+      elementName: "Covenant",
+      attributeName: "covenant",
+      cssPrefix: "covenant",
+      titleField: "name",
+      levelField: "levels",
       buffField: "buff",
-      levelValidator: Constants.AscendingLevel,
-      parser: Ascending.GeneralAscending,
+      levelValidator: Constants.CovenantCategory,
+      parser: Covenants.Covenant,
     });
   }
 
   static override get observedAttributes() {
-    return ["ascendingattribute"];
+    return ["covenant"];
   }
 
   protected renderLevels(levelContainer: Element): void {
-    const levels = this.data?.ascending || [];
+    const levels = this.data?.levels || [];
 
     for (const level of levels) {
       if (DEBUG) {
-        console.log(`Processing ${level.level}`);
+        console.log(`Processing ${level.category}`);
       }
 
       const levelContent = BaseDetailsDisplay.levelTemplate.content.cloneNode(
@@ -44,11 +44,12 @@ export default class AscendingDetailsDisplay
       const container = levelContent.querySelector(".level-container");
 
       if (container) {
-        // Add the level as a class
-        if (Constants.AscendingLevel.options.includes(level.level)) {
-          container.classList.add(level.level);
+        // Add the category and type as classes
+        if (Constants.CovenantCategory.options.includes(level.category)) {
+          container.classList.add(level.category);
+          container.classList.add(level.type);
         } else if (DEBUG) {
-          console.log(`Invalid level: ${level.level}`);
+          console.log(`Invalid category: ${level.category}`);
         }
 
         // Render buffs
@@ -57,7 +58,7 @@ export default class AscendingDetailsDisplay
           this.renderBuffs(buffList, level.buff);
         }
       } else if (DEBUG) {
-        console.log(`Container for ${level.level} not found`);
+        console.log(`Container for ${level.category} not found`);
       }
 
       levelContainer.appendChild(levelContent);
@@ -65,4 +66,4 @@ export default class AscendingDetailsDisplay
   }
 }
 
-customElements.define("ascendingattribute-details", AscendingDetailsDisplay);
+customElements.define("covenant-details", CovenantDetailsDisplay);

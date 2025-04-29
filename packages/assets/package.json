@@ -34,9 +34,9 @@
       "types": "./dist/collections/skillBooks/collection.d.ts",
       "import": "./dist/collections/skillBooks/collection.js"
     },
-    "./collections/ascendingAttributes": {
-      "types": "./dist/collections/ascendingAttributes/collection.d.ts",
-      "import": "./dist/collections/ascendingAttributes/collection.js"
+    "./collections/ascendingattributes": {
+      "types": "./dist/collections/ascendingattributes/collection.d.ts",
+      "import": "./dist/collections/ascendingattributes/collection.js"
     },
     "./collections/blazons": {
       "types": "./dist/collections/blazons/collection.d.ts",
@@ -52,7 +52,7 @@
     "./collections/covenants/*.json": "./dist/collections/covenants/*.json",
     "./collections/art/*.json": "./dist/collections/art/*.json",
     "./collections/skillBooks/*.json": "./dist/collections/skillBooks/*.json",
-    "./collections/ascendingAttributes/*.json": "./dist/collections/ascendingAttributes/*.json",
+    "./collections/ascendingattributes/*.json": "./dist/collections/ascendingAttributes/*.json",
     "./collections/blazons/*.json": "./dist/collections/blazons/*.json",
     "./collections/buff/*.json": "./dist/collections/buff/*.json",
     "./styles/*.css": "./dist/styles/*.css",
@@ -74,7 +74,7 @@
   ],
   "scripts": {
     "build:css": "rimraf ./dist/styles ; mkdir -p ./dist/styles ; tsx ./src/scripts/build-css.ts ./dist/styles/",
-    "build": "pnpm build:css && node ./build.js"
+    "build": "pnpm build:css && tsc -p ./tsconfig.build.json && node ./build.js"
   },
   "dependencies": {
     "@spectrum-css/actionbutton": "^7.1.3",

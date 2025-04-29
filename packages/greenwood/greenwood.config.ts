@@ -18,6 +18,7 @@ import { ExternalPluginFooterSection } from "footersection-plugin";
 import { SiteConfig } from "@evonytkrtips/schemas";
 
 import { SpecialitySourcePlugin } from "./src/plugins/collections/specialities.ts";
+import { AscendingSourcePlugin } from "./src/plugins/collections/ascendingAttributes.ts";
 
 const loadConfig = async () => {
   console.log(`loadConfig running`);
@@ -180,6 +181,7 @@ const gc: GreenwoodConfig = {
       analyticsId: "G-98HFQWP71B",
     }),
     SpecialitySourcePlugin(),
+    AscendingSourcePlugin(),
     greenwoodPluginAdapterAws(),
     TopHeaderSectionPlugin(LocalConfig),
     ExternalPluginFooterSection(LocalConfig),

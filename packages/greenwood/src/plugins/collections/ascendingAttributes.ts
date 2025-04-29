@@ -2,7 +2,7 @@ import type { SourcePlugin, ExternalSourcePage } from "@greenwood/cli";
 
 import { Ascending } from "@evonytkrtips/schemas";
 
-import collection from "@evonytkrtips/assets/collections/specialities";
+import collection from "@evonytkrtips/assets/collections/ascendingattributes";
 
 import debugFunction from "../../lib/debug.ts";
 const DEBUG = debugFunction(new URL(import.meta.url).pathname);
@@ -61,12 +61,13 @@ export const AscendingSourcePlugin = (): SourcePlugin => {
             collection: [pluginKeyPlural.toLowerCase()],
             imports: [
               `/components/${pluginKeyPlural.toLowerCase().replaceAll(" ", "")}/DetailsDisplay.ts type="module"`,
+              '/components/common/BaseDetailsDisplay.ts type="module"',
             ],
             data: {
-              speciality: jsonText,
+              ascendingattribute: jsonText,
             },
             body: `
-              <ascendingattribute-details ${pluginKeySinglular.toLowerCase().replaceAll(" ", "")}="${encodeURIComponent(jsonText)}"></ascendingattribute-details>
+              <ascendingattribute-details ascendingattribute="${encodeURIComponent(jsonText)}"></ascendingattribute-details>
             `,
           };
           if (DEBUG) {
