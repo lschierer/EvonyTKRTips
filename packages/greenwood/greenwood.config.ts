@@ -82,9 +82,9 @@ let config:
 
 if (typeof config === "object") {
   if ("config" in config) {
-    //console.log(
+    /*console.log(
       `local config is ${JSON.stringify(config["config" as keyof typeof config])}`
-    );
+    );*/
 
     config = config.config;
   } else {

@@ -1,12 +1,26 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
+import { classMap } from "lit/directives/class-map.js";
+import { styleMap } from "lit/directives/style-map.js";
+import { createRef, ref, type Ref } from "lit/directives/ref.js";
 
-import { Constants, Generals } from "@evonytkrtips/schemas";
+import {
+  getSortedRowModel,
+  flexRender,
+  getCoreRowModel,
+  TableController,
+} from "@tanstack/lit-table";
+import { VirtualizerController } from "@tanstack/lit-virtual";
+
+import { Constants, type Generals } from "@evonytkrtips/schemas";
 import collection from "@evonytkrtips/assets/collections/generals";
 
+import SpectrumCSSTokens from "@spectrum-css/tokens/dist/index.css" with { type: "css" };
+import SpectrumCSSTypography from "@spectrum-css/typography/dist/index.css" with { type: "css" };
+import SpectrumCSSTable from "@spectrum-css/table/dist/index.css" with { type: "css" };
+
 import debugFunction from "../../lib/debug.ts";
-import { GeneralTableData } from "node_modules/@evonytkrtips/schemas/dist/generals";
 const DEBUG = debugFunction(new URL(import.meta.url).pathname);
 
 /**
@@ -20,122 +34,131 @@ export default class GeneralsTable extends LitElement {
   @state() private sorting: Array<{ id: string; desc: boolean }> = [];
   @state() private loadedCount = 0;
   @state() private totalCount = 0;
+  private tableContainerRef: Ref = createRef();
+  private tableController = new TableController<Generals.GeneralTableData>(
+    this
+  );
+  private rowVirtualizerController: VirtualizerController<Element, Element> =
+    new VirtualizerController(this, {
+      count: this.data.length,
+      getScrollElement: () => this.tableContainerRef.value ?? null,
+      estimateSize: () => 33,
+      overscan: 5,
+    });
 
   @property({ type: String })
   accessor generalClass: string = Constants.GeneralType.Enum.mounted_specialist;
 
-  static override styles = css`
-    :host {
-      display: block;
-      font-family: var(--font-family, sans-serif);
-    }
+  static override styles = [
+    SpectrumCSSTokens,
+    SpectrumCSSTable,
+    SpectrumCSSTypography,
+    css`
+      :host {
+        display: block;
+        font-family: var(--font-family, sans-serif);
+      }
 
-    .loading,
-    .error {
-      padding: 1rem;
-      text-align: center;
-    }
+      .loading,
+      .error {
+        padding: 1rem;
+        text-align: center;
+      }
 
-    .error {
-      color: red;
-    }
+      .error {
+        color: red;
+      }
 
-    .class-selector {
-      margin-bottom: 1rem;
-    }
+      .class-selector {
+        margin-bottom: 1rem;
+      }
 
-    .class-selector select {
-      padding: 0.5rem;
-      border-radius: 4px;
-      border: 1px solid #ddd;
-    }
+      .class-selector select {
+        padding: 0.5rem;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+      }
 
-    .progress-bar-container {
-      width: 100%;
-      height: 20px;
-      background-color: #f0f0f0;
-      border-radius: 10px;
-      margin: 1rem 0;
-      overflow: hidden;
-    }
+      .progress-bar-container {
+        width: 100%;
+        height: 20px;
+        background-color: #f0f0f0;
+        border-radius: 10px;
+        margin: 1rem 0;
+        overflow: hidden;
+      }
 
-    .progress-bar {
-      height: 100%;
-      background-color: #4caf50;
-      transition: width 0.3s ease;
-    }
+      .progress-bar {
+        height: 100%;
+        background-color: #4caf50;
+        transition: width 0.3s ease;
+      }
 
-    .progress-text {
-      text-align: center;
-      font-size: 0.9rem;
-      margin-top: 0.25rem;
-      color: #666;
-    }
+      .progress-text {
+        text-align: center;
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+        color: #666;
+      }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1rem 0;
-    }
+      table-container {
+        overflow: "auto";
+        position: "relative";
+        max-height: 50vh;
+        min-height: 25vh;
+      }
 
-    th,
-    td {
-      padding: 0.5rem;
-      border: 1px solid #ddd;
-      text-align: left;
-    }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+      }
 
-    th {
-      background-color: #f2f2f2;
-      font-weight: bold;
-      cursor: pointer;
-    }
+      thead {
+        position: "sticky";
+        top: 0;
+        z-index: 1;
+      }
 
-    th:hover {
-      background-color: #e5e5e5;
-    }
+      .positive {
+        color: var(--spectrum-green-visual-color);
+      }
 
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
+      .negative {
+        color: var(--spectrum-red-visual-color);
+      }
 
-    tr:hover {
-      background-color: #f1f1f1;
-    }
-
-    .number-cell {
-      text-align: right;
-    }
-
-    .positive {
-      color: green;
-    }
-
-    .negative {
-      color: red;
-    }
-
-    .sort-indicator {
-      margin-left: 0.25rem;
-    }
-
-    .no-data {
-      padding: 1rem;
-      text-align: center;
-      font-style: italic;
-      color: #666;
-    }
-  `;
+      .no-data {
+        padding: 1rem;
+        text-align: center;
+        font-style: italic;
+        color: #666;
+      }
+    `,
+  ];
 
   override connectedCallback() {
     super.connectedCallback();
     this.loadData();
   }
 
+  override updated(changed: Map<string | number | symbol, unknown>) {
+    super.updated(changed);
+
+    if (changed.has("data") || (changed.has("loading") && !this.loading)) {
+      const virt = this.rowVirtualizerController.getVirtualizer();
+      virt.setOptions({
+        ...virt.options,
+        count: this.data.length,
+        getScrollElement: () => this.tableContainerRef.value ?? null,
+      });
+    }
+  }
+
   /**
    * Loads general data from the API
    */
-  private async loadData() {
+  private loadData() {
     try {
       this.loading = true;
       this.error = null;
@@ -156,7 +179,7 @@ export default class GeneralsTable extends LitElement {
 
       // Process generals in parallel
       generalNames.forEach((name) => {
-        this.loadGeneralData(name).catch((error) => {
+        this.loadGeneralData(name).catch((error: unknown) => {
           if (DEBUG) {
             console.error(`Error in loadGeneralData for ${name}:`, error);
           }
@@ -166,6 +189,7 @@ export default class GeneralsTable extends LitElement {
       console.error("Error starting data load:", error);
       this.error = error instanceof Error ? error.message : "Unknown error";
       this.loading = false;
+      this.requestUpdate("loading");
     }
   }
 
@@ -187,21 +211,24 @@ export default class GeneralsTable extends LitElement {
         return;
       }
 
-      const responseData = await response.json();
+      const responseData = (await response.json()) as object;
 
-      if (responseData.error) {
+      if ("error" in responseData) {
         if (DEBUG) {
-          console.error(
-            `Error for general ${name}: ${responseData.error.message}`
-          );
+          const error: Error = responseData.error as Error;
+          console.error(`Error for general ${name}: ${error.message}`);
         }
         return;
       }
 
       // Parse the general data
-      const generalData = responseData.message;
 
-      if (!generalData || !generalData.buffSummary) {
+      let generalData: Generals.GeneralWithBuffs | null = null;
+      if ("message" in responseData) {
+        generalData = responseData["message"] as Generals.GeneralWithBuffs;
+      }
+
+      if (!generalData) {
         if (DEBUG) {
           console.warn(`No buff summary available for general ${name}`);
         }
@@ -209,12 +236,15 @@ export default class GeneralsTable extends LitElement {
       }
 
       // Check if the general is of the requested class
-      if (!generalData.type || !generalData.type.includes(this.generalClass)) {
+      if (!(generalData.type as string[]).includes(this.generalClass)) {
         if (DEBUG) {
           console.log(
-            `Skipping general ${name} as ${(generalData as Generals.GeneralWithBuffs).type.join(", ")} not a ${this.generalClass}`
+            `Skipping general ${name} as ${generalData.type.join(", ")} not a ${this.generalClass}`
           );
         }
+        queueMicrotask(() => {
+          this.totalCount = this.totalCount - 1;
+        });
         return;
       }
 
@@ -230,42 +260,40 @@ export default class GeneralsTable extends LitElement {
       };
 
       // Process each buff in the summary
-      if (generalData.buffSummary && generalData.buffSummary.summary) {
-        for (const buff of generalData.buffSummary.summary) {
-          // Check if this is a debuff
-          let isDebuff = false;
-          if (buff.condition && buff.condition.length > 0) {
-            for (const condition of buff.condition) {
-              if (
-                (Constants.DebuffCondition.options as string[]).includes(
-                  condition
-                )
-              ) {
-                isDebuff = true;
-                break;
-              }
+      for (const buff of generalData.buffSummary.summary) {
+        // Check if this is a debuff
+        let isDebuff = false;
+        if (buff.condition && buff.condition.length > 0) {
+          for (const condition of buff.condition) {
+            if (
+              (Constants.DebuffCondition.options as string[]).includes(
+                condition
+              )
+            ) {
+              isDebuff = true;
+              break;
             }
           }
+        }
 
-          // Add to the appropriate category
-          if (buff.attribute === "Attack") {
-            if (isDebuff) {
-              tableData.attackDebuff += buff.totalValue;
-            } else {
-              tableData.attack += buff.totalValue;
-            }
-          } else if (buff.attribute === "Defense") {
-            if (isDebuff) {
-              tableData.defenseDebuff += buff.totalValue;
-            } else {
-              tableData.defense += buff.totalValue;
-            }
-          } else if (buff.attribute === "HP") {
-            if (isDebuff) {
-              tableData.hpDebuff += buff.totalValue;
-            } else {
-              tableData.hp += buff.totalValue;
-            }
+        // Add to the appropriate category
+        if (buff.attribute === "Attack") {
+          if (isDebuff) {
+            tableData.attackDebuff += buff.totalValue;
+          } else {
+            tableData.attack += buff.totalValue;
+          }
+        } else if (buff.attribute === "Defense") {
+          if (isDebuff) {
+            tableData.defenseDebuff += buff.totalValue;
+          } else {
+            tableData.defense += buff.totalValue;
+          }
+        } else if (buff.attribute === "HP") {
+          if (isDebuff) {
+            tableData.hpDebuff += buff.totalValue;
+          } else {
+            tableData.hp += buff.totalValue;
           }
         }
       }
@@ -279,6 +307,7 @@ export default class GeneralsTable extends LitElement {
       // Check if all generals are loaded
       if (this.loadedCount === this.totalCount) {
         this.loading = false;
+        this.requestUpdate("loading");
       }
 
       // Force a re-render
@@ -367,11 +396,11 @@ export default class GeneralsTable extends LitElement {
   /**
    * Handle general class selection change
    */
-  private handleClassChange(e: Event) {
+  private handleClassChange = (e: Event) => {
     const select = e.target as HTMLSelectElement;
     this.generalClass = select.value;
     this.loadData();
-  }
+  };
 
   override render() {
     // Define columns
@@ -432,9 +461,16 @@ export default class GeneralsTable extends LitElement {
       { value: Constants.GeneralType.Enum.political, label: "Political" },
     ];
 
+    const table = this.tableController.table({
+      columns,
+      data: this.data,
+      getSortedRowModel: getSortedRowModel(),
+      getCoreRowModel: getCoreRowModel(),
+    });
+
     // Class selector
     const classSelector = html`
-      <div class="class-selector">
+      <div class="class-selector spectrum spectrum--medium spectrum-Typography">
         <label for="general-class">General Class: </label>
         <select
           id="general-class"
@@ -462,11 +498,14 @@ export default class GeneralsTable extends LitElement {
             <div class="progress-bar-container">
               <div
                 class="progress-bar"
-                style="width: ${(this.loadedCount / this.totalCount) * 100}%"
+                style="width: ${(Math.min(this.loadedCount, this.totalCount) /
+                  this.totalCount) *
+                100}%"
               ></div>
             </div>
             <div class="progress-text">
-              Loading generals: ${this.loadedCount} of ${this.totalCount}
+              Loading generals: ${Math.min(this.loadedCount, this.totalCount)}
+              of ${this.totalCount}
               (${Math.round((this.loadedCount / this.totalCount) * 100)}%)
             </div>
           `
@@ -480,7 +519,13 @@ export default class GeneralsTable extends LitElement {
     }
 
     const sortedData = this.getSortedData();
-    const showTable = !this.loading || (this.loading && this.data.length > 0);
+    const showTable = !this.loading || this.data.length > 0;
+    const { rows } = table.getRowModel();
+    const virtualizer = this.rowVirtualizerController.getVirtualizer();
+
+    const tbodyStyle = {
+      height: `${virtualizer.getTotalSize()}px`,
+    };
 
     // Render table
     return html`
@@ -489,53 +534,98 @@ export default class GeneralsTable extends LitElement {
         ? html`
             ${sortedData.length > 0
               ? html`
-                  <table>
-                    <thead>
-                      <tr>
-                        ${columns.map(
-                          (column) => html`
-                            <th
-                              @click=${() => this.handleHeaderClick(column.id)}
-                            >
-                              ${column.header}
-                              <span class="sort-indicator"
-                                >${this.getSortIndicator(column.id)}</span
-                              >
-                            </th>
-                          `
+                  <div class="table-container" ${ref(this.tableContainerRef)}>
+                    <table
+                      class=" spectrum-Table spectrum-Table--sizeM spectrum-Table--emphasized "
+                    >
+                      <thead class="spectrum-Table-head">
+                        ${repeat(
+                          table.getHeaderGroups(),
+                          (headerGroup) => headerGroup.id,
+                          (headerGroup) =>
+                            html`${repeat(
+                              headerGroup.headers,
+                              (header) => header.id,
+                              (header) => {
+                                const thClass = {
+                                  "spectrum-Table-headCell": true,
+                                  "is-sortable": header.column.getCanSort(),
+                                  "is-sorted-desc": header.column.getCanSort()
+                                    ? header.column.getIsSorted()
+                                      ? header.column.getIsSorted()
+                                      : false
+                                    : false,
+                                  "is-sorted-asc": header.column.getCanSort()
+                                    ? header.column.getIsSorted()
+                                      ? header.column.getIsSorted()
+                                      : false
+                                    : false,
+                                };
+                                return html`
+                                  <th class="${classMap(thClass)}">
+                                    ${header.isPlaceholder
+                                      ? null
+                                      : flexRender(
+                                          header.column.columnDef.header,
+                                          header.getContext()
+                                        )}
+                                  </th>
+                                `;
+                              }
+                            )}`
                         )}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      ${sortedData.map(
-                        (row) => html`
-                          <tr>
-                            ${columns.map((column) => {
-                              const value = row[column.accessor];
-                              return html`
-                                <td
-                                  class="${column.isNumeric
-                                    ? "number-cell"
-                                    : ""}"
-                                >
-                                  ${column.isNumeric
-                                    ? html`<span
-                                        class="${Number(value) >= 0
-                                          ? "positive"
-                                          : "negative"}"
-                                        >${this.formatValue(
-                                          Number(value)
-                                        )}</span
-                                      >`
-                                    : value}
-                                </td>
-                              `;
-                            })}
-                          </tr>
-                        `
-                      )}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody
+                        style="${styleMap(tbodyStyle)}"
+                        class=" spectrum-Table-body "
+                      >
+                        ${repeat(
+                          this.rowVirtualizerController
+                            .getVirtualizer()
+                            .getVirtualItems(),
+                          (item) => item.key,
+                          (item, index) => {
+                            const row = rows[item.index];
+                            return html`
+                              <tr
+                                data-index=${index}
+                                class=" spectrum-Table-row row"
+                                style=${styleMap({
+                                  position: "absolute",
+                                  transform: `translateY(${item.start}px)`,
+                                  display: "flex",
+                                })}
+                                ${ref((node) => {
+                                  this.rowVirtualizerController
+                                    .getVirtualizer()
+                                    .measureElement(node);
+                                })}
+                              >
+                                ${repeat(
+                                  row.getVisibleCells(),
+                                  (cell) => cell.id,
+                                  (cell) => html`
+                                    <td
+                                      class=" spectrum-Table-cell "
+                                      style=${styleMap({
+                                        display: "flex",
+                                        width: `${cell.column.getSize()}px`,
+                                      })}
+                                    >
+                                      ${flexRender(
+                                        cell.column.columnDef.cell,
+                                        cell.getContext()
+                                      )}
+                                    </td>
+                                  `
+                                )}
+                              </tr>
+                            `;
+                          }
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 `
               : html`
                   <div class="no-data">

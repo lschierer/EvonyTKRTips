@@ -83,6 +83,7 @@ export const GeneralType = z.enum([
   "officer",
   "mayor",
   "wall",
+  "political",
   "ground_specialist",
   "mounted_specialist",
   "ranged_specialist",
