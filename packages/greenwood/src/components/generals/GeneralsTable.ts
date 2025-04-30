@@ -531,7 +531,9 @@ export default class GeneralsTable extends LitElement {
         ? html`
             ${sortedData.length > 0
               ? html`
-                  <div class="table-container">
+                  <div
+                    class="table-container spectrum spectrum-Typography spectrum--medium"
+                  >
                     <table
                       class=" spectrum-Table spectrum-Table--sizeM spectrum-Table--emphasized "
                     >
