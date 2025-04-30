@@ -102,7 +102,6 @@ export default class GeneralsTable extends LitElement {
       }
 
       table-container {
-        overflow: "auto";
         position: "relative";
         max-height: 50vh;
         min-height: 25vh;
@@ -112,12 +111,6 @@ export default class GeneralsTable extends LitElement {
         width: 100%;
         border-collapse: collapse;
         margin: 1rem 0;
-      }
-
-      thead {
-        position: "sticky";
-        top: 0;
-        z-index: 1;
       }
 
       .positive {
@@ -525,6 +518,10 @@ export default class GeneralsTable extends LitElement {
 
     const tbodyStyle = {
       height: `${virtualizer.getTotalSize()}px`,
+      "overflow-y": "auto",
+      "overflow-x": "hidden",
+      "max-height": "25vh",
+      width: "100%",
     };
 
     // Render table
@@ -534,7 +531,7 @@ export default class GeneralsTable extends LitElement {
         ? html`
             ${sortedData.length > 0
               ? html`
-                  <div class="table-container" ${ref(this.tableContainerRef)}>
+                  <div class="table-container">
                     <table
                       class=" spectrum-Table spectrum-Table--sizeM spectrum-Table--emphasized "
                     >
@@ -576,8 +573,9 @@ export default class GeneralsTable extends LitElement {
                         )}
                       </thead>
                       <tbody
+                        ${ref(this.tableContainerRef)}
+                        class="scroll-container spectrum-Table-body"
                         style="${styleMap(tbodyStyle)}"
-                        class=" spectrum-Table-body "
                       >
                         ${repeat(
                           this.rowVirtualizerController
@@ -589,7 +587,7 @@ export default class GeneralsTable extends LitElement {
                             return html`
                               <tr
                                 data-index=${index}
-                                class=" spectrum-Table-row row"
+                                class="spectrum-Table-row row"
                                 style=${styleMap({
                                   position: "absolute",
                                   transform: `translateY(${item.start}px)`,
@@ -606,7 +604,7 @@ export default class GeneralsTable extends LitElement {
                                   (cell) => cell.id,
                                   (cell) => html`
                                     <td
-                                      class=" spectrum-Table-cell "
+                                      class="spectrum-Table-cell"
                                       style=${styleMap({
                                         display: "flex",
                                         width: `${cell.column.getSize()}px`,
