@@ -10,7 +10,6 @@ import {
 } from "../../../lib/BuffSummaryService.ts";
 
 import debugFunction from "../../../lib/debug.ts";
-import { GeneralWithBuffs } from "node_modules/@evonytkrtips/schemas/dist/generals";
 const DEBUG = debugFunction("pages/api/collections/generals.ts");
 
 interface GeneralResponseBody {
