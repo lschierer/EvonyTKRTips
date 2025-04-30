@@ -16,6 +16,7 @@ const getFrontmatter: GetFrontmatter = async () => {
   return Promise.resolve({
     title: "General Comparison",
     layout: "standard",
+    imports: ['/components/generals/GeneralsTable.ts type="module"'],
   });
 };
 
@@ -32,6 +33,9 @@ export default class GeneralComparisonPage extends HTMLElement {
     Constants.BuffActivation.Enum.Overall,
   ];
   private generalType: Constants.GeneralType | null = null;
+  private virtualTable: VirtualTable | null = null;
+  private sortColumn: string = "attack";
+  private sortDirection: "asc" | "desc" = "desc";
 
   constructor() {
     super();
@@ -39,6 +43,7 @@ export default class GeneralComparisonPage extends HTMLElement {
       console.log(`GeneralComparisonPage being constructed`);
     }
   }
+
   // This method will be called during SSR
   async connectedCallback() {
     if (DEBUG) {
@@ -53,6 +58,13 @@ export default class GeneralComparisonPage extends HTMLElement {
     }
     this.loading = false;
     this.render();
+
+    // Initialize virtual table after initial render
+    if (typeof window !== "undefined") {
+      window.addEventListener("DOMContentLoaded", () => {
+        this.initVirtualTable();
+      });
+    }
   }
 
   private async loadData() {
@@ -186,8 +198,27 @@ export default class GeneralComparisonPage extends HTMLElement {
       }
 
       // Sort data by attack value for demonstration
-      this.data.sort((a, b) => b.attack - a.attack);
+      this.sortData();
     }
+  }
+
+  private sortData() {
+    const column = this.sortColumn;
+    const direction = this.sortDirection;
+
+    this.data.sort((a, b) => {
+      const valueA = a[column as keyof Generals.GeneralTableData];
+      const valueB = b[column as keyof Generals.GeneralTableData];
+
+      if (typeof valueA === "number" && typeof valueB === "number") {
+        return direction === "asc" ? valueA - valueB : valueB - valueA;
+      } else if (typeof valueA === "string" && typeof valueB === "string") {
+        return direction === "asc"
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      }
+      return 0;
+    });
   }
 
   protected filterBuffs(
@@ -313,10 +344,97 @@ export default class GeneralComparisonPage extends HTMLElement {
       this.loadData()
         .then(() => {
           this.render();
+          if (this.virtualTable) {
+            this.virtualTable.updateData(this.data);
+          }
         })
         .catch((error: unknown) => {
           console.error(JSON.stringify(error));
         });
+    }
+  }
+
+  private handleSort(column: string) {
+    if (this.sortColumn === column) {
+      // Toggle direction if clicking the same column
+      this.sortDirection = this.sortDirection === "asc" ? "desc" : "asc";
+    } else {
+      // Default to descending for new column
+      this.sortColumn = column;
+      this.sortDirection = "desc";
+    }
+
+    this.sortData();
+
+    if (this.virtualTable) {
+      this.virtualTable.updateData(this.data);
+    }
+
+    // Update sort indicators in the UI
+    const headers = this.querySelectorAll("th");
+    headers.forEach((header) => {
+      const headerColumn = header.dataset.column;
+      if (headerColumn) {
+        header.classList.remove("sort-asc", "sort-desc");
+        if (headerColumn === this.sortColumn) {
+          header.classList.add(
+            this.sortDirection === "asc" ? "sort-asc" : "sort-desc"
+          );
+        }
+      }
+    });
+  }
+
+  private initVirtualTable() {
+    const tableContainer = this.querySelector(".virtual-table-container");
+    if (tableContainer) {
+      this.virtualTable = new VirtualTable(
+        tableContainer as HTMLElement,
+        this.data,
+        {
+          rowHeight: 48,
+          columns: [
+            { id: "name", header: "General", width: "25%" },
+            {
+              id: "attack",
+              header: "Attack",
+              width: "12.5%",
+              formatter: (value) => `${value}%`,
+            },
+            {
+              id: "defense",
+              header: "Defense",
+              width: "12.5%",
+              formatter: (value) => `${value}%`,
+            },
+            {
+              id: "hp",
+              header: "HP",
+              width: "12.5%",
+              formatter: (value) => `${value}%`,
+            },
+            {
+              id: "attackDebuff",
+              header: "Attack Debuff",
+              width: "12.5%",
+              formatter: (value) => `${value}%`,
+            },
+            {
+              id: "defenseDebuff",
+              header: "Defense Debuff",
+              width: "12.5%",
+              formatter: (value) => `${value}%`,
+            },
+            {
+              id: "hpDebuff",
+              header: "HP Debuff",
+              width: "12.5%",
+              formatter: (value) => `${value}%`,
+            },
+          ],
+          onSort: (column) => this.handleSort(column),
+        }
+      );
     }
   }
 
@@ -372,78 +490,43 @@ export default class GeneralComparisonPage extends HTMLElement {
       content += `<div class="error">Error: ${this.error}</div>`;
     } else {
       if (DEBUG) {
-        console.log(`adding the table now`);
-      }
-      // Add table
-      content += `
-        <table class="spectrum-Table spectrum-Table--sizeM spectrum-Table--emphasized">
-          <thead class="spectrum-Table-head">
-            <tr>
-              <th class="spectrum-Table-headCell">General</th>
-              <th class="spectrum-Table-headCell">Attack</th>
-              <th class="spectrum-Table-headCell">Defense</th>
-              <th class="spectrum-Table-headCell">HP</th>
-              <th class="spectrum-Table-headCell">Attack Debuff</th>
-              <th class="spectrum-Table-headCell">Defense Debuff</th>
-              <th class="spectrum-Table-headCell">HP Debuff</th>
-            </tr>
-          </thead>
-          <tbody class="spectrum-Table-body">
-      `;
-
-      if (this.data.length === 0) {
-        content += `
-          <tr>
-            <td colspan="7" class="no-data">No data available</td>
-          </tr>
-        `;
-      } else {
-        for (const general of this.data) {
-          content += `
-            <tr class="spectrum-Table-row">
-              <td class="spectrum-Table-cell">
-                <span class="spectrum-Heading spectrum-Heading--sizeS">
-                  <strong>${general.name}</strong>
-                </span>
-              </td>
-              <td class="spectrum-Table-cell">${general.attack}%</td>
-              <td class="spectrum-Table-cell">${general.defense}%</td>
-              <td class="spectrum-Table-cell">${general.hp}%</td>
-              <td class="spectrum-Table-cell">${general.attackDebuff}%</td>
-              <td class="spectrum-Table-cell">${general.defenseDebuff}%</td>
-              <td class="spectrum-Table-cell">${general.hpDebuff}%</td>
-            </tr>
-          `;
-        }
+        console.log(`adding the virtual table now`);
       }
 
+      // Add virtual table container
       content += `
-          </tbody>
-        </table>
+        <div
+        id="table-container"
+        data-items="${encodeURIComponent(JSON.stringify(this.data))}"
+        class="virtual-table-container" style="height: 600px; overflow: auto;"
+        >
+        <sp-table
+            id="sorted-virtualized-table"
+            scroller="true"
+        >
+          <sp-table-head>
+                <sp-table-head-cell sortable sort-direction="desc" sort-key="name">General</sp-table-head-cell>
+                <sp-table-head-cell sortable sort-direction="desc" sort-key="attack">Attack</sp-table-head-cell>
+                <sp-table-head-cell sortable sort-direction="desc" sort-key="defense">Defense</sp-table-head-cell>
+                <sp-table-head-cell sortable sort-direction="desc" sort-key="hp">HP</sp-table-head-cell>
+                <sp-table-head-cell sortable sort-direction="desc" sort-key="attackDebuff">Attack Debuff</sp-table-head-cell>
+                <sp-table-head-cell sortable sort-direction="desc" sort-key="defenseDebuff">Defense Debuff</sp-table-head-cell>
+                <sp-table-head-cell sortable sort-direction="desc" sort-key="hpDebuff">HP Debuff</sp-table-head-cell>
+            </sp-table-head>
+            <sp-table-body></sp-table-body>
+          </sp-table>
+        </div>
       `;
     }
 
     content += `</div>`;
 
-    // Add styles
+    // Add styles - using the correct path from node_modules
     content += `
       <link rel="stylesheet" href="/node_modules/@evonytkrtips/assets/dist/styles/ComparisionTablePage.css" />
     `;
 
-    // Add client-side script for event handling
-    content += `
-      <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          const filterSelect = document.getElementById('buff-filter');
-          if (filterSelect) {
-            filterSelect.addEventListener('change', function() {
-              // For now, just reload the page with the new filter
-              window.location.href = window.location.pathname + '?filter=' + this.value;
-            });
-          }
-        });
-      </script>
-    `;
+    // Add client-side script now included by the getLayout function
 
     // Set the innerHTML of the element
     this.innerHTML = content;
