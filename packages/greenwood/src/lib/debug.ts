@@ -47,6 +47,7 @@ const fileDebug: Record<string, boolean> = {
   "/lib/state/toolsState.ts": false,
   "/lib/topLevelSections.ts": false,
   "/pages/Generals/Pair Picking.ts": false,
+  "/pages/Generals/comparison.ts": true,
   "/pages/Generals/details.ts": false,
   "/pages/Generals/pair-picking.ts": false,
   "/pages/Monsters/Simulator.ts": false,

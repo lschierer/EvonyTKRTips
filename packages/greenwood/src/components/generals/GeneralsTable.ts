@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html, css, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
 import { classMap } from "lit/directives/class-map.js";
@@ -6,6 +6,7 @@ import { styleMap } from "lit/directives/style-map.js";
 import { createRef, ref, type Ref } from "lit/directives/ref.js";
 
 import {
+  type ColumnDef,
   getSortedRowModel,
   flexRender,
   getCoreRowModel,
@@ -19,6 +20,8 @@ import collection from "@evonytkrtips/assets/collections/generals";
 import SpectrumCSSTokens from "@spectrum-css/tokens/dist/index.css" with { type: "css" };
 import SpectrumCSSTypography from "@spectrum-css/typography/dist/index.css" with { type: "css" };
 import SpectrumCSSTable from "@spectrum-css/table/dist/index.css" with { type: "css" };
+import SpectrumCSSProgressBar from "@spectrum-css/progressbar/dist/index.css" with { type: "css" };
+import SpectrumCSSFieldLabel from "@spectrum-css/fieldlabel/dist/index.css" with { type: "css" };
 
 import debugFunction from "../../lib/debug.ts";
 const DEBUG = debugFunction(new URL(import.meta.url).pathname);
@@ -38,6 +41,21 @@ export default class GeneralsTable extends LitElement {
   private tableController = new TableController<Generals.GeneralTableData>(
     this
   );
+
+  private columns: Array<ColumnDef<Generals.GeneralTableData>> = [
+    {
+      id: "name",
+      header: "General",
+      accessorKey: "name",
+      cell: (props) =>
+        html` <span spectrum-Heading spectrum-Heading--sizeS>
+          <strong class=" spectrum-Heading-strong ">
+            ${props.getValue()}
+          </strong>
+        </span>`,
+    },
+  ];
+
   private rowVirtualizerController: VirtualizerController<Element, Element> =
     new VirtualizerController(this, {
       count: this.data.length,
@@ -51,8 +69,10 @@ export default class GeneralsTable extends LitElement {
 
   static override styles = [
     SpectrumCSSTokens,
-    SpectrumCSSTable,
     SpectrumCSSTypography,
+    SpectrumCSSTable,
+    SpectrumCSSProgressBar,
+    SpectrumCSSFieldLabel,
     css`
       :host {
         display: block;
@@ -101,7 +121,7 @@ export default class GeneralsTable extends LitElement {
         color: #666;
       }
 
-      table-container {
+      container {
         position: "relative";
         max-height: 50vh;
         min-height: 25vh;
@@ -324,69 +344,6 @@ export default class GeneralsTable extends LitElement {
   }
 
   /**
-   * Format a number with a + or - sign and percentage if needed
-   */
-  private formatValue(value: number): string {
-    if (value === 0) return "0%";
-    const sign = value > 0 ? "+" : "";
-    return `${sign}${value}%`;
-  }
-
-  /**
-   * Sort the data based on the current sorting state
-   */
-  private getSortedData(): Generals.GeneralTableData[] {
-    if (this.sorting.length === 0) {
-      return this.data;
-    }
-
-    const [{ id, desc }] = this.sorting;
-
-    return [...this.data].sort((a, b) => {
-      const aValue = a[id as keyof Generals.GeneralTableData];
-      const bValue = b[id as keyof Generals.GeneralTableData];
-
-      if (typeof aValue === "string" && typeof bValue === "string") {
-        return desc
-          ? bValue.localeCompare(aValue)
-          : aValue.localeCompare(bValue);
-      }
-
-      if (typeof aValue === "number" && typeof bValue === "number") {
-        return desc ? bValue - aValue : aValue - bValue;
-      }
-
-      return 0;
-    });
-  }
-
-  /**
-   * Handle column header click for sorting
-   */
-  private handleHeaderClick(columnId: string) {
-    if (this.sorting.length === 0 || this.sorting[0].id !== columnId) {
-      this.sorting = [{ id: columnId, desc: false }];
-    } else if (this.sorting[0].id === columnId && !this.sorting[0].desc) {
-      this.sorting = [{ id: columnId, desc: true }];
-    } else {
-      this.sorting = [];
-    }
-
-    this.requestUpdate();
-  }
-
-  /**
-   * Get the sort indicator for a column
-   */
-  private getSortIndicator(columnId: string): string {
-    if (this.sorting.length === 0 || this.sorting[0].id !== columnId) {
-      return "";
-    }
-
-    return this.sorting[0].desc ? " 🔽" : " 🔼";
-  }
-
-  /**
    * Handle general class selection change
    */
   private handleClassChange = (e: Event) => {
@@ -397,65 +354,9 @@ export default class GeneralsTable extends LitElement {
 
   override render() {
     // Define columns
-    const columns: Array<{
-      id: string;
-      header: string;
-      accessor: keyof Generals.GeneralTableData;
-      isNumeric: boolean;
-    }> = [
-      { id: "name", header: "General", accessor: "name", isNumeric: false },
-      {
-        id: "attack",
-        header: "Attack Buff",
-        accessor: "attack",
-        isNumeric: true,
-      },
-      {
-        id: "defense",
-        header: "Defense Buff",
-        accessor: "defense",
-        isNumeric: true,
-      },
-      { id: "hp", header: "HP Buff", accessor: "hp", isNumeric: true },
-      {
-        id: "attackDebuff",
-        header: "Attack Debuff",
-        accessor: "attackDebuff",
-        isNumeric: true,
-      },
-      {
-        id: "defenseDebuff",
-        header: "Defense Debuff",
-        accessor: "defenseDebuff",
-        isNumeric: true,
-      },
-      {
-        id: "hpDebuff",
-        header: "HP Debuff",
-        accessor: "hpDebuff",
-        isNumeric: true,
-      },
-    ];
-
-    // Class selector options
-    const classOptions = [
-      {
-        value: Constants.GeneralType.Enum.mounted_specialist,
-        label: "Mounted Specialist",
-      },
-      {
-        value: Constants.GeneralType.Enum.ground_specialist,
-        label: "Ground Specialist",
-      },
-      {
-        value: Constants.GeneralType.Enum.ranged_specialist,
-        label: "Ranged Specialist",
-      },
-      { value: Constants.GeneralType.Enum.political, label: "Political" },
-    ];
 
     const table = this.tableController.table({
-      columns,
+      columns: this.columns,
       data: this.data,
       getSortedRowModel: getSortedRowModel(),
       getCoreRowModel: getCoreRowModel(),
@@ -470,13 +371,13 @@ export default class GeneralsTable extends LitElement {
           @change=${this.handleClassChange}
           .value=${this.generalClass}
         >
-          ${classOptions.map(
+          ${Constants.GeneralType.options.map(
             (option) => html`
               <option
                 value=${option.value}
-                ?selected=${this.generalClass === option.value}
+                ?selected=${this.generalClass === option}
               >
-                ${option.label}
+                ${option.replaceAll("_", " ")}
               </option>
             `
           )}
@@ -485,21 +386,37 @@ export default class GeneralsTable extends LitElement {
     `;
 
     // Progress bar for loading
+    const pbwidth =
+      (Math.min(this.loadedCount, this.totalCount) / this.totalCount) * 100;
+
     const progressBar =
       this.loading && this.totalCount > 0
         ? html`
-            <div class="progress-bar-container">
-              <div
-                class="progress-bar"
-                style="width: ${(Math.min(this.loadedCount, this.totalCount) /
-                  this.totalCount) *
-                100}%"
-              ></div>
-            </div>
-            <div class="progress-text">
-              Loading generals: ${Math.min(this.loadedCount, this.totalCount)}
-              of ${this.totalCount}
-              (${Math.round((this.loadedCount / this.totalCount) * 100)}%)
+            <div
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              class=" spectrum-ProgressBar spectrum-ProgressBar--sizeM spectrum-ProgressBar--topLabel "
+              value="${pbwidth}%"
+              aria-valuenow="${pbwidth}%"
+            >
+              <label
+                class=" spectrum-FieldLabel spectrum-FieldLabel--sizeM spectrum-ProgressBar-label "
+              >
+                Loading generals: ${Math.min(this.loadedCount, this.totalCount)}
+                of ${this.totalCount}
+              </label>
+              <label
+                class=" spectrum-FieldLabel spectrum-FieldLabel--sizeM spectrum-ProgressBar-percentage "
+              >
+                ${pbwidth}%
+              </label>
+              <div class="spectrum-ProgressBar-track">
+                <div
+                  class="spectrum-ProgressBar-fill"
+                  style="inline-size:${pbwidth}%;"
+                ></div>
+              </div>
             </div>
           `
         : null;
@@ -511,8 +428,6 @@ export default class GeneralsTable extends LitElement {
       `;
     }
 
-    const sortedData = this.getSortedData();
-    const showTable = !this.loading || this.data.length > 0;
     const { rows } = table.getRowModel();
     const virtualizer = this.rowVirtualizerController.getVirtualizer();
 
@@ -527,115 +442,105 @@ export default class GeneralsTable extends LitElement {
     // Render table
     return html`
       ${classSelector} ${progressBar}
-      ${showTable
-        ? html`
-            ${sortedData.length > 0
-              ? html`
-                  <div
-                    class="table-container spectrum spectrum-Typography spectrum--medium"
+      <div class="container spectrum spectrum-Typography spectrum--medium">
+        <table
+          class="spectrum-Table spectrum-Table--sizeM spectrum-Table--emphasized "
+        >
+          <thead class="spectrum-Table-head">
+            ${repeat(
+              table.getHeaderGroups(),
+              (headerGroup) => headerGroup.id,
+              (headerGroup) => html`
+                <tr style="${styleMap({ display: "flex", width: "100%" })}">
+                  ${repeat(
+                    headerGroup.headers,
+                    (header) => header.id,
+                    (header) => {
+                      const ariaSort = header.column.getIsSorted();
+                      const ariaSortString =
+                        ariaSort === "asc"
+                          ? "ascending"
+                          : ariaSort === "desc"
+                            ? "descending"
+                            : "none";
+                      const thClass = {
+                        "spectrum-Table-headCell": true,
+                        "is-sortable": header.column.getCanSort(),
+                        "is-sorted-desc":
+                          header.column.getIsSorted() === "desc",
+                        "is-sorted-asc": header.column.getIsSorted() === "asc",
+                      };
+                      return html`
+                        <th
+                          aria-sort="${ariaSortString.length
+                            ? ariaSortString
+                            : "none"}"
+                          class="${classMap(thClass)}"
+                          style="${styleMap({
+                            display: "flex",
+                            width: `${header.getSize()}px`,
+                          })}"
+                          @click="${header.column.getToggleSortingHandler()}"
+                        >
+                          ${flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                          ${{ asc: " 🔼", desc: " 🔽" }[
+                            header.column.getIsSorted() as string
+                          ] ?? null}
+                        </th>
+                      `;
+                    }
+                  )}
+                </tr>
+              `
+            )}
+          </thead>
+          <tbody class="spectrum-Table-body" style=${styleMap(tbodyStyle)}>
+            ${repeat(
+              this.rowVirtualizerController.getVirtualizer().getVirtualItems(),
+              (item) => item.key,
+              (item) => {
+                const row = rows[item.index];
+                return html`
+                  <tr
+                    style=${styleMap({
+                      display: "flex",
+                      position: "absolute",
+                      transform: `translateY(${item.start}px)`,
+                      width: "100%",
+                    })}
+                    ${ref((node) => {
+                      this.rowVirtualizerController
+                        .getVirtualizer()
+                        .measureElement(node);
+                    })}
                   >
-                    <table
-                      class=" spectrum-Table spectrum-Table--sizeM spectrum-Table--emphasized "
-                    >
-                      <thead class="spectrum-Table-head">
-                        ${repeat(
-                          table.getHeaderGroups(),
-                          (headerGroup) => headerGroup.id,
-                          (headerGroup) =>
-                            html`${repeat(
-                              headerGroup.headers,
-                              (header) => header.id,
-                              (header) => {
-                                const thClass = {
-                                  "spectrum-Table-headCell": true,
-                                  "is-sortable": header.column.getCanSort(),
-                                  "is-sorted-desc": header.column.getCanSort()
-                                    ? header.column.getIsSorted()
-                                      ? header.column.getIsSorted()
-                                      : false
-                                    : false,
-                                  "is-sorted-asc": header.column.getCanSort()
-                                    ? header.column.getIsSorted()
-                                      ? header.column.getIsSorted()
-                                      : false
-                                    : false,
-                                };
-                                return html`
-                                  <th class="${classMap(thClass)}">
-                                    ${header.isPlaceholder
-                                      ? null
-                                      : flexRender(
-                                          header.column.columnDef.header,
-                                          header.getContext()
-                                        )}
-                                  </th>
-                                `;
-                              }
-                            )}`
-                        )}
-                      </thead>
-                      <tbody
-                        ${ref(this.tableContainerRef)}
-                        class="scroll-container spectrum-Table-body"
-                        style="${styleMap(tbodyStyle)}"
-                      >
-                        ${repeat(
-                          this.rowVirtualizerController
-                            .getVirtualizer()
-                            .getVirtualItems(),
-                          (item) => item.key,
-                          (item, index) => {
-                            const row = rows[item.index];
-                            return html`
-                              <tr
-                                data-index=${index}
-                                class="spectrum-Table-row row"
-                                style=${styleMap({
-                                  position: "absolute",
-                                  transform: `translateY(${item.start}px)`,
-                                  display: "flex",
-                                })}
-                                ${ref((node) => {
-                                  this.rowVirtualizerController
-                                    .getVirtualizer()
-                                    .measureElement(node);
-                                })}
-                              >
-                                ${repeat(
-                                  row.getVisibleCells(),
-                                  (cell) => cell.id,
-                                  (cell) => html`
-                                    <td
-                                      class="spectrum-Table-cell"
-                                      style=${styleMap({
-                                        display: "flex",
-                                        width: `${cell.column.getSize()}px`,
-                                      })}
-                                    >
-                                      ${flexRender(
-                                        cell.column.columnDef.cell,
-                                        cell.getContext()
-                                      )}
-                                    </td>
-                                  `
-                                )}
-                              </tr>
-                            `;
-                          }
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                `
-              : html`
-                  <div class="no-data">
-                    ${this.loading
-                      ? "Loading generals..."
-                      : `No generals found for ${classOptions.find((o) => o.value === this.generalClass)?.label || this.generalClass}.`}
-                  </div>
-                `}
-          `
-        : html` <div class="loading">Preparing to load generals data...</div> `}
+                    ${repeat(
+                      row.getVisibleCells(),
+                      (cell) => cell.id,
+                      (cell) => html`
+                        <td
+                          style=${styleMap({
+                            display: "flex",
+                            width: `${cell.column.getSize()}px`,
+                          })}
+                        >
+                          ${flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </td>
+                      `
+                    )}
+                  </tr>
+                `;
+              }
+            )}
+          </tbody>
+        </table>
+      </div>
     `;
   }
 }

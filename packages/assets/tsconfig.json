@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "types": ["node"],
+    "types": ["node", "dom", "dom.iterable"],
     "noEmit": true,
     "composite": true,
     "rootDir": ".",

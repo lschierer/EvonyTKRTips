@@ -34,8 +34,8 @@ export const BuffTableRow = z.object({
 export type BuffTableRow = z.infer<typeof BuffTableRow>;
 
 export class SimulatorBuff extends Object {
-  accessor troopType: Signal.State<constants.ClassEnum> = signal(
-    constants.ClassEnum.Enum["Mounted Troops"]
+  accessor troopType: Signal.State<constants.TroopClass> = signal(
+    constants.TroopClass.Enum["Mounted Troops"]
   );
 
   accessor AttackBuffs: Signal.State<number> = signal(0);
@@ -86,8 +86,8 @@ class SimulatorState extends Object {
 
   accessor troopTier: Signal.State<number> = signal(1);
 
-  accessor troopType: Signal.State<constants.ClassEnum> = signal(
-    constants.ClassEnum.Enum["Mounted Troops"]
+  accessor troopType: Signal.State<constants.TroopClass> = signal(
+    constants.TroopClass.Enum["Mounted Troops"]
   );
 
   accessor marchSize: Signal.State<number> = signal(0);
@@ -122,16 +122,16 @@ class SimulatorState extends Object {
     for (let i = 0; i < stop; i++) {
       attack += this.troopType
         .get()
-        .localeCompare(constants.ClassEnum.Enum["Ground Troops"])
+        .localeCompare(constants.TroopClass.Enum["Ground Troops"])
         ? this.troopType
             .get()
-            .localeCompare(constants.ClassEnum.Enum["Mounted Troops"])
+            .localeCompare(constants.TroopClass.Enum["Mounted Troops"])
           ? this.troopType
               .get()
-              .localeCompare(constants.ClassEnum.Enum["Ranged Troops"])
+              .localeCompare(constants.TroopClass.Enum["Ranged Troops"])
             ? this.troopType
                 .get()
-                .localeCompare(constants.ClassEnum.Enum["Siege Machines"])
+                .localeCompare(constants.TroopClass.Enum["Siege Machines"])
               ? 0
               : this.siegeBuffs[i].AttackBuffs.get()
             : this.archerBuffs[i].AttackBuffs.get()
@@ -146,16 +146,16 @@ class SimulatorState extends Object {
   public FlatAttack = new Signal.Computed(() => {
     return this.troopType
       .get()
-      .localeCompare(constants.ClassEnum.Enum["Ground Troops"])
+      .localeCompare(constants.TroopClass.Enum["Ground Troops"])
       ? this.troopType
           .get()
-          .localeCompare(constants.ClassEnum.Enum["Mounted Troops"])
+          .localeCompare(constants.TroopClass.Enum["Mounted Troops"])
         ? this.troopType
             .get()
-            .localeCompare(constants.ClassEnum.Enum["Ranged Troops"])
+            .localeCompare(constants.TroopClass.Enum["Ranged Troops"])
           ? this.troopType
               .get()
-              .localeCompare(constants.ClassEnum.Enum["Siege Machines"])
+              .localeCompare(constants.TroopClass.Enum["Siege Machines"])
             ? 0
             : this.siegeBuffs[5].AttackBuffs.get()
           : this.archerBuffs[5].AttackBuffs.get()
@@ -169,16 +169,16 @@ class SimulatorState extends Object {
     for (let i = 0; i < stop; i++) {
       defense += this.troopType
         .get()
-        .localeCompare(constants.ClassEnum.Enum["Ground Troops"])
+        .localeCompare(constants.TroopClass.Enum["Ground Troops"])
         ? this.troopType
             .get()
-            .localeCompare(constants.ClassEnum.Enum["Mounted Troops"])
+            .localeCompare(constants.TroopClass.Enum["Mounted Troops"])
           ? this.troopType
               .get()
-              .localeCompare(constants.ClassEnum.Enum["Ranged Troops"])
+              .localeCompare(constants.TroopClass.Enum["Ranged Troops"])
             ? this.troopType
                 .get()
-                .localeCompare(constants.ClassEnum.Enum["Siege Machines"])
+                .localeCompare(constants.TroopClass.Enum["Siege Machines"])
               ? 0
               : this.siegeBuffs[i].DefenseBuffs.get()
             : this.archerBuffs[i].DefenseBuffs.get()
@@ -192,16 +192,16 @@ class SimulatorState extends Object {
   public FlatDefense = new Signal.Computed(() => {
     return this.troopType
       .get()
-      .localeCompare(constants.ClassEnum.Enum["Ground Troops"])
+      .localeCompare(constants.TroopClass.Enum["Ground Troops"])
       ? this.troopType
           .get()
-          .localeCompare(constants.ClassEnum.Enum["Mounted Troops"])
+          .localeCompare(constants.TroopClass.Enum["Mounted Troops"])
         ? this.troopType
             .get()
-            .localeCompare(constants.ClassEnum.Enum["Ranged Troops"])
+            .localeCompare(constants.TroopClass.Enum["Ranged Troops"])
           ? this.troopType
               .get()
-              .localeCompare(constants.ClassEnum.Enum["Siege Machines"])
+              .localeCompare(constants.TroopClass.Enum["Siege Machines"])
             ? 0
             : this.siegeBuffs[5].DefenseBuffs.get()
           : this.archerBuffs[5].DefenseBuffs.get()
@@ -215,16 +215,16 @@ class SimulatorState extends Object {
     for (let i = 0; i < stop; i++) {
       hp = this.troopType
         .get()
-        .localeCompare(constants.ClassEnum.Enum["Ground Troops"])
+        .localeCompare(constants.TroopClass.Enum["Ground Troops"])
         ? this.troopType
             .get()
-            .localeCompare(constants.ClassEnum.Enum["Mounted Troops"])
+            .localeCompare(constants.TroopClass.Enum["Mounted Troops"])
           ? this.troopType
               .get()
-              .localeCompare(constants.ClassEnum.Enum["Ranged Troops"])
+              .localeCompare(constants.TroopClass.Enum["Ranged Troops"])
             ? this.troopType
                 .get()
-                .localeCompare(constants.ClassEnum.Enum["Siege Machines"])
+                .localeCompare(constants.TroopClass.Enum["Siege Machines"])
               ? 0
               : this.siegeBuffs[i].HPBuffs.get()
             : this.archerBuffs[i].HPBuffs.get()
@@ -237,16 +237,16 @@ class SimulatorState extends Object {
   public FlatHP = new Signal.Computed(() => {
     return this.troopType
       .get()
-      .localeCompare(constants.ClassEnum.Enum["Ground Troops"])
+      .localeCompare(constants.TroopClass.Enum["Ground Troops"])
       ? this.troopType
           .get()
-          .localeCompare(constants.ClassEnum.Enum["Mounted Troops"])
+          .localeCompare(constants.TroopClass.Enum["Mounted Troops"])
         ? this.troopType
             .get()
-            .localeCompare(constants.ClassEnum.Enum["Ranged Troops"])
+            .localeCompare(constants.TroopClass.Enum["Ranged Troops"])
           ? this.troopType
               .get()
-              .localeCompare(constants.ClassEnum.Enum["Siege Machines"])
+              .localeCompare(constants.TroopClass.Enum["Siege Machines"])
             ? 0
             : this.siegeBuffs[5].HPBuffs.get()
           : this.archerBuffs[5].HPBuffs.get()
@@ -255,7 +255,7 @@ class SimulatorState extends Object {
   });
 
   public setAttackBuff = (
-    troopType: constants.ClassEnum,
+    troopType: constants.TroopClass,
     index: number,
     value: number
   ) => {
@@ -265,28 +265,28 @@ class SimulatorState extends Object {
         `setAttackBuff for troop type ${troopType} with key ${key} and value ${value}`
       );
     }
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Mounted Troops"])) {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Mounted Troops"])) {
       if (index < this.mountedBuffs.length) {
         if (index != 6) {
           this.mountedBuffs[index].AttackBuffs.set(value);
         }
       }
     }
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Ground Troops"])) {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Ground Troops"])) {
       if (index < this.groundBuffs.length) {
         if (index != 6) {
           this.groundBuffs[index].AttackBuffs.set(value);
         }
       }
     }
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Ranged Troops"])) {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Ranged Troops"])) {
       if (index < this.archerBuffs.length) {
         if (index != 6) {
           this.archerBuffs[index].AttackBuffs.set(value);
         }
       }
     }
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Siege Machines"])) {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Siege Machines"])) {
       if (index < this.siegeBuffs.length) {
         if (index != 6) {
           this.siegeBuffs[index].AttackBuffs.set(value);
@@ -296,7 +296,7 @@ class SimulatorState extends Object {
   };
 
   public setDefenseBuff = (
-    troopType: constants.ClassEnum,
+    troopType: constants.TroopClass,
     index: number,
     value: number
   ) => {
@@ -306,28 +306,28 @@ class SimulatorState extends Object {
         `setDefenseBuff for troop type ${troopType} with key ${key} and value ${value}`
       );
     }
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Mounted Troops"])) {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Mounted Troops"])) {
       if (index < this.mountedBuffs.length) {
         if (index != 6) {
           this.mountedBuffs[index].DefenseBuffs.set(value);
         }
       }
     }
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Ground Troops"])) {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Ground Troops"])) {
       if (index < this.groundBuffs.length) {
         if (index != 6) {
           this.groundBuffs[index].DefenseBuffs.set(value);
         }
       }
     }
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Ranged Troops"])) {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Ranged Troops"])) {
       if (index < this.archerBuffs.length) {
         if (index != 6) {
           this.archerBuffs[index].DefenseBuffs.set(value);
         }
       }
     }
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Siege Machines"])) {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Siege Machines"])) {
       if (index < this.siegeBuffs.length) {
         if (index != 6) {
           this.siegeBuffs[index].DefenseBuffs.set(value);
@@ -337,32 +337,32 @@ class SimulatorState extends Object {
   };
 
   public setHPBuff = (
-    troopType: constants.ClassEnum,
+    troopType: constants.TroopClass,
     index: number,
     value: number
   ) => {
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Mounted Troops"])) {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Mounted Troops"])) {
       if (index < this.mountedBuffs.length) {
         if (index != 6) {
           this.mountedBuffs[index].HPBuffs.set(value);
         }
       }
     }
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Ground Troops"])) {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Ground Troops"])) {
       if (index < this.groundBuffs.length) {
         if (index != 6) {
           this.groundBuffs[index].HPBuffs.set(value);
         }
       }
     }
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Ranged Troops"])) {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Ranged Troops"])) {
       if (index < this.archerBuffs.length) {
         if (index != 6) {
           this.archerBuffs[index].HPBuffs.set(value);
         }
       }
     }
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Siege Machines"])) {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Siege Machines"])) {
       if (index < this.siegeBuffs.length) {
         if (index != 6) {
           this.siegeBuffs[index].HPBuffs.set(value);
@@ -371,26 +371,26 @@ class SimulatorState extends Object {
     }
   };
 
-  public setAttackDebuff = (troopType: constants.ClassEnum, value: number) => {
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Mounted Troops"])) {
+  public setAttackDebuff = (troopType: constants.TroopClass, value: number) => {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Mounted Troops"])) {
       this.mountedBuffs[6].AttackDebuff.set(value);
     }
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Ground Troops"])) {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Ground Troops"])) {
       this.groundBuffs[6].AttackDebuff.set(value);
     }
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Ranged Troops"])) {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Ranged Troops"])) {
       this.archerBuffs[6].AttackDebuff.set(value);
     }
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Siege Machines"])) {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Siege Machines"])) {
       this.siegeBuffs[6].AttackDebuff.set(value);
     }
   };
 
-  public getAttackDebuff = (troopType: constants.ClassEnum) => {
-    return troopType.localeCompare(constants.ClassEnum.Enum["Mounted Troops"])
-      ? troopType.localeCompare(constants.ClassEnum.Enum["Ground Troops"])
-        ? troopType.localeCompare(constants.ClassEnum.Enum["Ranged Troops"])
-          ? troopType.localeCompare(constants.ClassEnum.Enum["Siege Machines"])
+  public getAttackDebuff = (troopType: constants.TroopClass) => {
+    return troopType.localeCompare(constants.TroopClass.Enum["Mounted Troops"])
+      ? troopType.localeCompare(constants.TroopClass.Enum["Ground Troops"])
+        ? troopType.localeCompare(constants.TroopClass.Enum["Ranged Troops"])
+          ? troopType.localeCompare(constants.TroopClass.Enum["Siege Machines"])
             ? -1
             : this.siegeBuffs[6].AttackDebuff.get()
           : this.archerBuffs[6].AttackDebuff.get()
@@ -398,11 +398,11 @@ class SimulatorState extends Object {
       : this.mountedBuffs[6].AttackDebuff.get();
   };
 
-  public getDefenseDebuff = (troopType: constants.ClassEnum) => {
-    return troopType.localeCompare(constants.ClassEnum.Enum["Mounted Troops"])
-      ? troopType.localeCompare(constants.ClassEnum.Enum["Ground Troops"])
-        ? troopType.localeCompare(constants.ClassEnum.Enum["Ranged Troops"])
-          ? troopType.localeCompare(constants.ClassEnum.Enum["Siege Machines"])
+  public getDefenseDebuff = (troopType: constants.TroopClass) => {
+    return troopType.localeCompare(constants.TroopClass.Enum["Mounted Troops"])
+      ? troopType.localeCompare(constants.TroopClass.Enum["Ground Troops"])
+        ? troopType.localeCompare(constants.TroopClass.Enum["Ranged Troops"])
+          ? troopType.localeCompare(constants.TroopClass.Enum["Siege Machines"])
             ? -1
             : this.siegeBuffs[6].DefenseDebuff.get()
           : this.archerBuffs[6].DefenseDebuff.get()
@@ -410,17 +410,17 @@ class SimulatorState extends Object {
       : this.mountedBuffs[6].DefenseDebuff.get();
   };
 
-  public setDefenseDebuff = (troopType: constants.ClassEnum, value: number) => {
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Mounted Troops"])) {
+  public setDefenseDebuff = (troopType: constants.TroopClass, value: number) => {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Mounted Troops"])) {
       this.mountedBuffs[6].DefenseDebuff.set(value);
     }
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Ground Troops"])) {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Ground Troops"])) {
       this.groundBuffs[6].DefenseDebuff.set(value);
     }
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Ranged Troops"])) {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Ranged Troops"])) {
       this.archerBuffs[6].DefenseDebuff.set(value);
     }
-    if (!troopType.localeCompare(constants.ClassEnum.Enum["Siege Machines"])) {
+    if (!troopType.localeCompare(constants.TroopClass.Enum["Siege Machines"])) {
       this.siegeBuffs[6].DefenseDebuff.set(value);
     }
   };
@@ -431,26 +431,26 @@ class SimulatorState extends Object {
     this.mountedBuffs = SignalArray.from(Array(9), (_, index) => {
       const r = new SimulatorBuff();
       r.myRowIndex.set(index);
-      r.troopType.set(constants.ClassEnum.Enum["Mounted Troops"]);
+      r.troopType.set(constants.TroopClass.Enum["Mounted Troops"]);
       return r;
     });
 
     this.groundBuffs = SignalArray.from(Array(9), (_, index) => {
       const r = new SimulatorBuff();
       r.myRowIndex.set(index);
-      r.troopType.set(constants.ClassEnum.Enum["Ground Troops"]);
+      r.troopType.set(constants.TroopClass.Enum["Ground Troops"]);
       return r;
     });
     this.archerBuffs = SignalArray.from(Array(9), (_, index) => {
       const r = new SimulatorBuff();
       r.myRowIndex.set(index);
-      r.troopType.set(constants.ClassEnum.Enum["Ranged Troops"]);
+      r.troopType.set(constants.TroopClass.Enum["Ranged Troops"]);
       return r;
     });
     this.siegeBuffs = SignalArray.from(Array(9), (_, index) => {
       const r = new SimulatorBuff();
       r.myRowIndex.set(index);
-      r.troopType.set(constants.ClassEnum.Enum["Siege Machines"]);
+      r.troopType.set(constants.TroopClass.Enum["Siege Machines"]);
       return r;
     });
   }

@@ -70,14 +70,14 @@ export type BlazonType = z.infer<typeof BlazonType>;
 export const BuffType = z.enum(["passive", "personal"]);
 export type BuffType = z.infer<typeof BuffType>;
 
-export const ClassEnum = z.enum([
+export const TroopClass = z.enum([
   "Ground Troops",
   "Mounted Troops",
   "Ranged Troops",
   "Siege Machines",
   "All",
 ]);
-export type ClassEnum = z.infer<typeof ClassEnum>;
+export type TroopClass = z.infer<typeof TroopClass>;
 
 export const GeneralType = z.enum([
   "officer",
@@ -96,6 +96,9 @@ export const BuffActivation = z.enum([
   "PvM",
   "Attacking",
   "Reinforcing",
+  "Defense",
+  "In City",
+  "Out City",
   "Wall",
   "Mayor",
   "Officer",
@@ -119,6 +122,7 @@ export const BuffCondition = z.enum([
   "When Defending Outside The Main City",
   "When Rallying",
   "In Main City",
+  "When the Main Defense General",
 ]);
 export type BuffCondition = z.infer<typeof BuffCondition>;
 
@@ -192,117 +196,41 @@ export const EvAnsScoreSet = z.object({
 });
 export type EvAnsScoreSet = z.infer<typeof EvAnsScoreSet>;
 
-export const EvAnsBuffSet = z.object({
-  attack: z.object({
-    total: z.number().optional(),
-    baseAttribute: z.number(),
-    levelAttribute: z.number(),
-    totalAttribute: z.number(),
-    BaseSkill: z.number(),
-    SkillBooks: z.number(),
-    Speciality1: z.number(),
-    Speciality2: z.number(),
-    Speciality3: z.number(),
-    Speciality4: z.number(),
-    Ascending: z.number(),
-  }),
-  defense: z.object({
-    total: z.number().optional(),
-    baseAttribute: z.number(),
-    levelAttribute: z.number(),
-    totalAttribute: z.number(),
-    BaseSkill: z.number(),
-    SkillBooks: z.number(),
-    Speciality1: z.number(),
-    Speciality2: z.number(),
-    Speciality3: z.number(),
-    Speciality4: z.number(),
-    Ascending: z.number(),
-  }),
-  hp: z.object({
-    total: z.number().optional(),
-    baseAttribute: z.number(),
-    levelAttribute: z.number(),
-    totalAttribute: z.number(),
-    BaseSkill: z.number(),
-    SkillBooks: z.number(),
-    Speciality1: z.number(),
-    Speciality2: z.number(),
-    Speciality3: z.number(),
-    Speciality4: z.number(),
-    Ascending: z.number(),
-  }),
-  doubleDrop: z
-    .object({
-      total: z.number().optional(),
-      BaseSkill: z.number(),
-      SkillBooks: z.number(),
-      Speciality1: z.number(),
-      Speciality2: z.number(),
-      Speciality3: z.number(),
-      Speciality4: z.number(),
-      Ascending: z.number(),
-    })
-    .optional(),
-  reduceDefense: z
-    .object({
-      total: z.number().optional(),
-      BaseSkill: z.number(),
-      SkillBooks: z.number(),
-      Speciality1: z.number(),
-      Speciality2: z.number(),
-      Speciality3: z.number(),
-      Speciality4: z.number(),
-      Ascending: z.number(),
-    })
-    .optional(),
-  reduceHP: z
-    .object({
-      total: z.number().optional(),
-      BaseSkill: z.number(),
-      SkillBooks: z.number(),
-      Speciality1: z.number(),
-      Speciality2: z.number(),
-      Speciality3: z.number(),
-      Speciality4: z.number(),
-      Ascending: z.number(),
-    })
-    .optional(),
-  reduceAttack: z
-    .object({
-      total: z.number().optional(),
-      BaseSkill: z.number(),
-      SkillBooks: z.number(),
-      Speciality1: z.number(),
-      Speciality2: z.number(),
-      Speciality3: z.number(),
-      Speciality4: z.number(),
-      Ascending: z.number(),
-    })
-    .optional(),
-  marchSpeed: z
-    .object({
-      total: z.number().optional(),
-      BaseSkill: z.number(),
-      SkillBooks: z.number(),
-      Speciality1: z.number(),
-      Speciality2: z.number(),
-      Speciality3: z.number(),
-      Speciality4: z.number(),
-      Ascending: z.number(),
-    })
-    .optional(),
-  reduceStaminaCost: z
-    .object({
-      total: z.number().optional(),
-      BaseSkill: z.number(),
-      SkillBooks: z.number(),
-      Speciality1: z.number(),
-      Speciality2: z.number(),
-      Speciality3: z.number(),
-      Speciality4: z.number(),
-      Ascending: z.number(),
-    })
-    .optional(),
-});
-export type EvAnsBuffSet = z.infer<typeof EvAnsBuffSet>;
+const allowedBuffConditions = new Map<BuffActivation, Condition[]>();
+allowedBuffConditions.set(BuffActivation.Enum.Attacking, [
+  BuffCondition.Enum.Attacking,
+  BuffCondition.Enum.Marching,
+  BuffCondition.Enum["When Rallying"],
+  BuffCondition.Enum["brings dragon or beast to attack"],
+  BuffCondition.Enum["dragon to the attack"],
+  BuffCondition.Enum["leading the army to attack"],
+]);
+
+allowedBuffConditions.set(BuffActivation.Enum.Defense, [
+  BuffCondition.Enum.Defending,
+]);
+
+allowedBuffConditions.set(BuffActivation.Enum["In City"], [
+  BuffCondition.Enum["In Main City"],
+]);
+
+allowedBuffConditions.set(BuffActivation.Enum.Overall, [
+  BuffCondition.Enum["brings a dragon"],
+]);
+
+allowedBuffConditions.set(BuffActivation.Enum.PvM, [
+  BuffCondition.Enum["Against Monsters"],
+]);
+
+allowedBuffConditions.set(BuffActivation.Enum.Reinforcing, [
+  BuffCondition.Enum["In Main City"],
+  BuffCondition.Enum.Reinforcing,
+  BuffCondition.Enum["When Defending Outside The Main City"],
+]);
+
+allowedBuffConditions.set(BuffActivation.Enum.Wall, [
+  BuffCondition.Enum["When Defending Outside The Main City"],
+]);
+
+export const AllowedBuffConditions: ReadonlyMap<BuffActivation, Condition[]> =
+  new Map(allowedBuffConditions);

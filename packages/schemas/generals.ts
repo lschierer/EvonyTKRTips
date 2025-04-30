@@ -64,7 +64,6 @@ export const GeneralPair = z.object({
       Ascending: z.number(),
     })
     .optional(),
-  BuffSet: constants.EvAnsBuffSet.optional(),
   ScoreSet: constants.EvAnsScoreSet.optional(),
 });
 export type GeneralPair = z.infer<typeof GeneralPair>;

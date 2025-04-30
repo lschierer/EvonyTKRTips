@@ -219,13 +219,13 @@ export default class BuffTable extends SignalWatcher(LitElement) {
                       ? key1.localeCompare("mounted")
                         ? key1.localeCompare("archer")
                           ? key1.localeCompare("siege")
-                            ? Constants.ClassEnum.Enum.All
-                            : Constants.ClassEnum.Enum["Siege Machines"]
-                          : Constants.ClassEnum.Enum["Ranged Troops"]
-                        : Constants.ClassEnum.Enum["Mounted Troops"]
-                      : Constants.ClassEnum.Enum["Ground Troops"];
+                            ? Constants.TroopClass.Enum.All
+                            : Constants.TroopClass.Enum["Siege Machines"]
+                          : Constants.TroopClass.Enum["Ranged Troops"]
+                        : Constants.TroopClass.Enum["Mounted Troops"]
+                      : Constants.TroopClass.Enum["Ground Troops"];
                     if (
-                      key3.localeCompare(Constants.ClassEnum.Enum.All) &&
+                      key3.localeCompare(Constants.TroopClass.Enum.All) &&
                       key2 != undefined
                     ) {
                       if (DEBUG) {

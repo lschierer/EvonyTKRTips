@@ -65,6 +65,7 @@
     "@spectrum-css/pagination": "^10.1.0",
     "@spectrum-css/picker": "^9.1.4",
     "@spectrum-css/popover": "^8.2.0",
+    "@spectrum-css/progressbar": "^6.1.0",
     "@spectrum-css/radio": "^10.1.0",
     "@spectrum-css/sidenav": "^7.1.0",
     "@spectrum-css/stepper": "^7.1.3",

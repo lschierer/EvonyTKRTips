@@ -136,7 +136,7 @@ export default class MarchTable extends LitElement {
                   const target = (e as CustomEvent)
                     .target as HTMLSelectElement | null;
                   if (target) {
-                    const valid = constants.ClassEnum.safeParse(target.value);
+                    const valid = constants.TroopClass.safeParse(target.value);
                     if (valid.success) {
                       if (DEBUG) {
                         console.log(
@@ -152,8 +152,8 @@ export default class MarchTable extends LitElement {
                 }}"
                 value="${simulatorState.troopType.get()}"
               >
-                ${constants.ClassEnum.options
-                  .filter((c) => c.localeCompare(constants.ClassEnum.Enum.All))
+                ${constants.TroopClass.options
+                  .filter((c) => c.localeCompare(constants.TroopClass.Enum.All))
                   .map((n) => {
                     return html`
                       <option

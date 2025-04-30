@@ -30,8 +30,8 @@ export default class ReferenceTables extends SignalWatcher(LitElement) {
             <th class="spectrum-Table-headCell">
               <span class="spectrum-Table-columnTitle"> </span>
             </th>
-            ${constants.ClassEnum.options.map((co) => {
-              if (co.localeCompare(constants.ClassEnum.Enum.All)) {
+            ${constants.TroopClass.options.map((co) => {
+              if (co.localeCompare(constants.TroopClass.Enum.All)) {
                 return html`
                   <th class="spectrum-Table-headCell">
                     <span class="spectrum-Table-columnTitle">
@@ -48,20 +48,20 @@ export default class ReferenceTables extends SignalWatcher(LitElement) {
                 <th class="spectrum-Table-headCell">
                   <span class="spectrum-Table-columnTitle"> T${index} </span>
                 </th>
-                ${constants.ClassEnum.options.map((co) => {
-                  if (co.localeCompare(constants.ClassEnum.Enum.All)) {
+                ${constants.TroopClass.options.map((co) => {
+                  if (co.localeCompare(constants.TroopClass.Enum.All)) {
                     return html`
                       <td class="spectrum-Table-cell">
                         ${!co.localeCompare(
-                          constants.ClassEnum.Enum["Ground Troops"]
+                          constants.TroopClass.Enum["Ground Troops"]
                         )
                           ? reference.GroundStats[index - 1].attack
                           : !co.localeCompare(
-                                constants.ClassEnum.Enum["Mounted Troops"]
+                                constants.TroopClass.Enum["Mounted Troops"]
                               )
                             ? reference.MountedStats[index - 1].attack
                             : !co.localeCompare(
-                                  constants.ClassEnum.Enum["Ranged Troops"]
+                                  constants.TroopClass.Enum["Ranged Troops"]
                                 )
                               ? reference.ArcherStats[index - 1].attack
                               : reference.SiegeStats[index - 1].attack}
@@ -87,8 +87,8 @@ export default class ReferenceTables extends SignalWatcher(LitElement) {
             <th class="spectrum-Table-headCell">
               <span class="spectrum-Table-columnTitle"> </span>
             </th>
-            ${constants.ClassEnum.options.map((co) => {
-              if (co.localeCompare(constants.ClassEnum.Enum.All)) {
+            ${constants.TroopClass.options.map((co) => {
+              if (co.localeCompare(constants.TroopClass.Enum.All)) {
                 return html`
                   <th class="spectrum-Table-headCell">
                     <span class="spectrum-Table-columnTitle">
@@ -105,20 +105,20 @@ export default class ReferenceTables extends SignalWatcher(LitElement) {
                 <th class="spectrum-Table-headCell">
                   <span class="spectrum-Table-columnTitle"> T${index} </span>
                 </th>
-                ${constants.ClassEnum.options.map((co) => {
-                  if (co.localeCompare(constants.ClassEnum.Enum.All)) {
+                ${constants.TroopClass.options.map((co) => {
+                  if (co.localeCompare(constants.TroopClass.Enum.All)) {
                     return html`
                       <td class="spectrum-Table-cell">
                         ${!co.localeCompare(
-                          constants.ClassEnum.Enum["Ground Troops"]
+                          constants.TroopClass.Enum["Ground Troops"]
                         )
                           ? reference.GroundStats[index - 1].defense
                           : !co.localeCompare(
-                                constants.ClassEnum.Enum["Mounted Troops"]
+                                constants.TroopClass.Enum["Mounted Troops"]
                               )
                             ? reference.MountedStats[index - 1].defense
                             : !co.localeCompare(
-                                  constants.ClassEnum.Enum["Ranged Troops"]
+                                  constants.TroopClass.Enum["Ranged Troops"]
                                 )
                               ? reference.ArcherStats[index - 1].defense
                               : reference.SiegeStats[index - 1].defense}
@@ -144,8 +144,8 @@ export default class ReferenceTables extends SignalWatcher(LitElement) {
             <th class="spectrum-Table-headCell">
               <span class="spectrum-Table-columnTitle"> </span>
             </th>
-            ${constants.ClassEnum.options.map((co) => {
-              if (co.localeCompare(constants.ClassEnum.Enum.All)) {
+            ${constants.TroopClass.options.map((co) => {
+              if (co.localeCompare(constants.TroopClass.Enum.All)) {
                 return html`
                   <th class="spectrum-Table-headCell">
                     <span class="spectrum-Table-columnTitle">
@@ -162,20 +162,20 @@ export default class ReferenceTables extends SignalWatcher(LitElement) {
                 <th class="spectrum-Table-headCell">
                   <span class="spectrum-Table-columnTitle"> T${index} </span>
                 </th>
-                ${constants.ClassEnum.options.map((co) => {
-                  if (co.localeCompare(constants.ClassEnum.Enum.All)) {
+                ${constants.TroopClass.options.map((co) => {
+                  if (co.localeCompare(constants.TroopClass.Enum.All)) {
                     return html`
                       <td class="spectrum-Table-cell">
                         ${!co.localeCompare(
-                          constants.ClassEnum.Enum["Ground Troops"]
+                          constants.TroopClass.Enum["Ground Troops"]
                         )
                           ? reference.GroundStats[index - 1].hp
                           : !co.localeCompare(
-                                constants.ClassEnum.Enum["Mounted Troops"]
+                                constants.TroopClass.Enum["Mounted Troops"]
                               )
                             ? reference.MountedStats[index - 1].hp
                             : !co.localeCompare(
-                                  constants.ClassEnum.Enum["Ranged Troops"]
+                                  constants.TroopClass.Enum["Ranged Troops"]
                                 )
                               ? reference.ArcherStats[index - 1].hp
                               : reference.SiegeStats[index - 1].hp}
