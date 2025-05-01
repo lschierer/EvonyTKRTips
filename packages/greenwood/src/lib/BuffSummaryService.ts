@@ -3,8 +3,8 @@ import {
   Specialities,
   SkillBooks,
   Constants,
-  Generals,
-  Buff,
+  type Generals,
+  type Buff,
 } from "@evonytkrtips/schemas";
 import ascendingCollection from "@evonytkrtips/assets/collections/ascendingattributes";
 import specialitiesCollection from "@evonytkrtips/assets/collections/specialities";
@@ -479,3 +479,75 @@ export function mergeBuffSummaries(
     dataType: "Combined Buffs",
   };
 }
+
+export const pairSummary = async (
+  primary: Generals.General,
+  secondary: Generals.General
+) => {
+  const summaries: Buff.BuffSummaryResponse[] =
+    new Array<Buff.BuffSummaryResponse>();
+
+  if (primary.specialities.length) {
+    for (const speciality of primary.specialities) {
+      const summary = await getSpecialitySummary(speciality);
+      if (!summary.error) {
+        summaries.push(summary);
+      } else if (DEBUG) {
+        console.log(
+          `Error getting speciality summary for ${speciality}: ${summary.error.message}`
+        );
+      }
+    }
+  }
+
+  if (secondary.specialities.length) {
+    for (const speciality of secondary.specialities) {
+      const summary = await getSpecialitySummary(speciality);
+      if (!summary.error) {
+        summaries.push(summary);
+      } else if (DEBUG) {
+        console.log(
+          `Error getting speciality summary for ${speciality}: ${summary.error.message}`
+        );
+      }
+    }
+  }
+
+  if (primary.book) {
+    const summary = await getSkillbookSummary(primary.book);
+    if (!summary.error) {
+      summaries.push(summary);
+    } else if (DEBUG) {
+      console.log(
+        `Error getting skillbook summary for ${primary.book}: ${summary.error.message}`
+      );
+    }
+  }
+
+  if (secondary.book) {
+    const summary = await getSkillbookSummary(secondary.book);
+    if (!summary.error) {
+      summaries.push(summary);
+    } else if (DEBUG) {
+      console.log(
+        `Error getting skillbook summary for ${secondary.book}: ${summary.error.message}`
+      );
+    }
+  }
+
+  if (primary.ascending) {
+    const summary = await getAscendingSummary(primary.name);
+    if (!summary.error) {
+      summaries.push(summary);
+    } else if (DEBUG) {
+      console.log(
+        `Error getting ascending summary for ${primary.name}: ${summary.error.message}`
+      );
+    }
+  }
+
+  const mergedSummary = mergeBuffSummaries(summaries);
+  mergedSummary.dataType = `Combined Buffs for ${primary.name}/${secondary.name}`;
+
+  return mergedSummary;
+};

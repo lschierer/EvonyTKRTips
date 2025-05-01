@@ -14,10 +14,10 @@ export const BookConflict = z.object({
 });
 export type BookConflict = z.infer<typeof BookConflict>;
 
-export const ConfictGroup = z.object({
+export const ConflictGroup = z.object({
   name: z.string().uuid(),
   members: z.array(z.string()),
   others: z.array(z.string().uuid()).optional(),
   books: z.array(BookConflict).optional(),
 });
-export type ConfictGroup = z.infer<typeof ConfictGroup>;
+export type ConflictGroup = z.infer<typeof ConflictGroup>;
