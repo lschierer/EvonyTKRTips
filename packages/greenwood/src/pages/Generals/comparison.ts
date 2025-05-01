@@ -1,3 +1,5 @@
+export const prerender = true;
+
 import type { GetFrontmatter } from "@greenwood/cli";
 import { Constants, Generals, type Buff } from "@evonytkrtips/schemas";
 import collection from "@evonytkrtips/assets/collections/generals";
@@ -32,7 +34,7 @@ export default class GeneralComparisonPage extends HTMLElement {
   private buffFilter: Constants.BuffActivation[] = [
     Constants.BuffActivation.Enum.Overall,
   ];
-  private generalType: Constants.GeneralType | null = null;
+  accessor generalType: Constants.GeneralType | null = null;
   private sortColumn: string = "attack";
   private sortDirection: "asc" | "desc" = "desc";
 
@@ -293,7 +295,7 @@ export default class GeneralComparisonPage extends HTMLElement {
     return buff.totalValue;
   }
 
-  private buffFilterChanged(
+  protected buffFilterChanged(
     value: "overall" | "attack" | "rein" | "wall" | "monster"
   ) {
     if (value === "overall") {
@@ -330,7 +332,7 @@ export default class GeneralComparisonPage extends HTMLElement {
   }
 
   protected pageDescription = () => {
-    return `This allows you to compare the relative buffs of the Mounted Generals.`;
+    return `This allows you to compare the relative buffs of the Generals.`;
   };
 
   private render() {
