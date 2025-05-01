@@ -54,7 +54,9 @@ if (container) {
             })
           : [];
 
-        console.log("Formatted data:", formattedData.length, "items");
+        if (DEBUG) {
+          console.log("Formatted data:", formattedData.length, "items");
+        }
 
         // Set the items property on the table
         table.items = formattedData;
@@ -62,7 +64,10 @@ if (container) {
         // Define the renderItem function
         table.renderItem = (item: Record<string, unknown>, index: number) => {
           // Create cells for each column
-          console.log(`rendering item at index ${index}`);
+          if (DEBUG) {
+            console.log(`rendering item at index ${index}`);
+          }
+
           const cells = new Array<HTMLElement>();
           const g = item.general as Generals.GeneralTableData;
           for (const key of Object.keys(g)) {
@@ -75,6 +80,9 @@ if (container) {
 
         // Set up sorting
         table.addEventListener("sorted", (event: Event) => {
+          if (DEBUG) {
+            console.log(`sorted event handler`);
+          }
           const ce = event as CustomEvent;
           const detail = ce.detail as object;
           let sortDirection: string = "asc";
@@ -85,10 +93,20 @@ if (container) {
           if ("sortKey" in detail) {
             sortKey = detail.sortKey as string;
           }
+          if (DEBUG) {
+            console.log(`sorting ${sortDirection} with key ${sortKey}`);
+          }
 
           const sortedItems = [...table.items].sort((a, b) => {
-            const valueA = a[sortKey] as string;
-            const valueB = b[sortKey] as string;
+            const ga = a.general as Generals.GeneralTableData;
+            const gb = b.general as Generals.GeneralTableData;
+            const valueA = ga[sortKey as keyof typeof ga] as string;
+            const valueB = gb[sortKey as keyof typeof gb] as string;
+
+            if (DEBUG) {
+              console.log(`valueA is ${valueA}`);
+              console.log(`valueB is ${valueB}`);
+            }
 
             if (typeof valueA === "number" && typeof valueB === "number") {
               return sortDirection === "asc"
@@ -105,7 +123,9 @@ if (container) {
           table.items = sortedItems;
         });
 
-        console.log("Table initialized with", formattedData.length, "items");
+        if (DEBUG) {
+          console.log("Table initialized with", formattedData.length, "items");
+        }
       } else {
         console.error("No data-items attribute found on table container");
       }

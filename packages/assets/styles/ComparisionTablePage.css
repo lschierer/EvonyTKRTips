@@ -45,6 +45,25 @@
   color: #666;
 }
 
+main > div {
+  min-height: fit-content;
+  max-height: 75vh;
+}
+
+#table-container.virtual-table-container {
+  min-height: 4rem;
+  height: 40vh;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+sp-table {
+  flex-grow: 1;
+  min-height: 4rem;
+}
+
 .positive {
   color: green;
 }

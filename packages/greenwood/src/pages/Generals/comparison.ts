@@ -33,7 +33,6 @@ export default class GeneralComparisonPage extends HTMLElement {
     Constants.BuffActivation.Enum.Overall,
   ];
   private generalType: Constants.GeneralType | null = null;
-  private virtualTable: VirtualTable | null = null;
   private sortColumn: string = "attack";
   private sortDirection: "asc" | "desc" = "desc";
 
@@ -58,13 +57,6 @@ export default class GeneralComparisonPage extends HTMLElement {
     }
     this.loading = false;
     this.render();
-
-    // Initialize virtual table after initial render
-    if (typeof window !== "undefined") {
-      window.addEventListener("DOMContentLoaded", () => {
-        this.initVirtualTable();
-      });
-    }
   }
 
   private async loadData() {
@@ -301,142 +293,45 @@ export default class GeneralComparisonPage extends HTMLElement {
     return buff.totalValue;
   }
 
-  private buffFilterChanged(e: Event) {
-    const target = e.target as HTMLSelectElement | null;
-    if (target) {
-      const bf = target.value;
-      if (bf === "overall") {
-        this.buffFilter = [Constants.BuffActivation.Enum.Overall];
-      } else if (bf === "attack") {
-        this.buffFilter = [
-          Constants.BuffActivation.Enum.Overall,
-          Constants.BuffActivation.Enum.Attacking,
-        ];
-      } else if (bf === "rein") {
-        this.buffFilter = [
-          Constants.BuffActivation.Enum.Overall,
-          Constants.BuffActivation.Enum.Defense,
-          Constants.BuffActivation.Enum["In City"],
-          Constants.BuffActivation.Enum.Reinforcing,
-        ];
-      } else if (bf === "wall") {
-        this.buffFilter = [
-          Constants.BuffActivation.Enum.Overall,
-          Constants.BuffActivation.Enum.Defense,
-          Constants.BuffActivation.Enum.Wall,
-        ];
-      } else if (bf === "monster") {
-        this.buffFilter = [
-          Constants.BuffActivation.Enum.Overall,
-          Constants.BuffActivation.Enum.Attacking,
-          Constants.BuffActivation.Enum.PvM,
-        ];
-      }
+  private buffFilterChanged(
+    value: "overall" | "attack" | "rein" | "wall" | "monster"
+  ) {
+    if (value === "overall") {
+      this.buffFilter = [Constants.BuffActivation.Enum.Overall];
+    } else if (value === "attack") {
+      this.buffFilter = [
+        Constants.BuffActivation.Enum.Overall,
+        Constants.BuffActivation.Enum.Attacking,
+      ];
+    } else if (value === "rein") {
+      this.buffFilter = [
+        Constants.BuffActivation.Enum.Overall,
+        Constants.BuffActivation.Enum.Defense,
+        Constants.BuffActivation.Enum["In City"],
+        Constants.BuffActivation.Enum.Reinforcing,
+      ];
+    } else if (value === "wall") {
+      this.buffFilter = [
+        Constants.BuffActivation.Enum.Overall,
+        Constants.BuffActivation.Enum.Defense,
+        Constants.BuffActivation.Enum.Wall,
+      ];
+    } /*(value === "monster")*/ else {
+      this.buffFilter = [
+        Constants.BuffActivation.Enum.Overall,
+        Constants.BuffActivation.Enum.Attacking,
+        Constants.BuffActivation.Enum.PvM,
+      ];
+    }
 
-      if (DEBUG) {
-        console.log(`buffFilter is now ${this.buffFilter.join(", ")}`);
-      }
-
-      // Reload data with new filter
-      this.data = [];
-      this.loadedCount = 0;
-      this.loading = true;
-      this.loadData()
-        .then(() => {
-          this.render();
-          if (this.virtualTable) {
-            this.virtualTable.updateData(this.data);
-          }
-        })
-        .catch((error: unknown) => {
-          console.error(JSON.stringify(error));
-        });
+    if (DEBUG) {
+      console.log(`buffFilter is now ${this.buffFilter.join(", ")}`);
     }
   }
 
-  private handleSort(column: string) {
-    if (this.sortColumn === column) {
-      // Toggle direction if clicking the same column
-      this.sortDirection = this.sortDirection === "asc" ? "desc" : "asc";
-    } else {
-      // Default to descending for new column
-      this.sortColumn = column;
-      this.sortDirection = "desc";
-    }
-
-    this.sortData();
-
-    if (this.virtualTable) {
-      this.virtualTable.updateData(this.data);
-    }
-
-    // Update sort indicators in the UI
-    const headers = this.querySelectorAll("th");
-    headers.forEach((header) => {
-      const headerColumn = header.dataset.column;
-      if (headerColumn) {
-        header.classList.remove("sort-asc", "sort-desc");
-        if (headerColumn === this.sortColumn) {
-          header.classList.add(
-            this.sortDirection === "asc" ? "sort-asc" : "sort-desc"
-          );
-        }
-      }
-    });
-  }
-
-  private initVirtualTable() {
-    const tableContainer = this.querySelector(".virtual-table-container");
-    if (tableContainer) {
-      this.virtualTable = new VirtualTable(
-        tableContainer as HTMLElement,
-        this.data,
-        {
-          rowHeight: 48,
-          columns: [
-            { id: "name", header: "General", width: "25%" },
-            {
-              id: "attack",
-              header: "Attack",
-              width: "12.5%",
-              formatter: (value) => `${value}%`,
-            },
-            {
-              id: "defense",
-              header: "Defense",
-              width: "12.5%",
-              formatter: (value) => `${value}%`,
-            },
-            {
-              id: "hp",
-              header: "HP",
-              width: "12.5%",
-              formatter: (value) => `${value}%`,
-            },
-            {
-              id: "attackDebuff",
-              header: "Attack Debuff",
-              width: "12.5%",
-              formatter: (value) => `${value}%`,
-            },
-            {
-              id: "defenseDebuff",
-              header: "Defense Debuff",
-              width: "12.5%",
-              formatter: (value) => `${value}%`,
-            },
-            {
-              id: "hpDebuff",
-              header: "HP Debuff",
-              width: "12.5%",
-              formatter: (value) => `${value}%`,
-            },
-          ],
-          onSort: (column) => this.handleSort(column),
-        }
-      );
-    }
-  }
+  protected pageDescription = () => {
+    return `This allows you to compare the relative buffs of the Mounted Generals.`;
+  };
 
   private render() {
     if (DEBUG) {
@@ -448,22 +343,10 @@ export default class GeneralComparisonPage extends HTMLElement {
     // Add header and description
     content += `
       <div class="spectrum spectrum-Typography spectrum--medium">
-        <h1 class="spectrum-Heading spectrum-Heading--sizeL">General Comparison</h1>
-
         <p class="spectrum-Body spectrum-Body--sizeM">
-          This allows you to compare the relative buffs of the Mounted Generals.
+          ${this.pageDescription()}
         </p>
 
-        <div class="filter-controls">
-          <label for="buff-filter" class="spectrum-FieldLabel">Selection type:</label>
-          <select id="buff-filter" class="spectrum-Picker">
-            <option value="overall">Overall</option>
-            <option value="attack">PvP Attack</option>
-            <option value="rein">PvP Reinforcement</option>
-            <option value="wall">Wall General</option>
-            <option value="monster">Monster Hunting</option>
-          </select>
-        </div>
     `;
 
     // Add loading indicator or error message
@@ -498,7 +381,7 @@ export default class GeneralComparisonPage extends HTMLElement {
         <div
         id="table-container"
         data-items="${encodeURIComponent(JSON.stringify(this.data))}"
-        class="virtual-table-container" style="height: 600px; overflow: auto;"
+        class="virtual-table-container" style=" overflow: auto;"
         >
         <sp-table
             id="sorted-virtualized-table"
