@@ -2,8 +2,7 @@
 title: Skill Book JSON Builder
 layout: standard
 imports:
-  - name: skillbook-builder-form
-    path: /components/SkillBookBuilderForm.js
+  - /components/JSONBuilders/SkillBookBuilderForm.ts type="module"
 ---
 
 # Skill Book JSON Builder
