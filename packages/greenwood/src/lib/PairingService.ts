@@ -1,6 +1,6 @@
-import { GeneralConflictGroups, Generals } from "@evonytkrtips/schemas";
-import general_collection from "@evonytkrtips/assets/collections/generals";
 import conflict_collection from "@evonytkrtips/assets/collections/generalConflictGroups";
+import general_collection from "@evonytkrtips/assets/collections/generals";
+import { GeneralConflictGroups, Generals } from "@evonytkrtips/schemas";
 
 import debugFunction from "./debug.ts";
 const DEBUG = debugFunction(new URL(import.meta.url).pathname);
