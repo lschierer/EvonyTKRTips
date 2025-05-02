@@ -11,12 +11,12 @@ generals.
 
 <CardGrid>
   <Card title="Catherine II">
-    ![Catherine II](../../../assets/generals/Catherine_II.jpg) This instance of
+    ![Catherine II](/assets/generals/Catherine_II.jpg) This instance of
     Catherine II has been only partially cultivated. * Leadership: +201 *
     Attack: +119 * Defense: +143 * Politics: +214
   </Card>
   <Card title="Harald">
-    ![Harald](../../../assets/generals/Harald.jpg) This instance of Harald has
+    ![Harald](/assets/generals/Harald.jpg) This instance of Harald has
     been extensively cultivated. * Leadership: +500 * Attack: +258 * Defense:
     +284 * Politics: +500
   </Card>
