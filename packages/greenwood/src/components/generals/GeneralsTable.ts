@@ -62,6 +62,7 @@ if (container) {
         table.items = formattedData;
 
         // Define the renderItem function
+        /* @ts-expect-error wrong type definition */
         table.renderItem = (item: Record<string, unknown>, index: number) => {
           // Create cells for each column
           if (DEBUG) {
@@ -70,11 +71,44 @@ if (container) {
 
           const cells = new Array<HTMLElement>();
           const g = item.general as Generals.GeneralTableData;
-          for (const key of Object.keys(g)) {
-            const c = document.createElement("sp-table-cell");
-            c.innerText = g[key as keyof typeof g] as string;
-            cells.push(c);
+          
+          // Add name cell
+          const nameCell = document.createElement("sp-table-cell");
+          nameCell.innerText = g.name;
+          cells.push(nameCell);
+          
+          // Add march capacity cell if it exists
+          if (g.marchCapacity !== undefined) {
+            const marchCapacityCell = document.createElement("sp-table-cell");
+            marchCapacityCell.innerText = g.marchCapacity.toString();
+            cells.push(marchCapacityCell);
           }
+          
+          // Add other cells
+          const attackCell = document.createElement("sp-table-cell");
+          attackCell.innerText = g.attack.toString();
+          cells.push(attackCell);
+          
+          const defenseCell = document.createElement("sp-table-cell");
+          defenseCell.innerText = g.defense.toString();
+          cells.push(defenseCell);
+          
+          const hpCell = document.createElement("sp-table-cell");
+          hpCell.innerText = g.hp.toString();
+          cells.push(hpCell);
+          
+          const attackDebuffCell = document.createElement("sp-table-cell");
+          attackDebuffCell.innerText = g.attackDebuff.toString();
+          cells.push(attackDebuffCell);
+          
+          const defenseDebuffCell = document.createElement("sp-table-cell");
+          defenseDebuffCell.innerText = g.defenseDebuff.toString();
+          cells.push(defenseDebuffCell);
+          
+          const hpDebuffCell = document.createElement("sp-table-cell");
+          hpDebuffCell.innerText = g.hpDebuff.toString();
+          cells.push(hpDebuffCell);
+          
           return cells;
         };
 

@@ -142,6 +142,19 @@ export default class GeneralComparisonPage extends HTMLElement {
               hpDebuff: 0,
             };
 
+            // Add march capacity field for specialist generals
+            const isSpecialist = valid.data.type.some(
+              (type) =>
+                type === Constants.GeneralType.Enum.ground_specialist ||
+                type === Constants.GeneralType.Enum.mounted_specialist ||
+                type === Constants.GeneralType.Enum.ranged_specialist ||
+                type === Constants.GeneralType.Enum.siege_specialist
+            );
+
+            if (isSpecialist) {
+              tableData.marchCapacity = 0;
+            }
+
             // Process each buff
             for (const buff of mergedSummary.summary) {
               const wanted = this.filterBuffs(buff, valid.data.type);
@@ -179,6 +192,12 @@ export default class GeneralComparisonPage extends HTMLElement {
                   } else {
                     tableData.hpDebuff += buff.totalValue;
                   }
+                } else if (
+                  buff.attribute ===
+                    Constants.Attribute.Enum["March Size Capacity"] &&
+                  tableData.marchCapacity !== undefined
+                ) {
+                  tableData.marchCapacity += buff.totalValue;
                 }
               }
             }
@@ -391,6 +410,19 @@ export default class GeneralComparisonPage extends HTMLElement {
         >
           <sp-table-head>
                 <sp-table-head-cell sortable sort-direction="desc" sort-key="name">General</sp-table-head-cell>
+                ${
+                  this.generalType &&
+                  (this.generalType ===
+                    Constants.GeneralType.Enum.ground_specialist ||
+                    this.generalType ===
+                      Constants.GeneralType.Enum.mounted_specialist ||
+                    this.generalType ===
+                      Constants.GeneralType.Enum.ranged_specialist ||
+                    this.generalType ===
+                      Constants.GeneralType.Enum.siege_specialist)
+                    ? '<sp-table-head-cell sortable sort-direction="desc" sort-key="marchCapacity">March Capacity</sp-table-head-cell>'
+                    : ""
+                }
                 <sp-table-head-cell sortable sort-direction="desc" sort-key="attack">Attack</sp-table-head-cell>
                 <sp-table-head-cell sortable sort-direction="desc" sort-key="defense">Defense</sp-table-head-cell>
                 <sp-table-head-cell sortable sort-direction="desc" sort-key="hp">HP</sp-table-head-cell>

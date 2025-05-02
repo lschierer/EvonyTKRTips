@@ -57,6 +57,24 @@ main > div {
   display: flex;
   flex-direction: column;
   width: 100%;
+  overflow-x: auto;
+}
+
+/* Make the index column narrower */
+sp-table sp-table-head-cell:first-child,
+sp-table sp-table-cell:first-child {
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  padding-left: 8px;
+  padding-right: 8px;
+  text-align: center;
+}
+
+/* Add some spacing between tables */
+#mayor-attack-table,
+#mayor-hp-table {
+  margin-bottom: 30px;
 }
 
 sp-table {

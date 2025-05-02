@@ -8,7 +8,8 @@
     "dev": "NODE_OPTIONS='--experimental-strip-types --import @greenwood/cli/register' greenwood develop",
     "start": "NODE_OPTIONS='--import @greenwood/cli/register' greenwood develop",
     "build": "NODE_OPTIONS='--import @greenwood/cli/register' greenwood build",
-    "serve": "NODE_OPTIONS='--import @greenwood/cli/register' greenwood serve"
+    "serve": "NODE_OPTIONS='--import @greenwood/cli/register' greenwood serve",
+    "lint": "eslint --fix  ; prettier --write  "
   },
   "devDependencies": {
     "@greenwood/cli": "0.32.0",
@@ -74,10 +75,10 @@
     "@spectrum-css/textfield": "^8.1.1",
     "@spectrum-css/tokens": "^16.0.1",
     "@spectrum-css/typography": "^8.1.0",
-    "@spectrum-web-components/card": "^1.5.0",
-    "@spectrum-web-components/popover": "^1.5.0",
-    "@spectrum-web-components/table": "^1.5.0",
-    "@spectrum-web-components/theme": "^1.5.0",
+    "@spectrum-web-components/card": "^1.6.0",
+    "@spectrum-web-components/popover": "^1.6.0",
+    "@spectrum-web-components/table": "^1.6.0",
+    "@spectrum-web-components/theme": "^1.6.0",
     "@tanstack/lit-form": "^1.9.0",
     "@tanstack/lit-table": "^8.21.3",
     "@tanstack/lit-virtual": "^3.13.6",
@@ -85,7 +86,7 @@
     "cosmiconfig": "^9.0.0",
     "dotenv": "^16.5.0",
     "footersection-plugin": "github:lschierer/GreenwoodSpectrumFooterPlugin",
-    "iconify-icon": "^2.3.0",
+    "iconify-icon": "^3.0.0",
     "js-yaml": "^4.1.0",
     "jsonschema": "^1.5.0",
     "lit": "^3.3.0",

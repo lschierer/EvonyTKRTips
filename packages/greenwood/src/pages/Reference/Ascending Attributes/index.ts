@@ -24,7 +24,7 @@ const getFrontmatter: GetFrontmatter = async () => {
   /* end workaround */
 
   return {
-    title: "Available Specialities",
+    title: "Attributes for Generals that Can Be Ascended",
     author: "Luke Schierer",
     layout: "standard",
     imports: ['/components/DirectoryIndex.ts type="module"'],

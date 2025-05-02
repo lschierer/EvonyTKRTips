@@ -12,7 +12,7 @@ export default class SideBar extends HTMLElement {
   private currentPath: string = "";
 
   // Routes that should be excluded from the navigation
-  private excludedRoutes: string[] = ["/404/", "/policy/"];
+  private excludedRoutes: string[] = ["/404/", "/policy/", "/tools/"];
 
   protected hasOrder = (p: Page) => {
     if ("data" in p) {

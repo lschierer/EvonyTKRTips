@@ -2,7 +2,7 @@ export const prerender = true;
 export const isolation = true;
 
 import type { GetBody, GetFrontmatter } from "@greenwood/cli";
-import debugFunction from "../../../lib/debug.ts";
+import debugFunction from "../../lib/debug.ts";
 const DEBUG = debugFunction(new URL(import.meta.url).pathname);
 
 const getBody: GetBody = async () => {
@@ -24,7 +24,7 @@ const getFrontmatter: GetFrontmatter = async () => {
   /* end workaround */
 
   return {
-    title: "Available Specialities",
+    title: "Reference Section",
     author: "Luke Schierer",
     layout: "standard",
     imports: ['/components/DirectoryIndex.ts type="module"'],

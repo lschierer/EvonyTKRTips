@@ -6,3 +6,5 @@ public/
 
 src/assets/collections
 .footer-section-plugin.cache.json
+
+tsconfig.tsbuildinfo

@@ -89,6 +89,7 @@ export type CompleteGeneral = z.infer<typeof CompleteGeneral>;
 
 export const GeneralTableData = z.object({
   name: z.string(),
+  marchCapacity: z.number().optional(),
   attack: z.number(),
   defense: z.number(),
   hp: z.number(),
@@ -97,3 +98,57 @@ export const GeneralTableData = z.object({
   hpDebuff: z.number(),
 });
 export type GeneralTableData = z.infer<typeof GeneralTableData>;
+
+export const WallGeneralTableData = z.object({
+  name: z.string(),
+  // Ground troops
+  groundAttack: z.number(),
+  groundDefense: z.number(),
+  groundHP: z.number(),
+  groundAttackDebuff: z.number(),
+  groundDefenseDebuff: z.number(),
+  groundHPDebuff: z.number(),
+  // Mounted troops
+  mountedAttack: z.number(),
+  mountedDefense: z.number(),
+  mountedHP: z.number(),
+  mountedAttackDebuff: z.number(),
+  mountedDefenseDebuff: z.number(),
+  mountedHPDebuff: z.number(),
+  // Ranged troops
+  rangedAttack: z.number(),
+  rangedDefense: z.number(),
+  rangedHP: z.number(),
+  rangedAttackDebuff: z.number(),
+  rangedDefenseDebuff: z.number(),
+  rangedHPDebuff: z.number(),
+  // Siege machines
+  siegeAttack: z.number(),
+  siegeDefense: z.number(),
+  siegeHP: z.number(),
+  siegeAttackDebuff: z.number(),
+  siegeDefenseDebuff: z.number(),
+  siegeHPDebuff: z.number(),
+});
+export type WallGeneralTableData = z.infer<typeof WallGeneralTableData>;
+
+export const MayorGeneralTableData = z.object({
+  name: z.string(),
+  // Ground troops debuffs
+  groundAttackDebuff: z.number(),
+  groundDefenseDebuff: z.number(),
+  groundHPDebuff: z.number(),
+  // Mounted troops debuffs
+  mountedAttackDebuff: z.number(),
+  mountedDefenseDebuff: z.number(),
+  mountedHPDebuff: z.number(),
+  // Ranged troops debuffs
+  rangedAttackDebuff: z.number(),
+  rangedDefenseDebuff: z.number(),
+  rangedHPDebuff: z.number(),
+  // Siege machines debuffs
+  siegeAttackDebuff: z.number(),
+  siegeDefenseDebuff: z.number(),
+  siegeHPDebuff: z.number(),
+});
+export type MayorGeneralTableData = z.infer<typeof MayorGeneralTableData>;
