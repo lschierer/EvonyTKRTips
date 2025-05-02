@@ -99,6 +99,12 @@ export const GeneralTableData = z.object({
 });
 export type GeneralTableData = z.infer<typeof GeneralTableData>;
 
+export const PairTableData = GeneralTableData.omit({ name: true }).extend({
+  primary: z.string(),
+  secondary: z.string(),
+});
+export type PairTableData = z.infer<typeof PairTableData>;
+
 export const WallGeneralTableData = z.object({
   name: z.string(),
   // Ground troops
