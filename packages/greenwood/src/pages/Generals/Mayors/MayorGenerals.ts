@@ -9,8 +9,8 @@ import {
   getSpecialitySummary,
   getSkillbookSummary,
   mergeBuffSummaries,
-} from "../../lib/BuffSummaryService.ts";
-import debugFunction from "../../lib/debug.ts";
+} from "../../../lib/BuffSummaryService.ts";
+import debugFunction from "../../../lib/debug.ts";
 
 const DEBUG = debugFunction(new URL(import.meta.url).pathname);
 
@@ -35,7 +35,8 @@ export default class MayorGeneralComparisonPage extends HTMLElement {
     Constants.BuffActivation.Enum.Overall,
     Constants.BuffActivation.Enum.Defense,
   ];
-  accessor generalType: Constants.GeneralType = Constants.GeneralType.Enum.mayor;
+  accessor generalType: Constants.GeneralType =
+    Constants.GeneralType.Enum.mayor;
   private sortColumn: string = "groundAttackDebuff";
   private sortDirection: "asc" | "desc" = "desc";
 
@@ -88,13 +89,13 @@ export default class MayorGeneralComparisonPage extends HTMLElement {
             if (DEBUG) {
               console.log(`successful parse of ${valid.data.name}`);
             }
-            
+
             // Filter for mayor generals
             if (!valid.data.type.includes(this.generalType)) {
               this.totalCount--;
               continue;
             }
-            
+
             const summaries = new Array<Buff.BuffSummaryResponse>();
 
             // Process specialities
@@ -168,58 +169,95 @@ export default class MayorGeneralComparisonPage extends HTMLElement {
                 // Only process debuffs
                 if (isDebuff) {
                   // Determine which troop class this buff applies to
-                  const troopClass = buff.class || Constants.TroopClass.Enum.All;
-                  
+                  const troopClass =
+                    buff.class || Constants.TroopClass.Enum.All;
+
                   // Add values to the appropriate debuff fields based on troop class and attribute
                   if (buff.attribute === "Attack") {
-                    if (troopClass === Constants.TroopClass.Enum["Ground Troops"] || 
-                        troopClass === Constants.TroopClass.Enum.All) {
+                    if (
+                      troopClass ===
+                        Constants.TroopClass.Enum["Ground Troops"] ||
+                      troopClass === Constants.TroopClass.Enum.All
+                    ) {
                       tableData.groundAttackDebuff += buff.totalValue;
                     }
-                    if (troopClass === Constants.TroopClass.Enum["Mounted Troops"] || 
-                        troopClass === Constants.TroopClass.Enum.All) {
+                    if (
+                      troopClass ===
+                        Constants.TroopClass.Enum["Mounted Troops"] ||
+                      troopClass === Constants.TroopClass.Enum.All
+                    ) {
                       tableData.mountedAttackDebuff += buff.totalValue;
                     }
-                    if (troopClass === Constants.TroopClass.Enum["Ranged Troops"] || 
-                        troopClass === Constants.TroopClass.Enum.All) {
+                    if (
+                      troopClass ===
+                        Constants.TroopClass.Enum["Ranged Troops"] ||
+                      troopClass === Constants.TroopClass.Enum.All
+                    ) {
                       tableData.rangedAttackDebuff += buff.totalValue;
                     }
-                    if (troopClass === Constants.TroopClass.Enum["Siege Machines"] || 
-                        troopClass === Constants.TroopClass.Enum.All) {
+                    if (
+                      troopClass ===
+                        Constants.TroopClass.Enum["Siege Machines"] ||
+                      troopClass === Constants.TroopClass.Enum.All
+                    ) {
                       tableData.siegeAttackDebuff += buff.totalValue;
                     }
                   } else if (buff.attribute === "Defense") {
-                    if (troopClass === Constants.TroopClass.Enum["Ground Troops"] || 
-                        troopClass === Constants.TroopClass.Enum.All) {
+                    if (
+                      troopClass ===
+                        Constants.TroopClass.Enum["Ground Troops"] ||
+                      troopClass === Constants.TroopClass.Enum.All
+                    ) {
                       tableData.groundDefenseDebuff += buff.totalValue;
                     }
-                    if (troopClass === Constants.TroopClass.Enum["Mounted Troops"] || 
-                        troopClass === Constants.TroopClass.Enum.All) {
+                    if (
+                      troopClass ===
+                        Constants.TroopClass.Enum["Mounted Troops"] ||
+                      troopClass === Constants.TroopClass.Enum.All
+                    ) {
                       tableData.mountedDefenseDebuff += buff.totalValue;
                     }
-                    if (troopClass === Constants.TroopClass.Enum["Ranged Troops"] || 
-                        troopClass === Constants.TroopClass.Enum.All) {
+                    if (
+                      troopClass ===
+                        Constants.TroopClass.Enum["Ranged Troops"] ||
+                      troopClass === Constants.TroopClass.Enum.All
+                    ) {
                       tableData.rangedDefenseDebuff += buff.totalValue;
                     }
-                    if (troopClass === Constants.TroopClass.Enum["Siege Machines"] || 
-                        troopClass === Constants.TroopClass.Enum.All) {
+                    if (
+                      troopClass ===
+                        Constants.TroopClass.Enum["Siege Machines"] ||
+                      troopClass === Constants.TroopClass.Enum.All
+                    ) {
                       tableData.siegeDefenseDebuff += buff.totalValue;
                     }
                   } else if (buff.attribute === "HP") {
-                    if (troopClass === Constants.TroopClass.Enum["Ground Troops"] || 
-                        troopClass === Constants.TroopClass.Enum.All) {
+                    if (
+                      troopClass ===
+                        Constants.TroopClass.Enum["Ground Troops"] ||
+                      troopClass === Constants.TroopClass.Enum.All
+                    ) {
                       tableData.groundHPDebuff += buff.totalValue;
                     }
-                    if (troopClass === Constants.TroopClass.Enum["Mounted Troops"] || 
-                        troopClass === Constants.TroopClass.Enum.All) {
+                    if (
+                      troopClass ===
+                        Constants.TroopClass.Enum["Mounted Troops"] ||
+                      troopClass === Constants.TroopClass.Enum.All
+                    ) {
                       tableData.mountedHPDebuff += buff.totalValue;
                     }
-                    if (troopClass === Constants.TroopClass.Enum["Ranged Troops"] || 
-                        troopClass === Constants.TroopClass.Enum.All) {
+                    if (
+                      troopClass ===
+                        Constants.TroopClass.Enum["Ranged Troops"] ||
+                      troopClass === Constants.TroopClass.Enum.All
+                    ) {
                       tableData.rangedHPDebuff += buff.totalValue;
                     }
-                    if (troopClass === Constants.TroopClass.Enum["Siege Machines"] || 
-                        troopClass === Constants.TroopClass.Enum.All) {
+                    if (
+                      troopClass ===
+                        Constants.TroopClass.Enum["Siege Machines"] ||
+                      troopClass === Constants.TroopClass.Enum.All
+                    ) {
                       tableData.siegeHPDebuff += buff.totalValue;
                     }
                   }
@@ -358,7 +396,7 @@ export default class MayorGeneralComparisonPage extends HTMLElement {
           <sp-table-head>
                 <sp-table-head-cell>#</sp-table-head-cell>
                 <sp-table-head-cell sortable sort-direction="desc" sort-key="name">General</sp-table-head-cell>
-                
+
                 <!-- Attack Debuffs -->
                 <sp-table-head-cell sortable sort-direction="desc" sort-key="groundAttackDebuff">Ground Attack Debuff</sp-table-head-cell>
                 <sp-table-head-cell sortable sort-direction="desc" sort-key="mountedAttackDebuff">Mounted Attack Debuff</sp-table-head-cell>
@@ -380,7 +418,7 @@ export default class MayorGeneralComparisonPage extends HTMLElement {
           <sp-table-head>
                 <sp-table-head-cell>#</sp-table-head-cell>
                 <sp-table-head-cell sortable sort-direction="desc" sort-key="name">General</sp-table-head-cell>
-                
+
                 <!-- HP Debuffs -->
                 <sp-table-head-cell sortable sort-direction="desc" sort-key="groundHPDebuff">Ground HP Debuff</sp-table-head-cell>
                 <sp-table-head-cell sortable sort-direction="desc" sort-key="mountedHPDebuff">Mounted HP Debuff</sp-table-head-cell>
@@ -402,7 +440,7 @@ export default class MayorGeneralComparisonPage extends HTMLElement {
           <sp-table-head>
                 <sp-table-head-cell>#</sp-table-head-cell>
                 <sp-table-head-cell sortable sort-direction="desc" sort-key="name">General</sp-table-head-cell>
-                
+
                 <!-- Defense Debuffs -->
                 <sp-table-head-cell sortable sort-direction="desc" sort-key="groundDefenseDebuff">Ground Defense Debuff</sp-table-head-cell>
                 <sp-table-head-cell sortable sort-direction="desc" sort-key="mountedDefenseDebuff">Mounted Defense Debuff</sp-table-head-cell>
