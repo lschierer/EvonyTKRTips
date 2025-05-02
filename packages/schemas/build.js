@@ -41,6 +41,15 @@ async function main() {
   // Fix imports in the generated JS files to include .js extensions
   console.log("Fixing import extensions...");
   await fixImportExtensions();
+  
+  // Generate JSON Schema files
+  console.log("Generating JSON Schema files...");
+  try {
+    execSync("node generate-json-schemas.js", { stdio: "inherit", cwd: __dirname });
+  } catch (error) {
+    console.error("JSON Schema generation failed", error);
+    process.exit(1);
+  }
 
   console.log("Build completed successfully!");
 }

@@ -15,6 +15,7 @@ export const BookConflict = z.object({
 export type BookConflict = z.infer<typeof BookConflict>;
 
 export const ConflictGroup = z.object({
+  evansName: z.string().optional(),
   name: z.string().uuid(),
   members: z.array(z.string()),
   others: z.array(z.string().uuid()).optional(),

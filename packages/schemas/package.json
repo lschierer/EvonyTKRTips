@@ -21,6 +21,9 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./json-schemas": {
+      "import": "./dist/json-schemas/index.json"
     }
   },
   "files": [
@@ -34,5 +37,8 @@
   },
   "peerDependencies": {
     "zod": "^3.0.0"
+  },
+  "dependencies": {
+    "zod-to-json-schema": "^3.24.5"
   }
 }

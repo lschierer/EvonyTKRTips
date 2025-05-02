@@ -12,18 +12,23 @@ const allGenerals: Map<string, Generals.General> = new Map<
 >();
 
 for (const filename of conflict_collection) {
-  const data = (await import(
+  let data = (await import(
     `@evonytkrtips/assets/collections/generalConflictGroups/${filename}`,
     {
       with: { type: "json" },
     }
   )) as object;
+  if ("default" in data) {
+    data = data.default as object;
+  }
 
   const parsed = GeneralConflictGroups.ConflictGroup.safeParse(data);
   if (parsed.success) {
     allGroups.push(parsed.data);
   } else {
-    console.warn(`Invalid conflict group in ${filename}`);
+    console.warn(
+      `Invalid conflict group in ${filename}: \n${parsed.error.message}`
+    );
   }
 }
 
@@ -31,32 +36,61 @@ for (const filename of conflict_collection) {
 function buildConflictMap(
   groups: GeneralConflictGroups.ConflictGroup[]
 ): Map<string, Set<string>> {
+  // Step 1: Build two maps
+  // Map 1: General name -> Array of UUIDs (conflict groups the general belongs to or conflicts with)
+  const generalToUUIDs = new Map<string, Set<string>>();
+
+  // Map 2: UUID -> Array of general names (members of that conflict group)
+  const uuidToMembers = new Map<string, string[]>();
+
+  // First pass: populate the maps
+  for (const group of groups) {
+    const { name, members, others } = group;
+
+    // Store the mapping from UUID to its members
+    uuidToMembers.set(name, [...members]);
+
+    // For each member, add this group's UUID to their list
+    for (const member of members) {
+      const uuids = generalToUUIDs.get(member) ?? new Set<string>();
+      uuids.add(name); // Add the current group's UUID
+      generalToUUIDs.set(member, uuids);
+    }
+
+    // For each "other" UUID, add it to the members' lists
+    if (others) {
+      for (const member of members) {
+        const uuids = generalToUUIDs.get(member) ?? new Set<string>();
+        for (const otherUUID of others) {
+          uuids.add(otherUUID); // Add the other group's UUID
+        }
+        generalToUUIDs.set(member, uuids);
+      }
+    }
+  }
+
+  // Step 2: Build the final conflict map
   const conflictMap = new Map<string, Set<string>>();
 
-  for (const { members, others } of groups) {
-    const union = new Set<string>();
-    members.forEach((m) => union.add(m));
-    if (others) {
-      others.forEach((o) => union.add(o));
-    }
+  // For each general, find all the generals they conflict with
+  for (const [general, uuids] of generalToUUIDs.entries()) {
+    const conflicts = new Set<string>();
 
-    for (const general of members) {
-      const conflicts = conflictMap.get(general) ?? new Set();
-      for (const other of union) {
-        if (other !== general) conflicts.add(other);
-      }
-      conflictMap.set(general, conflicts);
-    }
-
-    if (others) {
-      for (const general of others) {
-        const conflicts = conflictMap.get(general) ?? new Set();
+    // For each UUID this general is associated with
+    for (const uuid of uuids) {
+      // Get all members of that conflict group
+      const members = uuidToMembers.get(uuid);
+      if (members) {
+        // Add all members except the general itself
         for (const member of members) {
-          if (member !== general) conflicts.add(member);
+          if (member !== general) {
+            conflicts.add(member);
+          }
         }
-        conflictMap.set(general, conflicts);
       }
     }
+
+    conflictMap.set(general, conflicts);
   }
 
   return conflictMap;
