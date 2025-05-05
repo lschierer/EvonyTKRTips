@@ -40,6 +40,8 @@ class Buff::Object :isa(Buff::Base) {
         croak("condition $c is not in " . join(@{ $allowedTroopClass }, ', ') );
       }
     }
+
+
   }
 
 };

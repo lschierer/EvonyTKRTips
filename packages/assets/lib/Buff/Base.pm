@@ -17,7 +17,7 @@ class Buff::Object {
   our $VERSION = 'v0.0.1';
   my $debug = 1;
 
-  field $allowedAttributes = [
+  field $allowedAttributes :reader = [
   "Attack",
   "Death to Soul",
   "Death to Survival",
@@ -42,7 +42,7 @@ class Buff::Object {
   "Wounded to Death",
   ];
 
-  field $allowedTroopClass = [
+  field $allowedTroopClass :reader = [
     "Ground Troops",
     "Mounted Troops",
     "Ranged Troops",
@@ -50,7 +50,7 @@ class Buff::Object {
     "All",
   ];
 
-  field $allowedBuffActivation = [
+  field $allowedBuffActivation :reader = [
     "Overall",
     "PvM",
     "Attacking",
@@ -63,7 +63,7 @@ class Buff::Object {
     "Officer",
   ];
 
-  field $allowedBuffConditions = [
+  field $allowedBuffConditions :reader = [
     "Against Monsters",
     "Attacking",
     "brings a dragon",
@@ -80,7 +80,7 @@ class Buff::Object {
     "When the Main Defense General",
   ];
 
-  field $allowedDebuffConditions = [
+  field $allowedDebuffConditions :reader = [
     "Enemy",
     "Enemy In City",
     "Reduces",
@@ -90,12 +90,12 @@ class Buff::Object {
     "Reduces Monster",
   ];
 
-  field $allowedBookConditions = [
+  field $allowedBookConditions :reader = [
     "all the time",
     "when not mine",
   ];
 
-  field $allowedConditions = [];
+  field $allowedConditions :reader = [];
 
   ADJUST {
     my %seen;
@@ -106,34 +106,9 @@ class Buff::Object {
     );
   }
 
-  field $allowedValueUnits = [
+  field $allowedValueUnits :reader = [
     "flat", "percentage",
   ];
-
-  field $BasicAESAdjustment = {
-    None    => 0,
-    purple1 => 0,
-    purple2 => 0,
-    purple3 => 0,
-    purple4 => 0,
-    purple5 => 0,
-    red1    => 10,
-    red2    => 20,
-    red3    => 30,
-    red4    => 40,
-    red5    => 50,
-  };
-
-  field $BasicStarAdjustment = {
-    1 => {
-      attack      => 50,
-      defense     => 48,
-      leadership  => 47,
-      politics    => 46,
-    },
-  };
-
-
 
 };
 1;
