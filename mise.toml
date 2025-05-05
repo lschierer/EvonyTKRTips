@@ -1,5 +1,5 @@
 [tools]
-pnpm = "10.9"
+pnpm = "10.10"
 just = "latest"
 node = "lts"
 pulumi = "latest"

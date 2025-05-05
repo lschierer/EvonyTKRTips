@@ -5,6 +5,6 @@ use utf8::all;
 use Carp;
 use File::FindLib 'lib';
 
-use App::EvAnsToYamlConflictGroups;
+use App::GeneralPreprocessor;
 
-App::EvAnsToYamlConflictGroups->run;
+App::GeneralPreprocessor->run;

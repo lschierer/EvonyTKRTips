@@ -1,164 +1,184 @@
 import conflict_collection from "@evonytkrtips/assets/collections/generalConflictGroups";
 import general_collection from "@evonytkrtips/assets/collections/generals";
-import { GeneralConflictGroups, Generals } from "@evonytkrtips/schemas";
+import { Generals, GeneralConflictGroups } from "@evonytkrtips/schemas";
 
-import debugFunction from "./debug.ts";
+import debugFunction from "../lib/debug.ts";
 const DEBUG = debugFunction(new URL(import.meta.url).pathname);
+console.log(`DEBUG for ${new URL(import.meta.url).pathname} is ${DEBUG}`);
 
-const allGroups: GeneralConflictGroups.ConflictGroup[] = [];
-const allGenerals: Map<string, Generals.General> = new Map<
-  string,
-  Generals.General
->();
+// Cache
+let conflictGroups: GeneralConflictGroups.ConflictGroup[] = [];
+let generalMap: Map<string, Generals.General> = new Map();
+let conflictMap: Map<string, Set<string>> = new Map();
+const generalList: string[] = [];
 
-for (const filename of conflict_collection) {
-  let data = (await import(
-    `@evonytkrtips/assets/collections/generalConflictGroups/${filename}`,
-    {
-      with: { type: "json" },
+let initialized = false;
+
+const resolveConflictMembers = (
+  groupName: string,
+  groupMap: Map<string, GeneralConflictGroups.ConflictGroup>,
+  memo: Map<string, Set<string>> = new Map()
+): Set<string> => {
+  if (memo.has(groupName)) {
+    const r = memo.get(groupName);
+    if (r) {
+      return r;
     }
-  )) as object;
-  if ("default" in data) {
-    data = data.default as object;
   }
+  const group = groupMap.get(groupName);
+  if (!group) return new Set();
 
-  const parsed = GeneralConflictGroups.ConflictGroup.safeParse(data);
-  if (parsed.success) {
-    allGroups.push(parsed.data);
-  } else {
-    console.warn(
-      `Invalid conflict group in ${filename}: \n${parsed.error.message}`
-    );
-  }
-}
+  const resolved = new Set(group.members);
 
-// Now build the lookup map and the test function
-function buildConflictMap(
-  groups: GeneralConflictGroups.ConflictGroup[]
-): Map<string, Set<string>> {
-  // Step 1: Build two maps
-  // Map 1: General name -> Array of UUIDs (conflict groups the general belongs to or conflicts with)
-  const generalToUUIDs = new Map<string, Set<string>>();
-
-  // Map 2: UUID -> Array of general names (members of that conflict group)
-  const uuidToMembers = new Map<string, string[]>();
-
-  // First pass: populate the maps
-  for (const group of groups) {
-    const { name, members, others } = group;
-
-    // Store the mapping from UUID to its members
-    uuidToMembers.set(name, [...members]);
-
-    // For each member, add this group's UUID to their list
-    for (const member of members) {
-      const uuids = generalToUUIDs.get(member) ?? new Set<string>();
-      uuids.add(name); // Add the current group's UUID
-      generalToUUIDs.set(member, uuids);
-    }
-
-    // For each "other" UUID, add it to the members' lists
-    if (others) {
-      for (const member of members) {
-        const uuids = generalToUUIDs.get(member) ?? new Set<string>();
-        for (const otherUUID of others) {
-          uuids.add(otherUUID); // Add the other group's UUID
-        }
-        generalToUUIDs.set(member, uuids);
+  if (group.others) {
+    for (const otherName of group.others) {
+      const otherGroup = groupMap.get(otherName);
+      if (!otherGroup) continue;
+      for (const name of otherGroup.members) {
+        resolved.add(name);
       }
     }
   }
 
-  // Step 2: Build the final conflict map
+  memo.set(groupName, resolved);
+  return resolved;
+};
+
+const buildConflictMap = (
+  groups: GeneralConflictGroups.ConflictGroup[]
+): Map<string, Set<string>> => {
+  const groupMap = new Map<string, GeneralConflictGroups.ConflictGroup>();
+  for (const group of groups) {
+    groupMap.set(group.name, group); // assumes each group has a `name` field
+  }
+
+  const memo = new Map<string, Set<string>>();
   const conflictMap = new Map<string, Set<string>>();
 
-  // For each general, find all the generals they conflict with
-  for (const [general, uuids] of generalToUUIDs.entries()) {
-    const conflicts = new Set<string>();
-
-    // For each UUID this general is associated with
-    for (const uuid of uuids) {
-      // Get all members of that conflict group
-      const members = uuidToMembers.get(uuid);
-      if (members) {
-        // Add all members except the general itself
-        for (const member of members) {
-          if (member !== general) {
-            conflicts.add(member);
-          }
-        }
-      }
+  for (const group of groups) {
+    const fullSet = resolveConflictMembers(group.name, groupMap, memo);
+    if (DEBUG) {
+      console.log(`fullSet is ${[...fullSet].join(", ")} for ${group.name}`);
     }
-
-    conflictMap.set(general, conflicts);
+    for (const general of group.members) {
+      const set = conflictMap.get(general) ?? new Set();
+      for (const other of fullSet) {
+        if (other !== general) set.add(other);
+      }
+      conflictMap.set(general, set);
+    }
   }
 
   return conflictMap;
+};
+
+// Step 1: Preload everything
+export async function initializePairingService(): Promise<void> {
+  if (initialized) return;
+
+  // Load and validate all conflict groups
+  const groupPromises = conflict_collection.map(async (filename) => {
+    console.log(`attempting import of confict file ${filename}`);
+    let mod = (await import(
+      `@evonytkrtips/assets/collections/generalConflictGroups/${filename}`,
+      {
+        with: { type: "json" },
+      }
+    )) as object;
+    if ("default" in mod) {
+      mod = mod.default as object;
+    }
+    const parsed = GeneralConflictGroups.ConflictGroup.safeParse(mod);
+    if (parsed.success) return parsed.data;
+    console.warn(`Skipping invalid conflict group: ${filename}`);
+    return null;
+  });
+
+  conflictGroups = (await Promise.all(groupPromises)).filter(
+    Boolean
+  ) as GeneralConflictGroups.ConflictGroup[];
+
+  // Load all general data once
+  const generalPromises = general_collection.map(async (name) => {
+    console.log(`attempting import of general file ${name}`);
+    let mod = (await import(
+      `@evonytkrtips/assets/collections/generals/${name}`,
+      {
+        with: { type: "json" },
+      }
+    )) as object;
+    if ("default" in mod) {
+      mod = mod.default as object;
+    }
+    const parsed = Generals.General.safeParse(mod);
+    if (!parsed.success) {
+      console.warn(`Skipping invalid general: ${name}`);
+      return null;
+    }
+
+    const parsedName = parsed.data.name;
+    generalList.push(parsedName);
+    return [parsedName, parsed.data] as const;
+  });
+
+  const generalPairs = await Promise.all(generalPromises);
+  generalMap = new Map(
+    generalPairs.filter(Boolean) as [string, Generals.General][]
+  );
+
+  // Build conflict map
+  conflictMap = buildConflictMap(conflictGroups);
+
+  initialized = true;
 }
 
-function createPairChecker(groups: GeneralConflictGroups.ConflictGroup[]) {
-  const conflictMap = buildConflictMap(groups);
+// Step 2: Can-pair checker (fully sync after init)
+export function canPair(a: string, b: string): boolean {
+  if (a === b) return false;
+  const cma = conflictMap.get(a);
+  if (cma) {
+    if (cma.has(b)) {
+      return false;
+    }
+  }
+  const cmb = conflictMap.get(b);
+  if (cmb) {
+    if (cmb.has(a)) {
+      return false;
+    }
+  }
 
-  return function canPair(a: string, b: string): boolean {
-    return !(conflictMap.get(a)?.has(b) || conflictMap.get(b)?.has(a));
-  };
+  return true;
 }
 
-export const canPair = createPairChecker(allGroups);
-
+// Step 3: Valid pair generator
 export const generateValidPairs = async (): Promise<
   [Generals.General, Generals.General][]
 > => {
   const result: [Generals.General, Generals.General][] = [];
 
-  for (const a of general_collection) {
-    const an = a.slice(-5);
-    for (const b of general_collection) {
-      const bn = b.slice(-5);
-      if (a !== b && canPair(an, bn)) {
-        let ag: Generals.General | undefined = undefined;
-        if (!allGenerals.has(an)) {
-          const ad = (await import(
-            `@evonytkrtips/assets/collections/generals/${a}`,
-            { with: { type: "json" } }
-          )) as object;
-          const av = Generals.General.safeParse(ad);
-          if (av.success) {
-            allGenerals.set(an, av.data);
-            ag = av.data;
-          } else if (DEBUG) {
-            console.error(`error parsing ${a}: ${av.error.message}`);
-          }
-        } else {
-          ag = allGenerals.get(an);
-        }
+  if (!generalList.length) {
+    if (DEBUG) {
+      console.log(`I need to initialize pairing service`);
+    }
+    await initializePairingService();
+    if (DEBUG) {
+      console.log(`after initialize, ${generalList.length} generals present`);
+    }
+  } else {
+    console.log(
+      `generateValidPairs starting with ${generalList.length} generals already present`
+    );
+  }
 
-        let bg: Generals.General | undefined = undefined;
-        if (!allGenerals.has(bn)) {
-          const bd = (await import(
-            `@evonytkrtips/assets/collections/generals/${b}`,
-            { with: { type: "json" } }
-          )) as object;
-          const bv = Generals.General.safeParse(bd);
-          if (bv.success) {
-            allGenerals.set(bn, bv.data);
-            bg = bv.data;
-          } else if (DEBUG) {
-            console.error(`error parsing ${b}: ${bv.error.message}`);
-          }
-        } else {
-          bg = allGenerals.get(bn);
-        }
-
-        if (ag && bg) {
-          result.push([ag, bg]);
-        } else if (DEBUG) {
-          if (!ag) {
-            console.error(`ag ${an} is null despite both if and else`);
-          }
-          if (!bg) {
-            console.error(`bg ${bn} is null despite both if and else`);
-          }
+  for (const a of generalList) {
+    for (const b of generalList) {
+      if (a === b) continue;
+      if (canPair(a, b)) {
+        const ga = generalMap.get(a);
+        const gb = generalMap.get(b);
+        if (ga && gb) {
+          result.push([ga, gb]);
         }
       }
     }

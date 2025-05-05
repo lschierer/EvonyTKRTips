@@ -7,12 +7,13 @@ import { pairSummary } from "../../lib/BuffSummaryService.ts";
 
 import debugFunction from "../../lib/debug.ts";
 const DEBUG = debugFunction(new URL(import.meta.url).pathname);
+console.log(`DEBUG for ${new URL(import.meta.url).pathname} is ${DEBUG}`);
 
 const getFrontmatter: GetFrontmatter = async () => {
   return Promise.resolve({
     title: "General Comparison",
     layout: "standard",
-    imports: ['/components/generals/GeneralsTable.ts type="module"'],
+    imports: ['/components/generals/PairsTable.ts type="module"'],
   });
 };
 
@@ -311,10 +312,10 @@ export default class PairGeneralComparisonPage extends HTMLElement {
     content += `
         <div
         id="table-container"
-        data-items="${encodeURIComponent(JSON.stringify(this.data))}"
+
         class="virtual-table-container"
         >
-
+          <pairs-table encoded-data="${encodeURIComponent(JSON.stringify(this.data))}"></pairs-table>
         </div>
       `;
 

@@ -22,6 +22,7 @@ build: install parse build-schemas
 [working-directory: 'packages/assets']
 parse: install
   ./bin/createCollections.sh
+  ./bin/preprocessGenerals -c ../../data/generalConflictGroups/EvAnsExport.csv -o dist/collections -i collections
   ${PNPM} build
 
 [working-directory: 'packages/schemas']

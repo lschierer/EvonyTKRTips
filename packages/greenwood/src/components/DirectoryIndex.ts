@@ -2,7 +2,7 @@ import { getContentByRoute } from "@greenwood/cli/src/data/client.js";
 import { type Page } from "@greenwood/cli";
 import "@spectrum-web-components/card/sp-card.js";
 
-import DirectoryIndexStyles from "../styles/DirectoryIndex.css" with { type: "css" };
+import DirectoryIndexStyles from "@evonytkrtips/assets/dist/styles/DirectoryIndex.css" with { type: "css" };
 
 import debugFunction from "../lib/debug.ts";
 const DEBUG = debugFunction(new URL(import.meta.url).pathname);
